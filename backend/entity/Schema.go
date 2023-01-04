@@ -5,41 +5,45 @@ import (
 )
 
 type Admin struct {
-	admin_name     string
-	admin_email    string
-	admin_password string
-	Professor      []Professor `gorm:"foreignKey:admin_id"`
+	gorm.Model
+	Admin_name     string
+	Admin_email    string
+	Admin_password string
+	Professors     []Professor `gorm:"foreignKey:Admin_id"`
 }
 
 type Qualification struct {
-	qualification_name string
-	Professor          []Professor `gorm:"foreignKey:qualification_id"`
+	gorm.Model
+	Qualification_name string
+	Professors         []Professor `gorm:"foreignKey:Qualification_id"`
 }
 
 type Status struct {
-	status_name string
-	Professor   []Professor `gorm:"foreignKey:status_id"`
+	gorm.Model
+	Status_name string
+	Professors  []Professor `gorm:"foreignKey:Status_id"`
 }
 
 type Major struct {
-	major_name string
-	Professor  []Professor `gorm:"foreignKey:major_id"`
+	gorm.Model
+	Major_name string
+	Professors []Professor `gorm:"foreignKey:Major_id"`
 }
 
 type Professor struct {
 	gorm.Model
 	ID_card            string
-	professor_name     string
-	professor_address  string
-	professor_email    string
-	professor_tel      string
-	professor_password string
-	admin_id           *uint
-	admin              Admin `gorm:"references:id"`
-	qualification_id   *uint
-	qualification      Qualification `gorm:"references:id"`
-	status_id          *uint
-	status             Status `gorm:"references:id"`
-	major_id           *uint
-	major              Major `gorm:"references:id"`
+	Professor_name     string
+	Professor_address  string
+	Professor_email    string
+	Professor_tel      string
+	Professor_password string
+	Admin_id           *uint
+	Admin              Admin `gorm:"references:id"`
+	Qualification_id   *uint
+	Qualification      Qualification `gorm:"references:id"`
+	Status_id          *uint
+	Status             Status `gorm:"references:id"`
+	Major_id           *uint
+	Major              Major `gorm:"references:id"`
 }

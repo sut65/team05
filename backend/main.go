@@ -34,6 +34,23 @@ func main() {
 	r.GET("/status/:id", controller.GetStatus)
 	r.POST("/statuses", controller.CreateStatus)
 
+	// Roomtype Routes
+	r.GET("/roomtypes", controller.ListRoomtypes)
+	r.GET("/roomtype/:id", controller.GetRoomtype)
+	r.POST("/roomtypes", controller.CreateRoomtype)
+
+	// Building Routes
+	r.GET("/buildings", controller.ListBuildings)
+	r.GET("/building/:id", controller.GetBuilding)
+	r.POST("/buildings", controller.CreateBuilding)
+
+	// Roominform Routes
+	r.GET("/roominforms", controller.ListRoominforms)
+	r.GET("/roominform/:id", controller.GetRoominform)
+	r.POST("/roominforms", controller.CreateRoominform)
+	r.PATCH("/roominforms", controller.UpdateRoominform)
+	r.DELETE("/roominforms/:id", controller.DeleteRoominform)
+
 	// Run the server
 
 	r.Run()

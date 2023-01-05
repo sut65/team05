@@ -27,6 +27,9 @@ func SetupDatabase() {
 		&Major{},
 		&Status{},
 		&Professor{},
+		&Building{},
+		&RoomType{},
+		&RoomInform{},
 	)
 
 	db = database

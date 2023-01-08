@@ -2,8 +2,6 @@ package entity
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Institute struct {
@@ -66,9 +64,7 @@ type Subject_Category struct {
 }
 
 type Subject struct {
-	// ID         uint   `gorm:"primaryKey"`
-
-	gorm.Model
+	ID         uint   `gorm:"primaryKey"`
 	Subject_ID string `gorm:"primaryKey"`
 
 	Professor_ID *uint

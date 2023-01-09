@@ -6,15 +6,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// Entity implemented by B6025121
-// type Admin struct {
-// 	gorm.Model
-// 	Admin_name     string
-// 	Admin_email    string
-// 	Admin_password string
-// 	Professors     []Professor `gorm:"foreignKey:AdminID"`
-// }
-
 type Admin struct {
 	Admin_ID       string `gorm:"primaryKey"`
 	Admin_Email    string
@@ -22,13 +13,7 @@ type Admin struct {
 	RoomInforms    []RoomInform `gorm:"foreignKey:AdminID"`
 	Courses        []Course     `gorm:"foreignKey:Admin_ID"`
 	Professors     []Professor  `gorm:"foreignKey:AdminID"`
-}
-
-type Qualification struct {
-	gorm.Model
-	Qualification_name string
-	Professors         []Professor `gorm:"foreignKey:QualificationID"`
-	Courses            []Course    `gorm:"foreignKey:Qualification_ID"`
+	Students       []Student    `gorm:"foreignKey:Student_ID"`
 }
 
 type Status struct {
@@ -36,13 +21,6 @@ type Status struct {
 	Status_name string
 	Professors  []Professor `gorm:"foreignKey:StatusID"`
 }
-
-// Entity implemented by B6025121
-// type Major struct {
-// 	gorm.Model
-// 	Major_name string
-// 	Professors []Professor `gorm:"foreignKey:MajorID"`
-// }
 
 type RoomType struct {
 	gorm.Model
@@ -55,20 +33,6 @@ type Building struct {
 	Building_name string
 	RoomInform    []RoomInform `gorm:"foreignKey:BuildingID"`
 }
-
-// Entity implemented by B6025121
-// type RoomInform struct {
-// 	gorm.Model
-// 	Room_number string
-// 	Seats       int
-// 	Time_record time.Time
-// 	RoomTypeID  *uint
-// 	RoomType    RoomType `gorm:"references:id"`
-// 	BuildingID  *uint
-// 	Building    Building `gorm:"references:id"`
-// 	AdminID     *uint
-// 	Admin       Admin `gorm:"references:id"`
-// }
 
 type RoomInform struct {
 	gorm.Model
@@ -106,8 +70,8 @@ type Professor struct {
 	AdminID *string
 	Admin   Admin `gorm:"references:Admin_ID"`
 
-	QualificationID *uint
-	Qualification   Qualification `gorm:"references:id"`
+	QualificationID *string
+	Qualification   Qualification `gorm:"references:Qualification_ID"`
 
 	StatusID *uint
 	Status   Status `gorm:"references:id"`

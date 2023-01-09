@@ -1,35 +1,25 @@
 package entity
 
-import (
-
-  "gorm.io/gorm"
-
-)
-
 // * ====================== Request System ======================
 
 type Request_Type struct {
-
-  Request_Type_ID   string `gorm:"primaryKey"`
-  Request_Type_Name      string
-  Request           []Request `gorm:"foreignKey:Request_Type_ID"`
-
+	Request_Type_ID   string `gorm:"primaryKey"`
+	Request_Type_Name string
+	Request           []Request `gorm:"foreignKey:Request_Type_ID"`
 }
 type Request struct {
+	// gorm.Model
 
-  gorm.Model
+	Request_ID uint `gorm:"primaryKey"`
 
-  Request_ID   uint `gorn:"primaryKey"`
+	Reason string
 
-  Reason        string 
+	Student_ID *string
+	Student    Student `gorm:"references:Student_ID"`
 
-  Student_ID   *string 
-  Student       Student
+	Subject_ID *string
+	Subject    Subject `gorm:"references:Subject_ID"`
 
-  Subject_ID    *string
-  Subject       Subject
-
-  Request_Type_ID    *string
-  Request_Type        Request_Type
-
+	Request_Type_ID *string
+	Request_Type    Request_Type `gorm:"references:Request_Type_ID"`
 }

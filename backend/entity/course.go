@@ -10,14 +10,6 @@ type Qualification struct {
 	Courses            []Course `gorm:"foreignKey:Qualification_ID"`
 }
 
-type Admin struct {
-	Admin_ID       string `gorm:"primaryKey"`
-	Admin_Email    string
-	Admin_Password string
-	Courses        []Course `gorm:"foreignKey:Admin_ID"`
-	Students        []Student `gorm:"foreignKey:Admin_ID"`
-}
-
 type Institute struct {
 	Institute_ID   string `gorm:"primaryKey"`
 	Institute_Name string
@@ -31,7 +23,8 @@ type Major struct {
 	Institute_ID *string
 	Institute    Institute
 
-	Courses []Course `gorm:"foreignKey:Major_ID"`
+	Courses    []Course    `gorm:"foreignKey:Major_ID"`
+	Professors []Professor `gorm:"foreignKey:MajorID"`
 }
 
 type Course struct {
@@ -48,5 +41,8 @@ type Course struct {
 	Major_ID *string
 	Major    Major
 
-	Courses       []Course `gorm:"foreignKey:Course_ID"`
+	Courses  []Course  `gorm:"foreignKey:Course_ID"`
+	Subjects []Subject `gorm:"foreignKey:Course_ID"`
+
+	Enroll []Enroll `gorm:"foreignKey:Course_ID"`
 }

@@ -88,7 +88,8 @@ type Subject struct {
 	Subject_EN_Name string
 
 	Capacity uint
-	Enroll   uint
+	//Enroll   uint
+	Enroll []Enroll `gorm:"foreignKey:Subject_ID"`
 
 	Reserved        uint
 	Reserved_Enroll uint

@@ -40,6 +40,8 @@ type Course struct {
 	Qualification    Qualification `gorm:"references:id"`
 
 	Subjects []Subject `gorm:"foreignKey:Course_ID"`
+
+	Enroll []Enroll `gorm:"foreignKey:Course_ID"`
 }
 
 type Subject_Status struct {

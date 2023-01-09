@@ -5,7 +5,7 @@ import (
 )
 
 type Qualification struct {
-	Qualification_ID   string `gorm:"primaryKey" valid:"required~Std cannot be blank"`
+	Qualification_ID   string `gorm:"primaryKey"`
 	Qualification_Name string
 	Courses            []Course `gorm:"foreignKey:Qualification_ID"`
 }
@@ -14,13 +14,14 @@ type Admin struct {
 	Admin_ID       string `gorm:"primaryKey"`
 	Admin_Email    string
 	Admin_Password string
-	Admins         []Admin `gorm:"foreignKey:Admin_ID"`
+	Courses        []Course  `gorm:"foreignKey:Admin_ID"`
+	Students       []Student `gorm:"foreignKey:Student_ID"`
 }
 
 type Institute struct {
 	Institute_ID   string `gorm:"primaryKey"`
 	Institute_Name string
-	Institutes     []Institute `gorm:"foreignKey:Institute_ID"`
+	Majors         []Major `gorm:"foreignKey:Institute_ID"`
 }
 
 type Major struct {
@@ -30,7 +31,7 @@ type Major struct {
 	Institute_ID *string
 	Institute    Institute
 
-	Majors []Major `gorm:"foreignKey:Major_ID"`
+	Courses []Course `gorm:"foreignKey:Major_ID"`
 }
 
 type Course struct {
@@ -46,12 +47,13 @@ type Course struct {
 
 	Major_ID *string
 	Major    Major
+	Students []Student `gorm:"foreignKey:Course_ID"`
 }
 
 type Dormitory struct {
 	Dormitory_ID   string `gorm:"primaryKey"`
 	Dormitory_Name string
-	Dormitorys     []Dormitory `gorm:"foreignKey:Dormitory_ID"`
+	Students       []Student `gorm:"foreignKey:Dormitory_ID"`
 }
 
 type Student struct {

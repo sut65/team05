@@ -2,8 +2,6 @@ package entity
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Institute struct {
@@ -42,6 +40,8 @@ type Course struct {
 	Qualification    Qualification `gorm:"references:id"`
 
 	Subjects []Subject `gorm:"foreignKey:Course_ID"`
+
+	Enroll []Enroll `gorm:"foreignKey:Course_ID"`
 }
 
 type Subject_Status struct {
@@ -66,9 +66,7 @@ type Subject_Category struct {
 }
 
 type Subject struct {
-	// ID         uint   `gorm:"primaryKey"`
-
-	gorm.Model
+	ID         uint   `gorm:"primaryKey"`
 	Subject_ID string `gorm:"primaryKey"`
 
 	Professor_ID *uint
@@ -90,7 +88,8 @@ type Subject struct {
 	Subject_EN_Name string
 
 	Capacity uint
-	Enroll   uint
+	//Enroll   uint
+	Enroll []Enroll `gorm:"foreignKey:Subject_ID"`
 
 	Reserved        uint
 	Reserved_Enroll uint

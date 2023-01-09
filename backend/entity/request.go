@@ -11,7 +11,7 @@ import (
 type Request_Type struct {
 
   Request_Type_ID   string `gorm:"primaryKey"`
-  Request_Type      string
+  Request_Type_Name      string
   Request           []Request `gorm:"foreignKey:Request_Type_ID"`
 
 }

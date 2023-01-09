@@ -7,7 +7,8 @@ import (
 type Enroll struct {
 	Enroll_ID string `gorm:"primaryKey"`
 
-	//Stdent_ID string
+	Stdent_ID *string
+	Student   Student `gorm:"references:Stdent_ID"`
 
 	Course_ID *string
 	Course    Course `gorm:"references:Course_ID"`

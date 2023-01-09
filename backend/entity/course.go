@@ -15,6 +15,7 @@ type Admin struct {
 	Admin_Email    string
 	Admin_Password string
 	Courses        []Course `gorm:"foreignKey:Admin_ID"`
+	Students        []Student `gorm:"foreignKey:Admin_ID"`
 }
 
 type Institute struct {
@@ -46,4 +47,6 @@ type Course struct {
 
 	Major_ID *string
 	Major    Major
+
+	Courses       []Course `gorm:"foreignKey:Course_ID"`
 }

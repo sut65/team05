@@ -24,4 +24,6 @@ type Student struct {
 
 	Dormitory_ID *string
 	Dormitory    Dormitory
+
+	Enroll []Enroll `gorm:"foreignKey:Student_ID"`
 }

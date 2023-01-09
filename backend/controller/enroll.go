@@ -15,9 +15,19 @@ func CreateEnroll(c *gin.Context) {
 		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	*/
 	//var student entity.Student
 	//var student entit.Student
-	var course entity.Course
+	var enroll entity.Enroll
 	var subject entity.Subject
+	var course entity.Course
+	var room entity.RoomInform
+	//var roomInform entity.RoomInform
+	//var class
+	var student entity.Student
 	//var room entity.room
+
+	if err := c.ShouldBindJSON(&enroll); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.ShouldBindJSON(&subject); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -27,30 +37,25 @@ func CreateEnroll(c *gin.Context) {
 	// Communication Diagram Step
 	// ค้นหา entity Course ด้วย id ของ Course ที่รับเข้ามา
 	// SELECT * FROM `courses` WHERE course_id = <subject.Course_ID>
-	if tx := entity.DB().Where("course_id = ?", subject.Course_ID).First(&course); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("enroll_id = ?", enroll.Enroll_ID).First(&enroll); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
 		return
 	}
-	/*	Communication Diagram Step
-
-		สร้างข้อมูล entity Subject โดย
-		- โยง entity Course
-		- โยง entity Status
-		- โยง entity Class_Type
-		- โยง entity Professor // ไปแก้ในรายงานด้วยนะ
-		- เซ็ตจำนวนคนที่เปิดรับ
-		- เซ็ตจำนวนคนที่นั่งสำรอง
-		- เซ็ตจำนวนหน่วยกิจ
-		- และเซ็ตกลุ่มเรียน
-	*/
 	new_enroll := entity.Enroll{
-		// ID:              subject.ID,
-		//Student_ID:
-		Course_ID:  &course.Course_ID,
-		Subject_ID: &subject.Subject_ID,
-		//Room_Number: schedule.Room_Number,
-		Unit:    subject.Unit,
+		//ID:              subject.ID,
+		Enroll_ID:   enroll.Enroll_ID,
+		Student_ID:  &student.Student_ID,
+		Course_ID:   &course.Course_ID,
+		Subject_ID:  &subject.Subject_ID,
+		Room_Number: room.Room_number,
+		//Day
+		//Start_Time: ,
+		//End_Time: ,
+		//Exam_Schedule_ID: ,
 		Section: subject.Section,
+		Unit:    subject.Unit,
+		//Room_Number: schedule.Room_Number,
+
 	}
 
 	// บันทึก entity Subject

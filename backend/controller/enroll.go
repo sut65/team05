@@ -72,14 +72,14 @@ func ListEnroll(c *gin.Context) {
 		HTTP GET : /subjects
 		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	*/
 
-	var subjects []entity.Subject
+	var enroll []entity.Enroll
 
 	// ======================== Normal select ========================
-	if err := entity.DB().Raw("SELECT * FROM subjects").Scan(&subjects).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM enrolls").Scan(&enroll).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": subjects})
+	c.JSON(http.StatusOK, gin.H{"data": enroll})
 
 }
 
@@ -90,13 +90,13 @@ func GetEnroll(c *gin.Context) {
 		HTTP GET : /subject/:subject_id
 		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	*/
 
-	var subject entity.Subject
-	subject_id := c.Param("subject_id")
-	if tx := entity.DB().Where("subject_id = ?", subject_id).Select(&subject); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "subjects not found"})
+	var enroll entity.Enroll
+	enroll_id := c.Param("enroll_id")
+	if tx := entity.DB().Where("enroll_id = ?", enroll_id).Select(&enroll); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "enroll not found"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": subject})
+	c.JSON(http.StatusOK, gin.H{"data": enroll})
 }
 
 func GetPreviousEnroll(c *gin.Context) {
@@ -105,12 +105,12 @@ func GetPreviousEnroll(c *gin.Context) {
 		HTTP GET : /last_subject
 		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	*/
 
-	var subject entity.Subject
-	if tx := entity.DB().Last(&subject); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "subject with this section not found"})
+	var enroll entity.Enroll
+	if tx := entity.DB().Last(&enroll); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "enroll with this section not found"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": subject})
+	c.JSON(http.StatusOK, gin.H{"data": enroll})
 }
 
 // PATCH /subjects
@@ -120,23 +120,23 @@ func UpdateEnroll(c *gin.Context) {
 		HTTP PATCH : /subjects
 		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	*/
 
-	var subject entity.Subject
-	if err := c.ShouldBindJSON(&subject); err != nil {
+	var enroll entity.Enroll
+	if err := c.ShouldBindJSON(&enroll); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if tx := entity.DB().Where("subject_id = ? AND section = ?", subject.Subject_ID, subject.Section).First(&subject); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("enroll_id = ? AND student_id = ?", enroll.Enroll_ID, enroll.Student).First(&enroll); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "watchvideo not found"})
 		return
 	}
 
-	if err := entity.DB().Save(&subject).Error; err != nil {
+	if err := entity.DB().Save(&enroll).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": subject})
+	c.JSON(http.StatusOK, gin.H{"data": enroll})
 }
 
 // DELETE /subject/:subject_id/:section
@@ -146,13 +146,13 @@ func DeleteEnroll(c *gin.Context) {
 		HTTP DELETE : /subject/:subject_id/:section
 		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	*/
 
-	subject_id := c.Param("subject_id")
-	section := c.Param("section")
+	enroll_id := c.Param("enroll_id")
+	student := c.Param("student_id")
 
-	if tx := entity.DB().Exec("DELETE FROM subjects WHERE subject_id = ? AND section = ?", subject_id, section); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM enroll WHERE enroll_id = ? AND student = ?", enroll_id, student); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "watchvideo not found"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": subject_id})
+	c.JSON(http.StatusOK, gin.H{"data": enroll_id})
 }

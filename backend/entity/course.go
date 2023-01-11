@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+// วุฒิ
 type Qualification struct {
 	Qualification_ID   string `gorm:"primaryKey"`
 	Qualification_Name string
@@ -27,6 +28,7 @@ type Major struct {
 	Professors []Professor `gorm:"foreignKey:MajorID"`
 }
 
+// หลักสูตร
 type Course struct {
 	Course_ID   string `gorm:"primaryKey"`
 	Course_Name string

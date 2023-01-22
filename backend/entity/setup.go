@@ -51,6 +51,9 @@ func SetupDatabase() {
 
 		&Approval_Type{},
 		&Approval{},
+
+		&Request{},
+		&Request_Type{},
 	)
 
 	db = database

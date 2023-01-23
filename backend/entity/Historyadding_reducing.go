@@ -9,7 +9,7 @@ type Adding_reducing struct {
 	Change_ID uint `gorm:"primaryKey"`
 	Status    string
 	//Class_Schedule_ID *string
-	//Class_Schedule     Class_Schedule 
+	//Class_Schedule     Class_Schedule
 
 	Subject_ID *string
 	Subject    Subject `gorm:"references:Subject_ID"`

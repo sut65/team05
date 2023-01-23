@@ -51,8 +51,10 @@ type Subject struct {
 	Reserved        uint
 	Reserved_Enroll uint
 
-	Unit     uint
-	Section  uint
-	Enroll   []Enroll  `gorm:"foreignKey:Subject_ID"`
-	Requests []Request `gorm:"foreignKey:Subject_ID"`
+	Unit           uint
+	Section        uint
+	Enroll         []Enroll         `gorm:"foreignKey:Subject_ID"`
+	Requests       []Request        `gorm:"foreignKey:Subject_ID"`
+	Class_Schedule []Class_Schedule `gorm:"foreignKey:Subject_ID"`
+	Exam_Schedules []Exam_Schedule  `gorm:"foreignKey:Subject_ID"`
 }

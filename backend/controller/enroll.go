@@ -18,7 +18,7 @@ func CreateEnroll(c *gin.Context) {
 	var enroll entity.Enroll
 	var subject entity.Subject
 	var course entity.Course
-	var room entity.RoomInform
+	var room entity.Room
 	//var roomInform entity.RoomInform
 	//var class
 	var student entity.Student
@@ -47,7 +47,7 @@ func CreateEnroll(c *gin.Context) {
 		Student_ID:  &student.Student_ID,
 		Course_ID:   &course.Course_ID,
 		Subject_ID:  &subject.Subject_ID,
-		Room_Number: room.Room_number,
+		Room_Number: room.Room_ID,
 		//Day
 		//Start_Time: ,
 		//End_Time: ,

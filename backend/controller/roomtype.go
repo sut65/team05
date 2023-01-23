@@ -25,9 +25,9 @@ func CreateRoomtype(c *gin.Context) {
 
 // GET /roomtype/:id
 func GetRoomtype(c *gin.Context) {
-	var roomtype entity.RoomInform
+	var roomtype entity.RoomType
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROMroomtypes WHERE id = ?", id).Scan(&roomtype).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM roomtypes WHERE id = ?", id).Scan(&roomtype).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -41,7 +41,7 @@ func GetRoomtype(c *gin.Context) {
 
 func ListRoomtypes(c *gin.Context) {
 	var roomtypes []entity.RoomType
-	if err := entity.DB().Raw("SELECT * FROMroomtypes").Scan(&roomtypes).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM roomtypes").Scan(&roomtypes).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

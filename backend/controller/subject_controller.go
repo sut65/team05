@@ -55,7 +55,7 @@ func CreateSubject(c *gin.Context) {
 	// Communication Diagram Step
 	// ค้นหา entity Professor ด้วย id ของ Professor ที่รับเข้ามา
 	// SELECT * FROM `professors` WHERE professor_id = <subject.Professor_ID>
-	if tx := entity.DB().Where("professor_id = ?", subject.Professor_ID).First(&professor); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", subject.Professor_ID).First(&professor); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
 		return
 	}
@@ -93,7 +93,7 @@ func CreateSubject(c *gin.Context) {
 		Capacity:         subject.Capacity,
 		Enroll:           subject.Enroll,
 		Reserved:         subject.Reserved,
-		Reserved_Enroll:  subject.Reserved,
+		Reserved_Enroll:  subject.Reserved_Enroll,
 		Unit:             subject.Unit,
 		Section:          subject.Section,
 	}
@@ -121,13 +121,13 @@ func ListSubjects(c *gin.Context) {
 	// ======================== Join select ========================
 	// Subject Join with Courses and with Professors
 	/*
-		SELECT s.*, c.Course_Name, p.professor_name
+		SELECT s.*,  c.Course_Name, p.professor_name
 		FROM `subjects` s
 		JOIN `courses` c
 		JOIN `professors` p
-		ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id;
+		ON s.Course_ID = c.course_id AND s.professor_id = p.id;
 	*/
-	query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id").Scan(&extendedSubjects)
+	query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.id").Scan(&extendedSubjects)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -141,13 +141,16 @@ func ListSubjects(c *gin.Context) {
 func GetSubject(c *gin.Context) {
 	/* Query subject record(s) by subject_id */
 
-	var subject []entity.Subject
+	var extendedSubjects []extendedSubject
+
 	subject_id := c.Param("subject_id")
-	if tx := entity.DB().Where("subject_id = ?", subject_id).Find(&subject); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "subject not found"})
+
+	query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.id WHERE subject_id = ?", subject_id).Scan(&extendedSubjects)
+	if err := query.Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": subject})
+	c.JSON(http.StatusOK, gin.H{"data": extendedSubjects})
 }
 
 // Maybe
@@ -212,7 +215,7 @@ func UpdateSubjects(c *gin.Context) {
 		return
 	}
 
-	if tx := entity.DB().Where("professor_id = ?", subject.Professor_ID).First(&professor); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", subject.Professor_ID).First(&professor); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
 		return
 	}
@@ -289,5 +292,17 @@ func ListSubjectStatus(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": subject_statuses})
+
+}
+
+// //------------------------------------------------------------------------------------
+// GET /subject_statuses
+func ListSubjectCategory(c *gin.Context) {
+	var subject_categories []entity.Subject_Category
+	if err := entity.DB().Raw("SELECT * FROM subject_categories").Scan(&subject_categories).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": subject_categories})
 
 }

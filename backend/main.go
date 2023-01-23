@@ -3,13 +3,59 @@ package main
 import (
 	// "github.com/B6025212/team05/controller"
 
+	"github.com/B6025212/team05/controller"
 	"github.com/B6025212/team05/entity"
-	// "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 )
 
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,AdminAuthorization, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE, PATCH")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
+}
+
 func main() {
-	entity.SetupDatabase()
-	// r := gin.Default()
+	// entity.SetupDatabase()
+	entity.OpenDatabase()
+
+	r := gin.Default()
+	r.Use(CORSMiddleware())
+
+	// Initiate route GET
+	r.GET("/subjects", controller.ListSubjects)
+	r.GET("/prev_subject", controller.GetPreviousSubject)
+	r.GET("/subject/:subject_id", controller.GetSubject)
+	r.GET("/subject/:subject_id/:section", controller.GetSubjectBySection)
+
+	r.GET("/subject_statuses", controller.ListSubjectStatus)
+	r.GET("/subject_categories", controller.ListSubjectCategory)
+	r.GET("/class_types", controller.ListClassType)
+	r.GET("/courses", controller.ListCourses)
+
+	r.GET("/class_schedules", controller.ListClassSchedule)
+	r.GET("/exam_schedules", controller.ListExamSchedule)
+	r.GET("/class_schedule/:subject_id", controller.GetClassSchedule)
+	r.GET("/exam_schedule/:subject_id", controller.GetExamSchedule)
+	r.GET("/class_schedule/:subject_id/:section", controller.GetClassBySubjectID_and_Section)
+
+	// Initiate route POST
+	r.POST("/subjects", controller.CreateSubject)
+
+	// Initiate route PATCH
+	r.PATCH("/subjects", controller.UpdateSubjects)
+
+	// Initiate route DELETE
+	r.DELETE("/subject/:subject_id/:section", controller.DeleteSubject)
 
 	// // Admin Routes
 	// r.GET("/admins", controller.ListAdmins)
@@ -50,8 +96,7 @@ func main() {
 	// r.PATCH("/roominforms", controller.UpdateRoominform)
 	// r.DELETE("/roominforms/:id", controller.DeleteRoominform)
 
-	// // Run the server
-
-	// r.Run()
+	// Run the server
+	r.Run()
 
 }

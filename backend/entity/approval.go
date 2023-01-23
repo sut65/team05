@@ -1,34 +1,30 @@
 package entity
 
 import (
-
-  "gorm.io/gorm"
-
+	"gorm.io/gorm"
 )
 
 // * ====================== Request System ======================
 
 type Approval_Type struct {
-
-  Approval_Type_ID   string `gorm:"primaryKey"`
-  Approval_Type_Name      string
-  Approval          []Approval `gorm:"foreignKey:Approval_Type_ID"`
-
+	Approval_Type_ID   string `gorm:"primaryKey"`
+	Approval_Type_Name string
+	Approval           []Approval `gorm:"foreignKey:Approval_Type_ID"`
 }
 type Approval struct {
+	gorm.Model
 
-  gorm.Model
+	Approval_ID uint `gorn:"primaryKey"`
 
-  Approval_ID   uint `gorn:"primaryKey"`
+	Reason string
 
-  Reason        string 
+	// Professor_ID   *string
+	Professor_ID *uint
+	Professor    Professor `gorm:"references:id"`
 
-  Professor_ID   *string 
-  Professor      Professor
+	Request_ID *string
+	Request    Request `gorm:"references:Request_ID"`
 
-  Request_ID   *string 
-  Request     	Request
-
-  Approval_Type_ID    *string
-  Approval_Type       Approval_Type
+	Approval_Type_ID *string
+	Approval_Type    Approval_Type `gorm:"references:Approval_Type_ID"`
 }

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import { Subject } from "../models/I_Subject";
+import { Subject } from "../../models/I_Subject";
 import { Stack, Divider, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import { useParams } from "react-router-dom";

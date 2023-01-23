@@ -11,10 +11,10 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { Subject, Subject_Category, Subject_Status, Class_Type } from "../models/I_Subject";
+import { Subject, Subject_Category, Subject_Status, Class_Type } from "../../models/I_Subject";
 import { useEffect } from "react";
 import { FormHelperText, MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
-import { Course } from "../models/I_Course";
+import { Course } from "../../models/I_Course";
 import AddIcon from '@mui/icons-material/Add';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {

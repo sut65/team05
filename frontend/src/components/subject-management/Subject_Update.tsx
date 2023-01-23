@@ -10,8 +10,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { Subject, Subject_Category, Subject_Status, Class_Type, } from "../models/I_Subject";
-import { Course } from "../models/I_Course";
+import { Subject, Subject_Category, Subject_Status, Class_Type, } from "../../models/I_Subject";
+import { Course } from "../../models/I_Course";
 import { useEffect } from "react";
 import { FormHelperText, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 

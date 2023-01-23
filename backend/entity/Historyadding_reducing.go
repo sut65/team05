@@ -1,15 +1,13 @@
 package entity
 
-import (
-	"gorm.io/gorm"
-)
+
 
 type Adding_reducing struct {
-	gorm.Model
-	Change_ID uint `gorm:"primaryKey"`
+	
+	Change_ID string `gorm:"primaryKey"`
 	Status    string
 	//Class_Schedule_ID *string
-	//Class_Schedule     Class_Schedule
+	//Class_Schedule     Class_Schedule 
 
 	Subject_ID *string
 	Subject    Subject `gorm:"references:Subject_ID"`

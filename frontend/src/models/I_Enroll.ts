@@ -12,7 +12,7 @@ export interface EnrollInterface {
 
     Subject_EN_Name: string,
     subject_en_Nnme: Subject;
-//asdfsdfasdf
+//asdfsdfasdfsdf
     Course_ID: string,
     Course: Subject;
     

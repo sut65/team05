@@ -67,13 +67,13 @@ function CreateEnroll() {
   const params = useParams();
   const [date, setDate] = React.useState<Date | null>(null);
 
-  let [enroll, setEnroll] = React.useState<Partial<EnrollInterface  
+  let [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
 
-  const [subject, setSubject] = React.useState<SubjectInterface[]>([]);
+  const [subject, setSubject] = React.useState<Subject[]>([]);
 
   const [success, setSuccess] = React.useState(false);
 
-  const [course, setCourse] = React.useState<CourseInterface[]>([]);
+  const [course, setCourse] = React.useState<Course[]>([]);
 
   const [error, setError] = React.useState(false);
 
@@ -299,7 +299,7 @@ function CreateEnroll() {
                   }}
                   
                 >
-                  {course.map((item: CourseInterface) => (
+                  {course.map((item: Course) => (
                     <MenuItem
                       value={item.Course_ID}
                       key={item.Course_ID}
@@ -357,7 +357,7 @@ function CreateEnroll() {
                     name: "section",
                   }}
                   >
-                  {subject.map((item: SubjectInterface) => (
+                  {subject.map((item: Subject) => (
                     <MenuItem
                       value={item.Subject_ID}
                       key={item.Subject_ID}

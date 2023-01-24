@@ -515,4 +515,38 @@ func SetupDatabase() {
 	}
 	db.Create(&system_analysis_midterm)
 
+	  ///------------------------Request_Type------------------------
+	Request_Type1 := Request_Type{
+		Request_Type_ID: "R01",
+		Request_Type_Name: "กลุ่มเต็ม",
+	}
+	db.Create(&Request_Type1)
+
+	Request_Type2 := Request_Type{
+		Request_Type_ID: "R02",
+		Request_Type_Name: "เปลี่ยนกลุ่ม",
+	}
+	db.Create(&Request_Type2)
+
+  ///------------------------Request------------------------
+	Request1 := Request{
+		Request_ID:       1,
+		Reason:           "อยากเรียน",
+		// Student:       student1,
+		Section: 		2,
+		Subject:       operating_system_sec2,
+		Request_Type:  Request_Type1,
+	}
+	db.Create(&Request1)
+  
+	Request2 := Request{
+		Request_ID:       2,
+		Reason:           "เวลาเรียนชน",
+		// Student:       student1,
+		Section: 		1,
+		Subject:       problem_solving_sec1,
+		Request_Type:  Request_Type2,
+	}
+	db.Create(&Request2) 
+
 }

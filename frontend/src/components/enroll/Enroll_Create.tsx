@@ -100,7 +100,7 @@ function CreateEnroll() {
     { field: 'Exam_day', headerName: 'เวลาสอบ', width: 150 },
     { field: 'subject_amount', headerName: 'เปิดรับ', width: 70 },
     { field: 'Enroll_amount', headerName: 'ลงทะเบียน', width: 70 },
-    /*  valueGetter: (params) =>`${params.row.firstName || ''} ${params.row.lastName || ''}`, */
+    /*  valueddGetter: (params) =>`${params.row.firstName || ''} ${params.row.lastName || ''}`, */
   ];
 
   const rows = [

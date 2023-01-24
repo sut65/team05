@@ -14,6 +14,8 @@ type Request struct {
 
 	Reason string
 
+	Section uint
+
 	Student_ID *string
 	Student    Student `gorm:"references:Student_ID"`
 

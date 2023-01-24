@@ -26,7 +26,7 @@ import Snackbar from "@mui/material/Snackbar";
 
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
-import { EnrollInterface } from "../../models/enrollInterface";
+import { EnrollInterface } from "../../models/I_Enroll";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
@@ -42,8 +42,8 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-import { SubjectInterface } from "../models/Subject";
-import { CourseInterface } from "../models/Course";
+import { Subject } from "../../models/I_Subject";
+import { Course } from "../../models/I_Course";
 import { MenuItem } from "@mui/material";
 
 
@@ -67,7 +67,7 @@ function CreateEnroll() {
   const params = useParams();
   const [date, setDate] = React.useState<Date | null>(null);
 
-  let [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
+  let [enroll, setEnroll] = React.useState<Partial<EnrollInterface  
 
   const [subject, setSubject] = React.useState<SubjectInterface[]>([]);
 

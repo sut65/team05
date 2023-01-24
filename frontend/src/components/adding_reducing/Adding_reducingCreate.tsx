@@ -24,7 +24,7 @@ import Snackbar from "@mui/material/Snackbar";
 
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
-import { Adding_reducingInterface } from "../models/IAdding_Reducing";
+import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 

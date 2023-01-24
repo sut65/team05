@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import { Adding_reducingInterface } from "../models/IAdding_Reducing";
+import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,7 +15,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 // import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import {BrowserRouter as Router,Route,Link,  useParams,} from "react-router-dom";
-import{ Adding_reducingI1nterface  }from "../models/IAdding_Reducing1"
+import { Adding_reducingI1nterface } from "../../models/IAdding_reducing1";
 
 function Adding_reducing() {
   const [adding_reducings, setAdding_reducings] = React.useState<Partial<Adding_reducingInterface>>({});

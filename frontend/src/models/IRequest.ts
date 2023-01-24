@@ -1,4 +1,5 @@
 import { Request_TypeInterface } from "./IRequest_Type";
+import { Subject } from "./I_Subject";
 export interface RequestInterface {
     Request_ID: string,
     Reason: string;
@@ -10,6 +11,8 @@ export interface RequestInterface {
     //Student: StudentInterface
 
     Subject_ID: string;
-    //Subject: SubjectInterface
+    Subject: Subject
+
+    Section: number;
 }
 

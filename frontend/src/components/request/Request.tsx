@@ -11,8 +11,8 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
-import { RequestInterface } from "../models/IRequest";
-import { Request_TypeInterface } from "../models/IRequest_Type";
+import { RequestInterface } from "../../models/IRequest";
+import { Request_TypeInterface } from "../../models/IRequest_Type";
 
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
@@ -44,6 +44,8 @@ function Request() {
     { field: "Request_ID", headerName: "ลำดับ", width: 100 },
 
     { field: "Subject_ID", headerName: "รายวิชา", width: 300 },
+
+    { field: "Section", headerName: "กลุ่ม", width: 300 },
 
     { field: "Student_ID:", headerName: "รหัสนักศึกษา", width: 300 },
 

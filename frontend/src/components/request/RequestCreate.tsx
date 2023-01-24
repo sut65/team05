@@ -12,8 +12,9 @@ import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 //import { Subject } from "../models/I_Subject";
-import { RequestInterface } from "../models/IRequest";
-import { Request_TypeInterface } from "../models/IRequest_Type";
+import { RequestInterface } from "../../models/IRequest";
+import { Request_TypeInterface } from "../../models/IRequest_Type";
+import { Subject } from "../../models/I_Subject";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -28,6 +29,10 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import TableFooter from "@mui/material/TableFooter";
 import SearchIcon from "@mui/icons-material/Search";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
 
 import { SelectChangeEvent } from "@mui/material/Select";
 import {
@@ -62,6 +67,9 @@ function RequestCreate() {
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
 
+  const [subjects, setSubjects] = React.useState<Subject[]>([]);
+  const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -92,6 +100,13 @@ function RequestCreate() {
     setRequest({ ...request, [id]: value });
   };
 
+  const handleInputChangeSearch = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof RequestCreate;
+    setSearchSubjectID(event.target.value);
+  };
+
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const name = event.target.name as keyof typeof request;
     setRequest({
@@ -100,27 +115,31 @@ function RequestCreate() {
     });
   };
 
+  //--------------Searched--------------
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     setPage(newPage);
   };
-  //--------------Searched--------------
-  // const sendSearchedSubjectID = () => {
-  //   navigate({ pathname: `/subject/${searchSubjectID}` });
-  //   window.location.reload();
-  // };
 
-  // const handleChangeRowsPerPage = (
-  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   setRowsPerPage(parseInt(event.target.value, 10));
-  //   setPage(0);
-  // };
+  const sendSearchedSubjectID = () => {
+    // navigate({ pathname: `/subject/${searchSubjectID}` });
+    setSearchSubjectID(searchSubjectID);
+    getSubjectBySubjectID(searchSubjectID);
+    // window.location.reload();
+    console.log(searchSubjectID);
+  };
 
-  // const emptyRows =
-  //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -140,44 +159,42 @@ function RequestCreate() {
     },
   }));
 
-  function createData(
-    Subject_ID: string,
-    Subject_Name: string,
-    Unit: number,
-    Section: number,
-    Course_Name: string,
-    Professor_Name: string,
-    Reason: string,
-    Request_Type_Name: string
-  ) {
-    return {
-      Subject_ID,
-      Subject_Name,
-      Unit,
-      Section,
-      Course_Name,
-      Professor_Name,
-      Reason,
-      Request_Type_Name,
-    };
-  }
-  const rows = [
-    createData(
-      "523301",
-      "SE",
-      2,
-      1,
-      "CPE2560",
-      "นันธ์",
-      "อยากเรียน",
-      "กลุ่มเต็ม"
-    ),
-  ];
-
   const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
     method: "GET",
     headers: { "Content-Type": "application/json" },
+  };
+
+  //----------subject----
+
+  const getSubjects = async () => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/subjects`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setSubjects(res.data);
+          console.log(res.data);
+        }
+      });
+  };
+
+  const getSubjectBySubjectID = async (subject_id: any) => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/subject/${subject_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setSearchSubjectID(subject_id);
+          setSubjects(res.data);
+        }
+      });
   };
 
   const getRequest_Type = async () => {
@@ -195,6 +212,13 @@ function RequestCreate() {
 
   useEffect(() => {
     getRequest_Type();
+
+    if (searchSubjectID == "") {
+      getSubjects();
+    } else {
+      getSubjectBySubjectID(searchSubjectID);
+    }
+    console.log(searchSubjectID);
   }, []);
 
   function submit() {
@@ -287,6 +311,13 @@ function RequestCreate() {
                 ยื่นคำร้องออนไลน์
               </Typography>
             </Box>
+            <TextField
+              label="รหัสนักศึกษา"
+              id="Student_ID"
+              variant="outlined"
+              type="string"
+              sx={{ marginLeft: "950px" }}
+            />
           </Box>
         </Paper>
 
@@ -302,16 +333,15 @@ function RequestCreate() {
                   variant="outlined"
                   type="string"
                   value={request.Subject_ID}
-                  onChange={handleInputChange}
+                  onChange={handleInputChangeSearch}
                 />
               </Box>
             </Grid>
             <Grid sx={{ marginTop: "10px" }}>
               <Button
                 size="medium"
-                component={RouterLink}
-                to="/"
                 variant="contained"
+                onClick={sendSearchedSubjectID}
               >
                 ค้นหารายวิชา
                 <SvgIcon
@@ -354,34 +384,30 @@ function RequestCreate() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
-                    <StyledTableRow key={row.Subject_ID}>
+                  {(rowsPerPage > 0
+                    ? subjects.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                    : subjects
+                  ).map((row) => (
+                    <StyledTableRow key={row.ID}>
                       <StyledTableCell
                         component="th"
                         scope="row"
                         align="center"
                       >
-                        <FormControl fullWidth>
-                          <TextField
-                            label="ค้นหารายวิชา"
-                            id="Subject_ID"
-                            variant="standard"
-                            type="string"
-                            size="medium"
-                            disabled
-                            value={request.Subject_ID}
-                            onChange={handleInputChange}
-                          />
-                        </FormControl>
+                        {row.Subject_ID}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {row.Subject_Name}
+                        {row.Subject_EN_Name}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {row.Unit}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                        {row.Section}
+                        {/* <FormControl sx={{ m: 1, minWidth: 80 }}>
                           <InputLabel id="Section">กลุ่ม</InputLabel>
                           <Select
                             labelId="Section"
@@ -393,16 +419,16 @@ function RequestCreate() {
                               name: "Section",
                             }}
                           >
-                            {/* {request.map((item: RequestInterface) => (
+                            {subjects.map((item: Subject) => (
                               <MenuItem
                                 value={item.Subject_ID}
                                 key={item.Subject_ID}
                               >
-                                {item.Subject_ID}
+                                {item.Section}
                               </MenuItem>
-                            ))} */}
+                            ))}
                           </Select>
-                        </FormControl>
+                        </FormControl> */}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {row.Course_Name}
@@ -410,9 +436,50 @@ function RequestCreate() {
                       <StyledTableCell align="center">
                         {row.Professor_Name}
                       </StyledTableCell>
+                      <StyledTableCell>
+                        <Button
+                          variant="contained"
+                          sx={{ borderRadius: 0 }}
+                          onClick={() => {
+                            request.Subject_ID = row.Subject_ID;
+                            request.Section = row.Section;
+                          }}
+                        >
+                          เพิ่ม
+                        </Button>
+                      </StyledTableCell>
                     </StyledTableRow>
                   ))}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
                 </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                      rowsPerPageOptions={[
+                        5,
+                        10,
+                        25,
+                        { label: "All", value: -1 },
+                      ]}
+                      colSpan={subjects.length}
+                      count={subjects.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      SelectProps={{
+                        inputProps: {
+                          "aria-label": "rows per page",
+                        },
+                        native: true,
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                  </TableRow>
+                </TableFooter>
               </Table>
             </TableContainer>
             <Grid container sx={{ padding: 2 }}>
@@ -491,32 +558,6 @@ function RequestCreate() {
               </Button>
             </Grid>
           </Box>
-
-          {/* <Grid
-            item
-            xs={12}
-            maxWidth="xl"
-            sx={{
-              bgcolor: "white",
-              width: "auto",
-              height: "auto",
-              padding: 1,
-            }}
-          >
-            <Button component={RouterLink} to="/" variant="contained">
-              ย้อนกลับ
-            </Button>
-
-            <Button
-              style={{ float: "right" }}
-              onClick={submit}
-              variant="contained"
-              color="primary"
-            >
-              ยื่นคำร้องออนไลน์
-            </Button>
-          </Grid> */}
-          {/* </Grid> */}
         </Paper>
       </Container>
     </div>

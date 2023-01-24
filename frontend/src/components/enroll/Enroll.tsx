@@ -10,10 +10,10 @@ import Container from "@mui/material/Container";
 
 import Box from "@mui/material/Box";
 
-import { EnrollInterface } from "../models/enrollInterface";
-import { SubjectInterface } from "../models/Subject";
-import { CourseInterface } from "../models/Course";
-import { StudentInterface } from "../models/studentInterface";
+import { EnrollInterface } from "../../models/I_Enroll";
+import { Subject } from "../../models/I_Subject";
+import { Course } from "../../models/I_Course";
+//import { StudentInterface } from "../models/studentInterface";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Grid, Paper } from "@mui/material";
 import { styled } from '@mui/material/styles';

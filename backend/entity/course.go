@@ -45,6 +45,4 @@ type Course struct {
 
 	Courses  []Course  `gorm:"foreignKey:Course_ID"`
 	Subjects []Subject `gorm:"foreignKey:Course_ID"`
-
-	Enroll []Enroll `gorm:"foreignKey:Course_ID"`
 }

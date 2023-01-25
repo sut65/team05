@@ -515,38 +515,58 @@ func SetupDatabase() {
 	}
 	db.Create(&system_analysis_midterm)
 
-	  ///------------------------Request_Type------------------------
+	///------------------------Request_Type------------------------
 	Request_Type1 := Request_Type{
-		Request_Type_ID: "R01",
+		Request_Type_ID:   "R01",
 		Request_Type_Name: "กลุ่มเต็ม",
 	}
 	db.Create(&Request_Type1)
 
 	Request_Type2 := Request_Type{
-		Request_Type_ID: "R02",
+		Request_Type_ID:   "R02",
 		Request_Type_Name: "เปลี่ยนกลุ่ม",
 	}
 	db.Create(&Request_Type2)
 
-  ///------------------------Request------------------------
+	///------------------------Request------------------------
 	Request1 := Request{
-		Request_ID:       1,
-		Reason:           "อยากเรียน",
+		Request_ID: 1,
+		Reason:     "อยากเรียน",
 		// Student:       student1,
-		Section: 		2,
-		Subject:       operating_system_sec2,
-		Request_Type:  Request_Type1,
+		Section:      2,
+		Subject:      operating_system_sec2,
+		Request_Type: Request_Type1,
 	}
 	db.Create(&Request1)
-  
+
 	Request2 := Request{
-		Request_ID:       2,
-		Reason:           "เวลาเรียนชน",
+		Request_ID: 2,
+		Reason:     "เวลาเรียนชน",
 		// Student:       student1,
-		Section: 		1,
-		Subject:       problem_solving_sec1,
-		Request_Type:  Request_Type2,
+		Section:      1,
+		Subject:      problem_solving_sec1,
+		Request_Type: Request_Type2,
 	}
-	db.Create(&Request2) 
+	db.Create(&Request2)
+
+	enroll1 := Enroll{
+		Enroll_ID: "E001",
+		// Student_ID : "",
+		Subject:        software_engineering_sec1,
+		Class_Schedule: system_analysis_sec1_class,
+		Exam_Schedule:  system_analysis_midterm,
+		Section:        1,
+	}
+
+	enroll2 := Enroll{
+		Enroll_ID: "E002",
+		// Student_ID : "",
+		Subject:        operating_system_sec1,
+		Class_Schedule: os_sec1_class,
+		// Exam_Schedule: o,
+		Section: 1,
+	}
+	db.Create(&enroll1)
+	db.Create(&enroll2)
 
 }

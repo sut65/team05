@@ -25,8 +25,8 @@ func CORSMiddleware() gin.HandlerFunc {
 }
 
 func main() {
-	// entity.SetupDatabase()
-	entity.OpenDatabase()
+	entity.SetupDatabase()
+	// entity.OpenDatabase()
 
 	r := gin.Default()
 	r.Use(CORSMiddleware())

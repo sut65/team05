@@ -102,16 +102,6 @@ func UpdateExamSchedule(c *gin.Context) {
 		Exam_Start_Time:  updated_exam_start_time,
 		Exam_End_Time:    updated_exam_end_time,
 	}
-	// updated_class_schedule := entity.Class_Schedule{
-	// 	Class_Schedule_ID:          class_schedule.Class_Schedule_ID,
-	// 	Subject:                    subject,
-	// 	Section:                    updated_section,
-	// 	Room:                       room,
-	// 	Class_Schedule_Description: updated_class_schedule_description,
-	// 	Day:                        updated_day,
-	// 	Start_Time:                 updated_start_time,
-	// 	End_Time:                   updated_end_time,
-	// }
 
 	if err := entity.DB().Save(&updated_exam_schedule).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

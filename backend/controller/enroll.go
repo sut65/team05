@@ -17,10 +17,10 @@ func CreateEnroll(c *gin.Context) {
 	//var student entit.Student
 	var enroll entity.Enroll
 	var subject entity.Subject
-	var course entity.Course
-	var room entity.Room
-	//var roomInform entity.RoomInform
-	//var class
+
+	var class_schedule entity.Class_Schedule
+	var exam_schedule entity.Exam_Schedule
+
 	var student entity.Student
 	//var room entity.room
 
@@ -29,33 +29,33 @@ func CreateEnroll(c *gin.Context) {
 		return
 	}
 
-	if err := c.ShouldBindJSON(&subject); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if tx := entity.DB().Where("subject_id = ?", enroll.Subject_ID).First(&subject); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
 		return
 	}
 
-	// Communication Diagram Step
-	// ค้นหา entity Course ด้วย id ของ Course ที่รับเข้ามา
-	// SELECT * FROM `courses` WHERE course_id = <subject.Course_ID>
-	if tx := entity.DB().Where("enroll_id = ?", enroll.Enroll_ID).First(&enroll); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
+	if tx := entity.DB().Where("class_schedule_id = ?", enroll.Class_Schedule_ID).First(&class_schedule); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
 		return
 	}
+
+	if tx := entity.DB().Where("exam_schedule_id = ?", enroll.Exam_Schedule_ID).First(&exam_schedule); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
+		return
+	}
+
+	if tx := entity.DB().Where("student_id = ?", enroll.Student_ID).First(&student); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
+		return
+	}
+
 	new_enroll := entity.Enroll{
-		//ID:              subject.ID,
-		Enroll_ID:   enroll.Enroll_ID,
-		Student_ID:  &student.Student_ID,
-		Course_ID:   &course.Course_ID,
-		Subject_ID:  &subject.Subject_ID,
-		Room_Number: room.Room_ID,
-		//Day
-		//Start_Time: ,
-		//End_Time: ,
-		//Exam_Schedule_ID: ,
-		Section: subject.Section,
-		Unit:    subject.Unit,
-		//Room_Number: schedule.Room_Number,
-
+		Enroll_ID:      enroll.Enroll_ID,
+		Subject:        subject,
+		Class_Schedule: class_schedule,
+		Exam_Schedule:  exam_schedule,
+		Student:        student,
+		Section:        enroll.Section,
 	}
 
 	// บันทึก entity Subject

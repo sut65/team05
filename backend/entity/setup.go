@@ -529,25 +529,27 @@ func SetupDatabase() {
 	db.Create(&Request_Type2)
 
 	///------------------------Request------------------------
-	Request1 := Request{
-		Request_ID: 1,
-		Reason:     "อยากเรียน",
+		Request1 := Request{
+		Request_ID:       1,
+		Reason:           "อยากเรียน",
 		// Student:       student1,
-		Section:      2,
-		Subject:      operating_system_sec2,
-		Request_Type: Request_Type1,
+		Professor:        professor1,
+		Section: 		2,
+		Subject:       operating_system_sec2,
+		Request_Type:  Request_Type1,
 	}
 	db.Create(&Request1)
-
+  
 	Request2 := Request{
-		Request_ID: 2,
-		Reason:     "เวลาเรียนชน",
+		Request_ID:       2,
+		Reason:           "เวลาเรียนชน",
 		// Student:       student1,
-		Section:      1,
-		Subject:      problem_solving_sec1,
-		Request_Type: Request_Type2,
+		Professor:        professor1,
+		Section: 		1,
+		Subject:       problem_solving_sec1,
+		Request_Type:  Request_Type2,
 	}
-	db.Create(&Request2)
+	db.Create(&Request2) 
 
 	enroll1 := Enroll{
 		Enroll_ID: "E001",

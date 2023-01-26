@@ -101,6 +101,19 @@ func main() {
 	// r.PATCH("/roominforms", controller.UpdateRoominform)
 	// r.DELETE("/roominforms/:id", controller.DeleteRoominform)
 
+	// Request
+	r.GET("/requests", controller.ListRequest)
+	r.GET("/request/:request_id", controller.GetRequest)
+	r.GET("/previous_request", controller.GetPreviousRequest)
+	r.POST("/requests", controller.CreateRequest)
+	r.PATCH("/requests", controller.UpdateRequest)
+	r.DELETE("/request/:request_id", controller.DeleteRequest)
+	
+
+	// Request_Type
+	r.GET("/request_types", controller.ListRequest_Type)
+	r.GET("/request_type/:request_type_id", controller.GetRequest_Type)
+	r.POST("/request_types", controller.CreateRequest_Type)
 	// Run the server
 	r.Run()
 

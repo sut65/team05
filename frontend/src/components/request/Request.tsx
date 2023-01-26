@@ -1,62 +1,203 @@
 import React, { useEffect } from "react";
-
 import { Link as RouterLink } from "react-router-dom";
-
 import Typography from "@mui/material/Typography";
-
 import Button from "@mui/material/Button";
-
 import Container from "@mui/material/Container";
-
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-
 import { RequestInterface } from "../../models/IRequest";
 import { Request_TypeInterface } from "../../models/IRequest_Type";
-
+import { Subject } from "../../models/I_Subject";
+import { Stack, Divider, Grid } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CreateIcon from "@mui/icons-material/Create";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TablePagination from "@mui/material/TablePagination";
+import TableFooter from "@mui/material/TableFooter";
+import SearchIcon from "@mui/icons-material/Search";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 function Request() {
-  const [request, setRequest] = React.useState<RequestInterface[]>([]);
+  const [request, setRequest] = React.useState<Partial<RequestInterface>>({});
+  const [requests, setRequests] = React.useState<RequestInterface[]>([]);
+  const [subject, setSubject] = React.useState<Subject[]>([]);
+  const [request_type, setRequest_Type] = React.useState<
+    Request_TypeInterface[]
+  >([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const getRequest = async () => {
-    const apiUrl = "http://localhost:8080/request";
+  const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(false);
 
+  const navigate = useNavigate();
+  const params = useParams();
+  // const getRequest = async () => {
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccess(false);
+    setError(false);
+  };
+
+  const handleInputChange = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof Request;
+    const { value } = event.target;
+    setRequest({ ...request, [id]: value });
+  };
+
+  const apiUrl = "http://localhost:8080";
+
+  //update
+  const toUpdateRequestPage = () => {
+    navigate({
+      pathname: `/requests/update/${request?.Request_ID}`,
+    });
+    // window.location.reload()
+  };
+
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - requests.length) : 0;
+
+  //request
+  const getRequests = async () => {
     const requestOptions = {
       method: "GET",
-
       headers: { "Content-Type": "application/json" },
     };
-
-    fetch(apiUrl, requestOptions)
+    fetch(`${apiUrl}/request/${params.request_id}`, requestOptions)
       .then((response) => response.json())
-
       .then((res) => {
-        console.log(res.data);
-
         if (res.data) {
-          setRequest(res.data);
+          setRequests(res.data);
+          console.log(res.data);
+        }
+      });
+  };
+  // const [RequestByRequestID, setRequestByRequestID] = React.useState("");
+  //  const getRequestByRequestID = async (request_id: any) => {
+  //    const requestOptions = {
+  //      method: "GET",
+  //      headers: { "Content-Type": "application/json" },
+  //    };
+  //    fetch(`${apiUrl}/request/${request_id}`, requestOptions)
+  //      .then((response) => response.json())
+  //      .then((res) => {
+  //        if (res.data) {
+  //          setRequestByRequestID(request_id);
+  //          setRequest(res.data);
+  //        }
+  //      });
+  //  };
+
+  //delete
+  const deleteRequest = async (request_id: number) => {
+    console.log("good");
+    const requestOptions = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/request/${request_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          console.log("Data remove");
+          window.location.href = "/";
+        } else {
+          console.log("Something was wrong!!");
         }
       });
   };
 
-  const columns: GridColDef[] = [
-    { field: "Request_ID", headerName: "ลำดับ", width: 100 },
+  //table
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#5B98B9",
+      color: theme.palette.common.white,
+      fontSize: 17,
+    },
+  }));
 
-    { field: "Subject_ID", headerName: "รายวิชา", width: 300 },
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: "white",
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 1,
+    },
+  }));
 
-    { field: "Section", headerName: "กลุ่ม", width: 300 },
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
 
-    { field: "Student_ID:", headerName: "รหัสนักศึกษา", width: 300 },
-
-    { field: "Reason", headerName: "เหตุผล", width: 300 },
-
-    { field: "Request_Type_ID", headerName: "ประเภทคำร้อง", width: 300 },
-  ];
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   useEffect(() => {
-    getRequest();
+    getRequests();
   }, []);
+
+  // function submit() {
+  //   let data = {
+  //     Request_ID:
+  //       typeof request.Request_ID === "string"
+  //         ? parseInt(request.Request_ID)
+  //         : request.Request_ID,
+  //     // request.Request_ID ?? "",
+  //     // Student_ID: request.Student_ID ?? "",
+  //     Professor_ID: request.Professor_ID ?? "",
+
+  //     Subject_ID: request.Subject_ID ?? "",
+  //     Section: request.Section ?? "",
+  //     Reason: request.Reason ?? "",
+  //     Request_Type_ID: request.Request_Type_ID ?? "",
+  //   };
+
+  //   const apiUrl = "http://localhost:8080/requests";
+  //   const requestOptionsPatch = {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(data),
+  //   };
+  //   console.log(JSON.stringify(data));
+
+  //   fetch(`${apiUrl}/request`, requestOptionsPatch)
+  //     .then((response) => response.json())
+
+  //     .then((res) => {
+  //       if (res.data) {
+  //         setSuccess(true);
+  //       } else {
+  //         setError(true);
+  //       }
+  //     });
+  // }
 
   return (
     <div>
@@ -132,7 +273,7 @@ function Request() {
           elevation={3}
           sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
         >
-          <div style={{ height: 300, width: "100%", marginTop: "20px" }}>
+          {/* <div style={{ height: 300, width: "100%", marginTop: "20px" }}>
             <DataGrid
               rows={request}
               getRowId={(row) => row.Request_ID}
@@ -140,7 +281,117 @@ function Request() {
               pageSize={5}
               rowsPerPageOptions={[5]}
             />
-          </div>
+          </div> */}
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    ลำดับ
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    รหัสนักศึกษา
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    รหัสวิชา
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    รายวิชา
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    หน่วยกิต
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    กลุ่ม
+                  </StyledTableCell>
+                  {/* <StyledTableCell align="center" sx={{ border: 1 }}>
+                    หลักสูตร
+                  </StyledTableCell> */}
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    เหตุผล
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    ประเภทคำร้อง
+                  </StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {(rowsPerPage > 0
+                  ? requests.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : requests
+                ).map((row) => (
+                  <StyledTableRow key={row.Request_ID}>
+                    <TableCell component="th" scope="row" align="center">
+                      {row.Request_ID}
+                    </TableCell>
+                    {/* <TableCell align="center">{row.Student_ID}</TableCell> */}
+                    <TableCell align="center">{row.Professor_ID}</TableCell>
+
+                    <TableCell align="center">{row.Subject_ID}</TableCell>
+                    <TableCell align="center">{row.Subject_EN_Name}</TableCell>
+                    <TableCell align="center">{row.Unit}</TableCell>
+                    <TableCell align="center">{row.Section}</TableCell>
+
+                    {/* <TableCell align="center">{row.Course_ID}</TableCell> */}
+                    <TableCell align="center">{row.Reason}</TableCell>
+                    <TableCell align="center">
+                      {row.Request_Type_Name}
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => deleteRequest(row.Request_ID)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell align="center">
+                      <IconButton
+                        aria-label="edit"
+                        onClick={toUpdateRequestPage}
+                        component={RouterLink}
+                        to="/update"
+                      >
+                        <ModeEditIcon />
+                      </IconButton>
+                    </TableCell>
+                  </StyledTableRow>
+                ))}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[
+                      5,
+                      10,
+                      25,
+                      { label: "All", value: -1 },
+                    ]}
+                    colSpan={requests.length}
+                    count={requests.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: {
+                        "aria-label": "rows per page",
+                      },
+                      native: true,
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
         </Paper>
       </Container>
     </div>

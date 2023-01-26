@@ -40,7 +40,7 @@ func CreateRequest(c *gin.Context) {
 	// }
 	if tx := entity.DB().Where("id = ?", request.Professor_ID).First(&professor); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
-		return
+		return 
 	}
 
 	// Communication Diagram Step

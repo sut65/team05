@@ -17,11 +17,6 @@ func CreateRequest_Type(c *gin.Context) {
 		return
 	}
 
-	// request_type := entity.Request{
-	// 	Request_Type_ID:       Request.Request_Type_ID,
-	// 	Request_Type_Name:       Request.Request_Type_Name,
-	// }
-
 	if err := entity.DB().Create(&request_type).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

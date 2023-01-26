@@ -29,6 +29,8 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 function Users() {
 
   const [enroll, setEnroll] = React.useState<EnrollInterface[]>([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   //const [subject, setSubject] = React.useState<SubjectInterface[]>([]);
   const getEnroll = async () => {
     const apiUrl = "http://localhost:8080/enroll";
@@ -48,24 +50,28 @@ function Users() {
       });
   };
 
-  
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - enroll.length) : 0;
 
   function createData(
     Enroll_ID: string,
     Subject_ID: string,
+    Course_ID: string,
     Subject_TH_Name: string,
     Subject_EN_Name: string,
-    Course_ID: string,
     Day: string,
+    Start_Time: string,
+    End_Time: string,
     Exam_Schedule_ID: string,
+    Exam_Start_Time: string,
+    Exam_End_Time: string,
     Section: number,
     Unit: number,
   ) {
-    return {Enroll_ID, Subject_ID,Subject_TH_Name, Subject_EN_Name,Course_ID,Day, Exam_Schedule_ID,Section,Unit };
+    return { Enroll_ID, Start_Time, End_Time, Exam_Start_Time, Exam_End_Time, Subject_ID, Subject_TH_Name, Subject_EN_Name, Course_ID, Day, Exam_Schedule_ID, Section, Unit };
   }
-useEffect(() => {
+  useEffect(() => {
     getEnroll();
-    
+
   }, []);
   // const rows = [
   //   createData('EN01','523332', 'วิศวกรรมซอฟต์แวร์', 'SoftwareEngineering','', 'วันจันทร์ 13:00-15:00', 'MID-1805-1300-1500', 4, 1),
@@ -76,7 +82,7 @@ useEffect(() => {
 
     <div>
 
-      <Container maxWidth="md" sx={{ p: 2 }}>
+      <Container maxWidth="xl" sx={{ p: 2 }}>
 
         <Box
 
@@ -137,15 +143,24 @@ useEffect(() => {
                   <TableCell align="left">ชื่อวิชา</TableCell>
                   <TableCell align="left">Subject name</TableCell>
                   <TableCell align="left">วันเรียน</TableCell>
+                  <TableCell align="left">เริ่มเรียน</TableCell>
+                  <TableCell align="left">เลิกเรียน</TableCell>
                   <TableCell align="left">วันสอบ</TableCell>
+                  {/* <TableCell align="left">เริ่มสอบ</TableCell>
+                  <TableCell align="left">เลิกสอบ</TableCell> */}
                   <TableCell align="left">หน่วยกิต</TableCell>
                   <TableCell align="left">กลุ่ม</TableCell>
                   <TableCell align="center">แก้ไข</TableCell>
                   <TableCell align="center">ลบ</TableCell>
                 </TableRow>
               </TableHead>
+
               <TableBody>
-                {enroll.map((row) => (
+                {(rowsPerPage > 0
+                  ? enroll.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  : enroll
+
+                ).map((row) => (
                   <TableRow
                     key={row.Enroll_ID}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -155,7 +170,11 @@ useEffect(() => {
                     <TableCell align="left">{row.Subject_TH_Name}</TableCell>
                     <TableCell align="left">{row.Subject_EN_Name}</TableCell>
                     <TableCell align="left">{row.Day}</TableCell>
+                    <TableCell align="left">{row.Start_Time}</TableCell>
+                    <TableCell align="left">{row.End_Time}</TableCell>
                     <TableCell align="left">{row.Exam_Schedule_ID}</TableCell>
+                    {/* <TableCell align="left">{row.Exa}</TableCell>
+                    <TableCell align="left">{row.Exam_End_Time}</TableCell> */}
                     <TableCell align="left">{row.Unit}</TableCell>
                     <TableCell align="left">{row.Section}</TableCell>
                     <TableCell align="center"><IconButton aria-label="delete">

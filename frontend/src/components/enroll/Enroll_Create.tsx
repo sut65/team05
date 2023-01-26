@@ -1,6 +1,6 @@
-import React, { useEffect  } from "react";
+import React, { useEffect } from "react";
 
-import { Link as RouterLink ,useNavigate} from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import { useParams } from "react-router-dom";
 
@@ -17,6 +17,14 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 
 import Box from "@mui/material/Box";
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
 
 import Typography from "@mui/material/Typography";
 
@@ -40,23 +48,23 @@ import SaveIcon from '@mui/icons-material/Save';
 
 import { DataGrid } from "@mui/x-data-grid";
 
+import FactCheckIcon from '@mui/icons-material/FactCheck';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
-import { MenuItem } from "@mui/material";
+import { IconButton, MenuItem, TableFooter, TablePagination } from "@mui/material";
+import { styled } from "@mui/material/styles";
+
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-
   props,
-
   ref
-
 ) {
-
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-
 });
 
 
@@ -69,7 +77,10 @@ function CreateEnroll() {
 
   let [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
 
-  const [subject, setSubject] = React.useState<Subject[]>([]);
+  //const [subject, setSubject] = React.useState<Subject[]>([]);
+
+  const [subjects, setSubjects] = React.useState<Subject[]>([]);
+  const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
 
   const [success, setSuccess] = React.useState(false);
 
@@ -77,8 +88,8 @@ function CreateEnroll() {
 
   const [error, setError] = React.useState(false);
 
-  const [searchSubjectID, setSearchSubjectID] = React.useState("");
-
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -91,24 +102,12 @@ function CreateEnroll() {
     setError(false);
   };
 
-  const columns = [
-    { field: 'id', headerName: 'รหัสวิชา', width: 70 },
-    { field: 'jubject_name_th', headerName: 'ชื่อวิชา', width: 130 },
-    { field: 'jubject_name_eng', headerName: 'subject Name', width: 130 },
-    { field: 'unit', headerName: 'หน่วยกิต', width: 70 },
-    { field: 'Day', headerName: 'เวลาเรียน', width: 150 },
-    { field: 'Exam_day', headerName: 'เวลาสอบ', width: 150 },
-    { field: 'subject_amount', headerName: 'เปิดรับ', width: 70 },
-    { field: 'Enroll_amount', headerName: 'ลงทะเบียน', width: 70 },
-    /*  valueddGetter: (params) =>`${params.row.firstName || ''} ${params.row.lastName || ''}`, */
-  ];
-
-  const rows = [
-    { id: 523332, jubject_name_th: 'วิศวกรรมซอฟต์แวร์', jubject_name_eng: 'SoftwareEngineering', unit: 4, Study_day: 'วันจันทร์ 13:00-15:00', Exam_day: 'MID-1805-1300-1500', subject_amount: 60, Enroll_amount: 40 },
-    { id: 523332, jubject_name_th: 'วิศวกรรมซอฟต์แวร์', jubject_name_eng: 'SoftwareEngineering', unit: 4, Study_day: 'วันอังคาร 10:00-12:00', Exam_day: 'MID-1805-1300-1500', subject_amount: 60, Enroll_amount: 35 },
-    { id: 523332, jubject_name_th: 'วิศวกรรมซอฟต์แวร์', jubject_name_eng: 'SoftwareEngineering', unit: 4, Study_day: 'วันอังคาร 13:00-15:00', Exam_day: 'MID-1805-1300-1500', subject_amount: 60, Enroll_amount: 25 },
-    { id: 523332, jubject_name_th: 'วิศวกรรมซอฟต์แวร์', jubject_name_eng: 'SoftwareEngineering', unit: 4, Study_day: 'วันจันทร์ 10:00-12:00', Exam_day: 'MID-1805-1300-1500', subject_amount: 60, Enroll_amount: 60 },
-  ];
+  const handleInputChangeSearch = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof CreateEnroll;
+    setSearchSubjectID(event.target.value);
+  };
 
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
@@ -128,75 +127,133 @@ function CreateEnroll() {
     });
   };
 
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
+
   const sendSearchedSubjectID = () => {
-    navigate({ pathname: `/subject/${searchSubjectID}` })
-    window.location.reload()
-};
-  // Declaring a HTTP Port of 8080.
-  const apiUrl = "http://localhost:8080";
+    //navigate({ pathname: `/subject/${searchSubjectID}` });
+    setSearchSubjectID(searchSubjectID);
+    getSubjectBySubjectID(searchSubjectID);
+    //window.location.reload();
+    //console.log(searchSubjectID);
+  };
 
   // Declaring a HTTP request for requesting GET method
+  
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#5B98B9",
+      color: theme.palette.common.white,
+      fontSize: 17,
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: "white",
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 1,
+    },
+  }));
+
+  const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: {"Content-Type": "application/json"},
   };
 
   // Fetch income type from API 
   const getCourse = async () => {
-    fetch(`${apiUrl}/course`, requestOptionsGet)
+    fetch(`${apiUrl}/courses`, requestOptionsGet)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
+          console.log(res.data)
           setCourse(res.data);
         } else {
           console.log("else");
         }
       });
-
   };
 
-  const getSubject= async () => {
-    fetch(`${apiUrl}/subject`, requestOptionsGet)
+  const getSubjects = async () => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/enrollsub`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-
-          setCourse(res.data);
-        } else {
-          console.log("else");
+          setSubjects(res.data);
+          console.log(res.data);
         }
       });
+  };
+
+
+  const getSubjectBySubjectID = async (subject_id: any) => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
     };
+    fetch(`${apiUrl}/subjects/${subject_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setSearchSubjectID(subject_id);
+          setSubjects(res.data);
+          //setCourse(res.data);
+        }
+      });
+  };
 
-    const getSubjectBySubjectID = async (subject_id: any) => {
-        const requestOptions = {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        };
-        fetch(`${apiUrl}/subject/${subject_id}`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
 
-                if (res.data) {
-                    setSearchSubjectID(subject_id);
-                    setSubject(res.data);
-                }
-            });
-    };
-
-  
   useEffect(() => {
     getCourse();
-    if (params.subject_id == undefined) {
-      getSubject()
-  }
 
-    else {
-      getSubjectBySubjectID(params.subject_id)
-  }
+    if (searchSubjectID == "") {
+      getSubjects();
+    } else {
+      getSubjectBySubjectID(searchSubjectID);
+    }
+    console.log(searchSubjectID);
   }, []);
+  // function createData(
+  //   Enroll_ID: string,
+  //   Subject_ID: string,
+  //   Course_ID: string,
+  //   Subject_TH_Name: string,
+  //   Subject_EN_Name: string,
+  //   Day: string,
+  //   Start_Time: string,
+  //   End_Time: string,
+  //   Exam_Schedule_ID: string,
+  //   Exam_Start_Time: string,
+  //   Exam_End_Time: string,
+  //   Section: number,
+  //   Unit: number,
+  // ) {
+  //   return { Enroll_ID, Start_Time, End_Time, Exam_Start_Time, Exam_End_Time, Subject_ID, Subject_TH_Name, Subject_EN_Name, Course_ID, Day, Exam_Schedule_ID, Section, Unit };
+  // }
+
 
   function submit() {
     let data = {
@@ -216,7 +273,7 @@ function CreateEnroll() {
     };
 
 
-    const apiUrl = "http://localhost:8080/users";
+    const apiUrl = "http://localhost:8080/enroll";
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -237,7 +294,7 @@ function CreateEnroll() {
 
   return (
 
-    <Container maxWidth="md" >
+    <Container maxWidth="lg" >
 
       <Snackbar
 
@@ -288,8 +345,8 @@ function CreateEnroll() {
               <p style={{ paddingLeft: 15, }}>กรุณาเลือกหลักสูตร</p>
               <Box
                 component="form"
-                sx={{ '& .MuiTextField-root': { m: 1, width: '45ch' }, marginTop: -2, }}>
-                <Select sx={{ml:1,mt : 2, width: '45ch'}}
+                sx={{ m: 1, width: '45ch' , marginTop: -2, }}>
+                <Select sx={{ ml: 1, mt: 2, width: '50ch' }}
                   id="Course_ID"
                   value={enroll.Course_ID}
                   label="เลือกหลักสูตร"
@@ -297,7 +354,7 @@ function CreateEnroll() {
                   inputProps={{
                     name: "Coures_ID",
                   }}
-                  
+
                 >
                   {course.map((item: Course) => (
                     <MenuItem
@@ -314,65 +371,120 @@ function CreateEnroll() {
 
           <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
             <Grid >
-              <p style={{ paddingLeft: 15, }}>กรอกรหัสวิชา</p>
+              <p style={{ paddingLeft: 17, }}>กรอกรหัสวิชา</p>
               <Box
                 component="form"
-                sx={{ '& .MuiTextField-root': { m: 1, width: '30ch' }, marginTop: -2, }}>
-                <TextField 
-                id="Search_subject" 
-                label="กรอกรหัสวิชา" 
-                variant="outlined" 
-                onChange={handleInputChange}
+                sx={{ '& .MuiTextField-root': { m: 1, width: '30ch' }, marginTop: -1, paddingLeft: 1,}}>
+                <TextField
+                  id="Search_subject"
+                  label="กรอกรหัสวิชา"
+                  variant="outlined"
+                  value={enroll.Subject_ID}
+                  onChange={handleInputChangeSearch}
                 />
               </Box>
             </Grid>
-            <Grid sx={{ marginTop: '55px', marginLeft: 1, }}>
-              <Button 
-              size="medium" 
-              variant="contained" 
-              onClick={sendSearchedSubjectID}
-              endIcon={<SearchIcon />}>ค้นหารายวิชา</Button>
+            <Grid sx={{ marginTop: '63px', marginLeft: 1, }}>
+              <Button
+                size="medium"
+                variant="contained"
+                onClick={sendSearchedSubjectID}
+                endIcon={<SearchIcon />}>ค้นหารายวิชา</Button>
+            </Grid>
+            <Grid sx={{ marginTop: '63px', marginLeft: 3, }}>
+              <Button sx={{width: '21ch'}} 
+                size="medium"
+                component={RouterLink} to="/"
+                variant="contained"
+                onClick={sendSearchedSubjectID}
+                endIcon={<FactCheckIcon />}>ผลการลงทะเบียน</Button>
             </Grid>
           </Grid>
 
           {/* -------------------------------------------------------------------------------------- */}
-          <Grid sx={{ marginTop: '20px', display: 'flex', marginLeft: 1 }}>
-            <div style={{ height: 300, width: '100%' }}>
-              
-            </div>
-          </Grid>
-          <Grid container sx={{ marginTop: '5px', marginLeft: 5, paddingBlockEnd: 5, }}>
-            <Grid >
-              <p style={{ paddingLeft: 15, }}>เลือกกลุ่มเรียน</p>
-              <Box
-                component="form"
-                sx={{ '& .MuiTextField-root': { m: 1, width: '30ch' }, marginTop: -2, }}>
-                <Select sx={{ml:1,mt : 2, width: '30ch'}}
-                  id="section"
-                  value={enroll.Subject_ID}
-                  label="เลือกกลุ่มเรียน"
-                  variant="outlined" 
-                  onChange={handleSelectChange}
-                  inputProps={{
-                    name: "section",
-                  }}
-                  >
-                  {subject.map((item: Subject) => (
-                    <MenuItem
-                      value={item.Subject_ID}
-                      key={item.Subject_ID}
+          <Grid sx={{ marginTop: '20px', display: 'flex', marginLeft: 1, paddingBlockEnd: 10 }}>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="left">รหัสวิชา</TableCell>
+                    <TableCell align="left">ชื่อวิชา</TableCell>
+                    <TableCell align="left">Subject name</TableCell>
+                    <TableCell align="left">วันเรียน</TableCell>
+                    <TableCell align="left">เริ่มเรียน</TableCell>
+                    <TableCell align="left">เลิกเรียน</TableCell>
+                    <TableCell align="left">วันสอบ</TableCell>
+                    <TableCell align="left">เริ่มสอบ</TableCell>
+                  <TableCell align="left">เลิกสอบ</TableCell>
+                    <TableCell align="left">หน่วยกิต</TableCell>
+                    <TableCell align="left">กลุ่ม</TableCell>
+                    <TableCell align="center">เลือก</TableCell>
+
+                  </TableRow>
+                </TableHead>
+
+                <TableBody>
+                  {(rowsPerPage > 0
+                    ? subjects.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage)
+                    : subjects
+                  ).map((row) => (
+                    <TableRow
+                      key={row.ID}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      {item.Section}
-                    </MenuItem>
+                      <TableCell align="left">{row.Subject_ID}</TableCell>
+                      <TableCell align="left">{row.Subject_TH_Name}</TableCell>
+                      <TableCell align="left">{row.Subject_EN_Name}</TableCell>
+                      <TableCell align="left">{row.Day}</TableCell>
+                    <TableCell align="left">{row.Start_Time}</TableCell>
+                    <TableCell align="left">{row.End_Time}</TableCell>
+                    <TableCell align="left">{row.Exam_Date}</TableCell>
+                    <TableCell align="left">{row.Exam_Start_Time}</TableCell>
+                    <TableCell align="left">{row.Exam_End_Time}</TableCell>
+                      <TableCell align="left">{row.Unit}</TableCell>
+                      <TableCell align="left">{row.Section}</TableCell>
+                      <TableCell align="center"><IconButton aria-label="delete">
+                        <CheckCircleIcon />
+                      </IconButton>
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </Select>
-              </Box>
-
-            </Grid>
-            <Grid sx={{ marginTop: '55px', marginLeft: 2, }}>
-              <Button size="medium" variant="contained" endIcon={<SaveIcon />}>บันทึกรายวิชา</Button>
-            </Grid>
-
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={1} />
+                    </TableRow>
+                  )}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                      rowsPerPageOptions={[
+                        5,
+                        10,
+                        15,
+                        20,
+                        25,
+                        { label: "All", value: -1 },
+                      ]}
+                      colSpan={subjects.length}
+                      count={subjects.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      SelectProps={{
+                        inputProps: {
+                          "aria-label": "rows per page",
+                        },
+                        native: true,
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                  </TableRow>
+                </TableFooter>
+              </Table>
+            </TableContainer>
           </Grid>
           {/* <Box
         component="form"

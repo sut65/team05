@@ -48,6 +48,11 @@ func main() {
 	r.GET("/exam_schedule/:subject_id", controller.GetExamSchedule)
 	r.GET("/class_schedule/:subject_id/:section", controller.GetClassBySubjectID_and_Section)
 
+	r.GET("/enrollsub", controller.ListEnrollSubject)
+	r.GET("/enroll", controller.ListEnroll)
+	r.GET("/enroll/enroll_id", controller.GetEnroll)
+	r.POST("/enroll", controller.CreateEnroll)
+
 	// Initiate route POST
 	r.POST("/subjects", controller.CreateSubject)
 

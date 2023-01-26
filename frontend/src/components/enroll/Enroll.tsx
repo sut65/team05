@@ -15,7 +15,7 @@ import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
 //import { StudentInterface } from "../models/studentInterface";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Grid, Paper } from "@mui/material";
+import { Grid, Paper, SelectChangeEvent, TableFooter, TablePagination } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -26,7 +26,7 @@ import TableRow from '@mui/material/TableRow';
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-function Users() {
+function ListEnroll() {
 
   const [enroll, setEnroll] = React.useState<EnrollInterface[]>([]);
   const [page, setPage] = React.useState(0);
@@ -51,6 +51,21 @@ function Users() {
         }
       });
   };
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+
 
   const deleteEnroll = async (enroll_id: string) => {
     console.log("good");
@@ -72,31 +87,12 @@ function Users() {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - enroll.length) : 0;
 
-  function createData(
-    Enroll_ID: string,
-    Subject_ID: string,
-    Course_ID: string,
-    Subject_TH_Name: string,
-    Subject_EN_Name: string,
-    Day: string,
-    Start_Time: string,
-    End_Time: string,
-    Exam_Schedule_ID: string,
-    Exam_Start_Time: string,
-    Exam_End_Time: string,
-    Section: number,
-    Unit: number,
-  ) {
-    return { Enroll_ID, Start_Time, End_Time, Exam_Start_Time, Exam_End_Time, Subject_ID, Subject_TH_Name, Subject_EN_Name, Course_ID, Day, Exam_Schedule_ID, Section, Unit };
-  }
+ 
   useEffect(() => {
     getEnroll();
 
   }, []);
-  // const rows = [
-  //   createData('EN01','523332', 'วิศวกรรมซอฟต์แวร์', 'SoftwareEngineering','', 'วันจันทร์ 13:00-15:00', 'MID-1805-1300-1500', 4, 1),
-  //   createData('EN02','523332', 'วิศวกรรมซอฟต์แวร์', 'SoftwareEngineering','','วันจันทร์ 13:00-15:00', 'MID-1805-1300-1500', 4, 1),
-  // ];
+ 
 
   return (
 
@@ -215,6 +211,32 @@ function Users() {
               </TableBody>
             </Table>
           </TableContainer>
+          <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                      rowsPerPageOptions={[
+                        5,
+                        10,
+                        15,
+                        20,
+                        25,
+                        { label: "All", value: -1 },
+                      ]}
+                      colSpan={enroll.length}
+                      count={enroll.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      SelectProps={{
+                        inputProps: {
+                          "aria-label": "rows per page",
+                        },
+                        native: true,
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                  </TableRow>
+                </TableFooter>
 
         </Grid>
       </Container>
@@ -226,4 +248,4 @@ function Users() {
 }
 
 
-export default Users;
+export default ListEnroll;

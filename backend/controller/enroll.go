@@ -34,7 +34,7 @@ func CreateEnroll(c *gin.Context) {
 	var subject entity.Subject
 	var class_schedule entity.Class_Schedule
 	var exam_schedule entity.Exam_Schedule
-	var student entity.Student
+	//var student entity.Student
 	//var room entity.room
 
 	if err := c.ShouldBindJSON(&enroll); err != nil {
@@ -57,17 +57,17 @@ func CreateEnroll(c *gin.Context) {
 		return
 	}
 
-	if tx := entity.DB().Where("student_id = ?", enroll.Student_ID).First(&student); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
-		return
-	}
+	// if tx := entity.DB().Where("student_id = ?", enroll.Student_ID).First(&student); tx.RowsAffected == 0 {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
+	// 	return
+	// }
 
 	new_enroll := entity.Enroll{
 		Enroll_ID:      enroll.Enroll_ID,
-		Subject:        subject,
-		Class_Schedule: class_schedule,
-		Exam_Schedule:  exam_schedule,
-		Student:        student,
+		Subject_ID:     &subject.Subject_ID,
+		Exam_Schedule_ID:  &exam_schedule.Exam_Schedule_ID,
+		Class_Schedule_ID: &class_schedule.Class_Schedule_ID,
+		//Student:        student,
 		Section:        enroll.Section,
 	}
 
@@ -86,30 +86,10 @@ func ListEnroll(c *gin.Context) {
 		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	*/
 
 	//var enroll []entity.Enroll
+
+	//SELECT e.*, c.* ,cs.* FROM `enrolls` e JOIN `subjects` c  JOIN `class_schedules` cs ON e.subject_id = c.subject_id  AND  e.section = c.section AND e.subject_id = cs.subject_id
 	var extendedEnroll []extendedEnroll
-
-	// ======================== Normal select ========================
-	// SELECT e.*,  sen.subject_en_name,sth.subject_th_name, p.day ,st.start_time ,edt.end_time ,ex.exam_date,est.exam_start_time,een.exam_end_time ,un.unit
-	// FROM `enrolls` e
-	// JOIN `subjects` sen
-	// JOIN `subjects` sth
-	// JOIN `class_schedules` st
-	// JOIN `class_schedules` edt
-	// JOIN `class_schedules` p
-	// JOIN `exam_schedules` ex
-	// JOIN `exam_schedules` est
-	// JOIN `exam_schedules` een
-	// JOIN `subjects` un
-	// ON e.subject_id = sen.subject_id AND e.class_schedule_id = p.class_schedule_id AND e.subject_id = sth.subject_id AND e.class_schedule_id = st.class_schedule_id
-	// AND e.class_schedule_id = edt.class_schedule_id AND e.exam_schedule_id = ex.exam_schedule_id AND e.exam_schedule_id = est.exam_schedule_id AND e.exam_schedule_id = een.exam_schedule_id
-	// AND e.subject_id = un.subject_id;
-
-	// 	SELECT e.*, c.* ,cs.* FROM `enrolls` e JOIN `subjects` c  JOIN `class_schedules` cs
-	// -- JOIN `exam_schedules` ex
-	// -- LEFT JOIN `class_schedules` cs
-	// ON e.subject_id = c.subject_id  AND  e.section = c.section AND e.subject_id = cs.subject_id; -- AND e.exam_schedule_id = ex.exam_schedule_id
-
-	query := entity.DB().Raw("SELECT e.*, c.* ,cs.* FROM `enrolls` e JOIN `subjects` c  JOIN `class_schedules` cs ON e.subject_id = c.subject_id  AND  e.section = c.section AND e.subject_id = cs.subject_id").Scan(&extendedEnroll)
+	query := entity.DB().Raw("SELECT e.*, c.* ,d.day,st.start_time,en.end_time FROM `enrolls` e JOIN `subjects` c JOIN `class_schedules` cs JOIN `class_schedules` d JOIN `class_schedules` st JOIN `class_schedules` en ON e.subject_id = c.subject_id AND  e.section = c.section AND e.subject_id = cs.subject_id AND e.subject_id = d.subject_id AND e.subject_id = st.subject_id AND e.subject_id = en.subject_id").Scan(&extendedEnroll)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -135,19 +115,7 @@ func GetEnroll(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": enroll})
 }
 
-func GetPreviousEnroll(c *gin.Context) {
-	/*	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		Function for getting last record from `subject` table.
-		HTTP GET : /last_subject
-		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	*/
 
-	var enroll entity.Enroll
-	if tx := entity.DB().Last(&enroll); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "enroll with this section not found"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": enroll})
-}
 
 // PATCH /subjects
 func UpdateEnroll(c *gin.Context) {
@@ -187,4 +155,14 @@ func DeleteEnroll(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": enroll_id})
+}
+
+func GetPreviousREnroll(c *gin.Context) {
+	var enroll entity.Enroll
+	if err := entity.DB().Last(&enroll).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": enroll})
 }

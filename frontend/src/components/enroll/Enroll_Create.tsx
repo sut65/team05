@@ -215,13 +215,27 @@ function CreateEnroll() {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/subjects/${subject_id}`, requestOptions)
+    fetch(`${apiUrl}/sublject/${subject_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
           setSearchSubjectID(subject_id);
           setSubjects(res.data);
-          //setCourse(res.data);
+          setCourse(res.data);
+        }
+      });
+  };
+
+  const getPrevEnroll = async () => {
+    fetch(`${apiUrl}/previousenroll`, requestOptionsGet)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          enroll.Enroll_ID = res.data.Enroll_ID + 1;
+        }
+        else {
+          enroll.Enroll_ID = res.data = "1";
+          //console.log("else");
         }
       });
   };
@@ -229,7 +243,7 @@ function CreateEnroll() {
 
   useEffect(() => {
     getCourse();
-
+    getPrevEnroll();
     if (searchSubjectID == "") {
       getSubjects();
     } else {
@@ -245,7 +259,8 @@ function CreateEnroll() {
       Subject_ID: enroll.Subject_ID ?? "",
       Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
       Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
-      Section: typeof enroll.Section === "string" ? parseInt(enroll.Section) : enroll.Section,
+      Section: enroll.Section
+      //Section: typeof enroll.Section === "string" ? parseInt(enroll.Section) : enroll.Section,
     };
 
     console.log(data)

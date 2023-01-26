@@ -15,13 +15,12 @@ type extendedSubject struct {
 }
 
 type extendedEnrollSubject struct {
+	Subject_ID string
+	Section uint
 	entity.Subject
-	Day	string
-	Start_Time string
-	End_Time string
-	Exam_Date string
-	Exam_Start_Time string
-	Exam_End_Time string
+	entity.Exam_Schedule
+	entity.Class_Schedule
+
 }
 // POST /subjects
 func CreateSubject(c *gin.Context) {

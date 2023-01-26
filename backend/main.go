@@ -102,7 +102,7 @@ func main() {
 	// r.PATCH("/roominforms", controller.UpdateRoominform)
 	// r.DELETE("/roominforms/:id", controller.DeleteRoominform)
 
-	// Request
+// Request
 	r.GET("/requests", controller.ListRequest)
 	r.GET("/request/:request_id", controller.GetRequest)
 	r.GET("/previous_request", controller.GetPreviousRequest)

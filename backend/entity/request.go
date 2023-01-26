@@ -19,9 +19,9 @@ type Request struct {
 
 	Subject_ID *string
 	Subject    Subject `gorm:"references:Subject_ID"`
-	Section uint
-	
-	Reason string
+	Section    uint
+
+	Reason          string
 	Request_Type_ID *string
 	Request_Type    Request_Type `gorm:"references:Request_Type_ID"`
 }

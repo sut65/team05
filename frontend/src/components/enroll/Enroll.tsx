@@ -32,6 +32,8 @@ function Users() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   //const [subject, setSubject] = React.useState<SubjectInterface[]>([]);
+  
+  const apiUrl = "http://localhost:8080";
   const getEnroll = async () => {
     const apiUrl = "http://localhost:8080/enroll";
     const requestOptions = {
@@ -46,6 +48,24 @@ function Users() {
         console.log(res.data);
         if (res.data) {
           setEnroll(res.data);
+        }
+      });
+  };
+
+  const deleteEnroll = async (enroll_id: string) => {
+    console.log("good");
+    const requestOptions = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/deleEnroll/${enroll_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          console.log("Data remove");
+          window.location.href = "/";
+        } else {
+          console.log("Something was wrong!!");
         }
       });
   };
@@ -138,7 +158,7 @@ function Users() {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">เลขที่รายการ</TableCell>
+                
                   <TableCell align="left">รหัสวิชา</TableCell>
                   <TableCell align="left">ชื่อวิชา</TableCell>
                   <TableCell align="left">Subject name</TableCell>
@@ -157,15 +177,16 @@ function Users() {
 
               <TableBody>
                 {(rowsPerPage > 0
-                  ? enroll.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  : enroll
+                  ? enroll.slice(page * rowsPerPage, 
+                    page * rowsPerPage + rowsPerPage
+                    ): enroll
 
                 ).map((row) => (
                   <TableRow
                     key={row.Enroll_ID}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell align="left">{row.Enroll_ID}</TableCell>
+                    
                     <TableCell align="left">{row.Subject_ID}</TableCell>
                     <TableCell align="left">{row.Subject_TH_Name}</TableCell>
                     <TableCell align="left">{row.Subject_EN_Name}</TableCell>
@@ -177,7 +198,11 @@ function Users() {
                     <TableCell align="left">{row.Exam_End_Time}</TableCell> */}
                     <TableCell align="left">{row.Unit}</TableCell>
                     <TableCell align="left">{row.Section}</TableCell>
-                    <TableCell align="center"><IconButton aria-label="delete">
+                    <TableCell align="center">
+                      <IconButton
+                       aria-label="delete"
+                       onClick={() => deleteEnroll(row.Enroll_ID)}
+                      >
                       <DeleteIcon />
                     </IconButton>
                     </TableCell>

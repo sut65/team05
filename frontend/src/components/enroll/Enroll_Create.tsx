@@ -153,7 +153,7 @@ function CreateEnroll() {
   };
 
   // Declaring a HTTP request for requesting GET method
-  
+
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -176,7 +176,7 @@ function CreateEnroll() {
   const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
     method: "GET",
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
   };
 
   // Fetch income type from API 
@@ -201,6 +201,7 @@ function CreateEnroll() {
     fetch(`${apiUrl}/enrollsub`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
+        console.log(res);
         if (res.data) {
           setSubjects(res.data);
           console.log(res.data);
@@ -236,43 +237,18 @@ function CreateEnroll() {
     }
     console.log(searchSubjectID);
   }, []);
-  // function createData(
-  //   Enroll_ID: string,
-  //   Subject_ID: string,
-  //   Course_ID: string,
-  //   Subject_TH_Name: string,
-  //   Subject_EN_Name: string,
-  //   Day: string,
-  //   Start_Time: string,
-  //   End_Time: string,
-  //   Exam_Schedule_ID: string,
-  //   Exam_Start_Time: string,
-  //   Exam_End_Time: string,
-  //   Section: number,
-  //   Unit: number,
-  // ) {
-  //   return { Enroll_ID, Start_Time, End_Time, Exam_Start_Time, Exam_End_Time, Subject_ID, Subject_TH_Name, Subject_EN_Name, Course_ID, Day, Exam_Schedule_ID, Section, Unit };
-  // }
-
 
   function submit() {
     let data = {
-      id: enroll.Enroll_ID ?? "",
-      course_ID: typeof enroll.Course_ID === "string" ? parseInt(enroll.Course_ID) : enroll.Course_ID,
-      jubject_name_th: typeof enroll.Subject_TH_Name === "string" ? parseInt(enroll.Subject_TH_Name) : enroll.Subject_TH_Name,
-      subject_name_eng: typeof enroll.Subject_EN_Name === "string" ? parseInt(enroll.Subject_EN_Name) : enroll.Subject_EN_Name,
-      unit: typeof enroll.Unit === "string" ? parseInt(enroll.Unit) : enroll.Unit,
-      Day: enroll.Day,
-      Start_Time: enroll.Start_Time,
-      End_Time: enroll.End_Time,
-      Room_Number: enroll.Room_Number,
-      Exam_Schedule_ID: enroll.Exam_Schedule_ID,
-      Section: enroll.Section,
-      // Age: typeof enroll.Age === "string" ? parseInt(user.Age) : 0,
-      BirthDay: date,
+      Enroll_ID: enroll.Enroll_ID ?? "",
+      // Student_ID:
+      Subject_ID: enroll.Subject_ID ?? "",
+      Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
+      Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
+      Section: typeof enroll.Section === "string" ? parseInt(enroll.Section) : enroll.Section,
     };
 
-
+    console.log(data)
     const apiUrl = "http://localhost:8080/enroll";
     const requestOptions = {
       method: "POST",
@@ -280,10 +256,10 @@ function CreateEnroll() {
       body: JSON.stringify(data),
     };
 
-
     fetch(apiUrl, requestOptions)
       .then((response) => response.json())
       .then((res) => {
+        console.log(res);
         if (res.data) {
           setSuccess(true);
         } else {
@@ -345,7 +321,7 @@ function CreateEnroll() {
               <p style={{ paddingLeft: 15, }}>กรุณาเลือกหลักสูตร</p>
               <Box
                 component="form"
-                sx={{ m: 1, width: '45ch' , marginTop: -2, }}>
+                sx={{ m: 1, width: '45ch', marginTop: -2, }}>
                 <Select sx={{ ml: 1, mt: 2, width: '50ch' }}
                   id="Course_ID"
                   value={enroll.Course_ID}
@@ -374,9 +350,9 @@ function CreateEnroll() {
               <p style={{ paddingLeft: 17, }}>กรอกรหัสวิชา</p>
               <Box
                 component="form"
-                sx={{ '& .MuiTextField-root': { m: 1, width: '30ch' }, marginTop: -1, paddingLeft: 1,}}>
+                sx={{ '& .MuiTextField-root': { m: 1, width: '30ch' }, marginTop: -1, paddingLeft: 1, }}>
                 <TextField
-                  id="Search_subject"
+                  id="Subject_ID"
                   label="กรอกรหัสวิชา"
                   variant="outlined"
                   value={enroll.Subject_ID}
@@ -392,7 +368,7 @@ function CreateEnroll() {
                 endIcon={<SearchIcon />}>ค้นหารายวิชา</Button>
             </Grid>
             <Grid sx={{ marginTop: '63px', marginLeft: 3, }}>
-              <Button sx={{width: '21ch'}} 
+              <Button sx={{ width: '21ch' }}
                 size="medium"
                 component={RouterLink} to="/"
                 variant="contained"
@@ -415,7 +391,7 @@ function CreateEnroll() {
                     <TableCell align="left">เลิกเรียน</TableCell>
                     <TableCell align="left">วันสอบ</TableCell>
                     <TableCell align="left">เริ่มสอบ</TableCell>
-                  <TableCell align="left">เลิกสอบ</TableCell>
+                    <TableCell align="left">เลิกสอบ</TableCell>
                     <TableCell align="left">หน่วยกิต</TableCell>
                     <TableCell align="left">กลุ่ม</TableCell>
                     <TableCell align="center">เลือก</TableCell>
@@ -438,16 +414,29 @@ function CreateEnroll() {
                       <TableCell align="left">{row.Subject_TH_Name}</TableCell>
                       <TableCell align="left">{row.Subject_EN_Name}</TableCell>
                       <TableCell align="left">{row.Day}</TableCell>
-                    <TableCell align="left">{row.Start_Time}</TableCell>
-                    <TableCell align="left">{row.End_Time}</TableCell>
-                    <TableCell align="left">{row.Exam_Date}</TableCell>
-                    <TableCell align="left">{row.Exam_Start_Time}</TableCell>
-                    <TableCell align="left">{row.Exam_End_Time}</TableCell>
+                      <TableCell align="left">{row.Start_Time}</TableCell>
+                      <TableCell align="left">{row.End_Time}</TableCell>
+                      <TableCell align="left">{row.Exam_Date}</TableCell>
+                      <TableCell align="left">{row.Exam_Start_Time}</TableCell>
+                      <TableCell align="left">{row.Exam_End_Time}</TableCell>
                       <TableCell align="left">{row.Unit}</TableCell>
                       <TableCell align="left">{row.Section}</TableCell>
-                      <TableCell align="center"><IconButton aria-label="delete">
-                        <CheckCircleIcon />
-                      </IconButton>
+                      <TableCell align="center">
+                        <IconButton
+                            // id="Subject_ID"
+                            onClick={() => {
+                            enroll.Subject_ID = row.Subject_ID;
+                            enroll.Exam_Schedule_ID = row.Exam_Schedule_ID;
+                            enroll.Class_Schedule_ID = row.Class_Schedule_ID;
+                            enroll.Section = row.Section;
+                            console.log(enroll.Subject_ID);
+                            console.log(enroll.Section);
+                            console.log(enroll.Exam_Schedule_ID);
+                            console.log(enroll.Class_Schedule_ID);
+                            submit();
+                          }}>
+                          <CheckCircleIcon />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   ))}

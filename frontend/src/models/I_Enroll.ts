@@ -4,6 +4,9 @@ export interface EnrollInterface {
 
     Enroll_ID: string,
 
+    Coruse_Name: string,
+    coruse: Course;
+
     Subject_ID: string,
     subject_id: Subject;
 
@@ -26,6 +29,8 @@ export interface EnrollInterface {
     End_Time: string;
    
     Exam_Schedule_ID: string;
+
+    Class_Schedule_ID: string;
 
     Section: number;
 

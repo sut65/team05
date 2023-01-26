@@ -52,6 +52,7 @@ func main() {
 	r.GET("/enroll", controller.ListEnroll)
 	r.GET("/enroll/enroll_id", controller.GetEnroll)
 	r.POST("/enroll", controller.CreateEnroll)
+	r.DELETE("/deleEnroll/:enroll_id", controller.DeleteEnroll)
 
 	// Initiate route POST
 	r.POST("/subjects", controller.CreateSubject)

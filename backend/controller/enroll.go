@@ -8,6 +8,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type extendedEnroll struct {
+	entity.Enroll
+	Subject_ID      string
+	Course_Name     string
+	Subject_TH_Name string
+	Subject_EN_Name string
+	Day             string
+	Start_Time      string
+	End_Time        string
+	Exam_Date       string
+	Unit            string
+	Exam_Start_Time string
+	Exam_End_Time   string
+}
+
 func CreateEnroll(c *gin.Context) {
 	/*	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		Function for inserting new record of `subject` table
@@ -17,10 +32,8 @@ func CreateEnroll(c *gin.Context) {
 	//var student entit.Student
 	var enroll entity.Enroll
 	var subject entity.Subject
-
 	var class_schedule entity.Class_Schedule
 	var exam_schedule entity.Exam_Schedule
-
 	var student entity.Student
 	//var room entity.room
 
@@ -72,14 +85,37 @@ func ListEnroll(c *gin.Context) {
 		HTTP GET : /subjects
 		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	*/
 
-	var enroll []entity.Enroll
+	//var enroll []entity.Enroll
+	var extendedEnroll []extendedEnroll
 
 	// ======================== Normal select ========================
-	if err := entity.DB().Raw("SELECT * FROM enrolls").Scan(&enroll).Error; err != nil {
+	// SELECT e.*,  sen.subject_en_name,sth.subject_th_name, p.day ,st.start_time ,edt.end_time ,ex.exam_date,est.exam_start_time,een.exam_end_time ,un.unit
+	// FROM `enrolls` e
+	// JOIN `subjects` sen
+	// JOIN `subjects` sth
+	// JOIN `class_schedules` st
+	// JOIN `class_schedules` edt
+	// JOIN `class_schedules` p
+	// JOIN `exam_schedules` ex
+	// JOIN `exam_schedules` est
+	// JOIN `exam_schedules` een
+	// JOIN `subjects` un
+	// ON e.subject_id = sen.subject_id AND e.class_schedule_id = p.class_schedule_id AND e.subject_id = sth.subject_id AND e.class_schedule_id = st.class_schedule_id
+	// AND e.class_schedule_id = edt.class_schedule_id AND e.exam_schedule_id = ex.exam_schedule_id AND e.exam_schedule_id = est.exam_schedule_id AND e.exam_schedule_id = een.exam_schedule_id
+	// AND e.subject_id = un.subject_id;
+
+	// 	SELECT e.*, c.* ,cs.* FROM `enrolls` e JOIN `subjects` c  JOIN `class_schedules` cs
+	// -- JOIN `exam_schedules` ex
+	// -- LEFT JOIN `class_schedules` cs
+	// ON e.subject_id = c.subject_id  AND  e.section = c.section AND e.subject_id = cs.subject_id; -- AND e.exam_schedule_id = ex.exam_schedule_id
+
+	query := entity.DB().Raw("SELECT e.*, c.* ,cs.* FROM `enrolls` e JOIN `subjects` c  JOIN `class_schedules` cs ON e.subject_id = c.subject_id  AND  e.section = c.section AND e.subject_id = cs.subject_id").Scan(&extendedEnroll)
+	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": enroll})
+
+	c.JSON(http.StatusOK, gin.H{"data": extendedEnroll})
 
 }
 

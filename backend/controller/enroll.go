@@ -177,16 +177,12 @@ func UpdateEnroll(c *gin.Context) {
 
 // DELETE /subject/:subject_id/:section
 func DeleteEnroll(c *gin.Context) {
-	/*	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		Function for deleting record from `subject` table filtered by `subject_id` and `section`.
-		HTTP DELETE : /subject/:subject_id/:section
-		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	*/
 
 	enroll_id := c.Param("enroll_id")
-	student := c.Param("student_id")
+	//student := c.Param("student_id")
 
-	if tx := entity.DB().Exec("DELETE FROM enroll WHERE enroll_id = ? AND student = ?", enroll_id, student); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "watchvideo not found"})
+	if tx := entity.DB().Exec("DELETE FROM enrolls WHERE enroll_id = ? ", enroll_id); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "enroll not found"})
 		return
 	}
 

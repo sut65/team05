@@ -46,6 +46,8 @@ export interface Subject{
     Unit:   number;
     Section:    number;
 
+    Exam_Schedule_ID: string;
+    Class_Schedule_ID: string;
     Day:	string,
 	Start_Time: string,
 	End_Time: string,

@@ -13,6 +13,9 @@ import Class_Schedule_Create from "./components/class_and_exam_schedule/Class_Sc
 import Exam_Schedule_Create from "./components/class_and_exam_schedule/Exam_Schedule_Create";
 import Class_Schedule_Update from "./components/class_and_exam_schedule/Class_Schedule_Update";
 import Exam_Schedule_Update from "./components/class_and_exam_schedule/Exam_Schedule_Update";
+import Users from "./components/request/Request";
+import UserCreate from "./components/request/RequestCreate";
+import UserUpdate from "./components/request/RequestUpdate";
 
 export default function App() {
   return (
@@ -20,29 +23,51 @@ export default function App() {
       <div>
         <Subject_Management_Navbar />
         <Routes>
-
           {/* //* List class schedules and exam schedules components */}
           <Route path="/" element={<ScheduleList />} />
           <Route path="/class_schedule" element={<ScheduleList />} />
           <Route path="/exam_schedule" element={<ScheduleList />} />
 
           {/* //* Class Schedule and Exam Schedule information components  */}
-          <Route path="/class_schedule/:subject_id/:section" element={<Class_Schedule_Info />} />
-          <Route path="/exam_schedule/:subject_id/:exam_type" element={<Exam_Schedule_Info />} />
+          <Route
+            path="/class_schedule/:subject_id/:section"
+            element={<Class_Schedule_Info />}
+          />
+          <Route
+            path="/exam_schedule/:subject_id/:exam_type"
+            element={<Exam_Schedule_Info />}
+          />
 
           {/* //* Class Schedule Update component */}
           {/* //* Exam Schedule Update component */}
 
           {/* //* Class Schedule Create component */}
-          <Route path="/class_schedule/create" element={<Class_Schedule_Create />} />
+          <Route
+            path="/class_schedule/create"
+            element={<Class_Schedule_Create />}
+          />
           {/* //* Exam Schedule Create component */}
-          <Route path="/exam_schedule/create" element={<Exam_Schedule_Create />} />
+          <Route
+            path="/exam_schedule/create"
+            element={<Exam_Schedule_Create />}
+          />
 
           {/* //* Class Schedule Update component */}
-          <Route path="/class_schedule/:subject_id/:section/update" element={<Class_Schedule_Update />} />
+          <Route
+            path="/class_schedule/:subject_id/:section/update"
+            element={<Class_Schedule_Update />}
+          />
           {/* //* Exam Schedule Update component */}
-          <Route path="/exam_schedule/:subject_id/:exam_type/update" element={<Exam_Schedule_Update />} />
+          <Route
+            path="/exam_schedule/:subject_id/:exam_type/update"
+            element={<Exam_Schedule_Update />}
+          />
 
+          <Route path="/" element={<Users />} />
+
+          <Route path="/create" element={<UserCreate />} />
+
+          <Route path="/update" element={<UserUpdate />} />
         </Routes>
 
         <Subject_Management_Footer />

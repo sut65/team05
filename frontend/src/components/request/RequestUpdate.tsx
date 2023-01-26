@@ -48,7 +48,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function RequestCreate() {
+function RequestUpdate() {
   const [date, setDate] = React.useState<Date | null>(null);
   const [request, setRequest] = React.useState<Partial<RequestInterface>>({});
   const [request_type, setRequest_Type] = React.useState<
@@ -83,7 +83,7 @@ function RequestCreate() {
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
-    const id = event.target.id as keyof typeof RequestCreate;
+    const id = event.target.id as keyof typeof RequestUpdate;
     const { value } = event.target;
     setRequest({ ...request, [id]: value });
     console.log(event.target.value);
@@ -92,7 +92,7 @@ function RequestCreate() {
   const handleInputChangeSearch = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
-    const id = event.target.id as keyof typeof RequestCreate;
+    const id = event.target.id as keyof typeof RequestUpdate;
     setSearchSubjectID(event.target.value);
   };
 
@@ -154,7 +154,17 @@ function RequestCreate() {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   };
-
+  const getCurrentRequest = async () => {
+    fetch(`${apiUrl}/requests/${params.request_id}`, requestOptionsGet)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setRequest(res.data);
+        } else {
+          console.log("else");
+        }
+      });
+  };
   //----------subject----
 
   const getSubjects = async () => {
@@ -201,23 +211,24 @@ function RequestCreate() {
   };
 
   // fetch previous ActivityMember
-  const getPrevRequest = async () => {
-    fetch(`${apiUrl}/previous_request`, requestOptionsGet)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          request.Request_ID = res.data.Request_ID + 1;
-        }
-        // else {
-        //   request.Request_ID = res.data = 401;
-        //   //console.log("else");
-        // }
-      });
-  };
+  // const getPrevRequestUpdate = async () => {
+  //   fetch(`${apiUrl}/previous_request`, requestOptionsGet)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         request.Request_ID = res.data.Request_ID + 1;
+  //       }
+  //       // else {
+  //       //   request.Request_ID = res.data = 401;
+  //       //   //console.log("else");
+  //       // }
+  //     });
+  // };
 
   useEffect(() => {
     getRequest_Type();
-    getPrevRequest();
+    // getPrevRequestUpdate();
+    getCurrentRequest();
 
     if (searchSubjectID == "") {
       getSubjects();
@@ -227,7 +238,7 @@ function RequestCreate() {
     console.log(searchSubjectID);
   }, []);
 
-  function submit() {
+  function submitUpdate() {
     let data = {
       Request_ID:
         typeof request.Request_ID === "string"
@@ -249,10 +260,11 @@ function RequestCreate() {
 
     // const apiUrl = "http://localhost:8080/requests";
     const requestOptions = {
-      method: "POST",
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
+    console.log(JSON.stringify(data));
 
     fetch(`${apiUrl}/requests`, requestOptions)
       .then((response) => response.json())
@@ -313,6 +325,10 @@ function RequestCreate() {
               >
                 ยื่นคำร้องออนไลน์
               </Typography>
+              <Typography sx={{ fontFamily: "Mitr-Regular" }}>
+                {" "}
+                แก้ไขข้อมูลรายวิชา{" "}
+              </Typography>
             </Box>
             {/* <TextField
               label="รหัสนักศึกษา"
@@ -324,6 +340,7 @@ function RequestCreate() {
               onChange={handleInputChange}
             /> */}
             <TextField
+              label="รหัสอาจารย์"
               id="Professor_ID"
               variant="outlined"
               type="string"
@@ -332,7 +349,8 @@ function RequestCreate() {
               sx={{ marginLeft: "550px" }}
             />
             <TextField
-              disabled
+              // disabled
+              label="ลำดับที่"
               id="Request_ID"
               variant="outlined"
               type="number"
@@ -552,7 +570,7 @@ function RequestCreate() {
 
               <Button
                 style={{ float: "right" }}
-                onClick={submit}
+                onClick={submitUpdate}
                 variant="contained"
                 color="primary"
               >
@@ -566,4 +584,4 @@ function RequestCreate() {
   );
 }
 
-export default RequestCreate;
+export default RequestUpdate;

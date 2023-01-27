@@ -133,6 +133,20 @@ func main() {
 	r.GET("/major/:major_id", controller.GetMajor)
 	r.POST("majors", controller.CreateMajor)
 	r.DELETE("/majors/:major_id", controller.DeleteMajor)
+	
+	// Approval
+	r.GET("/approvals", controller.ListApproval)
+	r.GET("/approval/:approval_id", controller.GetApproval)
+	r.GET("/previous_approval", controller.GetPreviousApproval)
+	r.POST("/approvals", controller.CreateApproval)
+	r.PATCH("/approvals", controller.UpdateApproval)
+	r.DELETE("/approval/:approval_id", controller.DeleteApproval)
+	
+
+	// Approval_Type
+	r.GET("/approval_types", controller.ListApproval_Type)
+	r.GET("/approval_type/:request_type_id", controller.GetApproval_Type)
+	r.POST("/approval_types", controller.CreateApproval_Type)
 	// Run the server
 	r.Run()
 

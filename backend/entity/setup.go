@@ -124,29 +124,51 @@ func SetupDatabase() {
 	db.Create(&cpe)
 	db.Create(&ee)
 
+	//Qualification
+	qualification1 := Qualification{
+		Qualification_ID:   "QT01",
+		Qualification_Name: "Bachelor's degree",
+	}
+	db.Model(&Qualification{}).Create(&qualification1)
+
+	qualification2 := Qualification{
+		Qualification_ID:   "QT02",
+		Qualification_Name: "master's degree",
+	}
+	db.Model(&Qualification{}).Create(&qualification2)
+
+	qualification3 := Qualification{
+		Qualification_ID:   "QT03",
+		Qualification_Name: "Ph.D.",
+	}
+	db.Model(&Qualification{}).Create(&qualification3)
+
 	////---------------------------------------------------------------
 	cpe2560 := Course{
-		Course_ID:   "CPE2560",
-		Course_Name: "หลักสูตรวิศวกรรมคอมพิวเตอร์ 2560",
-		Datetime:    time.Now(),
-		Admin:       admin1,
-		Major:       cpe,
+		Course_ID:     "CPE2560",
+		Course_Name:   "หลักสูตรวิศวกรรมคอมพิวเตอร์ 2560",
+		Datetime:      time.Now(),
+		Qualification: qualification1,
+		Admin:         admin1,
+		Major:         cpe,
 	}
 
 	cpe2564 := Course{
-		Course_ID:   "CPE2564",
-		Course_Name: "หลักสูตรวิศวกรรมคอมพิวเตอร์ 2564",
-		Datetime:    time.Now(),
-		Admin:       admin1,
-		Major:       cpe,
+		Course_ID:     "CPE2564",
+		Course_Name:   "หลักสูตรวิศวกรรมคอมพิวเตอร์ 2564",
+		Datetime:      time.Now(),
+		Qualification: qualification2,
+		Admin:         admin1,
+		Major:         cpe,
 	}
 
 	ee2560 := Course{
-		Course_ID:   "EE2560",
-		Course_Name: "หลักสูตรวิศวกรรมไฟฟ้า 2560",
-		Datetime:    time.Now(),
-		Admin:       admin1,
-		Major:       ee,
+		Course_ID:     "EE2560",
+		Course_Name:   "หลักสูตรวิศวกรรมไฟฟ้า 2560",
+		Datetime:      time.Now(),
+		Qualification: qualification3,
+		Admin:         admin1,
+		Major:         ee,
 	}
 	db.Create(&cpe2560)
 	db.Create(&cpe2564)
@@ -529,27 +551,27 @@ func SetupDatabase() {
 	db.Create(&Request_Type2)
 
 	///------------------------Request------------------------
-		Request1 := Request{
-		Request_ID:       1,
-		Reason:           "อยากเรียน",
+	Request1 := Request{
+		Request_ID: 1,
+		Reason:     "อยากเรียน",
 		// Student:       student1,
-		Professor:        professor1,
-		Section: 		2,
-		Subject:       operating_system_sec2,
-		Request_Type:  Request_Type1,
+		Professor:    professor1,
+		Section:      2,
+		Subject:      operating_system_sec2,
+		Request_Type: Request_Type1,
 	}
 	db.Create(&Request1)
-  
+
 	Request2 := Request{
-		Request_ID:       2,
-		Reason:           "เวลาเรียนชน",
+		Request_ID: 2,
+		Reason:     "เวลาเรียนชน",
 		// Student:       student1,
-		Professor:        professor1,
-		Section: 		1,
-		Subject:       problem_solving_sec1,
-		Request_Type:  Request_Type2,
+		Professor:    professor1,
+		Section:      1,
+		Subject:      problem_solving_sec1,
+		Request_Type: Request_Type2,
 	}
-	db.Create(&Request2) 
+	db.Create(&Request2)
 
 	enroll1 := Enroll{
 		Enroll_ID: "E001",

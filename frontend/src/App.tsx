@@ -31,7 +31,7 @@ export default function App() {
     <Router>
       <div>
         <Subject_Management_Navbar />
-        <Routes>
+         <Routes>
           {/* //* List class schedules and exam schedules components */}
           <Route path="/" element={<ScheduleList />} />
           <Route path="/class_schedule" element={<ScheduleList />} />
@@ -82,6 +82,9 @@ export default function App() {
             path="/course-handle-update/:course_id"
             element={<Course_Update />}
           />
+
+
+          
 
           <Route path="/" element={<Users />} />
 

@@ -63,26 +63,26 @@ func main() {
 	r.DELETE("/subject/:subject_id/:section", controller.DeleteSubject)
 
 	// // Admin Routes
-	// r.GET("/admins", controller.ListAdmins)
-	// r.GET("/admin/:id", controller.GetAdmin)
-	// r.POST("/admins", controller.CreateAdmin)
+	r.GET("/admins", controller.ListAdmins)
+	r.GET("/admin/:id", controller.GetAdmin)
+	r.POST("/admins", controller.CreateAdmin)
 
 	// // Professor Routes
-	// r.GET("/professors", controller.ListProfessors)
-	// r.GET("/professor/:id", controller.GetProfessor)
-	// r.POST("/professors", controller.CreateProfessor)
-	// r.PATCH("/professors", controller.UpdateProfessor)
-	// r.DELETE("/professors/:id", controller.DeleteProfessor)
+	r.GET("/professors", controller.ListProfessors)
+	r.GET("/professor/:id", controller.GetProfessor)
+	r.POST("/professors", controller.CreateProfessor)
+	r.PATCH("/professors", controller.UpdateProfessor)
+	r.DELETE("/professors/:id", controller.DeleteProfessor)
 
 	// // Major Routes
-	// r.GET("/majors", controller.ListMajors)
-	// r.GET("/major/:id", controller.GetMajor)
-	// r.POST("/majors", controller.CreateMajor)
+	r.GET("/majors", controller.ListMajors)
+	r.GET("/major/:id", controller.GetMajor)
+	r.POST("/majors", controller.CreateMajor)
 
 	// // Status Routes
-	// r.GET("/statuses", controller.ListStatuses)
-	// r.GET("/status/:id", controller.GetStatus)
-	// r.POST("/statuses", controller.CreateStatus)
+	r.GET("/statuses", controller.ListStatuses)
+	r.GET("/status/:id", controller.GetStatus)
+	r.POST("/statuses", controller.CreateStatus)
 
 	// // Roomtype Routes
 	// r.GET("/roomtypes", controller.ListRoomtypes)

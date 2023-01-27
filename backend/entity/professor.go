@@ -4,12 +4,13 @@ import "gorm.io/gorm"
 
 type Status struct {
 	gorm.Model
+	Status_ID   string `gorm:"primaryKey"`
 	Status_name string
 	Professors  []Professor `gorm:"foreignKey:StatusID"`
 }
 type Professor struct {
 	gorm.Model
-	ID_card            string `gorm:"primaryKey"`
+	Professor_ID       string `gorm:"primaryKey"`
 	Professor_name     string
 	Professor_address  string
 	Professor_email    string
@@ -19,6 +20,8 @@ type Professor struct {
 	// Field implemented by B6025121
 	// AdminID          *uint
 	// Admin           Admin `gorm:"references:id"`
+	StatusID *string
+	Status   Status `gorm:"references:Status_ID"`
 
 	AdminID *string
 	Admin   Admin `gorm:"references:Admin_ID"`

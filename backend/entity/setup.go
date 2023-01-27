@@ -593,75 +593,71 @@ func SetupDatabase() {
 	db.Create(&enroll1)
 	db.Create(&enroll2)
 
-	 ///------------------------Approval_Type------------------------
+	///------------------------Approval_Type------------------------
 	Approval_Type1 := Approval_Type{
-		Approval_Type_ID: "Y01",
+		Approval_Type_ID:   "Y01",
 		Approval_Type_Name: "อนุมัติ",
 	}
 	db.Create(&Approval_Type1)
 
 	Approval_Type2 := Approval_Type{
-		Approval_Type_ID: "N01",
+		Approval_Type_ID:   "N01",
 		Approval_Type_Name: "ไม่อนุมัติ",
 	}
 	db.Create(&Approval_Type2)
 
-   ///------------------------Approval------------------------
+	///------------------------Approval------------------------
 	Approval1 := Approval{
-		Approval_ID:       1,
-		Reason:           "รับแล้วจ้า",
-		Professor:        professor1,
-		Section: 		2,
+		Approval_ID:   1,
+		Reason:        "รับแล้วจ้า",
+		Professor:     professor1,
+		Section:       2,
 		Request:       Request1,
-		Approval_Type:  Approval_Type1,
+		Approval_Type: Approval_Type1,
 	}
 	db.Create(&Approval1)
-  
+
 	Approval2 := Approval{
-		Approval_ID:       2,
+		Approval_ID:   2,
 		Request:       Request2,
-		Reason:           "ไม่รับเพิ่ม",
-		Professor:        professor1,
-		Section: 		1,
-		Approval_Type:  Approval_Type2,
+		Reason:        "ไม่รับเพิ่ม",
+		Professor:     professor1,
+		Section:       1,
+		Approval_Type: Approval_Type2,
 	}
-	db.Create(&Approval2) 
-	
+	db.Create(&Approval2)
+
 	///-----------------------Adding_reducing------------------------
 	Adding_reducing1 := Adding_reducing{
-		Change_ID:       1,
-		Status:           "เพิ่ม",
+		Change_ID: 1,
+		Status:    "เพิ่ม",
 		// Student:       student1,
-		Enroll:        enroll1,
-		Subject:       software_engineering_sec2,
-		
+		Enroll:  enroll1,
+		Subject: software_engineering_sec2,
 	}
 	db.Create(&Adding_reducing1)
-  
+
 	Adding_reducing2 := Adding_reducing{
-		Change_ID:       2,
-		Status:           "ลด",
+		Change_ID: 2,
+		Status:    "ลด",
 		// Student:       student1,
-		Enroll:  		enroll2,
-		Subject:       operating_system_sec1,
-		
+		Enroll:  enroll2,
+		Subject: operating_system_sec1,
 	}
 	db.Create(&Adding_reducing2)
 
-
-
-	 Grade1:= Grade{
-		Grade_ID: "A",
+	Grade1 := Grade{
+		Grade_ID:    "A",
 		Description: "ดีเยี่ยม",
 	}
 	db.Create(&Grade1)
-	Grade2:= Grade{
-		Grade_ID: "B+",
+	Grade2 := Grade{
+		Grade_ID:    "B+",
 		Description: "ดีมาก",
 	}
 	db.Create(&Grade2)
 
-	Adding_point1:=Adding_point{
+	Adding_point1 := Adding_point{
 		Adding_point_ID: "AP1",
 		Professor:       professor1,
 		Enroll:          enroll1,
@@ -669,12 +665,64 @@ func SetupDatabase() {
 	}
 	db.Create(&Adding_point1)
 
-	Adding_point2:=Adding_point{
+	Adding_point2 := Adding_point{
 		Adding_point_ID: "AP2",
 		Professor:       professor2,
 		Enroll:          enroll2,
 		Grade:           Grade2,
 	}
 	db.Create(&Adding_point2)
+
+	//Student
+	dormitory1 := Dormitory{
+		Dormitory_ID:   "DT01",
+		Dormitory_Name: "Dormitory8",
+	}
+	db.Model(&Dormitory{}).Create(&dormitory1)
+
+	dormitory2 := Dormitory{
+		Dormitory_ID:   "DT02",
+		Dormitory_Name: "Dormitory7",
+	}
+	db.Model(&Dormitory{}).Create(&dormitory2)
+
+	dormitory3 := Dormitory{
+		Dormitory_ID:   "DT03",
+		Dormitory_Name: "Dormitory13",
+	}
+	db.Model(&Dormitory{}).Create(&dormitory3)
+
+	student1 := Student{
+		Student_ID:       "B631021",
+		Student_Name:     "ปีเตอร์ สงบสุข",
+		Student_Password: "Vuster2572",
+		Datetime:         time.Now(),
+		Admin:            admin1,
+		Course:           cpe2560,
+		Dormitory:        dormitory2,
+	}
+	db.Model(&Student{}).Create(&student1)
+
+	student2 := Student{
+		Student_ID:       "B620023",
+		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
+		Student_Password: "Oop1235",
+		Datetime:         time.Now(),
+		Admin:            admin1,
+		Course:           cpe2560,
+		Dormitory:        dormitory2,
+	}
+	db.Model(&Student{}).Create(&student2)
+
+	student3 := Student{
+		Student_ID:       "B620125",
+		Student_Name:     "สมใจ ใยดี",
+		Student_Password: "Kku5731mn",
+		Datetime:         time.Now(),
+		Admin:            admin1,
+		Course:           cpe2560,
+		Dormitory:        dormitory2,
+	}
+	db.Model(&Student{}).Create(&student3)
 
 }

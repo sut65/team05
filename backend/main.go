@@ -40,7 +40,6 @@ func main() {
 	r.GET("/subject_statuses", controller.ListSubjectStatus)
 	r.GET("/subject_categories", controller.ListSubjectCategory)
 	r.GET("/class_types", controller.ListClassType)
-	r.GET("/courses", controller.ListCourses)
 
 	r.GET("/class_schedules", controller.ListClassSchedule)
 	r.GET("/exam_schedules", controller.ListExamSchedule)
@@ -133,7 +132,7 @@ func main() {
 	r.GET("/major/:major_id", controller.GetMajor)
 	r.POST("majors", controller.CreateMajor)
 	r.DELETE("/majors/:major_id", controller.DeleteMajor)
-	
+
 	// Approval
 	r.GET("/approvals", controller.ListApproval)
 	r.GET("/approval/:approval_id", controller.GetApproval)
@@ -141,7 +140,6 @@ func main() {
 	r.POST("/approvals", controller.CreateApproval)
 	r.PATCH("/approvals", controller.UpdateApproval)
 	r.DELETE("/approval/:approval_id", controller.DeleteApproval)
-	
 
 	// Approval_Type
 	r.GET("/approval_types", controller.ListApproval_Type)
@@ -149,11 +147,8 @@ func main() {
 	r.POST("/approval_types", controller.CreateApproval_Type)
 	// Run the server
 
-
-
-
 	//Adding_reducing
-	r.GET("/adding_reducingsss", controller.ListAdding_reducingss)//เรียกใช้เพื่อแสดงค่าในตารางของตัวเองทั้งหมด
+	r.GET("/adding_reducingsss", controller.ListAdding_reducingss) //เรียกใช้เพื่อแสดงค่าในตารางของตัวเองทั้งหมด
 
 	r.GET("/subjects/:course_id", controller.GetSubjectByCourse)
 	r.GET("/adding_reducings", controller.ListAdding_reducing)
@@ -163,12 +158,10 @@ func main() {
 	r.PATCH("/adding_reducings_update", controller.UpdateAdding_reducing)
 	r.DELETE("/adding_reducing/:change_id", controller.DeleteAdding_reducing)
 	// Run the server
-	
+
 	//Adding_point
 
 	r.GET("/adding_points", controller.ListAdding_point)
-
-
 
 	r.GET("/adding_points/:subject/:section", controller.GetStudenByEnroll)
 	r.GET("/adding_point/:adding_point_id", controller.GetAdding_point)
@@ -177,11 +170,24 @@ func main() {
 	r.PATCH("adding_points", controller.UpdateAdding_point)
 	r.DELETE("/adding_point/:adding_point_id", controller.DeleteAdding_point)
 
-
 	// Grade
 	r.GET("/grades", controller.ListGrade)
 	r.GET("/grade/:grade_id", controller.GetGrade)
 	r.POST("/grades", controller.CreateGrade)
+
+	//Student
+	r.GET("/students", controller.ListStudents)
+	r.GET("/students/:student_id", controller.GetStudentSearch)
+	r.GET("/student/:course_id", controller.GetStudent)
+	r.POST("/students", controller.CreateStudent)
+	r.DELETE("/students/:student_id", controller.DeleteStudents)
+	r.PATCH("/students", controller.UpdateStudents)
+
+	r.GET("/domitorys", controller.ListDormitorys)
+	r.GET("/domitory/:domitory_id", controller.GetDormitory)
+	r.POST("domitorys", controller.CreateDormitory)
+	r.DELETE("/domitorys/:domitory_id", controller.DeleteDormitorys)
+
 	r.Run()
 
 }

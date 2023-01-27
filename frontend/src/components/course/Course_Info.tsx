@@ -31,7 +31,7 @@ function CourseInfo() {
     const navigate = useNavigate();
 
     const apiUrl = "http://localhost:8080";
-
+    //update
     const toUpdateCoursePage = () => {
         navigate({ pathname: `/course-handle-update/${course?.Course_ID}` })
         // window.location.reload()

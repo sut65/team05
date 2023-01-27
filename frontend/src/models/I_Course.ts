@@ -1,7 +1,7 @@
 import { QualificationsInterface } from "./I_Qualification";
 import { MajorsInterface } from "./I_Major";
 
-export interface CoursesInterface {
+export interface Course {
 
     Course_ID : string,
    

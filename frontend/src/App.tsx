@@ -73,7 +73,7 @@ export default function App() {
 
           <Route path="/course_info/:course_id" element={<Course_Info />} /> 
 
-          <Route path="/course/handle-update/:course_id" element={<Course_Update />} />
+          <Route path="/course-handle-update/:course_id" element={<Course_Update />} />
 
           <Route path="/" element={<Users />} />
 

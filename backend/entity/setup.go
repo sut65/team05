@@ -593,4 +593,38 @@ func SetupDatabase() {
 	db.Create(&enroll1)
 	db.Create(&enroll2)
 
+	 ///------------------------Approval_Type------------------------
+	Approval_Type1 := Approval_Type{
+		Approval_Type_ID: "Y01",
+		Approval_Type_Name: "อนุมัติ",
+	}
+	db.Create(&Approval_Type1)
+
+	Approval_Type2 := Approval_Type{
+		Approval_Type_ID: "N01",
+		Approval_Type_Name: "ไม่อนุมัติ",
+	}
+	db.Create(&Approval_Type2)
+
+   ///------------------------Approval------------------------
+	Approval1 := Approval{
+		Approval_ID:       1,
+		Reason:           "รับแล้วจ้า",
+		Professor:        professor1,
+		Section: 		2,
+		Request:       Request1,
+		Approval_Type:  Approval_Type1,
+	}
+	db.Create(&Approval1)
+  
+	Approval2 := Approval{
+		Approval_ID:       2,
+		Request:       Request2,
+		Reason:           "ไม่รับเพิ่ม",
+		Professor:        professor1,
+		Section: 		1,
+		Approval_Type:  Approval_Type2,
+	}
+	db.Create(&Approval2) 
+
 }

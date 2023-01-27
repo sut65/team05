@@ -20,6 +20,11 @@ import Course_Update from "./components/course/Course_Update";
 import Users from "./components/request/Request";
 import UserCreate from "./components/request/RequestCreate";
 import UserUpdate from "./components/request/RequestUpdate";
+import Approval from "./components/approval/Approval";
+import ApprovalCreate from "./components/approval/ApprovalCreate";
+import Navbar from "./components/approval/ApprovalNavbar";
+import ApprovalUpdate from "./components/approval/ApprovalUpdate";
+
 
 export default function App() {
   return (
@@ -71,15 +76,24 @@ export default function App() {
 
           <Route path="/course_create" element={<Course_Create />} />
 
-          <Route path="/course_info/:course_id" element={<Course_Info />} /> 
+          <Route path="/course_info/:course_id" element={<Course_Info />} />
 
-          <Route path="/course-handle-update/:course_id" element={<Course_Update />} />
+          <Route
+            path="/course-handle-update/:course_id"
+            element={<Course_Update />}
+          />
 
           <Route path="/" element={<Users />} />
 
           <Route path="/create" element={<UserCreate />} />
 
           <Route path="/update/:request_id" element={<UserUpdate />} />
+
+          <Route path="/" element={<Approval />} />
+
+          <Route path="/create" element={<ApprovalCreate />} />
+
+          <Route path="/update/:approval_id" element={<ApprovalUpdate />} />
         </Routes>
 
         <Subject_Management_Footer />

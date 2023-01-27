@@ -12,8 +12,8 @@ import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 //import { Subject } from "../models/I_Subject";
-import { RequestInterface } from "../../models/IRequest";
-import { Request_TypeInterface } from "../../models/IRequest_Type";
+import { ApprovalInterface } from "../../models/I_Approval";
+import { Approval_TypeInterface } from "../../models/I_Approval_Type";
 import { Subject } from "../../models/I_Subject";
 //table
 import { styled } from "@mui/material/styles";
@@ -31,6 +31,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import {
   Autocomplete,
   FormHelperText,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -39,6 +40,8 @@ import {
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { AppBar } from "@mui/material";
+import { RequestInterface } from "../../models/IRequest";
+import AddIcon from "@mui/icons-material/Add";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -48,11 +51,13 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function RequestCreate() {
+function ApprovalCreate() {
   const [date, setDate] = React.useState<Date | null>(null);
-  const [request, setRequest] = React.useState<Partial<RequestInterface>>({});
-  const [request_type, setRequest_Type] = React.useState<
-    Request_TypeInterface[]
+  const [approval, setApproval] = React.useState<Partial<ApprovalInterface>>(
+    {}
+  );
+  const [approval_type, setApproval_Type] = React.useState<
+    Approval_TypeInterface[]
   >([]);
   // const [student, setStudent] = React.useState<
   //    StudentInterface[]
@@ -60,8 +65,8 @@ function RequestCreate() {
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
 
-  const [subjects, setSubjects] = React.useState<Subject[]>([]);
-  const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
+  const [requests, setRequests] = React.useState<RequestInterface[]>([]);
+  const [searchRequestID, setSearchRequestID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -83,23 +88,23 @@ function RequestCreate() {
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
-    const id = event.target.id as keyof typeof RequestCreate;
+    const id = event.target.id as keyof typeof ApprovalCreate;
     const { value } = event.target;
-    setRequest({ ...request, [id]: value });
+    setApproval({ ...approval, [id]: value });
     console.log(event.target.value);
   };
 
   const handleInputChangeSearch = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
-    const id = event.target.id as keyof typeof RequestCreate;
-    setSearchSubjectID(event.target.value);
+    const id = event.target.id as keyof typeof ApprovalCreate;
+    setSearchRequestID(event.target.value);
   };
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    const name = event.target.name as keyof typeof request;
-    setRequest({
-      ...request,
+    const name = event.target.name as keyof typeof approval;
+    setApproval({
+      ...approval,
       [name]: event.target.value,
     });
     console.log(event.target.value);
@@ -113,12 +118,12 @@ function RequestCreate() {
     setPage(newPage);
   };
 
-  const sendSearchedSubjectID = () => {
+  const sendSearchedRequestID = () => {
     // navigate({ pathname: `/subject/${searchSubjectID}` });
-    setSearchSubjectID(searchSubjectID);
-    getSubjectBySubjectID(searchSubjectID);
+    setSearchRequestID(searchRequestID);
+    getRequestByRequestID(searchRequestID);
     // window.location.reload();
-    console.log(searchSubjectID);
+    console.log(searchRequestID);
   };
 
   const handleChangeRowsPerPage = (
@@ -129,7 +134,7 @@ function RequestCreate() {
   };
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - requests.length) : 0;
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -150,50 +155,50 @@ function RequestCreate() {
   }));
 
   const apiUrl = "http://localhost:8080";
-  const requestOptionsGet = {
+  const approvalOptionsGet = {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   };
 
-  //----------subject----
+  //----------Request----
 
-  const getSubjects = async () => {
-    const requestOptions = {
+  const getRequests = async () => {
+    const approvalOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/subjects`, requestOptions)
+    fetch(`${apiUrl}/requests`, approvalOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setSubjects(res.data);
+          setRequests(res.data);
           console.log(res.data);
         }
       });
   };
 
-  const getSubjectBySubjectID = async (subject_id: any) => {
-    const requestOptions = {
+  const getRequestByRequestID = async (request_id: any) => {
+    const approvalOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/subject/${subject_id}`, requestOptions)
+    fetch(`${apiUrl}/request/${request_id}`, approvalOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setSearchSubjectID(subject_id);
-          setSubjects(res.data);
+          setSearchRequestID(request_id);
+          setRequests(res.data);
         }
       });
   };
 
-  const getRequest_Type = async () => {
-    fetch(`${apiUrl}/request_types`, requestOptionsGet)
+  const getApproval_Type = async () => {
+    fetch(`${apiUrl}/approval_types`, approvalOptionsGet)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
           console.log(res.data);
-          setRequest_Type(res.data);
+          setApproval_Type(res.data);
         } else {
           console.log("else");
         }
@@ -201,60 +206,62 @@ function RequestCreate() {
   };
 
   // fetch previous ActivityMember
-  const getPrevRequest = async () => {
-    fetch(`${apiUrl}/previous_request`, requestOptionsGet)
+  const getPrevApproval = async () => {
+    fetch(`${apiUrl}/previous_approval`, approvalOptionsGet)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          request.Request_ID = res.data.Request_ID + 1;
+          approval.Approval_ID = res.data.Approval_ID + 1;
         }
         // else {
-        //   request.Request_ID = res.data = 401;
+        //   approval.Approval_ID = res.data = 401;
         //   //console.log("else");
         // }
       });
   };
 
   useEffect(() => {
-    getRequest_Type();
-    getPrevRequest();
+    getApproval_Type();
+    getPrevApproval();
 
-    if (searchSubjectID == "") {
-      getSubjects();
+    if (searchRequestID == "") {
+      getRequests();
     } else {
-      getSubjectBySubjectID(searchSubjectID);
+      getRequestByRequestID(searchRequestID);
     }
-    console.log(searchSubjectID);
+    console.log(searchRequestID);
   }, []);
 
   function submit() {
     let data = {
-      Request_ID:
-        typeof request.Request_ID === "string"
-          ? parseInt(request.Request_ID)
-          : request.Request_ID,
-      // request.Request_ID ?? "",
-      // Student_ID: request.Student_ID ?? "",
+      Approval_ID:
+        typeof approval.Approval_ID === "string"
+          ? parseInt(approval.Approval_ID)
+          : approval.Approval_ID,
+      // approval.Approval_ID ?? "",
+      // Student_ID: approval.Student_ID ?? "",
       Professor_ID:
-        typeof request.Professor_ID === "string"
-          ? parseInt(request.Professor_ID)
-          : request.Professor_ID,
-
-      Subject_ID: request.Subject_ID ?? "",
-      Section: request.Section ?? "",
-      Reason: request.Reason ?? "",
-      Request_Type_ID: request.Request_Type_ID ?? "",
+        typeof approval.Professor_ID === "string"
+          ? parseInt(approval.Professor_ID)
+          : approval.Professor_ID,
+      Request_ID:
+        typeof approval.Request_ID === "string"
+          ? parseInt(approval.Request_ID)
+          : approval.Request_ID,
+      Section: approval.Section ?? "",
+      Reason: approval.Reason ?? "",
+      Approval_Type_ID: approval.Approval_Type_ID ?? "",
     };
     console.log(data);
 
-    // const apiUrl = "http://localhost:8080/requests";
-    const requestOptions = {
+    // const apiUrl = "http://localhost:8080/approvals";
+    const approvalOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
 
-    fetch(`${apiUrl}/requests`, requestOptions)
+    fetch(`${apiUrl}/approvals`, approvalOptions)
       .then((response) => response.json())
       .then((res) => {
         console.log(res);
@@ -304,57 +311,67 @@ function RequestCreate() {
               marginTop: 1,
             }}
           >
-            <Box>
+            <Grid width="550px">
               <Typography
                 component="h2"
                 variant="h4"
                 color="primary"
                 gutterBottom
               >
-                ยื่นคำร้องออนไลน์
+                อนุมัติคำร้องออนไลน์
               </Typography>
-            </Box>
+            </Grid>
             {/* <TextField
               label="รหัสนักศึกษา"
               id="Student_ID"
               variant="outlined"
               type="string"
-              value={request.Student_ID}
+              value={approval.Student_ID}
               sx={{ marginLeft: "550px" }}
               onChange={handleInputChange}
             /> */}
             {/* <TextField
+              label="Professor_ID"
               id="Professor_ID"
               variant="outlined"
               type="string"
-              value={request.Professor_ID}
+              value={approval.Professor_ID}
               onChange={handleInputChange}
               sx={{ marginLeft: "550px" }}
+            />
+            <TextField
+              label="รหัสลงทะเบียน"
+              id="Request_ID"
+              variant="outlined"
+              type="string"
+              value={approval.Request_ID}
+              onChange={handleInputChange}
+              // sx={{ marginLeft: "550px" }}
             /> */}
             <TextField
               disabled
-              id="Request_ID"
+              id="Approval_ID"
               variant="outlined"
               type="number"
-              defaultValue={request.Request_ID}
-              value={request.Request_ID}
+              defaultValue={approval.Approval_ID}
+              value={approval.Approval_ID}
               onChange={handleInputChange}
             />
           </Box>
         </Paper>
 
         <Paper elevation={3} sx={{ bgcolor: "white", marginBottom: 2 }}>
-          <Grid container sx={{ padding: 2, marginLeft: "15px" }}>
+          {/* <Grid container sx={{ padding: 2, marginLeft: "15px" }}>
             <Grid>
-              <p>รหัสวิชา</p>
+              <p>รหัสลงทะเบียน</p>
             </Grid>
             <Grid sx={{ marginLeft: "20px" }}>
               <Box sx={{ width: "250px" }}>
                 <TextField
-                  id="Subject_ID"
+                  id="Request_ID"
                   variant="outlined"
                   type="string"
-                  value={request.Subject_ID}
+                  value={approval.Request_ID}
                   onChange={handleInputChangeSearch}
                 />
               </Box>
@@ -363,9 +380,9 @@ function RequestCreate() {
               <Button
                 size="medium"
                 variant="contained"
-                onClick={sendSearchedSubjectID}
+                onClick={sendSearchedRequestID}
               >
-                ค้นหารายวิชา
+                ค้นหา
                 <SvgIcon
                   sx={{ marginLeft: "5px" }}
                   component={SearchIcon}
@@ -373,7 +390,7 @@ function RequestCreate() {
                 />
               </Button>
             </Grid>
-          </Grid>
+          </Grid> */}
 
           <Box
             sx={{
@@ -385,6 +402,12 @@ function RequestCreate() {
               <Table>
                 <TableHead>
                   <TableRow>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      รหัสลงทะเบียน
+                    </StyledTableCell>
+                    {/* <StyledTableCell align="center" sx={{ border: 1 }}>
+                      รหัสนักศึกษา
+                    </StyledTableCell> */}
                     <StyledTableCell align="center" sx={{ border: 1 }}>
                       รหัสวิชา
                     </StyledTableCell>
@@ -407,13 +430,20 @@ function RequestCreate() {
                 </TableHead>
                 <TableBody>
                   {(rowsPerPage > 0
-                    ? subjects.slice(
+                    ? requests.slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
                       )
-                    : subjects
+                    : requests
                   ).map((row) => (
-                    <StyledTableRow key={row.ID}>
+                    <StyledTableRow key={row.Request_ID}>
+                      <StyledTableCell
+                        component="th"
+                        scope="row"
+                        align="center"
+                      >
+                        {row.Request_ID}
+                      </StyledTableCell>
                       <StyledTableCell
                         component="th"
                         scope="row"
@@ -437,19 +467,19 @@ function RequestCreate() {
                         {row.Professor_Name}
                       </StyledTableCell>
                       <StyledTableCell>
-                        <Button
-                          variant="contained"
-                          sx={{ borderRadius: 0 }}
+                        <AddIcon
+                          //variant="contained"
+                          aria-label="AddIcon"
+                          // sx={{ borderRadius: 0 }}
                           onClick={() => {
-                            request.Professor_ID = row.Professor_ID;
-                            request.Subject_ID = row.Subject_ID;
-                            request.Section = row.Section;
-                            console.log(request.Subject_ID);
-                            console.log(request.Section);
+                            approval.Request_ID = row.Request_ID;
+                            approval.Professor_ID = row.Professor_ID;
+                            approval.Section = row.Section;
+                            console.log(approval.Request_ID);
+                            console.log(approval.Section);
+                            console.log(approval.Professor_ID);
                           }}
-                        >
-                          เพิ่ม
-                        </Button>
+                        ></AddIcon>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
@@ -468,8 +498,8 @@ function RequestCreate() {
                         25,
                         { label: "All", value: -1 },
                       ]}
-                      colSpan={subjects.length}
-                      count={subjects.length}
+                      colSpan={requests.length}
+                      count={requests.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       SelectProps={{
@@ -496,13 +526,13 @@ function RequestCreate() {
                   variant="outlined"
                   type="string"
                   size="medium"
-                  value={request.Reason}
+                  value={approval.Reason}
                   sx={{ width: "50ch" }}
                   onChange={handleInputChange}
                 />
               </Grid>
               <Grid sx={{ marginLeft: "200px" }}>
-                <p>ประเภทคำร้อง</p>
+                <p>ผลการอนุมัติ</p>
               </Grid>
               <Grid>
                 <FormControl
@@ -513,23 +543,23 @@ function RequestCreate() {
                     marginLeft: "20px",
                   }}
                 >
-                  <InputLabel id="Request_Type_ID">ประเภทคำร้อง</InputLabel>
+                  <InputLabel id="Approval_Type_ID">ผลการอนุมัติ</InputLabel>
                   <Select
-                    labelId="Request_Type_ID"
-                    id="Request_Type_ID"
-                    value={request.Request_Type_ID}
+                    labelId="Approval_Type_ID"
+                    id="Approval_Type_ID"
+                    value={approval.Approval_Type_ID}
                     onChange={handleSelectChange}
                     autoWidth
                     inputProps={{
-                      name: "Request_Type_ID",
+                      name: "Approval_Type_ID",
                     }}
                   >
-                    {request_type.map((item: Request_TypeInterface) => (
+                    {approval_type.map((item: Approval_TypeInterface) => (
                       <MenuItem
-                        value={item.Request_Type_ID}
-                        key={item.Request_Type_ID}
+                        value={item.Approval_Type_ID}
+                        key={item.Approval_Type_ID}
                       >
-                        {item.Request_Type_Name}
+                        {item.Approval_Type_Name}
                       </MenuItem>
                     ))}
                   </Select>
@@ -557,7 +587,7 @@ function RequestCreate() {
                 variant="contained"
                 color="primary"
               >
-                ยื่นคำร้องออนไลน์
+                อนุมัติคำร้องออนไลน์
               </Button>
             </Grid>
           </Box>
@@ -567,4 +597,4 @@ function RequestCreate() {
   );
 }
 
-export default RequestCreate;
+export default ApprovalCreate;

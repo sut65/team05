@@ -84,7 +84,7 @@ func ListRequest(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	// 	return
 	// }
-		query := entity.DB().Raw("SELECT e.*, c.*, r.* FROM requests e JOIN subjects c JOIN request_types r ON e.subject_id = c.subject_id  AND  e.section = c.section  AND  e.request_type_id = r.request_type_id").Scan(&extendedRequest)
+		query := entity.DB().Raw("SELECT r.*, s.*, rt.*,c.*,p.* FROM requests r JOIN subjects s JOIN request_types rt JOIN courses c JOIN professors p ON r.subject_id = s.subject_id AND  r.section = s.section AND  r.request_type_id = rt.request_type_id AND s.course_id = c.course_id AND p.id = s.professor_id").Scan(&extendedRequest)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

@@ -1,8 +1,8 @@
 package entity
 
-import (
-	"gorm.io/gorm"
-)
+// import (
+// 	"gorm.io/gorm"
+// )
 
 // * ====================== Request System ======================
 
@@ -12,17 +12,17 @@ type Approval_Type struct {
 	Approval           []Approval `gorm:"foreignKey:Approval_Type_ID"`
 }
 type Approval struct {
-	gorm.Model
+	// gorm.Model
 
 	Approval_ID uint `gorn:"primaryKey"`
 
 	Reason string
 
-	// Professor_ID   *string
 	Professor_ID *uint
 	Professor    Professor `gorm:"references:id"`
+	Section uint
 
-	Request_ID *string
+	Request_ID *uint
 	Request    Request `gorm:"references:Request_ID"`
 
 	Approval_Type_ID *string

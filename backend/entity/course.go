@@ -6,9 +6,11 @@ import (
 
 // วุฒิ
 type Qualification struct {
-	Qualification_ID   string `gorm:"primaryKey"`
+	Qualification_ID string `gorm:"primaryKey"`
+
 	Qualification_Name string
-	Courses            []Course `gorm:"foreignKey:Qualification_ID"`
+
+	Courses []Course `gorm:"foreignKey:Qualification_ID"`
 }
 
 type Institute struct {
@@ -18,11 +20,12 @@ type Institute struct {
 }
 
 type Major struct {
-	Major_ID   string `gorm:"primaryKey"`
+	Major_ID string `gorm:"primaryKey"`
+
 	Major_Name string
 
 	Institute_ID *string
-	Institute    Institute
+	Institute    Institute `gorm:"references:Institute_ID"`
 
 	Courses    []Course    `gorm:"foreignKey:Major_ID"`
 	Professors []Professor `gorm:"foreignKey:MajorID"`
@@ -30,18 +33,20 @@ type Major struct {
 
 // หลักสูตร
 type Course struct {
-	Course_ID   string `gorm:"primaryKey"`
+	Course_ID string `gorm:"primaryKey"`
+
 	Course_Name string
-	Datetime    time.Time
+
+	Datetime time.Time
 
 	Qualification_ID *string
-	Qualification    Qualification
+	Qualification    Qualification `gorm:"references:Qualification_ID"`
 
 	Admin_ID *string
 	Admin    Admin
 
 	Major_ID *string
-	Major    Major
+	Major    Major `gorm:"references:Major_ID"`
 
 	Courses  []Course  `gorm:"foreignKey:Course_ID"`
 	Subjects []Subject `gorm:"foreignKey:Course_ID"`

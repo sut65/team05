@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 
@@ -27,13 +27,19 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 function ListEnroll() {
-
+  const params = useParams();
+  const [enrolls, setEnrolls] = React.useState<EnrollInterface>();
+  const navigate = useNavigate();
   const [enroll, setEnroll] = React.useState<EnrollInterface[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   //const [subject, setSubject] = React.useState<SubjectInterface[]>([]);
   
+  
+
   const apiUrl = "http://localhost:8080";
+
+  
   const getEnroll = async () => {
     const apiUrl = "http://localhost:8080/enroll";
     const requestOptions = {
@@ -67,12 +73,14 @@ function ListEnroll() {
 
 
 
+
   const deleteEnroll = async (enroll_id: string) => {
     console.log("good");
     const requestOptions = {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     };
+
     fetch(`${apiUrl}/deleEnroll/${enroll_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
@@ -166,8 +174,8 @@ function ListEnroll() {
                   <TableCell align="left">เลิกสอบ</TableCell> */}
                   <TableCell align="left">หน่วยกิต</TableCell>
                   <TableCell align="left">กลุ่ม</TableCell>
-                  <TableCell align="center">แก้ไข</TableCell>
                   <TableCell align="center">ลบ</TableCell>
+                  <TableCell align="center">แก้ไข</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -202,7 +210,13 @@ function ListEnroll() {
                       <DeleteIcon />
                     </IconButton>
                     </TableCell>
-                    <TableCell align="center"><IconButton aria-label="delete">
+                    <TableCell align="center">
+                    <IconButton
+                    ///${row.Subject_ID}/${row.Section}
+                    onClick={() => {
+                      navigate({ pathname: `/updateenroll/${row.Enroll_ID}` })
+                }}
+                    >
                       <ModeEditIcon />
                     </IconButton>
                     </TableCell>

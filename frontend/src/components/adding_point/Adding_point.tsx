@@ -26,12 +26,15 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 
-function Adding_reducingCreate() {
-  const [adding_reducing, setAdding_reducing] = React.useState<Partial<Adding_reducingInterface>>({});
-  const [adding_reducings, setAdding_reducings] = React.useState<Adding_reducingInterface[]>([]);
-  const [subject, setSubject] = React.useState<Subject[]>([]);
+import { Adding_pointInterface } from "../../models/IAdding_point";
+import { GradeInterface } from "../../models/IGrade";
+
+function  Adding_pointCreate() {
+  const [adding_point, setAdding_point] = React.useState<Partial<Adding_pointInterface>>({});
+  const [adding_points, setAdding_points] = React.useState<Adding_pointInterface[]>([]);
+  const [grade, setGreade] = React.useState<GradeInterface[]>([]);
+//   const [professor, setProfessor] = React.useState<Professor[]>([]);
  
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -63,29 +66,56 @@ function Adding_reducingCreate() {
 
   const apiUrl = "http://localhost:8080";
 
-  //update
-  const toUpdateRequestPage = () => {
-    navigate({
-      pathname: `/adding_reducings_update/${adding_reducing?.Change_ID}`,
-    });
-    // window.location.reload()
-  };
+ 
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - adding_reducings.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - adding_points.length) : 0;
 
   //request
-  const getAdding_reducings = async () => {
+  const getAdding_points = async () => {
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/adding_reducings`, requestOptions)
+    fetch(`${apiUrl}/adding_points`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setAdding_reducings(res.data);
-          console.log(adding_reducings);
+            setAdding_points(res.data);
+        //   console.log(adding_reducings);
+        }
+      });
+  };
+
+
+  
+  const getStudenByEnroll = async () => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/adding_points`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+            setAdding_points(res.data);
+        //   console.log(adding_reducings);
+        }
+      });
+  };
+ 
+
+  const getProfesserBySubject = async () => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/adding_points`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+            setAdding_points(res.data);
+        //   console.log(adding_reducings);
         }
       });
   };
@@ -106,13 +136,13 @@ function Adding_reducingCreate() {
   //  };
 
   //delete
-  const DeleteAdding_reducing= async (change_id: number) => {
+  const DeleteAdding_point= async (adding_point_id: String) => {
     console.log("good");
     const requestOptions = {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/adding_reducing/${change_id}`, requestOptions)
+    fetch(`${apiUrl}/adding_point/${adding_point_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -158,7 +188,7 @@ function Adding_reducingCreate() {
   };
 
   useEffect(() => {
-    getAdding_reducings();
+    getAdding_points();
   }, []);
 
   // function submit() {
@@ -220,25 +250,17 @@ function Adding_reducingCreate() {
                 color="primary"
                 gutterBottom
               >
-                ระบบประวัติเพิ่มลดรายวิชา
+                ระบบบันทึกผลการเรียน
               </Typography>
             </Box>
            
           </Box>
           
           <Box>
-          Requirements ระบบลงทะเบียนเรียน
-                เป็นระบบที่ใช้บริการเพื่อให้นักศึกษาของมหาวิทยาลัยหนึ่ง
-                สามารถลงทะเบียนเรียนในหลักสูตรที่มหาวิทลัยนั้นได้กำหนดไว้
-                ในส่วนแรก เช่น การลงทะเบียนเรียนในรายวิชาต่างๆ ,
-                การเพิ่มลดรายวิชาและการยื่นคำร้องกรณีกลุ่มเต็ม
-                โดยที่กล่าวมาข้างต้นนี้จะเกี่ยวข้องกับสิทธิของผู้เป็นนักศึกษาที่สามารถใช้สิทธิในระบบลงทะเบียนเรียนได้
-                ส่วนของการจัดสรรห้องเรียน , การบันทึกผลการเรียน ,
-                และการอนุมัติคำร้องกรณีกลุ่มเต็มจะเป็นสิทธิของผู้เป็นอาจารย์ที่สามารถใช้งานในส่วนนี้ได้
-                และส่วนสุดท้ายจะมี การเพิ่มข้อมูลนักศึกษา ,
-                การเพิ่มข้อมูลหลักสูตร ,
-                การเพิ่มข้อมูลรายวิชาและการคำนวณค่าใช่จ่าย
-                โดยในส่วนนี้จะเป็นสิทธิของผู้เป็นแอดมินที่มีสิทธิสามารถใช้งานได้
+          Requirements
+	ระบบลงทะเบียนเรียน เป็นระบบที่ใช้บริการเพื่อให้นักศึกษาของมหาวิทยาลัยหนึ่ง สามารถลงทะเบียนเรียนในหลักสูตรที่มหาวิทลัยนั้นได้กำหนดไว้ ในส่วนแรก เช่น การลงทะเบียนเรียนในรายวิชาต่างๆ , การเพิ่มลดรายวิชา และการยื่นคำร้องกรณีกลุ่มเต็ม โดยที่กล่าวมาข้างต้นนี้จะเกี่ยวข้องกับสิทธิของผู้เป็นนักศึกษาที่สามารถใช้สิทธิในระบบลงทะเบียนเรียนได้ ส่วนของการจัดสรรห้องเรียน , การบันทึกผลการเรียน , และการอนุมัติคำร้องกรณีกลุ่มเต็ม จะเป็นสิทธิของผู้เป็นอาจารย์ที่สามารถใช้งานในส่วนนี้ได้ และส่วนสุดท้ายจะมี การเพิ่มข้อมูลนักศึกษา , การเพิ่มข้อมูลหลักสูตร , การเพิ่มข้อมูลรายวิชา และการคำนวณค่าใช่จ่าย โดยในส่วนนี้จะเป็นสิทธิของผู้เป็นแอดมินที่มีสิทธิสามารถใช้งานได้
+          ระบบย่อยระบบบันทึกผลการเรียน เป็นระบบย่อยที่อาจารย์ผู้เปิดสอนในรายวิชาสามารถทำการเพิ่ม และ แก้ไขข้อมูลเกรดนักศึกษาในรายวิชาที่อาจารย์ผู้สอนเปิดสอนในรายวิชาเข้าในระบบ โดยทำการค้นหา รายวิชา และกลุ่มรายวิชาที่สอน  จากนั้นเลือกเกรดที่จะเพิ่มให้นักศึกษารายบุคคล เมื่อใส่ข้อมูลเสร็จสิ้นแล้ว อาจารย์จะสามารถกดบันทึกการ บันทึกผลการเรียนได้ โดยจะสามารถแก้ไขข้อมูลได้ในภายหลัง และนอกจากนี้อาจารย์สามารถดูข้อมูลการบันทึกได้
+
           </Box>
         </Paper>
 
@@ -260,45 +282,37 @@ function Adding_reducingCreate() {
               <TableHead>
                 <TableRow>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
-                   ลำดับ
+                   รหัส
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
-                    รหัสวิชา
+                    ชื่อ
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
-                    รายวิชา
+                    เกรด
                   </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    หลักสูตร
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    กลุ่ม
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    สถานะ
-                  </StyledTableCell> 
+                   
                  
                 </TableRow>
               </TableHead>
               <TableBody>
                 {(rowsPerPage > 0
-                  ? adding_reducings.slice(
+                  ? adding_points.slice(
                       page * rowsPerPage,
                       page * rowsPerPage + rowsPerPage
                     )
-                  : adding_reducings
+                  : adding_points
                 ).map((row) => (
-                  <StyledTableRow key={row.Change_ID}>
-                    <TableCell component="th" scope="row" align="center">{row.Change_ID} </TableCell>
-                    <TableCell align="center">{row.Subject_ID}</TableCell>
+                  <StyledTableRow key={row.Adding_point_ID}>
+                    <TableCell component="th" scope="row" align="center">{row.Enroll_ID} </TableCell>
+                    <TableCell align="center">{row.Grade_ID}</TableCell>
                     {/* <TableCell align="center">{row.Subject_EN_Name}</TableCell> */}
                     {/* <TableCell align="center">{row.Course_Name}</TableCell> */}
                     {/* <TableCell align="center">{row.Section}</TableCell> */}
-                    <TableCell align="center">{row.Status}</TableCell>
+                    
                     <TableCell>
                       <IconButton
                         aria-label="delete"
-                        onClick={() => DeleteAdding_reducing(row.Change_ID)}
+                        onClick={() => DeleteAdding_point(row.Adding_point_ID)}
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -330,8 +344,8 @@ function Adding_reducingCreate() {
                       25,
                       { label: "All", value: -1 },
                     ]}
-                    colSpan={adding_reducings.length}
-                    count={adding_reducings.length}
+                    colSpan={adding_points.length}
+                    count={adding_points.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     SelectProps={{
@@ -363,4 +377,4 @@ function Adding_reducingCreate() {
   );
 }
 
-export default Adding_reducingCreate;
+export default Adding_pointCreate;

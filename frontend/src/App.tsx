@@ -13,6 +13,10 @@ import Class_Schedule_Create from "./components/class_and_exam_schedule/Class_Sc
 import Exam_Schedule_Create from "./components/class_and_exam_schedule/Exam_Schedule_Create";
 import Class_Schedule_Update from "./components/class_and_exam_schedule/Class_Schedule_Update";
 import Exam_Schedule_Update from "./components/class_and_exam_schedule/Exam_Schedule_Update";
+import Course_Info from "./components/course/Course_Info";
+import Course_Create from "./components/course/Course_Create";
+import Course_List from "./components/course/Course_List";
+import Course_Update from "./components/course/Course_Update";
 import Users from "./components/request/Request";
 import UserCreate from "./components/request/RequestCreate";
 import UserUpdate from "./components/request/RequestUpdate";
@@ -62,6 +66,14 @@ export default function App() {
             path="/exam_schedule/:subject_id/:exam_type/update"
             element={<Exam_Schedule_Update />}
           />
+
+          <Route path="/" element={<Course_List />} />
+
+          <Route path="/course_create" element={<Course_Create />} />
+
+          <Route path="/course_info/:course_id" element={<Course_Info />} /> 
+
+          <Route path="/course/handle-update/:course_id" element={<Course_Update />} />
 
           <Route path="/" element={<Users />} />
 

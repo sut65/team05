@@ -155,11 +155,12 @@ function RequestUpdate() {
     headers: { "Content-Type": "application/json" },
   };
   const getCurrentRequest = async () => {
-    fetch(`${apiUrl}/requests/${params.request_id}`, requestOptionsGet)
+    fetch(`${apiUrl}/request/${params.request_id}`, requestOptionsGet)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
           setRequest(res.data);
+          console.log(res.data);
         } else {
           console.log("else");
         }
@@ -177,7 +178,7 @@ function RequestUpdate() {
       .then((res) => {
         if (res.data) {
           setSubjects(res.data);
-          console.log(res.data);
+          //console.log(res.data);
         }
       });
   };
@@ -202,10 +203,10 @@ function RequestUpdate() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          console.log(res.data);
+          //console.log(res.data);
           setRequest_Type(res.data);
         } else {
-          console.log("else");
+          //console.log("else");
         }
       });
   };
@@ -316,7 +317,7 @@ function RequestUpdate() {
               marginTop: 1,
             }}
           >
-            <Box>
+            <Grid>
               <Typography
                 component="h2"
                 variant="h4"
@@ -329,7 +330,7 @@ function RequestUpdate() {
                 {" "}
                 แก้ไขข้อมูลรายวิชา{" "}
               </Typography>
-            </Box>
+            </Grid>
             {/* <TextField
               label="รหัสนักศึกษา"
               id="Student_ID"
@@ -339,25 +340,31 @@ function RequestUpdate() {
               sx={{ marginLeft: "550px" }}
               onChange={handleInputChange}
             /> */}
-            <TextField
-              label="รหัสอาจารย์"
-              id="Professor_ID"
-              variant="outlined"
-              type="string"
-              value={request.Professor_ID}
-              onChange={handleInputChange}
-              sx={{ marginLeft: "550px" }}
-            />
-            <TextField
-              // disabled
-              label="ลำดับที่"
-              id="Request_ID"
-              variant="outlined"
-              type="number"
-              defaultValue={request.Request_ID}
-              value={request.Request_ID}
-              onChange={handleInputChange}
-            />
+            <Box sx={{ marginLeft: "950px" }}>
+              <Box>
+                <p>รหัสอาจารย์</p>
+                <TextField
+                  disabled
+                  id="Professor_ID"
+                  variant="outlined"
+                  type="string"
+                  value={request.Professor_ID}
+                  onChange={handleInputChange}
+                />
+              </Box>
+              <Box>
+                <p>รหัสลงทะเบียน</p>
+                <TextField
+                  disabled
+                  id="Request_ID"
+                  variant="outlined"
+                  type="number"
+                  defaultValue={request.Request_ID}
+                  value={request.Request_ID}
+                  onChange={handleInputChange}
+                />
+              </Box>
+            </Box>
           </Box>
         </Paper>
 
@@ -372,7 +379,6 @@ function RequestUpdate() {
                   id="Subject_ID"
                   variant="outlined"
                   type="string"
-                  value={request.Subject_ID}
                   onChange={handleInputChangeSearch}
                 />
               </Box>
@@ -508,7 +514,6 @@ function RequestUpdate() {
               </Grid>
               <Grid sx={{ padding: 2 }}>
                 <TextField
-                  label="เหตุผล"
                   id="Reason"
                   variant="outlined"
                   type="string"
@@ -532,7 +537,6 @@ function RequestUpdate() {
                 >
                   <InputLabel id="Request_Type_ID">ประเภทคำร้อง</InputLabel>
                   <Select
-                    labelId="Request_Type_ID"
                     id="Request_Type_ID"
                     value={request.Request_Type_ID}
                     onChange={handleSelectChange}

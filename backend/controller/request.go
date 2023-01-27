@@ -94,15 +94,15 @@ func ListRequest(c *gin.Context) {
 
 // Get /request
 func GetRequest(c *gin.Context) {
-	var extendedRequest []extendedRequest
+	var request entity.Request
 
 	id := c.Param("request_id")
-	query := entity.DB().Raw("SELECT e.*, c.*, r.* FROM requests e JOIN subjects c JOIN request_types r ON e.subject_id = c.subject_id  AND  e.section = c.section  AND  e.request_type_id = r.request_type_id",id).Scan(&extendedRequest)
+	query := entity.DB().Where("request_id = ?",id).First(&request)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": extendedRequest})
+	c.JSON(http.StatusOK, gin.H{"data": request})
 }
 
 // DELETE /request

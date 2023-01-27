@@ -148,6 +148,40 @@ func main() {
 	r.GET("/approval_type/:request_type_id", controller.GetApproval_Type)
 	r.POST("/approval_types", controller.CreateApproval_Type)
 	// Run the server
+
+
+
+
+	//Adding_reducing
+	r.GET("/adding_reducingsss", controller.ListAdding_reducingss)//เรียกใช้เพื่อแสดงค่าในตารางของตัวเองทั้งหมด
+
+	r.GET("/subjects/:course_id", controller.GetSubjectByCourse)
+	r.GET("/adding_reducings", controller.ListAdding_reducing)
+	r.GET("/adding_reducing/:change_id", controller.GetAdding_reducing)
+	r.GET("/previous_adding", controller.GetPreviousAdding_reducing)
+	r.POST("/adding_reducings", controller.CreateAdding_reducing)
+	r.PATCH("/adding_reducings_update", controller.UpdateAdding_reducing)
+	r.DELETE("/adding_reducing/:change_id", controller.DeleteAdding_reducing)
+	// Run the server
+	
+	//Adding_point
+
+	r.GET("/adding_points", controller.ListAdding_point)
+
+
+
+	r.GET("/adding_points/:subject/:section", controller.GetStudenByEnroll)
+	r.GET("/adding_point/:adding_point_id", controller.GetAdding_point)
+	r.GET("/previous_adding_point", controller.GetPreviousAdding_point)
+	r.POST("/adding_points", controller.CreateAdding_point)
+	r.PATCH("adding_points", controller.UpdateAdding_point)
+	r.DELETE("/adding_point/:adding_point_id", controller.DeleteAdding_point)
+
+
+	// Grade
+	r.GET("/grades", controller.ListGrade)
+	r.GET("/grade/:grade_id", controller.GetGrade)
+	r.POST("/grades", controller.CreateGrade)
 	r.Run()
 
 }

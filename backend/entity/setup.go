@@ -626,5 +626,55 @@ func SetupDatabase() {
 		Approval_Type:  Approval_Type2,
 	}
 	db.Create(&Approval2) 
+	
+	///-----------------------Adding_reducing------------------------
+	Adding_reducing1 := Adding_reducing{
+		Change_ID:       1,
+		Status:           "เพิ่ม",
+		// Student:       student1,
+		Enroll:        enroll1,
+		Subject:       software_engineering_sec2,
+		
+	}
+	db.Create(&Adding_reducing1)
+  
+	Adding_reducing2 := Adding_reducing{
+		Change_ID:       2,
+		Status:           "ลด",
+		// Student:       student1,
+		Enroll:  		enroll2,
+		Subject:       operating_system_sec1,
+		
+	}
+	db.Create(&Adding_reducing2)
+
+
+
+	 Grade1:= Grade{
+		Grade_ID: "A",
+		Description: "ดีเยี่ยม",
+	}
+	db.Create(&Grade1)
+	Grade2:= Grade{
+		Grade_ID: "B+",
+		Description: "ดีมาก",
+	}
+	db.Create(&Grade2)
+
+	Adding_point1:=Adding_point{
+		Adding_point_ID: "AP1",
+		Professor:       professor1,
+		Enroll:          enroll1,
+		Grade:           Grade1,
+	}
+	db.Create(&Adding_point1)
+
+	Adding_point2:=Adding_point{
+		Adding_point_ID: "AP2",
+		Professor:       professor2,
+		Enroll:          enroll2,
+		Grade:           Grade2,
+	}
+	db.Create(&Adding_point2)
 
 }

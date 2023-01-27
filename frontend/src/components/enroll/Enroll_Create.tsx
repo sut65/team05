@@ -28,27 +28,16 @@ import TableRow from '@mui/material/TableRow';
 
 import Typography from "@mui/material/Typography";
 
-import Divider from "@mui/material/Divider";
-
 import Snackbar from "@mui/material/Snackbar";
 
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import { EnrollInterface } from "../../models/I_Enroll";
 
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
 import SearchIcon from '@mui/icons-material/Search';
 
-import SaveIcon from '@mui/icons-material/Save';
-
-import { DataGrid } from "@mui/x-data-grid";
-
 import FactCheckIcon from '@mui/icons-material/FactCheck';
+
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -66,7 +55,6 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 ) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-
 
 
 function CreateEnroll() {
@@ -109,22 +97,14 @@ function CreateEnroll() {
     setSearchSubjectID(event.target.value);
   };
 
-  const handleInputChange = (
-    event: React.ChangeEvent<{ id?: string; value: any }>
-  ) => {
-    const id = event.target.id as keyof typeof CreateEnroll;
-    const { value } = event.target;
-
-    setEnroll({ ...enroll, [id]: value });
-
-  };
-
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const name = event.target.name as keyof typeof enroll;
     setEnroll({
       ...enroll,
       [name]: event.target.value,
     });
+    getSubjectByCourse(event.target.value)
+    console.log(event.target.value)
   };
 
   const handleChangePage = (
@@ -209,13 +189,26 @@ function CreateEnroll() {
       });
   };
 
-
+  const getSubjectByCourse = async (course_id: any) => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/subjectd/${course_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          console.log(res.data)
+          setSubjects(res.data);
+        }
+      });
+  };
   const getSubjectBySubjectID = async (subject_id: any) => {
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/sublject/${subject_id}`, requestOptions)
+    fetch(`${apiUrl}/subljects/${subject_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -239,6 +232,7 @@ function CreateEnroll() {
         }
       });
   };
+ 
 
 
   useEffect(() => {
@@ -410,7 +404,6 @@ function CreateEnroll() {
                     <TableCell align="left">หน่วยกิต</TableCell>
                     <TableCell align="left">กลุ่ม</TableCell>
                     <TableCell align="center">เลือก</TableCell>
-
                   </TableRow>
                 </TableHead>
 

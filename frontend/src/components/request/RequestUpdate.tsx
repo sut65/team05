@@ -246,12 +246,7 @@ function RequestUpdate() {
           ? parseInt(request.Request_ID)
           : request.Request_ID,
       // request.Request_ID ?? "",
-      // Student_ID: request.Student_ID ?? "",
-      Professor_ID:
-        typeof request.Professor_ID === "string"
-          ? parseInt(request.Professor_ID)
-          : request.Professor_ID,
-
+      Student_ID: request.Student_ID ?? "",
       Subject_ID: request.Subject_ID ?? "",
       Section: request.Section ?? "",
       Reason: request.Reason ?? "",
@@ -331,24 +326,15 @@ function RequestUpdate() {
                 แก้ไขข้อมูลรายวิชา{" "}
               </Typography>
             </Grid>
-            {/* <TextField
-              label="รหัสนักศึกษา"
-              id="Student_ID"
-              variant="outlined"
-              type="string"
-              value={request.Student_ID}
-              sx={{ marginLeft: "550px" }}
-              onChange={handleInputChange}
-            /> */}
             <Box sx={{ marginLeft: "950px" }}>
               <Box>
-                <p>รหัสอาจารย์</p>
+                <p>รหัสนักศึกษา</p>
                 <TextField
                   disabled
-                  id="Professor_ID"
+                  id="Student_ID"
                   variant="outlined"
                   type="string"
-                  value={request.Professor_ID}
+                  value={request.Student_ID}
                   onChange={handleInputChange}
                 />
               </Box>

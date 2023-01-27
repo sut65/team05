@@ -234,7 +234,7 @@ function RequestCreate() {
           ? parseInt(request.Request_ID)
           : request.Request_ID,
       // request.Request_ID ?? "",
-      // Student_ID: request.Student_ID ?? "",
+      Student_ID: request.Student_ID ?? "",
       Professor_ID:
         typeof request.Professor_ID === "string"
           ? parseInt(request.Professor_ID)
@@ -304,25 +304,41 @@ function RequestCreate() {
               marginTop: 1,
             }}
           >
-            <Box>
-              <Typography
-                component="h2"
-                variant="h4"
-                color="primary"
-                gutterBottom
-              >
-                ยื่นคำร้องออนไลน์
-              </Typography>
-            </Box>
-            {/* <TextField
+            <Grid>
+              <Grid>
+                <Typography
+                  component="h2"
+                  variant="h4"
+                  color="primary"
+                  gutterBottom
+                >
+                  ยื่นคำร้องออนไลน์
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid sx={{ marginLeft: "450px" }}>
+              <p>รหัสลงทะเบียน</p>
+            </Grid>
+            <Grid sx={{ marginLeft: "30px" }}>
+              <TextField
+                disabled
+                id="Request_ID"
+                variant="outlined"
+                type="number"
+                defaultValue={request.Request_ID}
+                value={request.Request_ID}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <TextField
               label="รหัสนักศึกษา"
               id="Student_ID"
               variant="outlined"
               type="string"
               value={request.Student_ID}
-              sx={{ marginLeft: "550px" }}
+              sx={{ marginLeft: "30px" }}
               onChange={handleInputChange}
-            /> */}
+            />
             {/* <TextField
               id="Professor_ID"
               variant="outlined"
@@ -331,15 +347,6 @@ function RequestCreate() {
               onChange={handleInputChange}
               sx={{ marginLeft: "550px" }}
             /> */}
-            <TextField
-              disabled
-              id="Request_ID"
-              variant="outlined"
-              type="number"
-              defaultValue={request.Request_ID}
-              value={request.Request_ID}
-              onChange={handleInputChange}
-            />
           </Box>
         </Paper>
 
@@ -441,7 +448,6 @@ function RequestCreate() {
                           variant="contained"
                           sx={{ borderRadius: 0 }}
                           onClick={() => {
-                            request.Professor_ID = row.Professor_ID;
                             request.Subject_ID = row.Subject_ID;
                             request.Section = row.Section;
                             console.log(request.Subject_ID);

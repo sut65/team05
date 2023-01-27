@@ -12,10 +12,8 @@ type Request struct {
 
 	Request_ID uint `gorm:"primaryKey"`
 
-	//Student_ID *string
-	// Student    Student `gorm:"references:Student_ID"`
-	Professor_ID *uint
-	Professor    Professor `gorm:"references:id"`
+	Student_ID *string
+	Student    Student `gorm:"references:Student_ID"`
 
 	Subject_ID *string
 	Subject    Subject `gorm:"references:Subject_ID"`

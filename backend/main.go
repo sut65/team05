@@ -102,19 +102,37 @@ func main() {
 	// r.PATCH("/roominforms", controller.UpdateRoominform)
 	// r.DELETE("/roominforms/:id", controller.DeleteRoominform)
 
-// Request
+	// Request
 	r.GET("/requests", controller.ListRequest)
 	r.GET("/request/:request_id", controller.GetRequest)
 	r.GET("/previous_request", controller.GetPreviousRequest)
 	r.POST("/requests", controller.CreateRequest)
 	r.PATCH("/requests", controller.UpdateRequest)
 	r.DELETE("/request/:request_id", controller.DeleteRequest)
-	
 
 	// Request_Type
 	r.GET("/request_types", controller.ListRequest_Type)
 	r.GET("/request_type/:request_type_id", controller.GetRequest_Type)
 	r.POST("/request_types", controller.CreateRequest_Type)
+
+	// Course
+	r.GET("/courses", controller.ListCourses)
+	r.GET("/courses/:course_id", controller.GetCourseSearch)
+	r.GET("/course/:course_id", controller.GetCourse)
+	r.POST("/courses", controller.CreateCourse)
+	r.DELETE("/courses/:course_id", controller.DeleteCourse)
+	r.PATCH("/courses", controller.UpdateCourses)
+
+	r.GET("/qualifications", controller.ListQualifications)
+	r.GET("/qualification/:qualification_id", controller.GetQualification)
+	r.POST("qualifications", controller.CreateQualification)
+	r.DELETE("/qualifications/:qualification_id", controller.DeleteQualification)
+	r.GET("/qualification", controller.ListQualificationName)
+
+	r.GET("/majors", controller.ListMajors)
+	r.GET("/major/:major_id", controller.GetMajor)
+	r.POST("majors", controller.CreateMajor)
+	r.DELETE("/majors/:major_id", controller.DeleteMajor)
 	// Run the server
 	r.Run()
 

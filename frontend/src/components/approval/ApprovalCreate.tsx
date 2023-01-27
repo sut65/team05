@@ -330,16 +330,8 @@ function ApprovalCreate() {
               sx={{ marginLeft: "550px" }}
               onChange={handleInputChange}
             /> */}
-            {/* <TextField
-              label="Professor_ID"
-              id="Professor_ID"
-              variant="outlined"
-              type="string"
-              value={approval.Professor_ID}
-              onChange={handleInputChange}
-              sx={{ marginLeft: "550px" }}
-            />
-            <TextField
+
+            {/*<TextField
               label="รหัสลงทะเบียน"
               id="Request_ID"
               variant="outlined"
@@ -348,15 +340,26 @@ function ApprovalCreate() {
               onChange={handleInputChange}
               // sx={{ marginLeft: "550px" }}
             /> */}
-            <TextField
-              disabled
-              id="Approval_ID"
-              variant="outlined"
-              type="number"
-              defaultValue={approval.Approval_ID}
-              value={approval.Approval_ID}
-              onChange={handleInputChange}
-            />
+            <Box sx={{ marginLeft: "850px" }}>
+              <p>ลำดับ</p>
+              <TextField
+                disabled
+                id="Approval_ID"
+                variant="outlined"
+                type="number"
+                defaultValue={approval.Approval_ID}
+                value={approval.Approval_ID}
+                onChange={handleInputChange}
+              />
+              <TextField
+                label="รหัสอาจารย์"
+                id="Professor_ID"
+                variant="outlined"
+                type="string"
+                value={approval.Professor_ID}
+                onChange={handleInputChange}
+              />
+            </Box>
           </Box>
         </Paper>
 
@@ -405,9 +408,9 @@ function ApprovalCreate() {
                     <StyledTableCell align="center" sx={{ border: 1 }}>
                       รหัสลงทะเบียน
                     </StyledTableCell>
-                    {/* <StyledTableCell align="center" sx={{ border: 1 }}>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
                       รหัสนักศึกษา
-                    </StyledTableCell> */}
+                    </StyledTableCell>
                     <StyledTableCell align="center" sx={{ border: 1 }}>
                       รหัสวิชา
                     </StyledTableCell>
@@ -425,6 +428,12 @@ function ApprovalCreate() {
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ border: 1 }}>
                       อาจารย์
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      เหตุผล
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      ประเภทคำร้อง
                     </StyledTableCell>
                   </TableRow>
                 </TableHead>
@@ -444,6 +453,9 @@ function ApprovalCreate() {
                       >
                         {row.Request_ID}
                       </StyledTableCell>
+                      <TableCell component="th" scope="row" align="center">
+                        {row.Student_ID}
+                      </TableCell>
                       <StyledTableCell
                         component="th"
                         scope="row"
@@ -466,20 +478,24 @@ function ApprovalCreate() {
                       <StyledTableCell align="center">
                         {row.Professor_Name}
                       </StyledTableCell>
+                      <TableCell align="center">{row.Reason}</TableCell>
+                      <TableCell align="center">
+                        {row.Request_Type_Name}
+                      </TableCell>
                       <StyledTableCell>
-                        <AddIcon
-                          //variant="contained"
+                        <Button
+                          variant="contained"
                           aria-label="AddIcon"
-                          // sx={{ borderRadius: 0 }}
+                          sx={{ borderRadius: 0 }}
                           onClick={() => {
                             approval.Request_ID = row.Request_ID;
-                            approval.Professor_ID = row.Professor_ID;
                             approval.Section = row.Section;
                             console.log(approval.Request_ID);
                             console.log(approval.Section);
-                            console.log(approval.Professor_ID);
                           }}
-                        ></AddIcon>
+                        >
+                          เพิ่ม
+                        </Button>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}

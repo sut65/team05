@@ -300,9 +300,6 @@ function Approval() {
                     รหัสลงทะเบียน
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
-                    รหัสอาจารย์
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
                     รหัสวิชา
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
@@ -314,9 +311,12 @@ function Approval() {
                   <StyledTableCell align="center" sx={{ border: 1 }}>
                     กลุ่ม
                   </StyledTableCell>
-                  {/* <StyledTableCell align="center" sx={{ border: 1 }}>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
                     หลักสูตร
-                  </StyledTableCell> */}
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    อาจารย์
+                  </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
                     เหตุผล
                   </StyledTableCell>
@@ -340,15 +340,12 @@ function Approval() {
                     <TableCell component="th" scope="row" align="center">
                       {row.Request_ID}
                     </TableCell>
-                    <TableCell component="th" scope="row" align="center">
-                      {row.Professor_ID}
-                    </TableCell>
-                    {/* <TableCell align="center">{row.Student_ID}</TableCell> */}
                     <TableCell align="center">{row.Subject_ID}</TableCell>
                     <TableCell align="center">{row.Subject_EN_Name}</TableCell>
                     <TableCell align="center">{row.Unit}</TableCell>
                     <TableCell align="center">{row.Section}</TableCell>
-                    {/* <TableCell align="center">{row.Course_ID}</TableCell> */}
+                    <TableCell align="center">{row.Course_Name}</TableCell>
+                    <TableCell align="center">{row.Professor_Name}</TableCell>
                     <TableCell align="center">{row.Reason}</TableCell>
                     <TableCell align="center">
                       {row.Approval_Type_Name}

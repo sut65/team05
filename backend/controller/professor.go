@@ -50,7 +50,7 @@ func ListProfessors(c *gin.Context) {
 // DELETE /professors/:id
 func DeleteProfessor(c *gin.Context) {
 
-	id := c.Param("ID_card")
+	id := c.Param("Professor_ID")
 
 	if tx := entity.DB().Exec("DELETE FROM professors WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
@@ -66,7 +66,7 @@ func UpdateProfessor(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", professor.ID_card).First(&professor); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", professor.Professor_ID).First(&professor); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}

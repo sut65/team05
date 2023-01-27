@@ -40,7 +40,7 @@ func SetupDatabase() {
 	// Migrate the schema
 	database.AutoMigrate(
 		&Admin{},
-		// &Status{},
+		&Status{},
 		&RoomType{},
 		&Building{},
 		// &Room{},
@@ -173,7 +173,7 @@ func SetupDatabase() {
 	db.Create(&cpe2560)
 	db.Create(&cpe2564)
 	db.Create(&ee2560)
-//Student
+	//Student
 	dormitory1 := Dormitory{
 		Dormitory_ID:   "DT01",
 		Dormitory_Name: "Dormitory8",
@@ -225,40 +225,52 @@ func SetupDatabase() {
 	}
 	db.Model(&Student{}).Create(&student3)
 
-	////---------------------------------------------------------------
+	//status
+	status1 := Status{
+		Status_ID:   "ST1",
+		Status_name: "ยังทำการสอนอยู่",
+	}
+	db.Create(&status1)
 
+	////---------------------------------------------------------------
 	professor1 := Professor{
 		Model:              gorm.Model{ID: 1},
-		ID_card:            "123456",
+		Professor_ID:       "123456",
 		Professor_name:     "Thanakorn Punya",
 		Professor_address:  "Nakhonratchasima",
 		Professor_email:    "nun@gmail.com",
 		Professor_tel:      "0958741258",
+		Status:             status1,
 		Admin:              admin3,
+		Qualification:      qualification1,
 		Major:              cpe,
 		Professor_password: "B56221",
 	}
 
 	professor2 := Professor{
 		Model:              gorm.Model{ID: 2},
-		ID_card:            "12345678",
+		Professor_ID:       "12345678",
 		Professor_name:     "Surachet Sukdee",
 		Professor_address:  "Nakhonratchasima",
 		Professor_email:    "nun2@gmail.com",
 		Professor_tel:      "0958741258",
+		Status:             status1,
 		Admin:              admin3,
+		Qualification:      qualification1,
 		Major:              ee,
 		Professor_password: "B56221",
 	}
 
 	professor3 := Professor{
 		Model:              gorm.Model{ID: 3},
-		ID_card:            "6302245",
+		Professor_ID:       "6302245",
 		Professor_name:     "Weerachai Somsuk",
 		Professor_address:  "Chiang Mai",
 		Professor_email:    "nun2@gmail.com",
 		Professor_tel:      "0958741258",
+		Status:             status1,
 		Admin:              admin3,
+		Qualification:      qualification1,
 		Major:              ee,
 		Professor_password: "B56221",
 	}
@@ -603,9 +615,9 @@ func SetupDatabase() {
 
 	///------------------------Request------------------------
 	Request1 := Request{
-		Request_ID: 1,
-		Reason:     "อยากเรียน",
-		Student:       student1,
+		Request_ID:   1,
+		Reason:       "อยากเรียน",
+		Student:      student1,
 		Section:      2,
 		Subject:      operating_system_sec2,
 		Request_Type: Request_Type1,
@@ -613,9 +625,9 @@ func SetupDatabase() {
 	db.Create(&Request1)
 
 	Request2 := Request{
-		Request_ID: 2,
-		Reason:     "เวลาเรียนชน",
-		Student:       student1,
+		Request_ID:   2,
+		Reason:       "เวลาเรียนชน",
+		Student:      student1,
 		Section:      1,
 		Subject:      problem_solving_sec1,
 		Request_Type: Request_Type2,
@@ -721,5 +733,4 @@ func SetupDatabase() {
 	}
 	db.Create(&Adding_point2)
 
-	
 }

@@ -67,7 +67,7 @@ export default function App() {
 
           <Route path="/create" element={<UserCreate />} />
 
-          <Route path="/update" element={<UserUpdate />} />
+          <Route path="/update/:request_id" element={<UserUpdate />} />
         </Routes>
 
         <Subject_Management_Footer />

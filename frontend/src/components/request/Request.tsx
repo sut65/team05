@@ -66,12 +66,12 @@ function Request() {
   const apiUrl = "http://localhost:8080";
 
   //update
-  const toUpdateRequestPage = () => {
-    navigate({
-      pathname: `/requests/update/${request?.Request_ID}`,
-    });
-    // window.location.reload()
-  };
+  // const toUpdateRequestPage = () => {
+  //   navigate({
+  //     pathname: `/update/${request?.Request_ID}`,
+  //   });
+  //   // window.location.reload()
+  // };
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - requests.length) : 0;
@@ -82,7 +82,7 @@ function Request() {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/request/${params.request_id}`, requestOptions)
+    fetch(`${apiUrl}/requests`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -343,7 +343,9 @@ function Request() {
                     <TableCell>
                       <IconButton
                         aria-label="delete"
-                        onClick={() => deleteRequest(row.Request_ID)}
+                        onClick={() => {
+                          deleteRequest(row.Request_ID);
+                        }}
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -351,9 +353,9 @@ function Request() {
                     <TableCell align="center">
                       <IconButton
                         aria-label="edit"
-                        onClick={toUpdateRequestPage}
-                        component={RouterLink}
-                        to="/update"
+                        onClick={() => {
+                          navigate({ pathname: `/update/${row.Request_ID}` });
+                        }}
                       >
                         <ModeEditIcon />
                       </IconButton>

@@ -173,6 +173,57 @@ func SetupDatabase() {
 	db.Create(&cpe2560)
 	db.Create(&cpe2564)
 	db.Create(&ee2560)
+//Student
+	dormitory1 := Dormitory{
+		Dormitory_ID:   "DT01",
+		Dormitory_Name: "Dormitory8",
+	}
+	db.Model(&Dormitory{}).Create(&dormitory1)
+
+	dormitory2 := Dormitory{
+		Dormitory_ID:   "DT02",
+		Dormitory_Name: "Dormitory7",
+	}
+	db.Model(&Dormitory{}).Create(&dormitory2)
+
+	dormitory3 := Dormitory{
+		Dormitory_ID:   "DT03",
+		Dormitory_Name: "Dormitory13",
+	}
+	db.Model(&Dormitory{}).Create(&dormitory3)
+
+	student1 := Student{
+		Student_ID:       "B631021",
+		Student_Name:     "ปีเตอร์ สงบสุข",
+		Student_Password: "Vuster2572",
+		Datetime:         time.Now(),
+		Admin:            admin1,
+		Course:           cpe2560,
+		Dormitory:        dormitory2,
+	}
+	db.Model(&Student{}).Create(&student1)
+
+	student2 := Student{
+		Student_ID:       "B620023",
+		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
+		Student_Password: "Oop1235",
+		Datetime:         time.Now(),
+		Admin:            admin1,
+		Course:           cpe2560,
+		Dormitory:        dormitory2,
+	}
+	db.Model(&Student{}).Create(&student2)
+
+	student3 := Student{
+		Student_ID:       "B620125",
+		Student_Name:     "สมใจ ใยดี",
+		Student_Password: "Kku5731mn",
+		Datetime:         time.Now(),
+		Admin:            admin1,
+		Course:           cpe2560,
+		Dormitory:        dormitory2,
+	}
+	db.Model(&Student{}).Create(&student3)
 
 	////---------------------------------------------------------------
 
@@ -554,8 +605,7 @@ func SetupDatabase() {
 	Request1 := Request{
 		Request_ID: 1,
 		Reason:     "อยากเรียน",
-		// Student:       student1,
-		Professor:    professor1,
+		Student:       student1,
 		Section:      2,
 		Subject:      operating_system_sec2,
 		Request_Type: Request_Type1,
@@ -565,14 +615,12 @@ func SetupDatabase() {
 	Request2 := Request{
 		Request_ID: 2,
 		Reason:     "เวลาเรียนชน",
-		// Student:       student1,
-		Professor:    professor1,
+		Student:       student1,
 		Section:      1,
 		Subject:      problem_solving_sec1,
 		Request_Type: Request_Type2,
 	}
 	db.Create(&Request2)
-
 	enroll1 := Enroll{
 		Enroll_ID: "E001",
 		// Student_ID : "",
@@ -673,56 +721,5 @@ func SetupDatabase() {
 	}
 	db.Create(&Adding_point2)
 
-	//Student
-	dormitory1 := Dormitory{
-		Dormitory_ID:   "DT01",
-		Dormitory_Name: "Dormitory8",
-	}
-	db.Model(&Dormitory{}).Create(&dormitory1)
-
-	dormitory2 := Dormitory{
-		Dormitory_ID:   "DT02",
-		Dormitory_Name: "Dormitory7",
-	}
-	db.Model(&Dormitory{}).Create(&dormitory2)
-
-	dormitory3 := Dormitory{
-		Dormitory_ID:   "DT03",
-		Dormitory_Name: "Dormitory13",
-	}
-	db.Model(&Dormitory{}).Create(&dormitory3)
-
-	student1 := Student{
-		Student_ID:       "B631021",
-		Student_Name:     "ปีเตอร์ สงบสุข",
-		Student_Password: "Vuster2572",
-		Datetime:         time.Now(),
-		Admin:            admin1,
-		Course:           cpe2560,
-		Dormitory:        dormitory2,
-	}
-	db.Model(&Student{}).Create(&student1)
-
-	student2 := Student{
-		Student_ID:       "B620023",
-		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
-		Student_Password: "Oop1235",
-		Datetime:         time.Now(),
-		Admin:            admin1,
-		Course:           cpe2560,
-		Dormitory:        dormitory2,
-	}
-	db.Model(&Student{}).Create(&student2)
-
-	student3 := Student{
-		Student_ID:       "B620125",
-		Student_Name:     "สมใจ ใยดี",
-		Student_Password: "Kku5731mn",
-		Datetime:         time.Now(),
-		Admin:            admin1,
-		Course:           cpe2560,
-		Dormitory:        dormitory2,
-	}
-	db.Model(&Student{}).Create(&student3)
-
+	
 }

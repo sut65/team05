@@ -6,8 +6,8 @@ export interface RequestInterface {
     Request_ID: number;
     Reason: string;
 
-    // Student_ID: string;
-    //Student: StudentInterface
+    Student_ID: string;
+    Student: string;
 
     Subject_ID: string;
     Subject: Subject;

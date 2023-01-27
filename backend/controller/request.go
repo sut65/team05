@@ -14,6 +14,7 @@ type extendedRequest struct {
 	Subject_TH_Name string
 	Subject_EN_Name string
 	Request_Type_Name string
+	Professor_Name string
 	Unit            string
 	Section 		uint
 
@@ -22,7 +23,7 @@ type extendedRequest struct {
 func CreateRequest(c *gin.Context) {
 	var request entity.Request
 	// var student entity.Student
-	var professor entity.Professor
+	var student entity.Student
 	var subject entity.Subject
 	var request_type entity.Request_Type
 
@@ -38,8 +39,8 @@ func CreateRequest(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "student status not found"})
 	// 	return
 	// }
-	if tx := entity.DB().Where("id = ?", request.Professor_ID).First(&professor); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
+	if tx := entity.DB().Where("student_id = ?", request.Student_ID).First(&student); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "student not found"})
 		return 
 	}
 
@@ -61,8 +62,7 @@ func CreateRequest(c *gin.Context) {
 
 	new_request := entity.Request{
 		Request_ID:   request.Request_ID,
-		// Student: student,
-		Professor: professor,
+		Student: student,
 		Subject: subject,
 		Section: subject.Section,
 		Reason: request.Reason,
@@ -84,7 +84,7 @@ func ListRequest(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	// 	return
 	// }
-		query := entity.DB().Raw("SELECT r.*, s.*, rt.*,c.*,p.* FROM requests r JOIN subjects s JOIN request_types rt JOIN courses c JOIN professors p ON r.subject_id = s.subject_id AND  r.section = s.section AND  r.request_type_id = rt.request_type_id AND s.course_id = c.course_id AND p.id = s.professor_id").Scan(&extendedRequest)
+		query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* FROM requests r JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id").Scan(&extendedRequest)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -120,7 +120,7 @@ func DeleteRequest(c *gin.Context) {
 func UpdateRequest(c *gin.Context) {
 	var request entity.Request
 	// var student entity.Student
-	var professor entity.Professor
+	var student entity.Student
 	var subject entity.Subject
 	var request_type entity.Request_Type
 
@@ -138,9 +138,9 @@ func UpdateRequest(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "student status not found"})
 	// 	return
 	// }
-	if tx := entity.DB().Where("id = ?", request.Professor_ID).First(&professor); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
-		return
+	if tx := entity.DB().Where("student_id = ?", request.Student_ID).First(&student); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "student not found"})
+		return 
 	}
 
 	// Communication Diagram Step
@@ -161,8 +161,7 @@ func UpdateRequest(c *gin.Context) {
 
 	update_request := entity.Request{
 		Request_ID:   request.Request_ID,
-		// Student: student,
-		Professor: professor,
+		Student: student,
 		Subject: subject,
 		Section: update_section,
 		Reason: update_reason,

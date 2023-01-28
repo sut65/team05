@@ -25,27 +25,16 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import { Course } from "../../models/I_Course";
-
 import { QualificationsInterface } from "../../models/I_Qualification";
-
 import { MajorsInterface } from "../../models/I_Major";
-
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
 import { SelectChangeEvent } from "@mui/material";
-
 import { FormHelperText, MenuItem, Select,} from "@mui/material";
-
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
 import AddIcon from '@mui/icons-material/Add';
-
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
@@ -435,7 +424,7 @@ const requestOptionsGet = {
 
          <Grid item xs={12}>
 
-           <Button component={RouterLink} to="/" variant="contained" color="warning">
+           <Button component={RouterLink} to="/course" variant="contained" color="warning">
 
            <ArrowBackIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
 

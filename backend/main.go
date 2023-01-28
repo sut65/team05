@@ -31,7 +31,15 @@ func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
-	// Initiate route GET
+	// ++++++++++++++++++ Course Routes +++++++++++++++++++++++++
+	r.GET("/courses", controller.ListCourses)
+	r.GET("/courses/:course_id", controller.GetCourseSearch)
+	r.GET("/course/:course_id", controller.GetCourse)
+	r.POST("/courses", controller.CreateCourse)
+	r.DELETE("/courses/:course_id", controller.DeleteCourse)
+	r.PATCH("/courses", controller.UpdateCourses)
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 	r.GET("/subjects", controller.ListSubjects)
 	r.GET("/prev_subject", controller.GetPreviousSubject)
 	r.GET("/subject/:subject_id", controller.GetSubject)
@@ -93,6 +101,7 @@ func main() {
 	r.GET("/majors", controller.ListMajors)
 	r.GET("/major/:id", controller.GetMajor)
 	r.POST("/majors", controller.CreateMajor)
+	r.DELETE("/majors/:major_id", controller.DeleteMajor)
 
 	// // Status Routes
 	r.GET("/statuses", controller.ListStatuses)
@@ -129,24 +138,11 @@ func main() {
 	r.GET("/request_type/:request_type_id", controller.GetRequest_Type)
 	r.POST("/request_types", controller.CreateRequest_Type)
 
-	// Course
-	r.GET("/courses", controller.ListCourses)
-	r.GET("/courses/:course_id", controller.GetCourseSearch)
-	r.GET("/course/:course_id", controller.GetCourse)
-	r.POST("/courses", controller.CreateCourse)
-	r.DELETE("/courses/:course_id", controller.DeleteCourse)
-	r.PATCH("/courses", controller.UpdateCourses)
-
 	r.GET("/qualifications", controller.ListQualifications)
 	r.GET("/qualification/:qualification_id", controller.GetQualification)
 	r.POST("qualifications", controller.CreateQualification)
 	r.DELETE("/qualifications/:qualification_id", controller.DeleteQualification)
 	r.GET("/qualification", controller.ListQualificationName)
-
-	r.GET("/majors", controller.ListMajors)
-	r.GET("/major/:major_id", controller.GetMajor)
-	r.POST("majors", controller.CreateMajor)
-	r.DELETE("/majors/:major_id", controller.DeleteMajor)
 
 	// Approval
 	r.GET("/approvals", controller.ListApproval)

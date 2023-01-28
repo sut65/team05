@@ -33,7 +33,7 @@ function CourseInfo() {
     const apiUrl = "http://localhost:8080";
     //update
     const toUpdateCoursePage = () => {
-        navigate({ pathname: `/course-handle-update/${course?.Course_ID}` })
+        navigate({ pathname: `/course/update/${course?.Course_ID}` })
         // window.location.reload()
     };
 
@@ -65,7 +65,7 @@ function CourseInfo() {
             .then((res) => {
                 if (res.data) {
                     console.log("Data remove")
-                    window.location.href = "/"
+                    window.location.href = "/course"
                 }
                 else {
                     console.log("Something was wrong!!")
@@ -194,7 +194,7 @@ function CourseInfo() {
                 <Box sx={{ width: 0.33, margin: 0.5, }}>
                     <Button
                         component={RouterLink}
-                        to="/"
+                        to="/course"
                         variant="contained"
                         color="primary"
                         sx={{ margin: 0.5 }}

@@ -13,10 +13,6 @@ import Class_Schedule_Create from "./components/class_and_exam_schedule/Class_Sc
 import Exam_Schedule_Create from "./components/class_and_exam_schedule/Exam_Schedule_Create";
 import Class_Schedule_Update from "./components/class_and_exam_schedule/Class_Schedule_Update";
 import Exam_Schedule_Update from "./components/class_and_exam_schedule/Exam_Schedule_Update";
-import Course_Info from "./components/course/Course_Info";
-import Course_Create from "./components/course/Course_Create";
-import Course_List from "./components/course/Course_List";
-import Course_Update from "./components/course/Course_Update";
 import Users from "./components/request/Request";
 import UserCreate from "./components/request/RequestCreate";
 import UserUpdate from "./components/request/RequestUpdate";
@@ -31,15 +27,27 @@ import Student_Update from "./components/student/Student_Update";
 import Home_Navbar from "./components/navbars/Home_navbar";
 import MainPage from "./components/pages/Main_Page";
 
+// Course
+import Course_List from "./components/course/Course_List";
+import CourseCreate from "./components/course/Course_Create";
+import Course_Info from "./components/course/Course_Info";
+import Course_Update from "./components/course/Course_Update";
+
 export default function App() {
     return (
         <Router>
             <div>
-                <Home_Navbar/>
-                <Route path="/" element={<MainPage/>} />
-                {/* <Route path="/" element={<MainPage/>} /> */}
+                <Home_Navbar />
+                <Routes>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/course" element={<Course_List />} />
+                    <Route path="/course/course_create" element={<CourseCreate />} />
+                    <Route path="/course/:course_id" element={<Course_Info />} />
+                    <Route path="/course/update/:course_id" element={<Course_Update />} />
+                
+                </Routes>
                 {/* <Subject_Management_Navbar /> */}
-          
+
             </div>
         </Router>
     );

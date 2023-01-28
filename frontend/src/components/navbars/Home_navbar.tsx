@@ -10,6 +10,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useNavigate } from "react-router-dom";
 import ClassIcon from '@mui/icons-material/Class';
 import HomeIcon from '@mui/icons-material/Home';
+import { Link as RouterLink } from "react-router-dom";
 
 function Home_Navbar() {
     const page_navigate = useNavigate()
@@ -117,8 +118,8 @@ function Home_Navbar() {
 
                         <ListItem disablePadding>
                             <ListItemButton
-                            // component={RouterLink}
-                            // to="/form"
+                            component={RouterLink}
+                            to="/course"
                             >
                                 {/* <ListItemIcon>
                                     <FeedbackIcon />

@@ -63,11 +63,23 @@ func main() {
 	r.GET("/class_schedules", controller.ListClassSchedule)
 	r.GET("/class_schedule/:subject_id", controller.GetClassSchedule)
 	r.GET("/class_schedule/:subject_id/:section", controller.GetClassBySubjectID_and_Section)
+	r.POST("/class_schedule/class_schedule_create", controller.CreateClassSchedule)
+	r.PATCH("/class_schedules", controller.UpdateClassSchedule)
+	r.DELETE("/class_schedule/:class_schedule_id", controller.DeleteClassSchedule)
 
 	// ++++++++++++++++++ Exam Schedule Routes ++++++++++++++++++++++++
 	r.GET("/exam_schedules", controller.ListExamSchedule)
-	r.GET("/exam_schedule/:subject_id", controller.GetExamSchedule)
+	r.GET("/exam_schedule/:subject_id/:exam_type", controller.GetExamScheduleByType)
+	r.POST("/exam_schedules", controller.CreateExamSchedule)
+	r.PATCH("/exam_schedules", controller.UpdateExamSchedule)
+	r.DELETE("/exam_schedule/:exam_schedule_id", controller.DeleteExamSchedule)
 
+	// ++++++++++++++++++ Room Routes ++++++++++++++++++++++++
+	r.GET("/rooms", controller.ListRoominforms)
+	r.GET("/room/:room_id", controller.GetRoominform)
+	r.POST("/rooms", controller.CreateRoominform)
+	r.PATCH("/rooms", controller.UpdateRoominform)
+	r.DELETE("/rooms/:room_id", controller.DeleteRoominform)
 	// ++++++++++++++++++ Request Routes ++++++++++++++++++++++++
 	r.GET("/requests", controller.ListRequest)
 	r.GET("/request/:request_id", controller.GetRequest)
@@ -148,13 +160,6 @@ func main() {
 	// r.GET("/buildings", controller.ListBuildings)
 	// r.GET("/building/:id", controller.GetBuilding)
 	// r.POST("/buildings", controller.CreateBuilding)
-
-	// // Roominform Routes
-	// r.GET("/roominforms", controller.ListRoominforms)
-	// r.GET("/roominform/:id", controller.GetRoominform)
-	// r.POST("/roominforms", controller.CreateRoominform)
-	// r.PATCH("/roominforms", controller.UpdateRoominform)
-	// r.DELETE("/roominforms/:id", controller.DeleteRoominform)
 
 	// Request
 

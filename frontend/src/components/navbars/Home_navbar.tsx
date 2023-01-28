@@ -92,10 +92,7 @@ function Home_Navbar() {
                             </FormControl>
                         </Box>
                         <ListItem disablePadding>
-                            <ListItemButton
-                            // component={RouterLink}
-                            // to="/member-home"
-                            >
+                            <ListItemButton component={RouterLink} to="/">
                                 {/* <ListItemIcon>
                                     <HomeIcon />
                                 </ListItemIcon> */}
@@ -113,6 +110,18 @@ function Home_Navbar() {
                                     <ClassIcon />
                                 </ListItemIcon> */}
                                 <ListItemText primary="วิชาที่เปิดสอน" />
+                            </ListItemButton>
+                        </ListItem>
+
+                        <ListItem disablePadding>
+                            <ListItemButton
+                            component={RouterLink}
+                            to="/schedule"
+                            >
+                                {/* <ListItemIcon>
+                                    <ClassIcon />
+                                </ListItemIcon> */}
+                                <ListItemText primary="ข้อมูลการใช้ห้อง(สำหรับเจ้าหน้าที่)" />
                             </ListItemButton>
                         </ListItem>
 

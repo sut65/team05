@@ -9,7 +9,7 @@ import CreateSubject from "./components/subject-management/Subject_Create";
 import UpdateSubject from "./components/subject-management/Subject_Update";
 
 // Class Schedule and Exam Schedule
-import ScheduleList from "./components/class_and_exam_schedule/Schedule_List";
+import ScheduleList, { Class_Schedules_List, Exam_Schedules_List } from "./components/class_and_exam_schedule/Schedule_List";
 import Exam_Schedule_Info from "./components/class_and_exam_schedule/Exam_Schedule_Info";
 import Class_Schedule_Info from "./components/class_and_exam_schedule/Class_Schedule_Info";
 import Class_Schedule_Create from "./components/class_and_exam_schedule/Class_Schedule_Create";
@@ -67,6 +67,18 @@ export default function App() {
                     <Route path="/subject/subject_create" element={<CreateSubject />} />
                     <Route path="/subject/:subject_id/:section" element={<SubjectInfo />} />
                     <Route path="/subject/update/:subject_id/:section" element={<UpdateSubject/>} />
+
+                    {/* Class Schedule and Exam Schedule */}
+                    <Route path="/schedule" element={<ScheduleList />} />
+                    <Route path="/class_schedule" element={<ScheduleList />} />
+                    <Route path="/class_schedule/:subject_id/:section" element={<Class_Schedule_Info />} />
+                    <Route path="/class_schedule/update/:subject_id/:section" element={<Class_Schedule_Update />} />
+                    
+                    <Route path="/exam_schedule" element={<ScheduleList />} />
+                    <Route path="/exam_schedule/exam_schedule_create" element={<Exam_Schedule_Create />} />
+                    <Route path="/exam_schedule/:subject_id/:exam_type" element={<Exam_Schedule_Info/>} />
+                    <Route path="/exam_schedule/update/:subject_id/:exam_type" element={<Exam_Schedule_Update/>} />
+
 
                     {/* Request Path */}
                     <Route path="/request" element={<Request/>} />

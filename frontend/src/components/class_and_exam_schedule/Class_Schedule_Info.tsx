@@ -60,7 +60,7 @@ function Class_Schedule_Info() {
             .then((res) => {
                 if (res.data) {
                     console.log("Data remove")
-                    window.location.href = "/"
+                    window.location.href = "/class_schedule"
                 }
                 else {
                     console.log("Something was wrong!!")
@@ -194,7 +194,6 @@ function Class_Schedule_Info() {
                 <Box flex={1} sx={{ border: 1 }}>
                     <Button
                         variant="contained"
-                        // onClick={toUpdateSubjectPage}
                         color="primary"
                         sx={{ margin: 0.5, }}
                     // startIcon={<CreateIcon />}
@@ -208,7 +207,7 @@ function Class_Schedule_Info() {
                     <Button
                         variant="contained"
                         onClick={() => {
-                            navigate({ pathname: `/class_schedule/${class_schedule?.Subject_ID}/${class_schedule?.Section}/update` })
+                            navigate({ pathname: `/class_schedule/update/${class_schedule?.Subject_ID}/${class_schedule?.Section}` })
                         }}
                         color="warning"
                         sx={{ margin: 0.5, }}

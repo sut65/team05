@@ -12,7 +12,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableFooter from '@mui/material/TableFooter';
 import { Class_Schedule, Exam_Schedule } from "../../models/I_Schedule";
 import SearchIcon from '@mui/icons-material/Search';
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Container from "@mui/material/Container";
 import { Box, Button, Divider, Paper, styled, TextField, Typography } from "@mui/material";
 
@@ -61,7 +61,7 @@ function Schedule_Main() {
     )
 }
 
-function Class_Schedules_List() {
+export function Class_Schedules_List() {
     const class_navigate = useNavigate();
 
     const [class_schedules, setClassSchedule] = React.useState<Class_Schedule[]>([]);
@@ -211,7 +211,7 @@ function Class_Schedules_List() {
 
 // ! กดค้นหาข้อมูลการใช้ห้องสอบไม่ได้ เอาไว้ก่อน
 // * แก้ได้ละ แก้ที่ controller
-function Exam_Schedules_List() {
+export function Exam_Schedules_List() {
 
     let [exam_schedules, setExamSchedule] = React.useState<Exam_Schedule[]>([]);
     const [searchExamSubjectID, setSearchExamSubjectID] = React.useState("");
@@ -296,7 +296,7 @@ function Exam_Schedules_List() {
                     <Box sx={{ border: 0 }}>
                         <Button
                             component={Link}
-                            to="/exam_schedule/create"
+                            to="/exam_schedule/exam_schedule_create"
                             variant="contained"
                             sx={{ borderRadius: 0, margin: 1.25, marginTop: 1.5 }}
                         > Add </Button>
@@ -368,6 +368,9 @@ function ScheduleList() {
             default:
                 setTabValue(0);
                 break;
+            case "/schedule":
+                setTabValue(0);
+                break;
             case "/class_schedule":
                 setTabValue(1);
                 break;
@@ -395,7 +398,7 @@ function ScheduleList() {
                             value={tabvalue}
                             sx={{ color: "black" }}
                         >
-                            <Tab label="หน้าหลัก" component={Link} to="/" />
+                            <Tab label="หน้าหลัก" component={Link} to="/schedule" />
                             <Tab label="ข้อมูลรายวิชาและห้องเรียน" component={Link} to="/class_schedule" />
                             <Tab label="ข้อมูลห้องสอบ" component={Link} to="/exam_schedule" />
                         </Tabs>

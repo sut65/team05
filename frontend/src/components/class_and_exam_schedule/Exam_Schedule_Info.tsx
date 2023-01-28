@@ -63,7 +63,7 @@ function Exam_Schedule_Info() {
             .then((res) => {
                 if (res.data) {
                     console.log("Data remove")
-                    window.location.href = "/"
+                    window.location.href = "/exam_schedule"
                 }
                 else {
                     console.log("Something was wrong!!")
@@ -205,7 +205,7 @@ function Exam_Schedule_Info() {
                     <Button
                         variant="contained"
                         onClick={() => {
-                            navigate({ pathname: `/class_schedule/${exam_schedule?.Subject_ID}/${exam_schedule?.Exam_Type}/update` })
+                            navigate({ pathname: `/exam_schedule` })
                         }}
                         color="primary"
                         sx={{ margin: 0.5, }}
@@ -219,7 +219,9 @@ function Exam_Schedule_Info() {
                     flex={1} sx={{ border: 1 }}>
                     <Button
                         variant="contained"
-                        // onClick={toUpdateSubjectPage}
+                        onClick={() => {
+                            navigate({ pathname: `/exam_schedule/update/${exam_schedule?.Subject_ID}/${exam_schedule?.Exam_Type}` })
+                        }}
                         color="warning"
                         sx={{ margin: 0.5, }}
                         startIcon={<CreateIcon />}

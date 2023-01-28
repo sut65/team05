@@ -26,8 +26,8 @@ func CreateRoominform(c *gin.Context) {
 // GET /roominform/:id
 func GetRoominform(c *gin.Context) {
 	var roominform entity.Room
-	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM roominforms WHERE id = ?", id).Scan(&roominform).Error; err != nil {
+	room_id := c.Param("room_id")
+	if err := entity.DB().Raw("SELECT * FROM rooms WHERE room_id = ?", room_id).Scan(&roominform).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -40,7 +40,7 @@ func GetRoominform(c *gin.Context) {
 // GET /roominforms
 func ListRoominforms(c *gin.Context) {
 	var roominforms []entity.Room
-	if err := entity.DB().Raw("SELECT * FROM roominforms").Scan(&roominforms).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM rooms").Scan(&roominforms).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -50,13 +50,13 @@ func ListRoominforms(c *gin.Context) {
 // DELETE /roominforms/:id
 func DeleteRoominform(c *gin.Context) {
 
-	id := c.Param("Room_number")
+	room_id := c.Param("room_id")
 
-	if tx := entity.DB().Exec("DELETE FROM roominforms WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM rooms WHERE room_id = ?", room_id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": id})
+	c.JSON(http.StatusOK, gin.H{"data": room_id})
 }
 
 // PATCH /roominforms
@@ -66,7 +66,7 @@ func UpdateRoominform(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", roominform.Room_ID).First(&roominform); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("room_id = ?", roominform.Room_ID).First(&roominform); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}

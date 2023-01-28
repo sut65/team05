@@ -3,7 +3,7 @@ package entity
 import "gorm.io/gorm"
 
 type Status struct {
-	gorm.Model
+	// gorm.Model
 	Status_ID   string `gorm:"primaryKey"`
 	Status_name string
 	Professors  []Professor `gorm:"foreignKey:StatusID"`
@@ -26,8 +26,8 @@ type Professor struct {
 	AdminID *string
 	Admin   Admin `gorm:"references:Admin_ID"`
 
-	QualificationID *string
-	Qualification   Qualification `gorm:"references:Qualification_ID"`
+	Qualification_ID *string
+	Qualification    Qualification `gorm:"references:Qualification_ID"`
 
 	// Field implemented by B6025121
 	// MajorID *uint

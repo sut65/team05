@@ -140,6 +140,18 @@ function Home_Navbar() {
                             </ListItemButton>
                         </ListItem>
 
+                        <ListItem disablePadding>
+                            <ListItemButton
+                            component={RouterLink}
+                            to="/request"
+                            >
+                                {/* <ListItemIcon>
+                                    <FeedbackIcon />
+                                </ListItemIcon> */}
+                                <ListItemText primary="ยื่นคำร้องออนไลน์" />
+                            </ListItemButton>
+                        </ListItem>
+
                     </List>
 
                     <Divider />

@@ -554,7 +554,7 @@ function RequestUpdate() {
                 padding: 1,
               }}
             >
-              <Button component={RouterLink} to="/" variant="contained">
+              <Button component={RouterLink} to="/request" variant="contained">
                 ย้อนกลับ
               </Button>
 

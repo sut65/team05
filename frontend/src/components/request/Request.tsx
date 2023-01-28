@@ -119,7 +119,7 @@ function Request() {
       .then((res) => {
         if (res.data) {
           console.log("Data remove");
-          window.location.href = "/";
+          window.location.href = "/request";
         } else {
           console.log("Something was wrong!!");
         }
@@ -233,7 +233,7 @@ function Request() {
             <Box>
               <Button
                 component={RouterLink}
-                to="/create"
+                to="/request/request_create"
                 variant="contained"
                 color="primary"
               >
@@ -355,7 +355,7 @@ function Request() {
                       <IconButton
                         aria-label="edit"
                         onClick={() => {
-                          navigate({ pathname: `/update/${row.Request_ID}` });
+                          navigate({ pathname: `/request/update/${row.Request_ID}` });
                         }}
                       >
                         <ModeEditIcon />

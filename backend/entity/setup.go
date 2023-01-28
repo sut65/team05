@@ -716,7 +716,7 @@ func SetupDatabase() {
 	db.Create(&Grade2)
 
 	Adding_point1 := Adding_point{
-		Adding_point_ID: "AP1",
+		Adding_point_ID: 1,
 		Professor:       professor1,
 		Enroll:          enroll1,
 		Grade:           Grade1,
@@ -724,7 +724,7 @@ func SetupDatabase() {
 	db.Create(&Adding_point1)
 
 	Adding_point2 := Adding_point{
-		Adding_point_ID: "AP2",
+		Adding_point_ID: 2,
 		Professor:       professor2,
 		Enroll:          enroll2,
 		Grade:           Grade2,

@@ -64,7 +64,7 @@ func GetStudentSearch(c *gin.Context) {
 
 	var student []extendedStudent
 
-	id := c.Param("student")
+	id := c.Param("student_id")
 
 	if err := entity.DB().Raw("SELECT s.* , c.course_name , d.dormitory_name FROM students s JOIN courses c JOIN dormitories d ON s.course_id = c.course_id AND s.dormitory_id = d.dormitory_id  WHERE student_id = ?", id).Find(&student).Error; err != nil {
 
@@ -100,9 +100,9 @@ func GetStudent(c *gin.Context) {
 
 func ListStudents(c *gin.Context) {
 
-	var courses []extendedCourse
+	var students []extendedStudent
 
-	if err := entity.DB().Preload("Course").Preload("Dormitory").Preload("Student").Raw("SELECT s.* , c.course_name , d.dormitory_name FROM students s JOIN courses c JOIN dormitories d ON s.course_id = c.course_id AND s.dormitory_id = d.dormitory_id").Scan(&courses).Error; err != nil {
+	if err := entity.DB().Preload("Course").Preload("Dormitory").Preload("Student").Raw("SELECT s.* , c.course_name , d.dormitory_name FROM students s JOIN courses c JOIN dormitories d ON s.course_id = c.course_id AND s.dormitory_id = d.dormitory_id").Scan(&students).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -110,7 +110,7 @@ func ListStudents(c *gin.Context) {
 
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": courses})
+	c.JSON(http.StatusOK, gin.H{"data": students})
 
 }
 
@@ -127,8 +127,8 @@ func DeleteStudents(c *gin.Context) {
 
 func UpdateStudents(c *gin.Context) {
 	var student entity.Student
-	var dormitory entity.Dormitory
 	var course entity.Course
+	var dormitory entity.Dormitory
 
 	if err := c.ShouldBindJSON(&student); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -137,8 +137,10 @@ func UpdateStudents(c *gin.Context) {
 	// var updated_Course_ID = course.Course_ID
 	var updated_Student_name = student.Student_Name
 	var updated_Student_password = student.Student_Password
+	var updated_Dormitory_name = student.Dormitory_ID
+	var updated_Course_name = student.Course_ID
 
-	var updated_Datetime = course.Datetime
+	var updated_Datetime = student.Datetime
 	// var updated_Qualification_ID = course.Qualification_ID
 	// var updated_Major_ID = course.Major_ID
 
@@ -161,8 +163,8 @@ func UpdateStudents(c *gin.Context) {
 		Student_Name:     updated_Student_name,
 		Student_Password: updated_Student_password,
 		Datetime:         updated_Datetime,
-		Course_ID:        student.Course_ID,
-		Dormitory_ID:     student.Dormitory_ID,
+		Course_ID:        updated_Course_name,
+		Dormitory_ID:     updated_Dormitory_name,
 	}
 
 	if err := entity.DB().Save(&updated_student).Error; err != nil {

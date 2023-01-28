@@ -24,8 +24,8 @@ func CreateDormitory(c *gin.Context) {
 
 func GetDormitory(c *gin.Context) {
 	var dormitory entity.Dormitory
-	id := c.Param("dormitory_id")
-	if err := entity.DB().Raw("SELECT * FROM dormitories WHERE dormitory_id = ?", id).Find(&dormitory).Error; err != nil {
+	domitory_id := c.Param("dormitory_id")
+	if err := entity.DB().Raw("SELECT * FROM dormitories WHERE dormitory_id = ?", domitory_id).Find(&dormitory).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -44,12 +44,12 @@ func ListDormitorys(c *gin.Context) {
 }
 
 func DeleteDormitorys(c *gin.Context) {
-	id := c.Param("dormitory_id")
+	domitory_id := c.Param("domitory_id")
 
-	if tx := entity.DB().Exec("DELETE FROM dormitories WHERE dormitory_id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM dormitories WHERE dormitory_id = ?", domitory_id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "dormitories not found"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": id})
+	c.JSON(http.StatusOK, gin.H{"data": domitory_id})
 }

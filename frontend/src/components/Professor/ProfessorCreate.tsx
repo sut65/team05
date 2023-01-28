@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import { FormHelperText, MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import { Stats } from "fs";
+import { MajorsInterface } from "../../models/I_Major";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -32,6 +33,7 @@ function CreateProfessor() {
     const [admin, setAdmin] = React.useState<AdminInterface[]>([]);
     const [status, setStatus] = React.useState<StatusInterface[]>([]);
     const [qualification, setQualification] = React.useState<QualificationsInterface[]>([]);
+    const [majors, setMajors] = React.useState<MajorsInterface[]>([]);
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
 
@@ -113,12 +115,24 @@ function CreateProfessor() {
                 }
             });
     };
+    const getMajor = async () => {
+        fetch(`${apiUrl}/majors`, requestOptionsGet)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setMajors(res.data)
+                } else {
+                    console.log("else");
+                }
+            });
+    };
 
 
     useEffect(() => {
         getStatus();
         getQualification();
         getAdmin();
+        getMajor();
     }, []);
 
 
@@ -126,17 +140,18 @@ function CreateProfessor() {
         let data = {
             ID: typeof professor.ID === "string" ? parseInt(professor.ID) : professor.ID,
             Professor_ID: professor.Professor_ID ?? "",
-            Professor_Name: professor.Professor_name ?? "",
-            Professor_Address: professor.Professor_address ?? "",
-            Professor_Email: professor.Professor_email ?? "",
-            Professor_Tel: professor.Professor_tel ?? "",
-            Professor_Password: professor.Professor_password ?? "",
-            Status: typeof professor.Status === "string" ? parseInt(professor.Status) : professor.Status,
-            Qualification: typeof professor.Qualification === "string" ? parseInt(professor.Qualification) : professor.Qualification,
-            Admin: typeof professor.Admin === "string" ? parseInt(professor.Admin) : professor.Admin,
-        
+            Professor_name: professor.Professor_name ?? "",
+            Professor_address: professor.Professor_address ?? "",
+            Professor_email: professor.Professor_email ?? "",
+            Professor_tel: professor.Professor_tel ?? "",
+            Professor_password: professor.Professor_password ?? "",
+            StatusID: professor.StatusID ?? "",
+            Qualification_ID: professor.QualificationID ?? "",
+            AdminID: professor.AdminID ?? "",
+            MajorID: professor.MajorID ?? "",
         };
 
+        console.log(data)
         const requestOptionsPost = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -185,8 +200,8 @@ function CreateProfessor() {
 
             {/* Header */}
             <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
-                <Typography variant="h4" sx={{fontFamily:'Mitr-Regular'}}> ระบบจัดการข้อมูลอาจารย์ </Typography>
-                <Typography sx={{fontFamily:'Mitr-Regular'}}> เพิ่มข้อมูลอาจารย์ </Typography>
+                <Typography variant="h4" sx={{ fontFamily: 'Mitr-Regular' }}> ระบบจัดการข้อมูลอาจารย์ </Typography>
+                <Typography sx={{ fontFamily: 'Mitr-Regular' }}> เพิ่มข้อมูลอาจารย์ </Typography>
             </Paper>
 
             <Grid container item
@@ -199,184 +214,210 @@ function CreateProfessor() {
                 }}>
                 <Box flexGrow={1} sx={{ border: 0, width: "auto" }}>
                     <Box sx={{ border: 0, width: "auto", padding: 1 }}>
-                        <Typography sx={{fontFamily:'Mitr-Regular'}}> เลขประจำตัวประชาชน </Typography>
+                        <Typography sx={{ fontFamily: 'Mitr-Regular' }}> เลขประจำตัวประชาชน </Typography>
                         <FormControl fullWidth>
                             <TextField
                                 id="Professor_ID"
                                 variant="standard"
                                 type="string"
                                 value={professor.Professor_ID}
-                                onChange={handleInputChange} 
-                                sx={{fontFamily:'Mitr-Regular'}}
+                                onChange={handleInputChange}
+                                sx={{ fontFamily: 'Mitr-Regular' }}
                             />
                         </FormControl>
-                        <FormHelperText sx={{fontFamily:'Mitr-Regular'}}> โปรดกรอกเลขประจำตัวประชาชน</FormHelperText>
+                        <FormHelperText sx={{ fontFamily: 'Mitr-Regular' }}> โปรดกรอกเลขประจำตัวประชาชน</FormHelperText>
                     </Box>
 
-                    
+
                     <Box sx={{ border: 0, width: "auto", padding: 1 }}>
-                        <Typography sx={{fontFamily:'Mitr-Regular'}}> ชื่อ-นามสกุล </Typography>
+                        <Typography sx={{ fontFamily: 'Mitr-Regular' }}> ชื่อ-นามสกุล </Typography>
                         <FormControl fullWidth>
                             <TextField
-                                id="Professor_Name"
+                                id="Professor_name"
                                 variant="standard"
                                 type="string"
                                 value={professor.Professor_name}
-                                onChange={handleInputChange} 
-                                sx={{fontFamily:'Mitr-Regular'}}
+                                onChange={handleInputChange}
+                                sx={{ fontFamily: 'Mitr-Regular' }}
                             />
                         </FormControl>
-                        <FormHelperText sx={{fontFamily:'Mitr-Regular'}}> โปรดกรอกชื่อ-นามสกุล</FormHelperText>
+                        <FormHelperText sx={{ fontFamily: 'Mitr-Regular' }}> โปรดกรอกชื่อ-นามสกุล</FormHelperText>
                     </Box>
 
-                    
+
                     <Box sx={{ border: 0, width: "auto", padding: 1 }}>
-                        <Typography sx={{fontFamily:'Mitr-Regular'}}>  ที่อยู่ </Typography>
+                        <Typography sx={{ fontFamily: 'Mitr-Regular' }}>  ที่อยู่ </Typography>
                         <FormControl fullWidth>
                             <TextField
-                                id="Professor_Address"
+                                id="Professor_address"
                                 variant="standard"
                                 type="string"
                                 value={professor.Professor_address}
-                                onChange={handleInputChange} 
-                                sx={{fontFamily:'Mitr-Regular'}}
+                                onChange={handleInputChange}
+                                sx={{ fontFamily: 'Mitr-Regular' }}
                             />
                         </FormControl>
-                        <FormHelperText sx={{fontFamily:'Mitr-Regular'}}> โปรดกรอกที่อยู่</FormHelperText>
+                        <FormHelperText sx={{ fontFamily: 'Mitr-Regular' }}> โปรดกรอกที่อยู่</FormHelperText>
                     </Box>
 
                     <Box flexGrow={1} sx={{ border: 0, width: "auto" }}>
-                    <Box sx={{ border: 0, width: "auto", padding: 1 }}>
-                        <Typography sx={{fontFamily:'Mitr-Regular'}}>  เบอร์โทรศัพท์ </Typography>
-                        <FormControl fullWidth>
-                            <TextField
-                                id="Professor_Tel"
-                                variant="standard"
-                                type="string"
-                                value={professor.Professor_tel}
-                                onChange={handleInputChange} 
-                                sx={{fontFamily:'Mitr-Regular'}}
-                            />
-                        </FormControl>
-                        <FormHelperText sx={{fontFamily:'Mitr-Regular'}}> โปรดกรอกเบอร์โทรศัพท์</FormHelperText>
+                        <Box sx={{ border: 0, width: "auto", padding: 1 }}>
+                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}>  เบอร์โทรศัพท์ </Typography>
+                            <FormControl fullWidth>
+                                <TextField
+                                    id="Professor_tel"
+                                    variant="standard"
+                                    type="string"
+                                    value={professor.Professor_tel}
+                                    onChange={handleInputChange}
+                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                />
+                            </FormControl>
+                            <FormHelperText sx={{ fontFamily: 'Mitr-Regular' }}> โปรดกรอกเบอร์โทรศัพท์</FormHelperText>
+                        </Box>
+
+
+                        <Box sx={{ border: 0, width: "auto", padding: 1 }}>
+                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}>  รหัสผ่าน </Typography>
+                            <FormControl fullWidth>
+                                <TextField
+                                    id="Professor_password"
+                                    variant="standard"
+                                    type="string"
+                                    value={professor.Professor_password}
+                                    onChange={handleInputChange}
+                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                />
+                            </FormControl>
+                            <FormHelperText sx={{ fontFamily: 'Mitr-Regular' }}> โปรดกรอกรหัสผ่าน</FormHelperText>
+                        </Box>
+
+
                     </Box>
-
-                    
-                    <Box sx={{ border: 0, width: "auto", padding: 1 }}>
-                        <Typography sx={{fontFamily:'Mitr-Regular'}}>  รหัสผ่าน </Typography>
-                        <FormControl fullWidth>
-                            <TextField
-                                id="Professor_Password"
-                                variant="standard"
-                                type="string"
-                                value={professor.Professor_password}
-                                onChange={handleInputChange} 
-                                sx={{fontFamily:'Mitr-Regular'}}
-                            />
-                        </FormControl>
-                        <FormHelperText sx={{fontFamily:'Mitr-Regular'}}> โปรดกรอกรหัสผ่าน</FormHelperText>
-                    </Box>
-
-
-                 </Box>
 
                 </Box>
                 <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{fontFamily:'Mitr-Regular'}}> สถานะอาจารย์ </Typography>
-                            <FormControl fullWidth>
-                                <Select
-                                    id="Status_ID"
-                                    variant="standard"
-                                    value={professor.StatusID}
-                                    inputProps={{ name: "Status_ID", }}
-                                    onChange={handleSelectChange}
-                                    sx={{fontFamily:'Mitr-Regular'}}
-                                >
-                                    {status.map((item: StatusInterface) => (
-                                        <MenuItem
-                                            value={item.Status_ID}
-                                            key={item.Status_ID}
-                                        >
-                                            {item.Status_name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <FormHelperText>กรุณาเลือกสถานะอาจาย์</FormHelperText>
-                        </Box>
-                    </Grid>
+                    <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
+                        <Typography sx={{ fontFamily: 'Mitr-Regular' }}> สถานะอาจารย์ </Typography>
+                        <FormControl fullWidth>
+                            <Select
+                                id="StatusID"
+                                variant="standard"
+                                value={professor.StatusID}
+                                inputProps={{ name: "StatusID", }}
+                                onChange={handleSelectChange}
+                                sx={{ fontFamily: 'Mitr-Regular' }}
+                            >
+                                {status.map((item: StatusInterface) => (
+                                    <MenuItem
+                                        value={item.Status_ID}
+                                        key={item.Status_ID}
+                                    >
+                                        {item.Status_name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormHelperText>กรุณาเลือกสถานะอาจาย์</FormHelperText>
+                    </Box>
+                </Grid>
 
-                    <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{fontFamily:'Mitr-Regular'}}> วุฒิการศึกษา </Typography>
-                            <FormControl fullWidth>
-                                <Select
-                                    id="Qualification_ID"
-                                    variant="standard"
-                                    value={professor.QualificationID}
-                                    inputProps={{ name: "Qualification_ID", }}
-                                    onChange={handleSelectChange}
-                                    sx={{fontFamily:'Mitr-Regular'}}
-                                >
-                                    {qualification.map((item: QualificationsInterface) => (
-                                        <MenuItem
-                                            value={item.Qualification_ID}
-                                            key={item.Qualification_ID}
-                                        >
-                                            {item.Qualification_Name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <FormHelperText>กรุณาเลือกวุฒิการศึกษา</FormHelperText>
-                        </Box>
-                    </Grid>
+                <Grid container sx={{ border: 0 }}>
+                    <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
+                        <Typography sx={{ fontFamily: 'Mitr-Regular' }}> วุฒิการศึกษา </Typography>
+                        <FormControl fullWidth>
+                            <Select
+                                id="QualificationID"
+                                variant="standard"
+                                value={professor.QualificationID}
+                                inputProps={{ name: "QualificationID", }}
+                                onChange={handleSelectChange}
+                                sx={{ fontFamily: 'Mitr-Regular' }}
+                            >
+                                {qualification.map((item: QualificationsInterface) => (
+                                    <MenuItem
+                                        value={item.Qualification_ID}
+                                        key={item.Qualification_ID}
+                                    >
+                                        {item.Qualification_Name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormHelperText>กรุณาเลือกวุฒิการศึกษา</FormHelperText>
+                    </Box>
+                </Grid>
 
-                    <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{fontFamily:'Mitr-Regular'}}> ผู้บันทึก </Typography>
-                            <FormControl fullWidth>
-                                <Select
-                                    id="Admin_ID"
-                                    variant="standard"
-                                    value={professor.AdminID}
-                                    inputProps={{ name: "Admin_ID", }}
-                                    onChange={handleSelectChange}
-                                    sx={{fontFamily:'Mitr-Regular'}}
-                                >
-                                    {admin.map((item: AdminInterface) => (
-                                        <MenuItem
-                                            value={item.Admin_ID}
-                                            key={item.Admin_ID}
-                                        >
-                                            {item.Adminname}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <FormHelperText>กรุณาเลือกผู้บันทึก</FormHelperText>
-                        </Box>
-                    </Grid>
-                    </Grid>
-    
+                <Grid container sx={{ border: 0 }}>
+                    <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
+                        <Typography sx={{ fontFamily: 'Mitr-Regular' }}> ผู้บันทึก </Typography>
+                        <FormControl fullWidth>
+                            <Select
+                                id="AdminID"
+                                variant="standard"
+                                value={professor.AdminID}
+                                inputProps={{ name: "AdminID", }}
+                                onChange={handleSelectChange}
+                                sx={{ fontFamily: 'Mitr-Regular' }}
+                            >
+                                {admin.map((item: AdminInterface) => (
+                                    <MenuItem
+                                        value={item.Admin_ID}
+                                        key={item.Admin_ID}
+                                    >
+                                        {item.Admin_ID}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormHelperText>กรุณาเลือกผู้บันทึก</FormHelperText>
+                    </Box>
+                </Grid>
+
+                <Grid container sx={{ border: 0 }}>
+                    <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
+                        <Typography sx={{ fontFamily: 'Mitr-Regular' }}> สาขาวิชา </Typography>
+                        <FormControl fullWidth>
+                            <Select
+                                id="MajorID"
+                                variant="standard"
+                                value={professor.MajorID}
+                                inputProps={{ name: "MajorID", }}
+                                onChange={handleSelectChange}
+                                sx={{ fontFamily: 'Mitr-Regular' }}
+                            >
+                                {majors.map((item: MajorsInterface) => (
+                                    <MenuItem
+                                        value={item.Major_ID}
+                                        key={item.Major_ID}
+                                    >
+                                        {item.Major_Name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormHelperText>เลือกสาขาวิชา</FormHelperText>
+                    </Box>
+                </Grid>
+            </Grid>
+
             <p></p>
             <Grid container item
                 sx={{ bgcolor: "white", width: "auto", boxShadow: 3, padding: 1.5 }}>
                 <Grid container sx={{ border: 0 }}>
                     <Box flexGrow={1}>
                         <Button
-                            component={RouterLink} 
+                            component={RouterLink}
                             to="/" variant="contained"
-                            sx={{borderRadius: 0}}
+                            sx={{ borderRadius: 0 }}
                         > Back </Button>
                     </Box>
                     <Box flexGrow={1} justifyContent="flex-end" display="flex">
                         <Button
                             onClick={submit}
                             variant="contained"
-                            endIcon={<AddIcon/>}
-                            sx={{borderRadius: 0}}
+                            endIcon={<AddIcon />}
+                            sx={{ borderRadius: 0 }}
                         > Submit </Button>
                     </Box>
                 </Grid>

@@ -34,6 +34,36 @@ export interface EnrollInterface {
 
     Section: number;
 
+
     Unit: number;
 
    }
+
+export interface extendedEnrollSubjectInterface {
+    Enroll_ID: string,
+    ID: number
+    Subject_ID: string
+	Section: number
+    Capacity:      number
+    Enroll_Amount: number
+    Reserved:        number
+    Reserved_Enroll: number
+    Subject_TH_Name: string
+	Subject_EN_Name: string
+    Unit: string
+
+    Exam_Schedule_ID: string
+    Exam_Type: string
+    Exam_Date: string
+    Start_Time: string
+	End_Time: string
+
+    Class_Schedule_ID: string
+    Day: string
+    Class_Schedule_Description: string
+	
+	Exam_Start_Time: string
+	Exam_End_Time: string
+    
+
+}

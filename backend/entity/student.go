@@ -1,9 +1,8 @@
 package entity
 
 import (
-	"time"
 )
-
+//Dormitory
 type Dormitory struct {
 	Dormitory_ID string `gorm:"primaryKey"`
 
@@ -17,7 +16,7 @@ type Student struct {
 	Student_Name string
 
 	Student_Password string
-	Datetime         time.Time
+	Datetime         string
 
 	Admin_ID *string
 	Admin    Admin `gorm:"references:Admin_ID"`

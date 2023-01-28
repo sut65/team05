@@ -18,6 +18,7 @@ import TableFooter from '@mui/material/TableFooter';
 import TextField from "@mui/material/TextField";
 import { useParams } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
+import Home_Navbar from "../navbars/Home_navbar";
 // Add button to each row for getting certain data from selected row
 // Source: https://smartdevpreneur.com/add-buttons-links-and-other-custom-cells-in-material-ui-datagrid/
 
@@ -43,7 +44,7 @@ function SubjectList() {
     const apiUrl = "http://localhost:8080";
 
     const navigate = useNavigate();
-    const params = useParams();
+    // const params = useParams();
     // console.log(params)
 
     const [subjects, setSubjects] = React.useState<Subject[]>([]);
@@ -69,8 +70,7 @@ function SubjectList() {
     };
 
     const sendSearchedSubjectID = () => {
-        navigate({ pathname: `/subject/${searchSubjectID}` })
-        window.location.reload()
+        getSubjectBySubjectID()
     };
 
 
@@ -100,29 +100,24 @@ function SubjectList() {
             });
     };
 
-    const getSubjectBySubjectID = async (subject_id: any) => {
+    const getSubjectBySubjectID = async () => {
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         };
-        fetch(`${apiUrl}/subject/${subject_id}`, requestOptions)
+        fetch(`${apiUrl}/subject/${searchSubjectID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
 
                 if (res.data) {
-                    setSearchSubjectID(subject_id);
                     setSubjects(res.data);
                 }
             });
     };
     useEffect(() => {
         // Fetch all subject records from api if `subject_id` parameter value is undefined
-        if (params.subject_id == undefined) {
+        if (searchSubjectID === "") {
             getSubjects()
-        }
-
-        else {
-            getSubjectBySubjectID(params.subject_id)
         }
     }, []);
 
@@ -164,7 +159,7 @@ function SubjectList() {
                         </Box>
                         <Button
                             component={RouterLink}
-                            to="/subject/handle-create"
+                            to="/subject/subject_create"
                             variant="contained"
                             sx={{ borderRadius: 0, margin: 1.25, marginTop: 1.5 }}
                         > Add </Button>

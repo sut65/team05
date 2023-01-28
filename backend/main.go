@@ -47,6 +47,7 @@ func main() {
 	r.DELETE("/students/:student_id", controller.DeleteStudents)
 	r.PATCH("/students", controller.UpdateStudents)
 
+	// ++++++++++++++++++ Subject Routes ++++++++++++++++++++++++
 	r.GET("/subjects", controller.ListSubjects)
 	r.GET("/prev_subject", controller.GetPreviousSubject)
 	r.GET("/subject/:subject_id", controller.GetSubject)
@@ -56,11 +57,14 @@ func main() {
 	r.GET("/subject_categories", controller.ListSubjectCategory)
 	r.GET("/class_types", controller.ListClassType)
 
+	// ++++++++++++++++++ Class Schedule  Routes ++++++++++++++++++++++++
 	r.GET("/class_schedules", controller.ListClassSchedule)
-	r.GET("/exam_schedules", controller.ListExamSchedule)
 	r.GET("/class_schedule/:subject_id", controller.GetClassSchedule)
-	r.GET("/exam_schedule/:subject_id", controller.GetExamSchedule)
 	r.GET("/class_schedule/:subject_id/:section", controller.GetClassBySubjectID_and_Section)
+
+	// ++++++++++++++++++ Exam Schedule Routes ++++++++++++++++++++++++
+	r.GET("/exam_schedules", controller.ListExamSchedule)
+	r.GET("/exam_schedule/:subject_id", controller.GetExamSchedule)
 
 	// r.GET("/enrollsub", controller.ListEnrollSubject)
 	// r.GET("/enroll", controller.ListEnroll)

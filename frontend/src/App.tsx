@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Subject_Management_Navbar from "./components/subject-management/Subject_Management_navbar";
 // import Subject_Management_Footer from "./components/subject-management/Subject_Footer";
 import SubjectList from "./components/subject-management/Subject_List";
 import SubjectInfo from "./components/subject-management/Subject_Info";
@@ -53,6 +52,13 @@ export default function App() {
                     <Route path="/student/:student_id" element={<Student_Info />} />
                     <Route path="/student/student_create" element={<Student_Create />} />
                     <Route path="/student/update/:student_id" element={<Student_Update />} />
+                
+                    {/* Subject Path */}
+                    <Route path="/subject" element={<SubjectList />} />
+                    <Route path="/subject/subject_create" element={<CreateSubject />} />
+                    <Route path="/subject/:subject_id/:section" element={<SubjectInfo />} />
+                    <Route path="/subject/update/:subject_id/:section" element={<UpdateSubject/>} />
+
                 </Routes>
                 {/* <Subject_Management_Navbar /> */}
 

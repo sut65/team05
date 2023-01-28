@@ -20,7 +20,7 @@ function SubjectInfo() {
     const apiUrl = "http://localhost:8080";
 
     const toUpdateSubjectPage = () => {
-        navigate({ pathname: `/subject/handle-update/${subject?.Subject_ID}/${subject?.Section}` })
+        navigate({ pathname: `/subject/update/${subject?.Subject_ID}/${subject?.Section}` })
         // window.location.reload()
     };
 
@@ -49,7 +49,7 @@ function SubjectInfo() {
             .then((res) => {
                 if (res.data) {
                     console.log("Data remove")
-                    window.location.href = "/"
+                    window.location.href = "/subject"
                 }
                 else {
                     console.log("Something was wrong!!")
@@ -208,41 +208,6 @@ function SubjectInfo() {
                         </Stack>
                     </Box>
                 </Box>
-                {/* <Box flexGrow={1} className="Status_Component"
-                    sx={{
-                        border: 1,
-                        bgcolor: "#e1e1e1",
-                        margin: 1,
-                        fontSize: 20,
-                        maxWidth: "false",
-                    }}>
-                    <Typography variant="h5" sx={{ margin: 0.5 }}> หมายเหตุ </Typography>
-                    <Stack direction="row" sx={{ margin: 0.5 }}>
-                        <Box sx={{ width: 0.5 }}>
-                            <Typography variant="h6"> ประเภท </Typography>
-                            <Stack sx={{ margin: 0.5, }}>
-                                <Typography> C = Lecture</Typography>
-                                <Typography> L = Labs</Typography>
-                                <Typography> P = Project</Typography>
-                                <Typography> R = Meeting</Typography>
-                                <Typography> S = Self Study</Typography>
-                                <Typography> T = Tutoring</Typography>
-                            </Stack>
-                        </Box>
-                        <Box sx={{ width: 0.5 }}>
-                            <Typography variant="h6"> หมวด </Typography>
-                            <Stack sx={{ margin: 0.5, }}>
-                                <Typography> B = วิชาเสริมพื้นฐาน</Typography>
-                                <Typography> E = วิชาเลือกเฉพาะสาขา</Typography>
-                                <Typography> F = วิชาเลือกเสรี</Typography>
-                                <Typography> M = วิชาพื้นฐาน</Typography>
-                                <Typography> W = วิชาบังคับ</Typography>
-                                <Typography> X = ยังไม่กำหนด</Typography>
-                            </Stack>
-                        </Box>
-                    </Stack>
-                </Box> */}
-
             </Grid>
             <Stack
                 direction="row"
@@ -250,7 +215,7 @@ function SubjectInfo() {
                 <Box sx={{ width: 0.33, margin: 0.5, }}>
                     <Button
                         component={RouterLink}
-                        to="/"
+                        to="/subject"
                         variant="contained"
                         color="primary"
                         sx={{ margin: 0.5 }}

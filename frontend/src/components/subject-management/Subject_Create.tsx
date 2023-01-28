@@ -454,7 +454,7 @@ function CreateSubject() {
                     <Box flexGrow={1}>
                         <Button
                             component={RouterLink} 
-                            to="/" variant="contained"
+                            to="/subject" variant="contained"
                             sx={{borderRadius: 0}}
                         > Back </Button>
                     </Box>

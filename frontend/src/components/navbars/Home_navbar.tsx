@@ -106,8 +106,8 @@ function Home_Navbar() {
 
                         <ListItem disablePadding>
                             <ListItemButton
-                            // component={RouterLink}
-                            // to="/activitymember"
+                            component={RouterLink}
+                            to="/subject"
                             >
                                 {/* <ListItemIcon>
                                     <ClassIcon />

@@ -56,7 +56,6 @@ function CourseInfo() {
       };
       
     const deleteCourse = async () => {
-        console.log("ggman");
         const requestOptions = {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
@@ -136,6 +135,12 @@ function CourseInfo() {
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> ชื่อหลักสูตร </Box>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Course_Name} </Box>
                         </Grid>
+
+                        <Grid container sx={{}}>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> วันที่เพิ่ม </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Datetime}
+                            </Box>
+                        </Grid>
                       
 
                         <Grid container sx={{}}>
@@ -155,6 +160,32 @@ function CourseInfo() {
 
                     </Stack>
                 </Stack>
+
+                <Box flexGrow={1} sx={{ padding: 1 }}>
+                    <Box flexGrow={1} className="Status_Component"
+                        sx={{
+                            bgcolor: "#F58D88",
+                            margin: 1,
+                            fontSize: 20,
+                            maxWidth: "false",
+                        }}>
+                        <Typography variant="h5" sx={{ margin: 0.5 }}> **คำเตือน </Typography>
+                        <Stack direction="row" sx={{ margin: 0.5 }}>
+                            <Box sx={{ width: 0.5 }}>
+                
+                                <Stack sx={{ margin: 0.5, }}>
+                                    <Typography>1)ควรมีความรอบครอบที่จะจัดการข้อมูลหลักสูตร</Typography>
+                                    <Typography>2)ข้อมูลหลักสูตรที่ลบไปแล้ว ไม่สามารถนำมาแก้ไขได้</Typography>
+                                    <Typography>3)สามารถใช้ Search เพื่อช่วยค้นหาหลักสูตรที่ต้องการ</Typography>
+                                </Stack>
+                            </Box>
+                            <Box sx={{ width: 0.5 }}>
+                             
+                              
+                            </Box>
+                        </Stack>
+                    </Box>
+                </Box>
                 
             </Grid>
             <Stack

@@ -63,7 +63,7 @@ func main() {
 	r.GET("/class_schedules", controller.ListClassSchedule)
 	r.GET("/class_schedule/:subject_id", controller.GetClassSchedule)
 	r.GET("/class_schedule/:subject_id/:section", controller.GetClassBySubjectID_and_Section)
-	r.POST("/class_schedule/class_schedule_create", controller.CreateClassSchedule)
+	r.POST("/class_schedules", controller.CreateClassSchedule)
 	r.PATCH("/class_schedules", controller.UpdateClassSchedule)
 	r.DELETE("/class_schedule/:class_schedule_id", controller.DeleteClassSchedule)
 

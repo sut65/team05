@@ -149,7 +149,7 @@ export function Class_Schedules_List() {
                     <Box sx={{ border: 0 }}>
                         <Button
                             component={Link}
-                            to="/class_schedule/create"
+                            to="/class_schedule/class_schedule_create"
                             variant="contained"
                             sx={{ borderRadius: 0, margin: 1.25, marginTop: 1.5 }}
                         > Add </Button>

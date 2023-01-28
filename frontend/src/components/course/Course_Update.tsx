@@ -26,7 +26,6 @@ function Class_Schedule_Update() {
     let [course, setCourse] = React.useState<Partial<Course>>({});
     const [major, setMajor] = React.useState<MajorsInterface[]>([]);
     const [qualification, setQualification] = React.useState<QualificationsInterface[]>([]);
-    const [date, setDate] = React.useState<Date | null>(null);
 
     const [course_id, setCourseID] = React.useState<string>();
     const [success, setSuccess] = React.useState(false);
@@ -111,6 +110,12 @@ function Class_Schedule_Update() {
             });
     };
 
+    useEffect(() => {
+      getMajor();
+      getQualifications();
+      getSendedCourse();
+  }, []);
+
 
     function submit() {
         let data = {
@@ -118,7 +123,7 @@ function Class_Schedule_Update() {
 
             Course_Name: course.Course_Name ?? "",
 
-            Datetime: date,
+            Datetime: course.Datetime,
 
             Qualification_ID: course.Qualification_ID ?? "",
 
@@ -146,11 +151,7 @@ function Class_Schedule_Update() {
 
     }
 
-    useEffect(() => {
-        getMajor();
-        getQualifications();
-        getSendedCourse();
-    }, []);
+    
 
     return (
         <Container maxWidth="md">
@@ -284,34 +285,28 @@ function Class_Schedule_Update() {
             </Grid>
    
             <Grid item xs={4} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
-              fontWeight : 'bold' ,fontSize:27}}>
-             <p>วันที่เพิ่ม</p>
-   
-              <FormControl fullWidth variant="outlined">
-   
-   
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-   
-                  <DatePicker
-   
-                    value={date}
-   
-                    onChange={(newValue) => {
-   
-                      setDate(newValue);
-   
-                    }}
-   
-                    renderInput={(params) => <TextField {...params} />}
-   
-                  />
-   
-                </LocalizationProvider>
-   
-              </FormControl>
-   
-            </Grid>
+          sx={{  fontFamily : "LilyUPC" ,
+           fontWeight : 'bold' ,fontSize:27}}>
+          <p>วันที่เพิ่ม</p>
+
+           <FormControl fullWidth variant="outlined">
+
+             <TextField
+
+               id="Datetime"
+
+               variant="outlined"
+
+               type="string"
+
+               size="medium"
+
+               value={course.Datetime || ""}
+
+               onChange={handleInputChange}
+             />
+           </FormControl>
+         </Grid>
    
             <Grid item xs={6} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,
@@ -320,7 +315,7 @@ function Class_Schedule_Update() {
                  
                  <p>คุณวุฒิ</p>
                  <Select
-                                   variant="outlined"
+                                   variant="standard"
                                    id="Qualification_ID"
                                    value={course.Qualification_ID}
                                    onChange={handleSelectChange}
@@ -352,7 +347,7 @@ function Class_Schedule_Update() {
                  
                  <p>ชื่อสาขา</p>
                  <Select
-                                   variant="outlined"
+                                   variant="standard"
                                    id="Major_ID"
                                    value={course.Major_ID}
                                    onChange={handleSelectChange}
@@ -390,22 +385,10 @@ function Class_Schedule_Update() {
               </Button>
    
               <Button
-   
-                style={{ float: "right" }}
-   
-                onClick={submit}
-   
-                variant="contained"
-   
-                color="success"
-   
-              >
-   
-               <BorderColorIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
-   
-                แก้ไขข้อมูล
-   
-              </Button>
+                            onClick={submit}
+                            variant="contained"
+                            sx={{borderRadius: 0}}
+                        > แก้ไขข้อมูล </Button>
    
             </Grid>
    

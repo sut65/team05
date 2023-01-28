@@ -62,8 +62,6 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 function CourseCreate() {
 
- const [date, setDate] = React.useState<Date | null>(null);
-
  const [courses, setCourse] = React.useState<Partial<Course>>({});
 
  const [qualifications, setQualifications] = React.useState<QualificationsInterface[]>([]);
@@ -170,7 +168,7 @@ const requestOptionsGet = {
 
     Course_Name: courses.Course_Name ?? "",
 
-    Datetime: date,
+    Datetime: courses.Datetime,
 
     Qualification_ID: courses.Qualification_ID ?? "",
 
@@ -294,7 +292,7 @@ const requestOptionsGet = {
        <Grid item xs={4} color="#115686" 
           sx={{  fontFamily : "LilyUPC" ,
            fontWeight : 'bold' ,fontSize:27}}>
-          <p>รหัสเจ้าหน้าที่</p>
+          <p>รหัสหลักสูตร</p>
 
         <FormControl fullWidth variant="outlined">
 
@@ -352,27 +350,21 @@ const requestOptionsGet = {
 
            <FormControl fullWidth variant="outlined">
 
+             <TextField
 
-             <LocalizationProvider dateAdapter={AdapterDateFns}>
+               id="Datetime"
 
-               <DatePicker
+               variant="outlined"
 
-                 value={date}
+               type="string"
 
-                 onChange={(newValue) => {
+               size="medium"
 
-                   setDate(newValue);
+               value={courses.Datetime || ""}
 
-                 }}
-
-                 renderInput={(params) => <TextField {...params} />}
-
-               />
-
-             </LocalizationProvider>
-
+               onChange={handleInputChange}
+             />
            </FormControl>
-
          </Grid>
 
          <Grid item xs={6} color="#115686" 

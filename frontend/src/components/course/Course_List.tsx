@@ -133,6 +133,55 @@ useEffect(() => {
                     padding: 2
                 }}>
 
+<Paper
+          elevation={3}
+          sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
+        >
+          <Box
+            display="flex"
+            sx={{
+              marginTop: 2,
+            }}
+          >
+            <Box flexGrow={1}>
+              <Typography
+                component="h2"
+                variant="h4"
+                color="primary"
+                gutterBottom
+              >
+                ระบบจัดการข้อมูลหลักสูตร
+              </Typography>
+            </Box>
+            <Box>
+              <Button
+                component={RouterLink}
+                to="/course_create"
+                variant="contained"
+                color="primary"
+              >
+                เพิ่มข้อมูลหลักสูตร
+              </Button>
+            </Box>
+          </Box>
+          <Typography component="h2" variant="h6" color="Black" gutterBottom>
+            Requirement
+          </Typography>
+          <Box>
+          ระบบลงทะเบียนเรียน เป็นระบบที่ใช้บริการเพื่อให้นักศึกษาของมหาวิทลัยหนึ่ง สามารถลงทะเบียนเรียนในหลักสูตรที่มหาวิทลัยนั้นได้กำหนดไว้ ในส่วนแรก เช่น 
+          การลงทะเบียนเรียนในรายวิชาต่างๆ , การเพิ่มลดรายวิชา และการยื่นคำร้องกรณีกลุ่มเต็ม โดยที่กล่าวมาข้างต้นนี้จะเกี่ยวข้องกับสิทธิของผู้เป็นนักศึกษาที่สามารถ
+          ใช้สิทธิในระบบลงทะเบียนเรียนได้ ส่วนของการจัดสรรห้องเรียน , การบันทึกผลการเรียน , และการอนุมัติคำร้องกรณีกลุ่มเต็ม จะเป็นสิทธิของผู้เป็นอาจารย์ที่สามารถ
+          ใช้งานในส่วนนี้ได้ และส่วนสุดท้ายจะมี การเพิ่มข้อมูลนักศึกษา , การเพิ่มข้อมูลหลักสูตร , การเพิ่มข้อมูลรายวิชา ,การคำนวณค่าใช่จ่าย ,การเพิ่มข้อมูลอาจารย์ 
+          และเพิ่มข้อมูลห้องเรียน โดยในส่วนนี้จะเป็นสิทธิของผู้เป็นแอดมินที่มีสิทธิสามารถใช้งานได้ระบบจัดการข้อมูลหลักสูตร เป็นระบบที่ผู้เป็นแอดมินของระบบ สามารถจัดการ
+          ในส่วนของการเพิ่มข้อมูล ,แก้ไขข้อมูล , ลบข้อมูลหลักสูตรได้ และสามารถค้นหาในหน้าแสดงข้อมูลเพื่อดูรายละเอียดข้อมูลหลักสูตร โดยอิงจากรหัสหลักสูตรได้ 
+          โดยผู้เป็นแอดมินจะสามารถจัดการข้อมูล เช่น หลักสูตร ,วุฒิต่างๆรวมไปถึงคณะและสาขา และวันที่ที่เพิ่มหรือแก้ไขข้อมูล หรือข้อมูลอื่นๆที่สำคัญเกี่ยวกับหลักสูตร
+           เป็นต้น เมื่อใส่ข้อมูลเสร็จสิ้นแล้ว ผู้เป็นแอดมินจะสามารถกดเพิ่มข้อมูลหลักสูตรเข้ากับระบบได้ โดยจะสามารถแก้ไขหรือลบข้อมูลได้ในภายหลัง และนอกจากนี้ผู้เป็น
+           แอดมินสามารถดูข้อมูลหลักสูตรที่ถูกเพิ่มเข้าไปในรูปแบบของตารางได้เช่นกัน
+
+          </Box>
+        </Paper>
+
+
                 {/* Header components */}
                 <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
                     <Typography variant="h4"> ระบบจัดการข้อมูลหลักสูตร </Typography>
@@ -174,6 +223,7 @@ useEffect(() => {
                                 <TableRow sx={{ width: "auto" }}>
                                     <StyledTableCell width={100} sx={{ border: 1 }}>รหัสหลักสูตร</StyledTableCell>
                                     <StyledTableCell width={100} sx={{ border: 1 }}>ชื่อหลักสูตร</StyledTableCell>
+                                    <StyledTableCell width={100} sx={{ border: 1 }}>วันที่</StyledTableCell>
                                     <StyledTableCell width={100} sx={{ border: 1 }}>วุฒิ</StyledTableCell>
                                     <StyledTableCell width={50} sx={{ border: 1 }}>สาขา</StyledTableCell>
                                 </TableRow>
@@ -187,7 +237,7 @@ useEffect(() => {
                                     <StyledTableRow key={row.Course_ID}>
                                         <TableCell>{row.Course_ID}</TableCell>
                                         <TableCell>{row.Course_Name}</TableCell>
-                                        {/* <TableCell>{row.Datetime}</TableCell> */}
+                                        <TableCell>{row.Datetime}</TableCell>
                                         <TableCell>{row.Qualification_Name}</TableCell>
                                         <TableCell>{row.Major_Name}</TableCell>
                                         <TableCell>

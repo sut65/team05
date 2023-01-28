@@ -7,7 +7,7 @@ export interface Course {
    
     Course_Name: string;
    
-    Datetime: Date | null;
+    Datetime: string;
 
     Qualification_ID: string;
     Qualification_Name: string;

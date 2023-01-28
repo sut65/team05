@@ -19,6 +19,8 @@ import Exam_Schedule_Update from "./components/class_and_exam_schedule/Exam_Sche
 
 // Request
 import Request from "./components/request/Request";
+import RequestCreate from "./components/request/RequestCreate";
+import RequestUpdate from "./components/request/RequestUpdate";
 
 // Approval
 import Approval from "./components/approval/Approval";
@@ -38,9 +40,9 @@ import Course_List from "./components/course/Course_List";
 import CourseCreate from "./components/course/Course_Create";
 import Course_Info from "./components/course/Course_Info";
 import Course_Update from "./components/course/Course_Update";
-import RequestCreate from "./components/request/RequestCreate";
-import RequestUpdate from "./components/request/RequestUpdate";
 
+// Footer
+import Footer from "./components/pages/Home_Footer";
 export default function App() {
     return (
         <Router>
@@ -71,7 +73,13 @@ export default function App() {
                     <Route path="/request/update/:request_id" element={<RequestUpdate/>} />
                     <Route path="/request/request_create" element={<RequestCreate/>} />
 
+                    {/* Approval Path */}
+                    <Route path="/approval" element={<Approval/>} />
+                    <Route path="/approval/approval_create" element={<ApprovalCreate/>} />
+                    <Route path="/approval/update/:approval_id" element={<ApprovalUpdate/>} />
+
                 </Routes>
+                <Footer />
                 {/* <Subject_Management_Navbar /> */}
 
             </div>

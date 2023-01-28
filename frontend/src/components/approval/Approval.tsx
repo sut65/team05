@@ -126,7 +126,7 @@ function Approval() {
       .then((res) => {
         if (res.data) {
           console.log("Data remove");
-          window.location.href = "/";
+          window.location.href = "/approval";
         } else {
           console.log("Something was wrong!!");
         }
@@ -240,7 +240,7 @@ function Approval() {
             <Box>
               <Button
                 component={RouterLink}
-                to="/create"
+                to="/approval/approval_create"
                 variant="contained"
                 color="primary"
               >
@@ -362,7 +362,7 @@ function Approval() {
                       <IconButton
                         aria-label="edit"
                         onClick={() => {
-                          navigate({ pathname: `/update/${row.Approval_ID}` });
+                          navigate({ pathname: `/approval/update/${row.Approval_ID}` });
                         }}
                       >
                         <ModeEditIcon />

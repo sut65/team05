@@ -152,6 +152,18 @@ function Home_Navbar() {
                             </ListItemButton>
                         </ListItem>
 
+                        <ListItem disablePadding>
+                            <ListItemButton
+                            component={RouterLink}
+                            to="/approval"
+                            >
+                                {/* <ListItemIcon>
+                                    <FeedbackIcon />
+                                </ListItemIcon> */}
+                                <ListItemText primary="อนุมัติคำร้องออนไลน์(สำหรับอาจารย์)" />
+                            </ListItemButton>
+                        </ListItem>
+
                     </List>
 
                     <Divider />

@@ -52,7 +52,9 @@ func main() {
 	r.GET("/prev_subject", controller.GetPreviousSubject)
 	r.GET("/subject/:subject_id", controller.GetSubject)
 	r.GET("/subject/:subject_id/:section", controller.GetSubjectBySection)
-
+	r.POST("/subjects", controller.CreateSubject)
+	r.PATCH("/subjects", controller.UpdateSubjects)
+	r.DELETE("/subject/:subject_id/:section", controller.DeleteSubject)
 	r.GET("/subject_statuses", controller.ListSubjectStatus)
 	r.GET("/subject_categories", controller.ListSubjectCategory)
 	r.GET("/class_types", controller.ListClassType)
@@ -65,6 +67,33 @@ func main() {
 	// ++++++++++++++++++ Exam Schedule Routes ++++++++++++++++++++++++
 	r.GET("/exam_schedules", controller.ListExamSchedule)
 	r.GET("/exam_schedule/:subject_id", controller.GetExamSchedule)
+
+	// ++++++++++++++++++ Request Routes ++++++++++++++++++++++++
+	r.GET("/requests", controller.ListRequest)
+	r.GET("/request/:request_id", controller.GetRequest)
+	r.GET("/previous_request", controller.GetPreviousRequest)
+	r.POST("/requests", controller.CreateRequest)
+	r.PATCH("/requests", controller.UpdateRequest)
+	r.DELETE("/request/:request_id", controller.DeleteRequest)
+
+	// Request_Type
+	r.GET("/request_types", controller.ListRequest_Type)
+	r.GET("/request_type/:request_type_id", controller.GetRequest_Type)
+	r.POST("/request_types", controller.CreateRequest_Type)
+
+	// ++++++++++++++++++ Approval Routes ++++++++++++++++++++++++
+	// Approval
+	r.GET("/approvals", controller.ListApproval)
+	r.GET("/approval/:approval_id", controller.GetApproval)
+	r.GET("/previous_approval", controller.GetPreviousApproval)
+	r.POST("/approvals", controller.CreateApproval)
+	r.PATCH("/approvals", controller.UpdateApproval)
+	r.DELETE("/approval/:approval_id", controller.DeleteApproval)
+
+	// Approval_Type
+	r.GET("/approval_types", controller.ListApproval_Type)
+	r.GET("/approval_type/:request_type_id", controller.GetApproval_Type)
+	r.POST("/approval_types", controller.CreateApproval_Type)
 
 	// r.GET("/enrollsub", controller.ListEnrollSubject)
 	// r.GET("/enroll", controller.ListEnroll)
@@ -86,15 +115,6 @@ func main() {
 	r.GET("/subjectd/:coruse_id", controller.GetSubjectByCourse)
 
 	//----------------------------------------------------------------------------------------------
-
-	// Initiate route POST
-	r.POST("/subjects", controller.CreateSubject)
-
-	// Initiate route PATCH
-	r.PATCH("/subjects", controller.UpdateSubjects)
-
-	// Initiate route DELETE
-	r.DELETE("/subject/:subject_id/:section", controller.DeleteSubject)
 
 	// // Admin Routes
 	r.GET("/admins", controller.ListAdmins)
@@ -137,17 +157,6 @@ func main() {
 	// r.DELETE("/roominforms/:id", controller.DeleteRoominform)
 
 	// Request
-	r.GET("/requests", controller.ListRequest)
-	r.GET("/request/:request_id", controller.GetRequest)
-	r.GET("/previous_request", controller.GetPreviousRequest)
-	r.POST("/requests", controller.CreateRequest)
-	r.PATCH("/requests", controller.UpdateRequest)
-	r.DELETE("/request/:request_id", controller.DeleteRequest)
-
-	// Request_Type
-	r.GET("/request_types", controller.ListRequest_Type)
-	r.GET("/request_type/:request_type_id", controller.GetRequest_Type)
-	r.POST("/request_types", controller.CreateRequest_Type)
 
 	r.GET("/qualifications", controller.ListQualifications)
 	r.GET("/qualification/:qualification_id", controller.GetQualification)
@@ -155,18 +164,6 @@ func main() {
 	r.DELETE("/qualifications/:qualification_id", controller.DeleteQualification)
 	r.GET("/qualification", controller.ListQualificationName)
 
-	// Approval
-	r.GET("/approvals", controller.ListApproval)
-	r.GET("/approval/:approval_id", controller.GetApproval)
-	r.GET("/previous_approval", controller.GetPreviousApproval)
-	r.POST("/approvals", controller.CreateApproval)
-	r.PATCH("/approvals", controller.UpdateApproval)
-	r.DELETE("/approval/:approval_id", controller.DeleteApproval)
-
-	// Approval_Type
-	r.GET("/approval_types", controller.ListApproval_Type)
-	r.GET("/approval_type/:request_type_id", controller.GetApproval_Type)
-	r.POST("/approval_types", controller.CreateApproval_Type)
 	// Run the server
 
 	//Adding_reducing

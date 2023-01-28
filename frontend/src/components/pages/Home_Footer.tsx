@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
-function Subject_Management_Footer() {
+function Footer() {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar sx={{ bgcolor: "#646464", position: "static" , padding:3}}>
@@ -17,4 +17,4 @@ function Subject_Management_Footer() {
     );
 }
 
-export default Subject_Management_Footer;
+export default Footer;

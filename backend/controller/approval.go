@@ -196,7 +196,7 @@ func UpdateApproval(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "student status not found"})
 	// 	return
 	// }
-	if tx := entity.DB().Where("id = ?", approval.Professor_ID).First(&professor); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("professor_id = ?", approval.Professor_ID).First(&professor); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
 		return
 	}
@@ -218,22 +218,21 @@ func UpdateApproval(c *gin.Context) {
 	}
 
 	update_approval := entity.Approval{
-		Approval_ID:   approval.Approval_ID,
-		Reason: update_reason,
-		Professor: professor,
-		Section: update_section,
-		Request: request,
+		Approval_ID:      approval.Approval_ID,
+		Reason:           update_reason,
+		Professor:        professor,
+		Section:          update_section,
+		Request:          request,
 		Approval_Type_ID: approval.Approval_Type_ID,
 	}
 
 	// บันทึก entity request
-	if err := entity.DB().Where("approval_id = ?",approval.Approval_ID).Updates(&update_approval).Error; err != nil {
+	if err := entity.DB().Where("approval_id = ?", approval.Approval_ID).Updates(&update_approval).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": update_approval})
 }
-
 
 // 6: สร้างเลขที่รายการใหม่โดยอัตโนมัติ()	//* จะสร้างบน frontend
 // GET /previous_activitymember

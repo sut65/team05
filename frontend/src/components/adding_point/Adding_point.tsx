@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
 import { Subject } from "../../models/I_Subject";
-import { Stack, Divider, Grid } from "@mui/material";
+import { Stack, Divider, Grid, TextField, SvgIcon } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
@@ -31,11 +31,12 @@ import { Adding_pointInterface } from "../../models/IAdding_point";
 import { GradeInterface } from "../../models/IGrade";
 
 function  Adding_pointCreate() {
-  const [adding_point, setAdding_point] = React.useState<Partial<Adding_pointInterface>>({});
-  const [adding_points, setAdding_points] = React.useState<Adding_pointInterface[]>([]);
+  const [addingpoint, setAdding_point] = React.useState<Partial<Adding_pointInterface>>({});
+  const [addingpoints, setAdding_points] = React.useState<Adding_pointInterface[]>([]);
   const [grade, setGreade] = React.useState<GradeInterface[]>([]);
 //   const [professor, setProfessor] = React.useState<Professor[]>([]);
- 
+const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
+const [subject, setSubject] = React.useState<Subject[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -56,6 +57,8 @@ function  Adding_pointCreate() {
     setError(false);
   };
 
+
+  
   // const handleInputChange = (
   //   event: React.ChangeEvent<{ id?: string; value: any }>
   // ) => {
@@ -66,94 +69,33 @@ function  Adding_pointCreate() {
 
   const apiUrl = "http://localhost:8080";
 
- 
+  const requestOptions = {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  };
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - adding_points.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - addingpoints.length) : 0;
 
-  //request
-  const getAdding_points = async () => {
+  //รับค่าส่งไปbackend
+  const getAdding_points = async (adding_point_id:string) => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-    fetch(`${apiUrl}/adding_points`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-            setAdding_points(res.data);
-        //   console.log(adding_reducings);
-        }
-      });
-  };
-
-
-  
-  const getStudenByEnroll = async () => {
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-    fetch(`${apiUrl}/adding_points`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-            setAdding_points(res.data);
-        //   console.log(adding_reducings);
-        }
-      });
-  };
- 
-
-  const getProfesserBySubject = async () => {
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-    fetch(`${apiUrl}/adding_points`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-            setAdding_points(res.data);
-        //   console.log(adding_reducings);
-        }
-      });
-  };
-  // const [RequestByRequestID, setRequestByRequestID] = React.useState("");
-  //  const getRequestByRequestID = async (request_id: any) => {
-  //    const requestOptions = {
-  //      method: "GET",
-  //      headers: { "Content-Type": "application/json" },
-  //    };
-  //    fetch(`${apiUrl}/request/${request_id}`, requestOptions)
-  //      .then((response) => response.json())
-  //      .then((res) => {
-  //        if (res.data) {
-  //          setRequestByRequestID(request_id);
-  //          setRequest(res.data);
-  //        }
-  //      });
-  //  };
-
-  //delete
-  const DeleteAdding_point= async (adding_point_id: String) => {
-    console.log("good");
-    const requestOptions = {
-      method: "DELETE",
       headers: { "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/adding_point/${adding_point_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          console.log("Data remove");
-          window.location.href = "/";
-        } else {
-          console.log("Something was wrong!!");
+            setAdding_points(res.data);
+        //   console.log(adding_reducings);
         }
       });
   };
 
+//รับค่าจากfrontendไปกรองรายวิชา และกลุ่มจากprofessor
+  
+  
   //table
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -188,39 +130,45 @@ function  Adding_pointCreate() {
   };
 
   useEffect(() => {
-    getAdding_points();
+      /* เพิ่มข้อมูลเกรดของ นศ ในรายวิชานั้น กลุ่มนั้น
+        GetEnrollDataBySubjectID()
+      */
+
+      /* Get Adding_Point data
+      GetAddingPointBySubjectID() 
+      */
   }, []);
 
-  // function submit() {
-  //   let data = {
-  //     Change_ID:
-  //       typeof adding_reducing.Change_ID === "string"
-  //         ? parseInt(adding_reducing.Change_ID)
-  //         : adding_reducing.Change_ID,
-  //     Status: adding_reducing.Status ?? "",
-  //     Subject_ID: adding_reducing.Subject_ID ?? "", 
-  //     Enroll_ID: adding_reducing.Enroll_ID ?? "",
-  //   };
+  function submit() {
+    let data = {
+      Adding_point_ID:
+        typeof addingpoint.Adding_point_ID === "string"
+          ? parseInt(addingpoint.Adding_point_ID)
+          : addingpoint.Adding_point_ID,
+      Professor_ID: addingpoint.Professor_ID ?? "",
+      Grade_ID: addingpoint.Grade_ID ?? "", 
+      Enroll_ID: addingpoint.Enroll_ID ?? "",
+    };
 
-  //   const apiUrl = "http://localhost:8080/requests";
-  //   const requestOptionsPatch = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(data),
-  //   };
-  //   console.log(JSON.stringify(data));
+    const apiUrl = "http://localhost:8080/requests";
+    const requestOptionsPatch = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    };
+    console.log(JSON.stringify(data));
 
-  //   fetch(`${apiUrl}/request`, requestOptionsPatch)
-  //     .then((response) => response.json())
+    fetch(`${apiUrl}/request`, requestOptionsPatch)
+      .then((response) => response.json())
 
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setSuccess(true);
-  //       } else {
-  //         setError(true);
-  //       }
-  //     });
-  // }
+      .then((res) => {
+        if (res.data) {
+          setSuccess(true);
+        } else {
+          setError(true);
+        }
+      });
+  }
 
   return (
     <div>
@@ -257,10 +205,18 @@ function  Adding_pointCreate() {
           </Box>
           
           <Box>
-          Requirements
-	ระบบลงทะเบียนเรียน เป็นระบบที่ใช้บริการเพื่อให้นักศึกษาของมหาวิทยาลัยหนึ่ง สามารถลงทะเบียนเรียนในหลักสูตรที่มหาวิทลัยนั้นได้กำหนดไว้ ในส่วนแรก เช่น การลงทะเบียนเรียนในรายวิชาต่างๆ , การเพิ่มลดรายวิชา และการยื่นคำร้องกรณีกลุ่มเต็ม โดยที่กล่าวมาข้างต้นนี้จะเกี่ยวข้องกับสิทธิของผู้เป็นนักศึกษาที่สามารถใช้สิทธิในระบบลงทะเบียนเรียนได้ ส่วนของการจัดสรรห้องเรียน , การบันทึกผลการเรียน , และการอนุมัติคำร้องกรณีกลุ่มเต็ม จะเป็นสิทธิของผู้เป็นอาจารย์ที่สามารถใช้งานในส่วนนี้ได้ และส่วนสุดท้ายจะมี การเพิ่มข้อมูลนักศึกษา , การเพิ่มข้อมูลหลักสูตร , การเพิ่มข้อมูลรายวิชา และการคำนวณค่าใช่จ่าย โดยในส่วนนี้จะเป็นสิทธิของผู้เป็นแอดมินที่มีสิทธิสามารถใช้งานได้
-          ระบบย่อยระบบบันทึกผลการเรียน เป็นระบบย่อยที่อาจารย์ผู้เปิดสอนในรายวิชาสามารถทำการเพิ่ม และ แก้ไขข้อมูลเกรดนักศึกษาในรายวิชาที่อาจารย์ผู้สอนเปิดสอนในรายวิชาเข้าในระบบ โดยทำการค้นหา รายวิชา และกลุ่มรายวิชาที่สอน  จากนั้นเลือกเกรดที่จะเพิ่มให้นักศึกษารายบุคคล เมื่อใส่ข้อมูลเสร็จสิ้นแล้ว อาจารย์จะสามารถกดบันทึกการ บันทึกผลการเรียนได้ โดยจะสามารถแก้ไขข้อมูลได้ในภายหลัง และนอกจากนี้อาจารย์สามารถดูข้อมูลการบันทึกได้
-
+          Requirements ระบบลงทะเบียนเรียน
+                เป็นระบบที่ใช้บริการเพื่อให้นักศึกษาของมหาวิทยาลัยหนึ่ง
+                สามารถลงทะเบียนเรียนในหลักสูตรที่มหาวิทลัยนั้นได้กำหนดไว้
+                ในส่วนแรก เช่น การลงทะเบียนเรียนในรายวิชาต่างๆ ,
+                การเพิ่มลดรายวิชาและการยื่นคำร้องกรณีกลุ่มเต็ม
+                โดยที่กล่าวมาข้างต้นนี้จะเกี่ยวข้องกับสิทธิของผู้เป็นนักศึกษาที่สามารถใช้สิทธิในระบบลงทะเบียนเรียนได้
+                ส่วนของการจัดสรรห้องเรียน , การบันทึกผลการเรียน ,
+                และการอนุมัติคำร้องกรณีกลุ่มเต็มจะเป็นสิทธิของผู้เป็นอาจารย์ที่สามารถใช้งานในส่วนนี้ได้
+                และส่วนสุดท้ายจะมี การเพิ่มข้อมูลนักศึกษา ,
+                การเพิ่มข้อมูลหลักสูตร ,
+                การเพิ่มข้อมูลรายวิชาและการคำนวณค่าใช่จ่าย
+                โดยในส่วนนี้จะเป็นสิทธิของผู้เป็นแอดมินที่มีสิทธิสามารถใช้งานได้
           </Box>
         </Paper>
 
@@ -277,18 +233,48 @@ function  Adding_pointCreate() {
               rowsPerPageOptions={[5]}
             />
           </div> */}
+          <TextField
+           
+              id="Subject_ID"
+              variant="outlined"
+              
+              defaultValue={addingpoint.Subject_ID}
+             
+            />
+             <TextField
+            
+              id="Section"
+              variant="outlined"
+             
+              defaultValue={addingpoint.Section}
+             
+            />
+            <Grid sx={{ marginTop: "10px" }}>
+              <Button
+                size="medium"
+                variant="contained"
+                onClick={sendSearchedSubjectID}
+              >
+                ค้นหา
+                <SvgIcon
+                  sx={{ marginLeft: "5px" }}
+                  component={SearchIcon}
+                  inheritViewBox
+                />
+              </Button>
+            </Grid>
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
-                   รหัส
+                  รหัสนักศึกษา
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
-                    ชื่อ
+                  ชื่อ-นามสกุล
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
-                    เกรด
+                  เกรด
                   </StyledTableCell>
                    
                  
@@ -296,27 +282,27 @@ function  Adding_pointCreate() {
               </TableHead>
               <TableBody>
                 {(rowsPerPage > 0
-                  ? adding_points.slice(
+                  ? addingpoints.slice(
                       page * rowsPerPage,
                       page * rowsPerPage + rowsPerPage
                     )
-                  : adding_points
+                  : addingpoints
                 ).map((row) => (
                   <StyledTableRow key={row.Adding_point_ID}>
                     <TableCell component="th" scope="row" align="center">{row.Enroll_ID} </TableCell>
-                    <TableCell align="center">{row.Grade_ID}</TableCell>
+                    <TableCell align="center">
+                    <TextField
+                      id="Grade_ID"
+                      variant="outlined"
+                      type="number"
+                      defaultValue={addingpoint.Grade_ID}
+             
+            /></TableCell>
                     {/* <TableCell align="center">{row.Subject_EN_Name}</TableCell> */}
                     {/* <TableCell align="center">{row.Course_Name}</TableCell> */}
                     {/* <TableCell align="center">{row.Section}</TableCell> */}
                     
-                    <TableCell>
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => DeleteAdding_point(row.Adding_point_ID)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
+                    
                     {/* <TableCell align="center">
                       <IconButton
                         aria-label="edit"
@@ -344,8 +330,8 @@ function  Adding_pointCreate() {
                       25,
                       { label: "All", value: -1 },
                     ]}
-                    colSpan={adding_points.length}
-                    count={adding_points.length}
+                    colSpan={addingpoints.length}
+                    count={addingpoints.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     SelectProps={{
@@ -367,8 +353,12 @@ function  Adding_pointCreate() {
           to="/create"
           variant="contained"
           color="primary"
+          onClick={() => {
+            navigate({ pathname: `/update/${addingpoint.Adding_point_ID}` });
+            {submit}
+          }}
         >
-          แก้ไข
+          submit
         </Button>
       </Box>
         </Paper>

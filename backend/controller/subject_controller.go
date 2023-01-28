@@ -16,12 +16,12 @@ type extendedSubject struct {
 
 type extendedEnrollSubject struct {
 	Subject_ID string
-	Section uint
+	Section    uint
 	entity.Subject
 	entity.Exam_Schedule
 	entity.Class_Schedule
-
 }
+
 // POST /subjects
 func CreateSubject(c *gin.Context) {
 	var professor entity.Professor
@@ -145,29 +145,28 @@ func ListSubjects(c *gin.Context) {
 
 }
 
-//SELECT e.*,cs.*,ex.* FROM `subjects` e JOIN `class_schedules` cs JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id
-func ListEnrollSubject(c *gin.Context){
+// SELECT e.*,cs.*,ex.* FROM `subjects` e JOIN `class_schedules` cs JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id
+func ListEnrollSubject(c *gin.Context) {
 
 	var extendedEnrollSubject []extendedEnrollSubject
-	
+
 	query := entity.DB().Raw("SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id").Scan(&extendedEnrollSubject)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-
 	c.JSON(http.StatusOK, gin.H{"data": extendedEnrollSubject})
 
-
 }
-func GetEnrollSubject(c *gin.Context){
+
+func GetEnrollSubject(c *gin.Context) {
 
 	var extendedEnrollSubjects []extendedEnrollSubject
 
 	subject_id := c.Param("subject_id")
 
-	query := entity.DB().Raw("SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id", subject_id).Scan(&extendedEnrollSubjects)
+	query := entity.DB().Raw("SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id WHERE e.subject_id = ?", subject_id).Scan(&extendedEnrollSubjects)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

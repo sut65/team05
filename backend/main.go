@@ -126,6 +126,12 @@ func main() {
 	r.GET("/enrollsubs/:subject_id", controller.GetEnrollSubject)
 	r.GET("/subjectd/:coruse_id", controller.GetSubjectByCourse)
 
+
+	r.GET("/payment", controller.ListPayment)
+	r.POST("/payment", controller.CreatePayment)
+	r.GET("/payment_type", controller.ListPayment_type)
+
+
 	//----------------------------------------------------------------------------------------------
 
 	// // Admin Routes

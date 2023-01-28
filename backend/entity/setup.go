@@ -3,8 +3,6 @@ package entity
 import (
 	// "time"
 
-	"time"
-
 	"fmt"
 
 	"gorm.io/driver/sqlite"
@@ -147,7 +145,7 @@ func SetupDatabase() {
 	cpe2560 := Course{
 		Course_ID:     "CPE2560",
 		Course_Name:   "หลักสูตรวิศวกรรมคอมพิวเตอร์ 2560",
-		Datetime:      time.Now(),
+		Datetime:      "22/05/2563",
 		Qualification: qualification1,
 		Admin:         admin1,
 		Major:         cpe,
@@ -156,7 +154,7 @@ func SetupDatabase() {
 	cpe2564 := Course{
 		Course_ID:     "CPE2564",
 		Course_Name:   "หลักสูตรวิศวกรรมคอมพิวเตอร์ 2564",
-		Datetime:      time.Now(),
+		Datetime:      "22/06/2563",
 		Qualification: qualification2,
 		Admin:         admin1,
 		Major:         cpe,
@@ -165,7 +163,7 @@ func SetupDatabase() {
 	ee2560 := Course{
 		Course_ID:     "EE2560",
 		Course_Name:   "หลักสูตรวิศวกรรมไฟฟ้า 2560",
-		Datetime:      time.Now(),
+		Datetime:      "22/07/2563",
 		Qualification: qualification3,
 		Admin:         admin1,
 		Major:         ee,
@@ -196,7 +194,7 @@ func SetupDatabase() {
 		Student_ID:       "B631021",
 		Student_Name:     "ปีเตอร์ สงบสุข",
 		Student_Password: "Vuster2572",
-		Datetime:         time.Now(),
+		Datetime:         "22/08/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
 		Dormitory:        dormitory2,
@@ -207,7 +205,7 @@ func SetupDatabase() {
 		Student_ID:       "B620023",
 		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
 		Student_Password: "Oop1235",
-		Datetime:         time.Now(),
+		Datetime:         "22/09/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
 		Dormitory:        dormitory2,
@@ -218,7 +216,7 @@ func SetupDatabase() {
 		Student_ID:       "B620125",
 		Student_Name:     "สมใจ ใยดี",
 		Student_Password: "Kku5731mn",
-		Datetime:         time.Now(),
+		Datetime:         "22/10/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
 		Dormitory:        dormitory2,

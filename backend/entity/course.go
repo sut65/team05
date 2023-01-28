@@ -1,7 +1,7 @@
 package entity
 
 import (
-	"time"
+	
 )
 
 // วุฒิ
@@ -37,7 +37,7 @@ type Course struct {
 
 	Course_Name string
 
-	Datetime time.Time
+	Datetime string
 
 	Qualification_ID *string
 	Qualification    Qualification `gorm:"references:Qualification_ID"`

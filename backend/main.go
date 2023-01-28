@@ -47,11 +47,26 @@ func main() {
 	r.GET("/exam_schedule/:subject_id", controller.GetExamSchedule)
 	r.GET("/class_schedule/:subject_id/:section", controller.GetClassBySubjectID_and_Section)
 
+	// r.GET("/enrollsub", controller.ListEnrollSubject)
+	// r.GET("/enroll", controller.ListEnroll)
+	// r.GET("/enroll/enroll_id", controller.GetEnroll)
+	// r.POST("/enroll", controller.CreateEnroll)
+	// r.DELETE("/deleEnroll/:enroll_id", controller.DeleteEnroll)
+
+	//----------------------------------------------------------------------------------
 	r.GET("/enrollsub", controller.ListEnrollSubject)
 	r.GET("/enroll", controller.ListEnroll)
-	r.GET("/enroll/enroll_id", controller.GetEnroll)
+	r.GET("/enroll/:subject_id", controller.GetEnrollSubject)
+	r.PATCH("/updateenroll", controller.UpdateEnroll)
+	r.GET("/currentenroll/:enroll_id", controller.GetEnroll)
+	// r.GET("/enroll/:enroll_id", controller.GetEnroll)
 	r.POST("/enroll", controller.CreateEnroll)
+	r.GET("/previousenroll", controller.GetPreviousREnroll)
 	r.DELETE("/deleEnroll/:enroll_id", controller.DeleteEnroll)
+	r.GET("/enrollsubs/:subject_id", controller.GetEnrollSubject)
+	r.GET("/subjectd/:coruse_id", controller.GetSubjectByCourse)
+
+	//----------------------------------------------------------------------------------------------
 
 	// Initiate route POST
 	r.POST("/subjects", controller.CreateSubject)

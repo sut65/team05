@@ -43,7 +43,7 @@ type Course struct {
 	Qualification    Qualification `gorm:"references:Qualification_ID"`
 
 	Admin_ID *string
-	Admin    Admin
+	Admin    Admin `gorm:"references:Admin_ID"`
 
 	Major_ID *string
 	Major    Major `gorm:"references:Major_ID"`

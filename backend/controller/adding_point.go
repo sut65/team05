@@ -8,6 +8,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
+
+type extendedAdding_point struct {
+	
+	Enroll_ID        string
+	Professor_ID     uint
+	Professor_Name   string
+	Student_ID 		 string
+	Student_Name	 string
+	Grade_ID 		 string
+	Subject_ID		 string
+	Section			 uint	
+}
 // POST /course
 func CreateAdding_point(c *gin.Context) {
 	var adding_point entity.Adding_point
@@ -69,12 +82,12 @@ func CreateAdding_point(c *gin.Context) {
 
 // List /request
 func ListAdding_point(c *gin.Context) {
-	var adding_point []entity.Adding_point
-	if err := entity.DB().Raw("SELECT * FROM adding_points").Scan(&adding_point).Error; err != nil {
+	var  extendedAdding_point []extendedAdding_point
+	if err := entity.DB().Raw("SELECT professors.*,subjects.*,enrolls.*,students.* FROM subjects JOIN professors JOIN enrolls JOIN students on  subjects.professor_id = professors.id  AND subjects.section = professors.id and subjects.subject_id = enrolls.subject_id AND enrolls.student_id = students.student_id").Scan(&extendedAdding_point).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": adding_point})
+	c.JSON(http.StatusOK, gin.H{"data": extendedAdding_point})
 }
 
 // Get /request
@@ -154,12 +167,12 @@ func GetPreviousAdding_point(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": adding_point})
 }
 
-
+//รับค่าprofessorมากรองรหัสวิชาและกลุ่ม
 func GetStudenByEnroll(c *gin.Context) {
 	var  enroll []entity.Enroll
 	section := c.Param("section")
 	subject_id := c.Param("subject_id")
-	if err := entity.DB().Raw("SELECT enrolls.student_id FROM enrolls WHERE subject_id = ? AND section = ?", subject_id,section).Find(&enroll).Error; err != nil {
+	if err := entity.DB().Raw("SELECT g.*, a.*,e.*,s.*,sn.* FROM adding_points a  JOIN grades g  JOIN enrolls e JOIN subjects s JOIN students sn ON g.grade_id = a.grade_id AND a.enroll_id = e.enroll_id AND e.subject_id = s.subject_id AND e.section = s.section AND e.student_id =sn.student_id", subject_id,section).Find(&enroll).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -167,13 +180,16 @@ func GetStudenByEnroll(c *gin.Context) {
 }
 
 
-// func getSubjectByProfessor(c *gin.Context) {
-// 	var  subject []entity.Subject
-// 	id := c.Param("course_id")
-	
-// 	if err := entity.DB().Raw(" SELECT Subjects.professor_id FROM  subjects WHERE subject_id = ?", id).Find(&subject).Error; err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
-// 	c.JSON(http.StatusOK, gin.H{"data": subject})
-// }
+
+
+//เอาค่ากลุ่มกับรหัสมากรองชื่อทั้งหมด
+func GetSubjectByProfessor(c *gin.Context) {
+	var  subject []entity.Subject
+	professor_id := c.Param("professor_id")
+	//section := c.Param("section")
+	if err := entity.DB().Raw(" SELECT * FROM subjects where professor_id =?", professor_id ).Find(&subject).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": subject})
+}

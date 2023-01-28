@@ -182,11 +182,11 @@ func main() {
 	r.POST("/students", controller.CreateStudent)
 	r.DELETE("/students/:student_id", controller.DeleteStudents)
 	r.PATCH("/students", controller.UpdateStudents)
-
+	//Dormitory
 	r.GET("/dormitorys", controller.ListDormitorys)
-	r.GET("/dormitory/:dormitory_id", controller.GetDormitory)
+	r.GET("/dormitory/:domitory_id", controller.GetDormitory)
 	r.POST("dormitorys", controller.CreateDormitory)
-	r.DELETE("/dormitorys/:dormitory_id", controller.DeleteDormitorys)
+	r.DELETE("/dormitorys/:domitory_id", controller.DeleteDormitorys)
 
 	r.Run()
 

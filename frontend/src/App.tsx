@@ -24,6 +24,11 @@ import Approval from "./components/approval/Approval";
 import ApprovalCreate from "./components/approval/ApprovalCreate";
 import Navbar from "./components/approval/ApprovalNavbar";
 import ApprovalUpdate from "./components/approval/ApprovalUpdate";
+import Student_Info from "./components/student/Student_Info";
+import Student_Create from "./components/student/Student_Create";
+import Student_List from "./components/student/Student_List";
+import Student_Update from "./components/student/Student_Update";
+
 
 
 export default function App() {
@@ -96,7 +101,15 @@ export default function App() {
 
           <Route path="/create" element={<ApprovalCreate />} />
 
-          <Route path="/update/:approval_id" element={<ApprovalUpdate />} />
+          <Route path="/update/:approval_id" element={<ApprovalUpdate />}
+           />
+           <Route path="/" element={<Student_List />} />
+
+          <Route path="/student_create" element={<Student_Create />} />
+
+          <Route path="/student_info/:student_id" element={<Student_Info />} /> 
+
+          <Route path="/student-handle-update/:student_id" element={<Student_Update />} />
         </Routes>
 
         <Subject_Management_Footer />

@@ -37,7 +37,7 @@ function StudentInfo() {
     const apiUrl = "http://localhost:8080";
 
     const toUpdateStudentPage = () => {
-        navigate({ pathname: `/student-handle-update/${students?.Student_ID}` })
+        navigate({ pathname: `/student/update/${students?.Student_ID}` })
         // window.location.reload()
     };
 
@@ -57,7 +57,7 @@ function StudentInfo() {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         };
-        fetch(`${apiUrl}/student/${params.student_id}`, requestOptions)
+        fetch(`${apiUrl}/students/${params.student_id}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
       
@@ -78,7 +78,7 @@ function StudentInfo() {
             .then((res) => {
                 if (res.data) {
                     console.log("Data remove")
-                    window.location.href = "/"
+                    window.location.href = "/student"
                 }
                 else {
                     console.log("Something was wrong!!")
@@ -212,7 +212,7 @@ function StudentInfo() {
                 <Box sx={{ width: 0.33, margin: 0.5, }}>
                     <Button
                         component={RouterLink}
-                        to="/"
+                        to="/student"
                         variant="contained"
                         color="primary"
                         sx={{ margin: 0.5 }}

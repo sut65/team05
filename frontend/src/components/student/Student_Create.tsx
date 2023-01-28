@@ -469,7 +469,7 @@ const requestOptionsGet = {
 
          <Grid item xs={12}>
 
-           <Button component={RouterLink} to="/" variant="contained" color="warning">
+           <Button component={RouterLink} to="/student" variant="contained" color="warning">
 
            <ArrowBackIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
 

@@ -20,12 +20,14 @@ import Approval from "./components/approval/Approval";
 import ApprovalCreate from "./components/approval/ApprovalCreate";
 import Navbar from "./components/approval/ApprovalNavbar";
 import ApprovalUpdate from "./components/approval/ApprovalUpdate";
+import Home_Navbar from "./components/navbars/Home_navbar";
+import MainPage from "./components/pages/Main_Page";
+
+// Student 
 import Student_Info from "./components/student/Student_Info";
 import Student_Create from "./components/student/Student_Create";
 import Student_List from "./components/student/Student_List";
 import Student_Update from "./components/student/Student_Update";
-import Home_Navbar from "./components/navbars/Home_navbar";
-import MainPage from "./components/pages/Main_Page";
 
 // Course
 import Course_List from "./components/course/Course_List";
@@ -39,12 +41,18 @@ export default function App() {
             <div>
                 <Home_Navbar />
                 <Routes>
+                    {/* Course Path */}
                     <Route path="/" element={<MainPage />} />
                     <Route path="/course" element={<Course_List />} />
                     <Route path="/course/course_create" element={<CourseCreate />} />
                     <Route path="/course/:course_id" element={<Course_Info />} />
                     <Route path="/course/update/:course_id" element={<Course_Update />} />
-                
+
+                    {/* Student Path */}
+                    <Route path="/student" element={<Student_List />} />
+                    <Route path="/student/:student_id" element={<Student_Info />} />
+                    <Route path="/student/student_create" element={<Student_Create />} />
+                    <Route path="/student/update/:student_id" element={<Student_Update />} />
                 </Routes>
                 {/* <Subject_Management_Navbar /> */}
 

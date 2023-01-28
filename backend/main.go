@@ -38,7 +38,14 @@ func main() {
 	r.POST("/courses", controller.CreateCourse)
 	r.DELETE("/courses/:course_id", controller.DeleteCourse)
 	r.PATCH("/courses", controller.UpdateCourses)
-	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	// ++++++++++++++++++ Student Routes ++++++++++++++++++++++++
+	r.GET("/students", controller.ListStudents)
+	r.GET("/students/:student_id", controller.GetStudentSearch)
+	r.GET("/student/:course_id", controller.GetStudent)
+	r.POST("/students", controller.CreateStudent)
+	r.DELETE("/students/:student_id", controller.DeleteStudents)
+	r.PATCH("/students", controller.UpdateStudents)
 
 	r.GET("/subjects", controller.ListSubjects)
 	r.GET("/prev_subject", controller.GetPreviousSubject)
@@ -186,13 +193,6 @@ func main() {
 	r.GET("/grade/:grade_id", controller.GetGrade)
 	r.POST("/grades", controller.CreateGrade)
 
-	//Student
-	r.GET("/students", controller.ListStudents)
-	r.GET("/students/:student_id", controller.GetStudentSearch)
-	r.GET("/student/:course_id", controller.GetStudent)
-	r.POST("/students", controller.CreateStudent)
-	r.DELETE("/students/:student_id", controller.DeleteStudents)
-	r.PATCH("/students", controller.UpdateStudents)
 	//Dormitory
 	r.GET("/dormitorys", controller.ListDormitorys)
 	r.GET("/dormitory/:domitory_id", controller.GetDormitory)

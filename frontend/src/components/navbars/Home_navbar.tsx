@@ -128,6 +128,18 @@ function Home_Navbar() {
                             </ListItemButton>
                         </ListItem>
 
+                        <ListItem disablePadding>
+                            <ListItemButton
+                            component={RouterLink}
+                            to="/student"
+                            >
+                                {/* <ListItemIcon>
+                                    <FeedbackIcon />
+                                </ListItemIcon> */}
+                                <ListItemText primary="จัดการนักศึกษา(สำหรับเจ้าหน้าที่)" />
+                            </ListItemButton>
+                        </ListItem>
+
                     </List>
 
                     <Divider />

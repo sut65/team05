@@ -62,72 +62,74 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function Students_List() {
 
-  
-const navigate = useNavigate();
+
+    const navigate = useNavigate();
 
 
- const [students, setStudents] = React.useState<StudentsInterface[]>([]);
- const [searchStudentID, setSearchStudentID] = React.useState("");
+    const [students, setStudents] = React.useState<StudentsInterface[]>([]);
+    const [searchStudentID, setSearchStudentID] = React.useState("");
 
- const [page, setPage] = React.useState(0);
- const [rowsPerPage, setRowsPerPage] = React.useState(5);
- 
-
- const handleInputChange = (
-  event: React.ChangeEvent<{ value: string }>
-) => {
-  const searched_student_id = event.target.value;
-  setSearchStudentID(searched_student_id);
-};
-
-const handleChangePage = (
-  event: React.MouseEvent<HTMLButtonElement> | null,
-  newPage: number,
-) => {
-  setPage(newPage);
-};
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
 
-const handleChangeRowsPerPage = (
-  event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-) => {
-  setRowsPerPage(parseInt(event.target.value, 10));
-  setPage(0);
-};
+    const handleInputChange = (
+        event: React.ChangeEvent<{ value: string }>
+    ) => {
+        const searched_student_id = event.target.value;
+        setSearchStudentID(searched_student_id);
+    };
 
-const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - students.length) : 0;
-
-const getStudents = async () => {
-    fetch(`${apiUrl}/students`, requestOptions)
-        .then((response) => response.json())
-        .then((res) => {
-            if (res.data) {
-                setStudents(res.data);
-            }
-        });
-};
-
-const getStudentByStudentID = async () => {
-    fetch(`${apiUrl}/students/${searchStudentID}`, requestOptions)
-        .then((response) => response.json())
-        .then((res) => {
-            if (res.data) {
-                setStudents(res.data);
-                // console.log(res.data)
-            }
-        });
-};
+    const handleChangePage = (
+        event: React.MouseEvent<HTMLButtonElement> | null,
+        newPage: number,
+    ) => {
+        setPage(newPage);
+    };
 
 
-useEffect(() => {
-    if (searchStudentID === "") {
-        getStudents();
-    }
-}, []);
+    const handleChangeRowsPerPage = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - students.length) : 0;
+
+    const getStudents = async () => {
+        fetch(`${apiUrl}/students`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                console.log(res)
+                if (res.data) {
+                    setStudents(res.data);
+                    // console.log(res.data);
+                }
+            });
+    };
+
+    const getStudentByStudentID = async () => {
+        fetch(`${apiUrl}/students/${searchStudentID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setStudents(res.data);
+                    // console.log(res.data)
+                }
+            });
+    };
 
 
- return (
-  <div>
+    useEffect(() => {
+        if (searchStudentID === "") {
+            getStudents();
+        }
+    }, []);
+
+
+    return (
+        <div>
             <Container maxWidth={false}
                 sx={{
                     bgcolor: "#e1e1e1",
@@ -136,53 +138,53 @@ useEffect(() => {
                     padding: 2
                 }}>
 
-<Paper
-          elevation={3}
-          sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
-        >
-          <Box
-            display="flex"
-            sx={{
-              marginTop: 2,
-            }}
-          >
-            <Box flexGrow={1}>
-              <Typography
-                component="h2"
-                variant="h4"
-                color="primary"
-                gutterBottom
-              >
-                ระบบจัดการข้อมูลนักศึกษา
-              </Typography>
-            </Box>
-            <Box>
-              <Button
-                component={RouterLink}
-                to="/student_create"
-                variant="contained"
-                color="primary"
-              >
-                เพิ่มข้อมูลนักศึกษา
-              </Button>
-            </Box>
-          </Box>
-          <Typography component="h2" variant="h6" color="Black" gutterBottom>
-            Requirement
-          </Typography>
-          <Box>
-                     ระบบลงทะเบียนเรียน เป็นระบบที่ใช้บริการเพื่อให้นักศึกษาของมหาวิทลัยหนึ่ง สามารถลงทะเบียนเรียนในหลักสูตรที่มหาวิทลัยนั้นได้กำหนดไว้ ในส่วนแรก
-           เช่น การลงทะเบียนเรียนในรายวิชาต่างๆ , การเพิ่มลดรายวิชา และการยื่นคำร้องกรณีกลุ่มเต็ม โดยที่กล่าวมาข้างต้นนี้จะเกี่ยวข้องกับสิทธิของผู้เป็นนักศึกษา
-           ที่สามารถใช้สิทธิในระบบลงทะเบียนเรียนได้ ส่วนของการจัดสรรห้องเรียน , การบันทึกผลการเรียน , และการอนุมัติคำร้องกรณีกลุ่มเต็ม จะเป็นสิทธิของผู้เป็น
-           อาจารย์ที่สามารถใช้งานในส่วนนี้ได้ และส่วนสุดท้ายจะมี การเพิ่มข้อมูลนักศึกษา , การเพิ่มข้อมูลหลักสูตร , การเพิ่มข้อมูลรายวิชา ,การคำนวณค่าใช่จ่าย ,
-           การเพิ่มข้อมูลอาจารย์ และเพิ่มข้อมูลห้องเรียน โดยในส่วนนี้จะเป็นสิทธิของผู้เป็นแอดมินที่มีสิทธิสามารถใช้งานได้ระบบจัดการข้อมูลหลักสูตร เป็นระบบที่ผู้เป็น
-           แอดมินของระบบ สามารถจัดการในส่วนของการเพิ่มข้อมูล ,แก้ไขข้อมูล , ลบข้อมูลหลักสูตรได้ และสามารถค้นหาในหน้าแสดงข้อมูลเพื่อดูรายละเอียดข้อมูลหลักสูตร 
-           โดยอิงจากรหัสหลักสูตรได้ โดยผู้เป็นแอดมินจะสามารถจัดการข้อมูล เช่น หลักสูตร ,วุฒิต่างๆรวมไปถึงคณะและสาขา และวันที่ที่เพิ่มหรือแก้ไขข้อมูล หรือข้อมูลอื่นๆที่
-           สำคัญเกี่ยวกับหลักสูตร เป็นต้น เมื่อใส่ข้อมูลเสร็จสิ้นแล้ว ผู้เป็นแอดมินจะสามารถกดเพิ่มข้อมูลหลักสูตรเข้ากับระบบได้ โดยจะสามารถแก้ไขหรือลบข้อมูลได้ในภายหลัง 
-           และนอกจากนี้ผู้เป็นแอดมินสามารถดูข้อมูลหลักสูตรที่ถูกเพิ่มเข้าไปในรูปแบบของตารางได้เช่นกัน
+                <Paper
+                    elevation={3}
+                    sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
+                >
+                    <Box
+                        display="flex"
+                        sx={{
+                            marginTop: 2,
+                        }}
+                    >
+                        <Box flexGrow={1}>
+                            <Typography
+                                component="h2"
+                                variant="h4"
+                                color="primary"
+                                gutterBottom
+                            >
+                                ระบบจัดการข้อมูลนักศึกษา
+                            </Typography>
+                        </Box>
+                        <Box>
+                            <Button
+                                component={RouterLink}
+                                to="/student/student_create"
+                                variant="contained"
+                                color="primary"
+                            >
+                                เพิ่มข้อมูลนักศึกษา
+                            </Button>
+                        </Box>
+                    </Box>
+                    <Typography component="h2" variant="h6" color="Black" gutterBottom>
+                        Requirement
+                    </Typography>
+                    <Box>
+                        ระบบลงทะเบียนเรียน เป็นระบบที่ใช้บริการเพื่อให้นักศึกษาของมหาวิทลัยหนึ่ง สามารถลงทะเบียนเรียนในหลักสูตรที่มหาวิทลัยนั้นได้กำหนดไว้ ในส่วนแรก
+                        เช่น การลงทะเบียนเรียนในรายวิชาต่างๆ , การเพิ่มลดรายวิชา และการยื่นคำร้องกรณีกลุ่มเต็ม โดยที่กล่าวมาข้างต้นนี้จะเกี่ยวข้องกับสิทธิของผู้เป็นนักศึกษา
+                        ที่สามารถใช้สิทธิในระบบลงทะเบียนเรียนได้ ส่วนของการจัดสรรห้องเรียน , การบันทึกผลการเรียน , และการอนุมัติคำร้องกรณีกลุ่มเต็ม จะเป็นสิทธิของผู้เป็น
+                        อาจารย์ที่สามารถใช้งานในส่วนนี้ได้ และส่วนสุดท้ายจะมี การเพิ่มข้อมูลนักศึกษา , การเพิ่มข้อมูลหลักสูตร , การเพิ่มข้อมูลรายวิชา ,การคำนวณค่าใช่จ่าย ,
+                        การเพิ่มข้อมูลอาจารย์ และเพิ่มข้อมูลห้องเรียน โดยในส่วนนี้จะเป็นสิทธิของผู้เป็นแอดมินที่มีสิทธิสามารถใช้งานได้ระบบจัดการข้อมูลหลักสูตร เป็นระบบที่ผู้เป็น
+                        แอดมินของระบบ สามารถจัดการในส่วนของการเพิ่มข้อมูล ,แก้ไขข้อมูล , ลบข้อมูลหลักสูตรได้ และสามารถค้นหาในหน้าแสดงข้อมูลเพื่อดูรายละเอียดข้อมูลหลักสูตร
+                        โดยอิงจากรหัสหลักสูตรได้ โดยผู้เป็นแอดมินจะสามารถจัดการข้อมูล เช่น หลักสูตร ,วุฒิต่างๆรวมไปถึงคณะและสาขา และวันที่ที่เพิ่มหรือแก้ไขข้อมูล หรือข้อมูลอื่นๆที่
+                        สำคัญเกี่ยวกับหลักสูตร เป็นต้น เมื่อใส่ข้อมูลเสร็จสิ้นแล้ว ผู้เป็นแอดมินจะสามารถกดเพิ่มข้อมูลหลักสูตรเข้ากับระบบได้ โดยจะสามารถแก้ไขหรือลบข้อมูลได้ในภายหลัง
+                        และนอกจากนี้ผู้เป็นแอดมินสามารถดูข้อมูลหลักสูตรที่ถูกเพิ่มเข้าไปในรูปแบบของตารางได้เช่นกัน
 
-          </Box>
-        </Paper>
+                    </Box>
+                </Paper>
 
 
                 {/* Header components */}
@@ -204,13 +206,13 @@ useEffect(() => {
                             ></TextField>
 
                             <Button
-                            variant="contained"
-                            onClick={() => {
-                                getStudentByStudentID()
-                            }}
-                            sx={{ borderRadius: 0, margin: 1.25 }}>
-                            <SearchIcon /> Search
-                        </Button>
+                                variant="contained"
+                                onClick={() => {
+                                    getStudentByStudentID()
+                                }}
+                                sx={{ borderRadius: 0, margin: 1.25 }}>
+                                <SearchIcon /> Search
+                            </Button>
                         </Box>
                         <Button
                             component={RouterLink}
@@ -250,7 +252,7 @@ useEffect(() => {
                                                 variant="contained"
                                                 sx={{ borderRadius: 0 }}
                                                 onClick={() => {
-                                                    navigate({ pathname: `/student_info/${row.Student_ID}` })
+                                                    navigate({ pathname: `/student/${row.Student_ID}` })
                                                 }}> Info </Button>
                                         </TableCell>
                                     </StyledTableRow>
@@ -288,8 +290,8 @@ useEffect(() => {
 
         </div>
 
-  
- );
+
+    );
 }
 
 

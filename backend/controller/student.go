@@ -62,7 +62,7 @@ func CreateStudent(c *gin.Context) {
 
 func GetStudentSearch(c *gin.Context) {
 
-	var student []extendedStudent
+	var student extendedStudent
 
 	id := c.Param("student_id")
 

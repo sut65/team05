@@ -102,7 +102,7 @@ function Student_Update() {
     };
 
     const getSendedStudent = async () => {
-        fetch(`${apiUrl}/student/${params.student_id}`, requestOptionsGet)
+        fetch(`${apiUrl}/students/${params.student_id}`, requestOptionsGet)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -406,7 +406,7 @@ function Student_Update() {
    
             <Grid item xs={12}>
    
-              <Button component={RouterLink} to="/" variant="contained" color="warning">
+              <Button component={RouterLink} to="/student" variant="contained" color="warning">
    
               <ArrowBackIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
    

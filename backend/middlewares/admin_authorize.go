@@ -28,7 +28,7 @@ func Admin_Authorizes() gin.HandlerFunc {
 		}
 
 		jwtWrapper := service.Admin_JwtWrapper{
-			SecretKey: "SvNQpBN8y3qlVrsGAYYWoJJk56Ltzaaa",
+			SecretKey: "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
 			Issuer:    "AuthService",
 		}
 

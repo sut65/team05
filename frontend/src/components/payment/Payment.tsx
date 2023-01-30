@@ -54,6 +54,19 @@ export function ListPayment() {
         },
     }));
 
+    const handleChangePage = (
+        event: React.MouseEvent<HTMLButtonElement> | null,
+        newPage: number
+    ) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
 
     const getPayment = async () => {
         const apiUrl = "http://localhost:8080/payment";
@@ -77,7 +90,7 @@ export function ListPayment() {
         getPayment();
     }, []);
     return (
-        <Container maxWidth="xl" >
+        <Container maxWidth="xl" sx={{mt:10}}>
             <Box
                 display="flex"
                 sx={{
@@ -162,6 +175,32 @@ export function ListPayment() {
                                 </TableRow>
                             ))}
                         </TableBody>
+                        <TableFooter>
+                                <TableRow>
+                                    <TablePagination
+                                        rowsPerPageOptions={[
+                                            5,
+                                            10,
+                                            15,
+                                            20,
+                                            25,
+                                            { label: "All", value: -1 },
+                                        ]}
+                                        colSpan={payments.length}
+                                        count={payments.length}
+                                        rowsPerPage={rowsPerPage}
+                                        page={page}
+                                        SelectProps={{
+                                            inputProps: {
+                                                "aria-label": "rows per page",
+                                            },
+                                            native: true,
+                                        }}
+                                        onPageChange={handleChangePage}
+                                        onRowsPerPageChange={handleChangeRowsPerPage}
+                                    />
+                                </TableRow>
+                            </TableFooter>
                     </Table>
                 </TableContainer>
 

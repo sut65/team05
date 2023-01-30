@@ -15,7 +15,7 @@ import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
 //import { StudentInterface } from "../models/studentInterface";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { CssBaseline, Grid, MenuItem, Paper, Select, SelectChangeEvent, TableFooter, TablePagination } from "@mui/material";
+import { Alert, CssBaseline, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, TableFooter, TablePagination } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -31,6 +31,7 @@ import CreateEnroll from "../enroll/Enroll_Create";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Payment } from "../../models/I_Payment";
 import { Payment_Type } from "../../models/I_Payment";
+import { bgcolor } from "@mui/system";
 
 
 export function CreatePayment() {
@@ -70,11 +71,11 @@ export function CreatePayment() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof CreatePayment;
-
+        const id = event.target.id as keyof typeof payment;
         const { value } = event.target;
-
-        setPayment({ ...payment, [id]: value });
+        setPayment({ 
+            ...payment, 
+            [id]: event.target.value });
     };
 
     const handleInputChangeSearch = (
@@ -85,8 +86,8 @@ export function CreatePayment() {
     };
 
     const handleSelectChange = (event: SelectChangeEvent<string>) => {
-        const name = event.target.name as keyof typeof enroll;
-        setEnroll({
+        const name = event.target.name as keyof typeof payment;
+        setPayment({
             ...payment,
             [name]: event.target.value,
         });
@@ -158,6 +159,8 @@ export function CreatePayment() {
             });
     };
 
+
+
     const getEnroll = async () => {
         const requestOptions = {
             method: "GET",
@@ -216,8 +219,24 @@ export function CreatePayment() {
                 }
             });
     };
+    
+    const getPrevPayment = async () => {
+        fetch(`${apiUrl}/previousenpayment`, requestOptionsGet)
+          .then((response) => response.json())
+          .then((res) => {
+            if (res.data) {
+              payment.Payment_ID = res.data.Payment_ID + 1;
+            }
+            else {
+              payment.Payment_ID = res.data = 1;
+              //console.log("else");
+            }
+          });
+      };
+     
 
     useEffect(() => {
+        getPrevPayment();
         getPayment_type();
         getPrevEnroll();
         if (searchSubjectID == "") {
@@ -230,28 +249,26 @@ export function CreatePayment() {
 
     function submitPayment() {
         let data = {
-            Payment_ID: typeof payment.Payment_ID === "string" ? parseInt(payment.Payment_ID) : payment.Payment_ID,
-            Enroll_ID: payment.Enroll_ID ?? "",
-            Student_ID: payment.Student_ID ?? "",
-            Payment_Type_ID: payment.Payment_Type_ID ?? "",
-            Admin: payment.Admin_ID ?? "",
-            Receipt_number: payment.Receipt_number ?? "",
-            Date_Time: payment.Date_Time ?? "",
-            Unit: typeof payment.Unit === "string" ? parseInt(payment.Unit) : payment.Unit,
+            Admin_ID: payment.Admin_ID ?? "",
             Amounts: typeof payment.Amounts === "string" ? parseInt(payment.Amounts) : payment.Amounts,
+            Date_Time: payment.Date_Time ?? "",
+            Payment_ID: typeof payment.Payment_ID === "string" ? parseInt(payment.Payment_ID) : payment.Payment_ID,
+            Payment_Type_ID: payment.Payment_Type_ID ?? "",
+            Receipt_number: payment.Receipt_number ?? "",
+            //Student_ID: payment.Student_ID ?? "",
+            Unit: typeof payment.Unit === "string" ? parseInt(payment.Unit) : payment.Unit,
             // Student_ID:
             //Section: typeof enroll.Section === "string" ? parseInt(enroll.Section) : enroll.Section,
         };
 
-
-        console.log(data)
+        
         const apiUrl = "http://localhost:8080/payment";
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
-
+        console.log(data)
         fetch(apiUrl, requestOptions)
             .then((response) => response.json())
             .then((res) => {
@@ -265,7 +282,30 @@ export function CreatePayment() {
     }
 
     return (
-        <Container maxWidth="xl" >
+        <Container maxWidth={false}
+        sx={{
+            bgcolor: "#e1e1e1",
+            padding: 2,
+            width: "auto",
+            height: "auto",
+        }}>
+            <Snackbar
+                open={success}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+
+                <Alert onClose={handleClose} severity="success">
+                    บันทึกข้อมูลสำเร็จ
+                </Alert>
+            </Snackbar>
+
+            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">
+                    บันทึกข้อมูลไม่สำเร็จ
+                </Alert>
+            </Snackbar>
             <Paper sx={{ pt: -1, pl: 1, pr: 1, mt: 1 }}>
                 <Box
                     display="flex"
@@ -403,15 +443,13 @@ export function CreatePayment() {
                             <TextField sx={{ width: "250px", pl: 2 }}
                                 size="small"
                                 //id="Amounts"
-                                value={payment.AmountsCal}
-                                onChange={handleInputChange}
+                                value={payment.Payment_ID}
                             >
                             </TextField>
                         </Grid>
                         <Grid sx={{ marginLeft: 3, }}>
                             <p style={{ paddingLeft: 18, }}>จำนวนเงินที่นักศึกษาชำระ</p>
                             <TextField sx={{ width: "250px", pl: 2 }}
-
                                 size="small"
                                 id="Amounts"
                                 value={payment.Amounts}
@@ -441,7 +479,7 @@ export function CreatePayment() {
                             <TextField sx={{ width: "250px", pl: 2 }}
                                 size="small"
                                 id="outlined-disabled"
-                                value={payment.Student_ID}
+                                //value={payment.Student_ID}
                                 onChange={handleInputChange}
                             >
                             </TextField>

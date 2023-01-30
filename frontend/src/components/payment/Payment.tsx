@@ -28,21 +28,7 @@ import IconButton from '@mui/material/IconButton';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { Payment } from "../../models/I_Payment";
 
-function createData(
-    payment_ID: number,
-    Student_ID: string,
-    Unit: number,
-    Amount: number,
-    Payment_Type: string,
-    Receipt_number: string,
-    date_time: string,
-    Admin_ID: string,) {
-    return { payment_ID, date_time, Admin_ID, Receipt_number, Student_ID, Unit, Amount, Payment_Type };
-}
-const rows = [
-    createData(1001, "B6200232", 15, 24000, "เงินสด", "12354dsf820", "12.00", "AD001"),
-    createData(1002, "B6200232", 8, 10000, "เงินสด", "sdftg455653", "12.00", "AD001"),
-];
+
 export function ListPayment() {
     const [payment, setPayment] = React.useState<Partial<Payment>>({});
     const [payments, setPayments] = React.useState<Payment[]>([]);
@@ -132,6 +118,7 @@ export function ListPayment() {
                                 <TableCell align="left">จำนวนเงินที่ต้องชำระ</TableCell>
                                 <TableCell align="left">จำนวนเงินที่ชำระ</TableCell>
                                 <TableCell align="left">วันเวลาที่ชำระ</TableCell>
+                                <TableCell align="left">ไอดีผู้ทำรายการ</TableCell>
                                 <TableCell align="left">ลบรายการ</TableCell>
                                 <TableCell align="left">แก้ไขรายจ่าย</TableCell>
                             </TableRow>
@@ -148,11 +135,12 @@ export function ListPayment() {
                                     <TableCell align="left">{row.Payment_ID}</TableCell>
                                     <TableCell align="left">{row.Student_ID}</TableCell>
                                     <TableCell align="left">{row.Unit}</TableCell>
-                                    <TableCell align="left">{row.Payment_Type_Name}</TableCell>
+                                    <TableCell align="left">{row.Payment_Type_ID}</TableCell>
                                     <TableCell align="left">{row.Receipt_number}</TableCell>
                                     <TableCell align="left">{row.Amounts}</TableCell>
                                     <TableCell align="left">{row.Amounts}</TableCell>
                                     <TableCell align="left">{row.Date_Time}</TableCell>
+                                    <TableCell align="left">{row.Admin_ID}</TableCell>
                                     <TableCell align="center">
                                         <IconButton
                                             aria-label="delete"

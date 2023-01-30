@@ -131,7 +131,7 @@ func main() {
 	r.POST("/payment", controller.CreatePayment)
 	r.GET("/payment_type", controller.ListPayment_type)
 
-
+	r.GET("/previousenpayment", controller.GetPreviousPayment)
 	//----------------------------------------------------------------------------------------------
 
 	// // Admin Routes

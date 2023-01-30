@@ -233,12 +233,27 @@ export function CreatePayment() {
             }
           });
       };
+
+    //   const getCall_Payment = async () => {
+    //     fetch(`${apiUrl}/getcall_payment`, requestOptionsGet)
+    //       .then((response) => response.json())
+    //       .then((res) => {
+    //         if (res.data) {
+    //           payment.Unit = res.data.Unit * 800;
+    //         }
+    //         else {
+    //           payment.Unit = res.data = 1;
+    //           //console.log("else");
+    //         }
+    //       });
+    //   };
      
 
     useEffect(() => {
         getPrevPayment();
         getPayment_type();
         getPrevEnroll();
+        
         if (searchSubjectID == "") {
             getEnroll();
         } else {
@@ -284,6 +299,7 @@ export function CreatePayment() {
     return (
         <Container maxWidth={false}
         sx={{
+            mt:10,
             bgcolor: "#e1e1e1",
             padding: 2,
             width: "auto",
@@ -442,8 +458,8 @@ export function CreatePayment() {
                             <p style={{ paddingLeft: 18, }}>จำนวนเงินที่ต้องชำระ</p>
                             <TextField sx={{ width: "250px", pl: 2 }}
                                 size="small"
-                                //id="Amounts"
-                                value={payment.Payment_ID}
+                                id="Amounts"
+                                value={payment.AmountsCal}
                             >
                             </TextField>
                         </Grid>
@@ -467,7 +483,7 @@ export function CreatePayment() {
                                 sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -1, paddingLeft: 1, }}>
                                 <TextField sx={{ width: "200px" }}
                                     size="small"
-                                    id="Admin"
+                                    id="Admin_ID"
                                     value={payment.Admin_ID}
                                     onChange={handleInputChange}
                                 >
@@ -521,7 +537,7 @@ export function CreatePayment() {
                                 <TextField sx={{ width: "200px" }}
 
                                     size="small"
-                                    id="outlined-disabled"
+                                    id="Receipt_number"
                                     value={payment.Receipt_number}
                                     onChange={handleInputChange}
                                 >
@@ -533,7 +549,7 @@ export function CreatePayment() {
                             <TextField sx={{ width: "270px", pl: 2 }}
 
                                 size="small"
-                                id="outlined-disabled"
+                                id="Date_Time"
                                 value={payment.Date_Time}
                                 onChange={handleInputChange}
                             >

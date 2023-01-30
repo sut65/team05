@@ -6,9 +6,9 @@ type Grade struct {
 	Adding_points []Adding_point `gorm:"foreignKey:Grade_ID"`
 }
 type Adding_point struct {
-	Adding_point_ID string `gorm:"primaryKey"`
+	Adding_point_ID uint `gorm:"primaryKey"`
 
-	Professor_ID *string
+	Professor_ID *uint
 	Professor    Professor `gorm:"references:id"`
 
 	Enroll_ID *string

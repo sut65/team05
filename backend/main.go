@@ -126,6 +126,12 @@ func main() {
 	r.GET("/enrollsubs/:subject_id", controller.GetEnrollSubject)
 	r.GET("/subjectd/:coruse_id", controller.GetSubjectByCourse)
 
+
+	r.GET("/payment", controller.ListPayment)
+	r.POST("/payment", controller.CreatePayment)
+	r.GET("/payment_type", controller.ListPayment_type)
+
+
 	//----------------------------------------------------------------------------------------------
 
 	// // Admin Routes
@@ -187,7 +193,7 @@ func main() {
 
 	r.GET("/adding_points", controller.ListAdding_point)
 
-	r.GET("/adding_points/:subject/:section", controller.GetStudenByEnroll)
+	//r.GET("/adding_points/:subject/:section", controller.GetStudenByEnroll)
 	r.GET("/adding_point/:adding_point_id", controller.GetAdding_point)
 	r.GET("/previous_adding_point", controller.GetPreviousAdding_point)
 	r.POST("/adding_points", controller.CreateAdding_point)

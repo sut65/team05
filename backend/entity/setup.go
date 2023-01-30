@@ -5,6 +5,7 @@ import (
 
 	"fmt"
 
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -74,23 +75,26 @@ func SetupDatabase() {
 
 	db = database
 
+	password1, err := bcrypt.GenerateFromPassword([]byte("ABCD1234a"), 14)
+	password2, err := bcrypt.GenerateFromPassword([]byte("Gianmii5731"), 14)
+
 	// Create sample records
 	admin1 := Admin{
 		Admin_ID:       "AD01",
 		Admin_Email:    "Sompin@hotmail.com",
-		Admin_Password: "Gianmii5731",
+		Admin_Password: string(password1),
 	}
 
 	admin2 := Admin{
 		Admin_ID:       "AD02",
 		Admin_Email:    "Patsatit@hotmail.com",
-		Admin_Password: "Devupindate9890",
+		Admin_Password: string(password1),
 	}
 
 	admin3 := Admin{
 		Admin_ID:       "AD03",
 		Admin_Email:    "Alexander@hotmail.com",
-		Admin_Password: "Suster3490",
+		Admin_Password: string(password2),
 	}
 	db.Create(&admin1)
 	db.Create(&admin2)
@@ -195,7 +199,7 @@ func SetupDatabase() {
 	student1 := Student{
 		Student_ID:       "B631021",
 		Student_Name:     "ปีเตอร์ สงบสุข",
-		Student_Password: "Vuster2572",
+		Student_Password: string(password1),
 		Datetime:         "22/08/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
@@ -206,7 +210,7 @@ func SetupDatabase() {
 	student2 := Student{
 		Student_ID:       "B620023",
 		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
-		Student_Password: "Oop1235",
+		Student_Password: string(password1),
 		Datetime:         "22/09/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
@@ -217,7 +221,7 @@ func SetupDatabase() {
 	student3 := Student{
 		Student_ID:       "B620125",
 		Student_Name:     "สมใจ ใยดี",
-		Student_Password: "Kku5731mn",
+		Student_Password: string(password1),
 		Datetime:         "22/10/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
@@ -734,37 +738,36 @@ func SetupDatabase() {
 	db.Create(&Adding_point2)
 
 	payment_type1 := Payment_Type{
-		Payment_Type_ID: "P01",
+		Payment_Type_ID:   "P01",
 		Payment_Type_Name: "เงินสด",
 	}
 	db.Create(&payment_type1)
 
 	payment_type2 := Payment_Type{
-		Payment_Type_ID: "P02",
+		Payment_Type_ID:   "P02",
 		Payment_Type_Name: "โอนชำระ",
 	}
 	db.Create(&payment_type2)
 
 	payment1 := Payment{
-		Payment_ID: 001,
+		Payment_ID:      001,
 		Payment_Type_ID: &payment_type1.Payment_Type_ID,
-		Receipt_number: "asdf816188",
-		Admin_ID: &admin1.Admin_ID,
-		Date_Time: "02/03/2566_21:35",
-		Unit: 20,
-		Amounts: 25000,
+		Receipt_number:  "asdf816188",
+		Admin_ID:        &admin1.Admin_ID,
+		Date_Time:       "02/03/2566_21:35",
+		Unit:            20,
+		Amounts:         25000,
 	}
 	db.Create(&payment1)
 
 	payment2 := Payment{
-		Payment_ID: 002,
+		Payment_ID:      002,
 		Payment_Type_ID: &payment_type2.Payment_Type_ID,
-		Admin_ID: &admin2.Admin_ID,
-		Receipt_number: "assdf81h6188",
-		Date_Time: "02/03/2566_21:35",
-		Unit: 12,
-		Amounts: 10000,
+		Admin_ID:        &admin2.Admin_ID,
+		Receipt_number:  "assdf81h6188",
+		Date_Time:       "02/03/2566_21:35",
+		Unit:            12,
+		Amounts:         10000,
 	}
 	db.Create(&payment2)
 }
-

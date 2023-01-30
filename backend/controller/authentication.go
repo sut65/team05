@@ -21,23 +21,49 @@ type AdminSignUpPayload struct {
 	Admin_Password string `json:"admin_password" valid:"required~Password cannot be blank"`
 }
 
+// LoginPayload login body
+type StudentLoginPayload struct {
+	Student_ID       string `json:"student_id"`
+	Student_Password string `json:"student_password"`
+}
+
+// SignUpPayload signup body
+type StudentSignUpPayload struct {
+	Student_ID       string `json:"student_id" valid:"required~Student_ID cannot be blank"`
+	Student_Password string `json:"student_password" valid:"required~Password cannot be blank"`
+}
+
 // LoginResponse token response
 type LoginResponse struct {
 	Admin_Token string `json:"admin_token"`
 	Admin_ID    string `json:"admin_id"`
+
+	Student_Token string `json:"student_token"`
+	Student_ID    string `json:"student_id"`
 }
 
 // POST /login
 func Login(c *gin.Context) {
 	var payload AdminLoginPayload
 	var admin entity.Admin
+	var payload2 StudentLoginPayload
+	var student entity.Student
 
 	if err := c.ShouldBindJSON(&payload); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	if err := c.ShouldBindJSON(&payload2); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	// ค้นหา user ด้วย email ที่ผู้ใช้กรอกเข้ามา
-	if err := entity.DB().Raw("SELECT * FROM admins WHERE email = ?", payload.Admin_ID).Scan(&admin).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM admins WHERE admin_id = ?", payload.Admin_ID).Scan(&admin).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// ค้นหา student ด้วย student_id ที่ผู้ใช้กรอกเข้ามา
+	if err := entity.DB().Raw("SELECT * FROM students WHERE student_id = ?", payload2.Student_ID).Scan(&student).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -45,6 +71,12 @@ func Login(c *gin.Context) {
 	// ตรวจสอบรหัสผ่าน
 	err := bcrypt.CompareHashAndPassword([]byte(admin.Admin_Password), []byte(payload.Admin_Password))
 	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "password is incerrect"})
+		return
+	}
+	// ตรวจสอบรหัสผ่าน
+	err2 := bcrypt.CompareHashAndPassword([]byte(student.Student_Password), []byte(payload2.Student_Password))
+	if err2 != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "password is incerrect"})
 		return
 	}
@@ -60,7 +92,18 @@ func Login(c *gin.Context) {
 		ExpirationHours: 24,
 	}
 
+	jwtWrapper2 := service.Student_JwtWrapper{
+		SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
+		Issuer:          "AuthService",
+		ExpirationHours: 24,
+	}
+
 	signedToken, err := jwtWrapper.GenerateAdminToken(admin.Admin_ID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
+		return
+	}
+	signedToken2, err := jwtWrapper2.GenerateStudentToken(student.Student_ID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
 		return
@@ -71,7 +114,13 @@ func Login(c *gin.Context) {
 		Admin_ID:    admin.Admin_ID,
 	}
 
+	tokenResponse2 := LoginResponse{
+		Student_Token: signedToken2,
+		Student_ID:    student.Student_ID,
+	}
+
 	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
+	c.JSON(http.StatusOK, gin.H{"data": tokenResponse2})
 }
 
 // // POST /create

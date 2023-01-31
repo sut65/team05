@@ -10,7 +10,7 @@ import (
 )
 
 // validates token
-func Admin_Authorizes() gin.HandlerFunc {
+func Authorizes() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		clientToken := c.Request.Header.Get("Authorization")
 		if clientToken == "" {
@@ -38,41 +38,7 @@ func Admin_Authorizes() gin.HandlerFunc {
 			return
 		}
 
-		c.Set("admin_id", claims.Admin_ID)
-
-		c.Next()
-	}
-}
-
-func Student_Authorizes() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		clientToken := c.Request.Header.Get("Authorization")
-		if clientToken == "" {
-			c.JSON(http.StatusForbidden, gin.H{"error": "No Authorization header provided"})
-			return
-		}
-
-		extractedToken := strings.Split(clientToken, "Bearer ")
-
-		if len(extractedToken) == 2 {
-			clientToken = strings.TrimSpace(extractedToken[1])
-		} else {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Incorrect Format of Authorization Token"})
-			return
-		}
-
-		jwtWrapper2 := service.Student_JwtWrapper{
-			SecretKey: "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
-			Issuer:    "AuthService",
-		}
-
-		claims, err := jwtWrapper2.ValidateStudentToken(clientToken)
-		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
-			return
-		}
-
-		c.Set("student_id", claims.Student_ID)
+		c.Set("id", claims.ID)
 
 		c.Next()
 	}

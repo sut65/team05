@@ -59,8 +59,6 @@ func SetupDatabase() {
 		&Subject{},
 
 		&Enroll{},
-		&Payment{},
-		&Payment_Type{},
 		&Adding_reducing{},
 
 		&Grade{},
@@ -74,27 +72,27 @@ func SetupDatabase() {
 	)
 
 	db = database
-
-	password1, err := bcrypt.GenerateFromPassword([]byte("ABCD1234a"), 14)
-	password2, err := bcrypt.GenerateFromPassword([]byte("Gianmii5731"), 14)
+	admin_password1, err := bcrypt.GenerateFromPassword([]byte("Gianmii5731"), 14)
+	admin_password2, err := bcrypt.GenerateFromPassword([]byte("Devupindate9890"), 14)
+	admin_password3, err := bcrypt.GenerateFromPassword([]byte("Suster3490"), 14)
 
 	// Create sample records
 	admin1 := Admin{
-		Admin_ID:       "AD01",
+		Admin_ID:       "AD6301235",
 		Admin_Email:    "Sompin@hotmail.com",
-		Admin_Password: string(password1),
+		Admin_Password: string(admin_password1),
 	}
 
 	admin2 := Admin{
-		Admin_ID:       "AD02",
+		Admin_ID:       "AD5902456",
 		Admin_Email:    "Patsatit@hotmail.com",
-		Admin_Password: string(password1),
+		Admin_Password: string(admin_password2),
 	}
 
 	admin3 := Admin{
-		Admin_ID:       "AD03",
+		Admin_ID:       "AD5301234",
 		Admin_Email:    "Alexander@hotmail.com",
-		Admin_Password: string(password2),
+		Admin_Password: string(admin_password3),
 	}
 	db.Create(&admin1)
 	db.Create(&admin2)
@@ -196,10 +194,14 @@ func SetupDatabase() {
 	}
 	db.Model(&Dormitory{}).Create(&dormitory3)
 
+	student_password1, err := bcrypt.GenerateFromPassword([]byte("Vuster2572"), 14)
+	student_password2, err := bcrypt.GenerateFromPassword([]byte("Oop1235"), 14)
+	student_password3, err := bcrypt.GenerateFromPassword([]byte("Kku5731mn"), 14)
+
 	student1 := Student{
-		Student_ID:       "B631021",
+		Student_ID:       "B6310211",
 		Student_Name:     "ปีเตอร์ สงบสุข",
-		Student_Password: string(password1),
+		Student_Password: string(student_password1),
 		Datetime:         "22/08/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
@@ -208,9 +210,9 @@ func SetupDatabase() {
 	db.Model(&Student{}).Create(&student1)
 
 	student2 := Student{
-		Student_ID:       "B620023",
+		Student_ID:       "B6200233",
 		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
-		Student_Password: string(password1),
+		Student_Password: string(student_password2),
 		Datetime:         "22/09/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
@@ -219,9 +221,9 @@ func SetupDatabase() {
 	db.Model(&Student{}).Create(&student2)
 
 	student3 := Student{
-		Student_ID:       "B620125",
+		Student_ID:       "B6201251",
 		Student_Name:     "สมใจ ใยดี",
-		Student_Password: string(password1),
+		Student_Password: string(student_password3),
 		Datetime:         "22/10/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
@@ -239,7 +241,7 @@ func SetupDatabase() {
 	////---------------------------------------------------------------
 	professor1 := Professor{
 		Model:              gorm.Model{ID: 1},
-		Professor_ID:       "123456",
+		Professor_ID:       "P5601235",
 		Professor_name:     "Thanakorn Punya",
 		Professor_address:  "Nakhonratchasima",
 		Professor_email:    "nun@gmail.com",
@@ -253,7 +255,7 @@ func SetupDatabase() {
 
 	professor2 := Professor{
 		Model:              gorm.Model{ID: 2},
-		Professor_ID:       "12345678",
+		Professor_ID:       "P1234567",
 		Professor_name:     "Surachet Sukdee",
 		Professor_address:  "Nakhonratchasima",
 		Professor_email:    "nun2@gmail.com",
@@ -267,7 +269,7 @@ func SetupDatabase() {
 
 	professor3 := Professor{
 		Model:              gorm.Model{ID: 3},
-		Professor_ID:       "6302245",
+		Professor_ID:       "P6302245",
 		Professor_name:     "Weerachai Somsuk",
 		Professor_address:  "Chiang Mai",
 		Professor_email:    "nun2@gmail.com",
@@ -737,37 +739,4 @@ func SetupDatabase() {
 	}
 	db.Create(&Adding_point2)
 
-	payment_type1 := Payment_Type{
-		Payment_Type_ID:   "P01",
-		Payment_Type_Name: "เงินสด",
-	}
-	db.Create(&payment_type1)
-
-	payment_type2 := Payment_Type{
-		Payment_Type_ID:   "P02",
-		Payment_Type_Name: "โอนชำระ",
-	}
-	db.Create(&payment_type2)
-
-	payment1 := Payment{
-		Payment_ID:      001,
-		Payment_Type_ID: &payment_type1.Payment_Type_ID,
-		Receipt_number:  "asdf816188",
-		Admin_ID:        &admin1.Admin_ID,
-		Date_Time:       "02/03/2566_21:35",
-		Unit:            20,
-		Amounts:         25000,
-	}
-	db.Create(&payment1)
-
-	payment2 := Payment{
-		Payment_ID:      002,
-		Payment_Type_ID: &payment_type2.Payment_Type_ID,
-		Admin_ID:        &admin2.Admin_ID,
-		Receipt_number:  "assdf81h6188",
-		Date_Time:       "02/03/2566_21:35",
-		Unit:            12,
-		Amounts:         10000,
-	}
-	db.Create(&payment2)
 }

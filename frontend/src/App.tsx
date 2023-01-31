@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainPage from "./components/pages/Main_Page";
+
+import Home_Page from "./components/pages/Home_Page";
+
+// Sign In
+import SignIn from "./components/sign_in/Sign_In";
 
 // Subject 
 import SubjectList from "./components/subject-management/Subject_List";
@@ -27,7 +31,6 @@ import Approval from "./components/approval/Approval";
 import ApprovalCreate from "./components/approval/ApprovalCreate";
 import Navbar from "./components/approval/ApprovalNavbar";
 import ApprovalUpdate from "./components/approval/ApprovalUpdate";
-import Home_Navbar from "./components/navbars/Home_navbar";
 
 // Student 
 import Student_Info from "./components/student/Student_Info";
@@ -43,59 +46,119 @@ import Course_Update from "./components/course/Course_Update";
 
 // Footer
 import Footer from "./components/pages/Home_Footer";
+import Main_Page from "./components/pages/Main_Page";
 export default function App() {
-    return (
-        <Router>
+    const [token, setToken] = React.useState<String>("");
+    const [usertype, setUserType] = React.useState<String | null>("");
+    React.useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            setToken(token);
+        }
+        setUserType(localStorage.getItem("usertype"))
+    }, []);
+
+    if (!token) {
+        return (
             <div>
-                <Home_Navbar />
-                <Routes>
-                    {/* Course Path */}
-                    <Route path="/" element={<MainPage />} />
-                    <Route path="/course" element={<Course_List />} />
-                    <Route path="/course/course_create" element={<CourseCreate />} />
-                    <Route path="/course/:course_id" element={<Course_Info />} />
-                    <Route path="/course/update/:course_id" element={<Course_Update />} />
-
-                    {/* Student Path */}
-                    <Route path="/student" element={<Student_List />} />
-                    <Route path="/student/:student_id" element={<Student_Info />} />
-                    <Route path="/student/student_create" element={<Student_Create />} />
-                    <Route path="/student/update/:student_id" element={<Student_Update />} />
-                
-                    {/* Subject Path */}
-                    <Route path="/subject" element={<SubjectList />} />
-                    <Route path="/subject/subject_create" element={<CreateSubject />} />
-                    <Route path="/subject/:subject_id/:section" element={<SubjectInfo />} />
-                    <Route path="/subject/update/:subject_id/:section" element={<UpdateSubject/>} />
-
-                    {/* Class Schedule and Exam Schedule */}
-                    <Route path="/schedule" element={<ScheduleList />} />
-                    <Route path="/class_schedule" element={<ScheduleList />} />
-                    <Route path="/class_schedule/:subject_id/:section" element={<Class_Schedule_Info />} />
-                    <Route path="/class_schedule/class_schedule_create" element={<Class_Schedule_Create />} />
-                    <Route path="/class_schedule/update/:subject_id/:section" element={<Class_Schedule_Update />} />
-                    
-                    <Route path="/exam_schedule" element={<ScheduleList />} />
-                    <Route path="/exam_schedule/exam_schedule_create" element={<Exam_Schedule_Create />} />
-                    <Route path="/exam_schedule/:subject_id/:exam_type" element={<Exam_Schedule_Info/>} />
-                    <Route path="/exam_schedule/update/:subject_id/:exam_type" element={<Exam_Schedule_Update/>} />
-
-
-                    {/* Request Path */}
-                    <Route path="/request" element={<Request/>} />
-                    <Route path="/request/update/:request_id" element={<RequestUpdate/>} />
-                    <Route path="/request/request_create" element={<RequestCreate/>} />
-
-                    {/* Approval Path */}
-                    <Route path="/approval" element={<Approval/>} />
-                    <Route path="/approval/approval_create" element={<ApprovalCreate/>} />
-                    <Route path="/approval/update/:approval_id" element={<ApprovalUpdate/>} />
-
-                </Routes>
-                <Footer />
-                {/* <Subject_Management_Navbar /> */}
-
+                <Router>
+                    <Routes>
+                        <Route path="/" element={<Home_Page />} />
+                        <Route path="/home" element={<Main_Page />} />
+                    </Routes>
+                </Router>
             </div>
-        </Router>
-    );
+        )
+    }
+
+    // Route only for admin
+    else {
+        if (usertype === "admin") {
+            return (
+                <Router>
+                    <div>
+                        {/* <Home_Navbar /> */}
+                        <Routes>
+                            <Route path="/" element={<Home_Page />} />
+                            <Route path="/home" element={<Main_Page />} />
+
+                            {/* Course Path */}
+                            <Route path="/course" element={<Course_List />} />
+                            <Route path="/course/course_create" element={<CourseCreate />} />
+                            <Route path="/course/:course_id" element={<Course_Info />} />
+                            <Route path="/course/update/:course_id" element={<Course_Update />} />
+
+
+                            {/* Student Path */}
+                            <Route path="/student" element={<Student_List />} />
+                            <Route path="/student/:student_id" element={<Student_Info />} />
+                            <Route path="/student/student_create" element={<Student_Create />} />
+                            <Route path="/student/update/:student_id" element={<Student_Update />} />
+
+                            {/* Subject Path */}
+                            <Route path="/subject" element={<SubjectList />} />
+                            <Route path="/subject/subject_create" element={<CreateSubject />} />
+                            <Route path="/subject/:subject_id/:section" element={<SubjectInfo />} />
+                            <Route path="/subject/update/:subject_id/:section" element={<UpdateSubject />} />
+
+                            {/* Class Schedule and Exam Schedule */}
+                            <Route path="/schedule" element={<ScheduleList />} />
+                            <Route path="/class_schedule" element={<ScheduleList />} />
+                            <Route path="/class_schedule/:subject_id/:section" element={<Class_Schedule_Info />} />
+                            <Route path="/class_schedule/class_schedule_create" element={<Class_Schedule_Create />} />
+                            <Route path="/class_schedule/update/:subject_id/:section" element={<Class_Schedule_Update />} />
+
+                            <Route path="/exam_schedule" element={<ScheduleList />} />
+                            <Route path="/exam_schedule/exam_schedule_create" element={<Exam_Schedule_Create />} />
+                            <Route path="/exam_schedule/:subject_id/:exam_type" element={<Exam_Schedule_Info />} />
+                            <Route path="/exam_schedule/update/:subject_id/:exam_type" element={<Exam_Schedule_Update />} />
+
+
+
+                            {/* Approval Path */}
+                            {/* <Route path="/approval" element={<Approval/>} /> */}
+                            {/* <Route path="/approval/approval_create" element={<ApprovalCreate/>} /> */}
+                            {/* <Route path="/approval/update/:approval_id" element={<ApprovalUpdate/>} /> */}
+
+                        </Routes>
+                        <Footer />
+
+                    </div>
+                </Router>
+            );
+        }
+        else if (usertype === "student") {
+            return (
+                <Router>
+                    <div>
+                        {/* <Home_Navbar /> */}
+                        <Routes>
+                            <Route path="/" element={<Home_Page />} />
+                            <Route path="/home" element={<Main_Page />} />
+                            <Route path="/request" element={<Request />} />
+
+                            <Route path="/request/update/:request_id" element={<RequestUpdate />} />
+                            <Route path="/request/request_create" element={<RequestCreate />} />
+                        </Routes>
+                    </div>
+                </Router>
+            );
+        }
+        else {
+            return (
+
+                <div>
+                <Router>
+                    <Routes>
+                        <Route path="/" element={<Home_Page />} />
+                        <Route path="/home" element={<Main_Page />} />
+                    </Routes>
+                </Router>
+            </div>
+            );
+        }
+    }
+
+
+
 }

@@ -109,7 +109,9 @@ const apiUrl = "http://localhost:8080";
 const requestOptionsGet = {
   method: "GET",
   headers: {
-    "Content-Type": "application/json"},
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    "Content-Type": "application/json",
+  },
 };
 
 
@@ -172,7 +174,10 @@ const requestOptionsGet = {
 
      method: "POST",
 
-     headers: { "Content-Type": "application/json" },
+     headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
 
      body: JSON.stringify(data),
 

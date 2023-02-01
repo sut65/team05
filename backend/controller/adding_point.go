@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/B6025212/team05/entity"
+	"github.com/asaskevich/govalidator"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,12 +13,9 @@ import (
 
 type extendedAdding_point struct {
 	entity.Adding_point
-	Enroll_ID        string
-	Professor_ID     uint
 	Professor_Name   string
 	Student_ID 		 string
 	Student_Name	 string
-	Grade_ID 		 string
 	Subject_ID		 string
 	Section			 uint	
 }
@@ -36,40 +34,47 @@ func CreateAdding_point(c *gin.Context) {
 	// Communication Diagram Step
 	// ค้นหา entity request ด้วย id ของ request ที่รับเข้ามา
 	// SELECT * FROM requests` WHERE request_id = <request.Request_ID>
-	if tx := entity.DB().Where("adding_point_id = ?", adding_point.Adding_point_ID).First(&adding_point); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
+	// if tx := entity.DB().Where("adding_point_id = ?", adding_point.Adding_point_ID).First(&adding_point); tx.RowsAffected == 0 {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Adding_point not found"})
+	// 	return
+	// }
+	if tx := entity.DB().Where("Professor_ID = ?", adding_point.Professor_ID).First(&professor); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "professor type not found"})
 		return
 	}
-
 	// Communication Diagram Step
 	// ค้นหา entity student ด้วย id ของ student ที่รับเข้ามา
 	// SELECT * FROM `student` WHERE student_id = <student.Student_ID>
 	if tx := entity.DB().Where("enroll_id = ?", adding_point.Enroll_ID).First(&enroll); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "student status not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "enroll status not found"})
 		return
 	}
 
 	// Communication Diagram Step
 	// ค้นหา entity subject ด้วย id ของ subject ที่รับเข้ามา
 	// SELECT * FROM `subject` WHERE subject_id = <subject.subject_id>
-	if tx := entity.DB().Where("professor_id = ?", adding_point.Professor_ID).First(&professor); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "subject type not found"})
-		return
-	}
+	
 
 	// Communication Diagram Step
 	// ค้นหา entity request_type ด้วย id ของ request_type ที่รับเข้ามา
 	// SELECT * FROM `request_type` WHERE request_type_id = <request_type.request_type_ID>
 	if tx := entity.DB().Where("grade_id = ?", adding_point.Grade_ID).First(&grade); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "request_type not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "grade not found"})
+		return
+	}
+
+
+	if _, err := govalidator.ValidateStruct(adding_point); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	new_adding_point := entity.Adding_point{
 		Adding_point_ID:  adding_point.Adding_point_ID,
-		Enroll: enroll,
-		Grade: adding_point.Grade,
 		Professor: professor,
+		Enroll_ID: adding_point.Enroll_ID,
+		Grade_ID: adding_point.Grade_ID,
+		
 	}
 
 	// บันทึก entity request
@@ -106,7 +111,7 @@ func DeleteAdding_point(c *gin.Context) {
 
 	id := c.Param("Adding_point_ID")
 
-	if tx := entity.DB().Exec("DELETE FROM adding_point WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM adding_points WHERE Adding_point_ID = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}
@@ -168,16 +173,22 @@ func GetPreviousAdding_point(c *gin.Context) {
 }
 
 // //รับค่าprofessorมากรองรหัสวิชาและกลุ่ม
-// func GetStudenByEnroll(c *gin.Context) {
-// 	var  enroll []entity.Enroll
-// 	section := c.Param("section")
-// 	subject_id := c.Param("subject_id")
-// 	if err := entity.DB().Raw("SELECT g.*, a.*,e.*,s.*,sn.* FROM adding_points a  JOIN grades g  JOIN enrolls e JOIN subjects s JOIN students sn ON g.grade_id = a.grade_id AND a.enroll_id = e.enroll_id AND e.subject_id = s.subject_id AND e.section = s.section AND e.student_id =sn.student_id", subject_id,section).Find(&enroll).Error; err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
-// 	c.JSON(http.StatusOK, gin.H{"data": enroll})
-// }
+func GetStudenByEnroll(c *gin.Context) {
+	var  enroll []entity.Enroll
+	section := c.Param("section")
+	subject_id := c.Param("subject_id")
+	query := entity.DB().Where("subject_id = ? AND section = ?",subject_id,section).First(&enroll)
+	if err := query.Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": enroll})
+	// if err := entity.DB().Raw("SELECT g.*, a.*,e.*,s.*,sn.* FROM adding_points a  JOIN grades g  JOIN enrolls e JOIN subjects s JOIN students sn ON g.grade_id = a.grade_id AND a.enroll_id = e.enroll_id AND e.subject_id = s.subject_id AND e.section = s.section AND e.student_id =sn.student_id", subject_id,section).Find(&enroll).Error; err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
+	// c.JSON(http.StatusOK, gin.H{"data": enroll})
+}
 
 
 

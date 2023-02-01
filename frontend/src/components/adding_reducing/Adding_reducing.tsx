@@ -27,15 +27,15 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
+import { EnrollInterface } from "../../models/I_Enroll";
 
 function Adding_reducingCreate() {
   const [adding_reducing, setAdding_reducing] = React.useState<Partial<Adding_reducingInterface>>({});
   const [adding_reducings, setAdding_reducings] = React.useState<Adding_reducingInterface[]>([]);
-  const [subject, setSubject] = React.useState<Subject[]>([]);
- 
+  const [enroll, setEnroll] = React.useState<EnrollInterface[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [searchEnrollID, setSearchEnrollID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
 
@@ -85,10 +85,27 @@ function Adding_reducingCreate() {
       .then((res) => {
         if (res.data) {
           setAdding_reducings(res.data);
-          console.log(adding_reducings);
+          // console.log(adding_reducings);
         }
       });
   };
+
+//จากdb
+    //listenroll
+    const getEnroll = async () => {
+      const requestOptions = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      };
+      fetch(`${apiUrl}/enrollsub`, requestOptions)
+        .then((response) => response.json())
+        .then((res) => {
+          if (res.data) {
+            setEnroll(res.data);
+            console.log(res.data);
+          }
+        });
+    };
   // const [RequestByRequestID, setRequestByRequestID] = React.useState("");
   //  const getRequestByRequestID = async (request_id: any) => {
   //    const requestOptions = {
@@ -104,15 +121,50 @@ function Adding_reducingCreate() {
   //        }
   //      });
   //  };
+//รับค่าจากget enrollมาใช้โดยจะหาจากid enroll
+  const getEnrollByEnrollID = async (enroll_id: any) => {
+    const approvalOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/enroll/${enroll_id}`, approvalOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setSearchEnrollID(enroll_id);
+          setEnroll(res.data);
+        }
+      });
+  };
 
-  //delete
-  const DeleteAdding_reducing= async (change_id: number) => {
+  // //delete
+  // const DeleteAdding_reducing= async (change_id: number) => {
+  //   console.log("good");
+  //   const requestOptions = {
+  //     method: "DELETE",
+  //     headers: { "Content-Type": "application/json" },
+  //   };
+  //   fetch(`${apiUrl}/adding_reducing/${change_id}`, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         console.log("Data remove");
+  //         window.location.href = "/";
+  //       } else {
+  //         console.log("Something was wrong!!");
+  //       }
+  //     });
+  // };
+
+
+   //delete
+   const DeleteEnroll= async (enroll_id:string) => {
     console.log("good");
     const requestOptions = {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/adding_reducing/${change_id}`, requestOptions)
+    fetch(`${apiUrl}/deleteEnroll/${enroll_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -159,7 +211,14 @@ function Adding_reducingCreate() {
 
   useEffect(() => {
     getAdding_reducings();
+    if (searchEnrollID == "") {
+      getEnroll();
+    } else {
+      getEnrollByEnrollID(searchEnrollID);
+    }
+    // console.log(searchEnrollID);
   }, []);
+
 
   // function submit() {
   //   let data = {
@@ -194,6 +253,165 @@ function Adding_reducingCreate() {
 
   return (
     <div>
+    <Container maxWidth="xl" sx={{ p: 2 }}>
+
+      <Box
+
+        display="flex"
+
+        sx={{
+
+          marginTop: 2,
+
+        }}
+
+      >
+
+        <Box flexGrow={1}>
+
+          <Typography
+
+            component="h2"
+
+            variant="h6"
+
+            color="primary"
+
+            gutterBottom
+
+          >
+
+            รายการที่ลงทะเบียน
+
+          </Typography>
+
+        </Box>
+
+        <Box>
+
+          <Button
+
+            component={RouterLink}
+
+            to="/create"
+
+            variant="contained"
+
+            color="primary"
+            onClick={() => {
+              navigate({ pathname: `/update/${adding_reducing.Change_ID}` })
+        }}
+          >
+            เพิ่มลดรายวิชา
+          </Button>
+        </Box>
+      </Box>
+      <Grid sx={{ mt: 2 }}>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+              
+                <TableCell align="left">รหัสวิชา</TableCell>
+                <TableCell align="left">ชื่อวิชา</TableCell>
+                <TableCell align="left">Subject name</TableCell>
+                <TableCell align="left">วันเรียน</TableCell>
+                <TableCell align="left">เริ่มเรียน</TableCell>
+                <TableCell align="left">เลิกเรียน</TableCell>
+                <TableCell align="left">วันสอบ</TableCell>
+                {/* <TableCell align="left">เริ่มสอบ</TableCell>
+                <TableCell align="left">เลิกสอบ</TableCell> */}
+                <TableCell align="left">หน่วยกิต</TableCell>
+                <TableCell align="left">กลุ่ม</TableCell>
+                <TableCell align="center">ลบ</TableCell>
+                <TableCell align="center">แก้ไข</TableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {(rowsPerPage > 0
+                ? enroll.slice(page * rowsPerPage, 
+                  page * rowsPerPage + rowsPerPage
+                  ): enroll
+
+              ).map((row) => (
+                <TableRow
+                  key={row.Enroll_ID}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  
+                  <TableCell align="left">{row.Subject_ID}</TableCell>
+                  <TableCell align="left">{row.Subject_TH_Name}</TableCell>
+                  <TableCell align="left">{row.Subject_EN_Name}</TableCell>
+                  <TableCell align="left">{row.Day}</TableCell>
+                  <TableCell align="left">{row.Start_Time}</TableCell>
+                  <TableCell align="left">{row.End_Time}</TableCell>
+                  <TableCell align="left">{row.Exam_Date}</TableCell>
+                  {/* <TableCell align="left">{row.Exa}</TableCell>
+                  <TableCell align="left">{row.Exam_End_Time}</TableCell> */}
+                  <TableCell align="left">{row.Unit}</TableCell>
+                  <TableCell align="left">{row.Section}</TableCell>
+                  <TableCell align="center">
+                    <IconButton
+                     aria-label="delete"
+                     onClick={() => {
+                       DeleteEnroll(row.Enroll_ID)
+                       console.log(row.Enroll_ID)
+                      //  navigate({ pathname: `/${row.Enroll_ID}` })
+                    }
+                    }
+                    >
+                    <DeleteIcon />
+                  </IconButton>
+                  </TableCell>
+                  <TableCell align="center">
+                  <IconButton
+                  ///${row.Subject_ID}/${row.Section}
+                  onClick={() => {
+                    navigate({ pathname: `/updateenroll/${row.Enroll_ID}` })
+                    navigate({ pathname: `/update/${row.Change_ID}` })
+              }}
+                  >
+                    <ModeEditIcon />
+                  </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[
+                      5,
+                      10,
+                      15,
+                      20,
+                      25,
+                      { label: "All", value: -1 },
+                    ]}
+                    colSpan={enroll.length}
+                    count={enroll.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: {
+                        "aria-label": "rows per page",
+                      },
+                      native: true,
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </TableRow>
+              </TableFooter>
+
+      </Grid>
+    </Container>
+
+  
+    
       <Container
         maxWidth="xl"
         sx={{
@@ -263,20 +481,17 @@ function Adding_reducingCreate() {
                    ลำดับ
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
+                    สถานะ
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    สถานะประวัติ
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
                     รหัสวิชา
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
-                    รายวิชา
+                    ชื่อรายวิชา
                   </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    หลักสูตร
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    กลุ่ม
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    สถานะ
-                  </StyledTableCell> 
                  
                 </TableRow>
               </TableHead>
@@ -290,11 +505,11 @@ function Adding_reducingCreate() {
                 ).map((row) => (
                   <StyledTableRow key={row.Change_ID}>
                     <TableCell component="th" scope="row" align="center">{row.Change_ID} </TableCell>
-                    <TableCell align="center">{row.Subject_ID}</TableCell>
-                    {/* <TableCell align="center">{row.Subject_EN_Name}</TableCell> */}
-                    {/* <TableCell align="center">{row.Course_Name}</TableCell> */}
-                    {/* <TableCell align="center">{row.Section}</TableCell> */}
                     <TableCell align="center">{row.Status}</TableCell>
+                    <TableCell align="center">{row.Type_Name}</TableCell>
+                    <TableCell align="center">{row.Subject_ID}</TableCell>
+                    <TableCell align="center">{row.Subject_EN_Name}</TableCell>
+{/*                     
                     <TableCell>
                       <IconButton
                         aria-label="delete"
@@ -302,7 +517,7 @@ function Adding_reducingCreate() {
                       >
                         <DeleteIcon />
                       </IconButton>
-                    </TableCell>
+                    </TableCell> */}
                     {/* <TableCell align="center">
                       <IconButton
                         aria-label="edit"
@@ -347,7 +562,7 @@ function Adding_reducingCreate() {
               </TableFooter>
             </Table>
           </TableContainer>
-          <Box sx={{ padding: 2 }} textAlign="right">
+          {/* <Box sx={{ padding: 2 }} textAlign="right">
         <Button
           component={RouterLink}
           to="/create"
@@ -356,7 +571,7 @@ function Adding_reducingCreate() {
         >
           แก้ไข
         </Button>
-      </Box>
+      </Box> */}
         </Paper>
       </Container>
     </div>

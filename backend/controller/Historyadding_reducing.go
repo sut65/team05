@@ -10,9 +10,14 @@ import (
 
 type extendedAdding_reducing struct {
 	entity.Adding_reducing
-	entity.Enroll
-	entity.Course
-	extendedEnrollSubject //ดึงจากListEnrollSubject //เป้นฟังก์ชั่นของการแสดงข้อมูลที่ใช้ในหน้าcreate ในตารางทั้งหมด
+	Change_ID 			string
+	Status				string
+	HistoryType_ID		string
+	Type_Name 			string
+	Subject_EN_Name   	string
+	Subject_ID			string
+	
+	//extendedEnrollSubject //ดึงจากListEnrollSubject //เป้นฟังก์ชั่นของการแสดงข้อมูลที่ใช้ในหน้าcreate ในตารางทั้งหมด
 
 	// Subject_ID      string
 	// Course_Name     string
@@ -27,8 +32,8 @@ type extendedAdding_reducing struct {
 // POST /course
 func CreateAdding_reducing(c *gin.Context) {
 	var adding_reducing entity.Adding_reducing
-	// var student entity.Student
-	var subject entity.Subject
+	var student entity.Student
+	var historyType entity.Subject
 	var enroll entity.Enroll
 
 	if err := c.ShouldBindJSON(&adding_reducing); err != nil {
@@ -39,16 +44,16 @@ func CreateAdding_reducing(c *gin.Context) {
 	// Communication Diagram Step
 	// ค้นหา entity student ด้วย id ของ student ที่รับเข้ามา
 	// SELECT * FROM `student` WHERE student_id = <student.Student_ID>
-	// if tx := entity.DB().Where("student_id = ?", adding_reducing.Student_ID).First(&student); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "student status not found"})
-	// 	return
-	// }
+	if tx := entity.DB().Where("student_id = ?", adding_reducing.Student_ID).First(&student); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "student status not found"})
+		return
+	}
 
 	// Communication Diagram Step
 	// ค้นหา entity subject ด้วย id ของ subject ที่รับเข้ามา
 	// SELECT * FROM `subject` WHERE subject_id = <subject.subject_id>
-	if tx := entity.DB().Where("subject_id = ?", adding_reducing.Subject_ID).First(&subject); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "subject type not found"})
+	if tx := entity.DB().Where("historytype_id = ?", adding_reducing.HistoryType_ID).First(&historyType); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "historytype not found"})
 		return
 	}
 
@@ -62,8 +67,9 @@ func CreateAdding_reducing(c *gin.Context) {
 
 	new_adding_reducing := entity.Adding_reducing{
 		Change_ID: adding_reducing.Change_ID,
-		// Student: student,
-		Subject_ID: &subject.Subject_ID,
+		Status: adding_reducing.Status,
+		Student: student,
+		HistoryType_ID: adding_reducing.HistoryType_ID,
 		Enroll_ID:  &enroll.Enroll_ID,
 	}
 
@@ -84,7 +90,7 @@ func ListAdding_reducing(c *gin.Context) {
 	// }
 
 	//เป้นฟังก์ชั่นที่เรียกใช้ค่าในหน้าadding.tsx จากในdatabase
-	query := entity.DB().Raw("SELECT a.*,e.*, s.*, c.course_name, x.day,x.start_time,x.end_time FROM adding_reducings a INNER JOIN enrolls e INNER JOIN subjects s INNER JOIN courses c INNER JOIN class_schedules x ON a.enroll_id = e.enroll_id  AND a.subject_id = s.subject_id  AND e.section = s.section AND s.course_id = c.course_id AND e.class_schedule_id = x.class_schedule_id ; ").Scan(&extendedAdding_reducing)
+	query := entity.DB().Raw("SELECT a.*, s.*, at.*,c.*,sd.*,e.* FROM adding_reducings a JOIN enrolls e JOIN history_types at JOIN courses c JOIN students sd JOIN subjects s ON a.enroll_id = e.enroll_id AND  e.subject_id = s.subject_id AND   s.section = e.section AND   a.history_type_id = at.history_type_id AND s.course_id = c.course_id AND sd.student_id = e.student_id").Scan(&extendedAdding_reducing)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -94,80 +100,80 @@ func ListAdding_reducing(c *gin.Context) {
 
 // Get /adding_reducing
 func GetAdding_reducing(c *gin.Context) {
-	var extendedAdding_reducing []extendedAdding_reducing
+	var adding_reducing entity.Adding_reducing
 
 	id := c.Param("change_id")
-	query := entity.DB().Raw("SELECT a.*,e.*, s.*, c.course_name, x.day,x.start_time,x.end_time FROM adding_reducings a INNER JOIN enrolls e INNER JOIN subjects s INNER JOIN courses c INNER JOIN class_schedules x ON a.enroll_id = e.enroll_id AND a.subject_id = s.subject_id AND e.section = s.section AND s.course_id = c.course_id AND e.class_schedule_id = x.class_schedule_id ;", id).Scan(&extendedAdding_reducing)
+	query := entity.DB().Where("change_id = ?",id).First(&adding_reducing )
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": extendedAdding_reducing})
+	c.JSON(http.StatusOK, gin.H{"data": adding_reducing })
 }
 
-// DELETE /adding
-func DeleteAdding_reducing(c *gin.Context) {
-	id := c.Param("change_id")
+// // DELETE /adding
+// func DeleteAdding_reducing(c *gin.Context) {
+// 	id := c.Param("change_id")
 
-	if tx := entity.DB().Exec("DELETE FROM adding_reducings WHERE change_id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "adding_reducing id not found"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": id})
-}
+// 	if tx := entity.DB().Exec("DELETE FROM adding_reducings WHERE change_id = ?", id); tx.RowsAffected == 0 {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": "adding_reducing id not found"})
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, gin.H{"data": id})
+// }
 
-// PATCH /professors
-func UpdateAdding_reducing(c *gin.Context) {
-	var adding_reducing entity.Adding_reducing
-	// var student entity.Student
-	var subject entity.Subject
-	var enroll entity.Enroll
+// // PATCH /professors
+// func UpdateAdding_reducing(c *gin.Context) {
+// 	var adding_reducing entity.Adding_reducing
+// 	var student entity.Student
+// 	var historytype entity.HistoryType
+// 	var enroll entity.Enroll
 
-	if err := c.ShouldBindJSON(&adding_reducing); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	var update_status = adding_reducing.Status
+// 	if err := c.ShouldBindJSON(&adding_reducing); err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	var update_status = adding_reducing.Status
 
-	// Communication Diagram Step
-	// ค้นหา entity student ด้วย id ของ student ที่รับเข้ามา
-	// SELECT * FROM `student` WHERE student_id = <student.Student_ID>
-	// if tx := entity.DB().Where("student_id = ?", adding_reducing.Student_ID).First(&student); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "student status not found"})
-	// 	return
-	// }
+// 	// Communication Diagram Step
+// 	// ค้นหา entity student ด้วย id ของ student ที่รับเข้ามา
+// 	// SELECT * FROM `student` WHERE student_id = <student.Student_ID>
+// 	if tx := entity.DB().Where("student_id = ?", adding_reducing.Student_ID).First(&student); tx.RowsAffected == 0 {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": "student status not found"})
+// 		return
+// 	}
 
-	// Communication Diagram Step
-	// ค้นหา entity subject ด้วย id ของ subject ที่รับเข้ามา
-	// SELECT * FROM `subject` WHERE subject_id = <subject.subject_id>
-	if tx := entity.DB().Where("subject_id = ?", adding_reducing.Subject_ID).First(&subject); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "subject type not found"})
-		return
-	}
+// 	// Communication Diagram Step
+// 	// ค้นหา entity subject ด้วย id ของ subject ที่รับเข้ามา
+// 	// SELECT * FROM `subject` WHERE subject_id = <subject.subject_id>
+// 	if tx := entity.DB().Where("historytype_id = ?", adding_reducing.HistoryType_ID).First(&historytype); tx.RowsAffected == 0 {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": "historytype not found"})
+// 		return
+// 	}
 
-	// Communication Diagram Step
-	// ค้นหา entity request_type ด้วย id ของ request_type ที่รับเข้ามา
-	// SELECT * FROM `request_type` WHERE request_type_id = <request_type.request_type_ID>
-	if tx := entity.DB().Where("enroll_id = ?", adding_reducing.Enroll_ID).First(&enroll); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "request_type not found"})
-		return
-	}
+// 	// Communication Diagram Step
+// 	// ค้นหา entity request_type ด้วย id ของ request_type ที่รับเข้ามา
+// 	// SELECT * FROM `request_type` WHERE request_type_id = <request_type.request_type_ID>
+// 	if tx := entity.DB().Where("enroll_id = ?", adding_reducing.Enroll_ID).First(&enroll); tx.RowsAffected == 0 {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": "request_type not found"})
+// 		return
+// 	}
 
-	update_adding_reducing := entity.Adding_reducing{
-		Change_ID: adding_reducing.Change_ID,
-		// Student: student,
-		Subject_ID: &subject.Subject_ID,
-		Enroll_ID:  &enroll.Enroll_ID,
-		Status:     update_status,
-	}
+// 	update_adding_reducing := entity.Adding_reducing{
+// 		Change_ID: adding_reducing.Change_ID,
+// 		Student: student,
+// 		HistoryType_ID: adding_reducing.HistoryType_ID,
+// 		Enroll:  enroll,
+// 		Status:     update_status,
+// 	}
 
-	// บันทึก entity request
-	if err := entity.DB().Save(&update_adding_reducing).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": update_adding_reducing})
-}
+// 	// บันทึก entity request
+// 	if err := entity.DB().Save(&update_adding_reducing).Error; err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, gin.H{"data": update_adding_reducing})
+// }
 
 // 6: สร้างเลขที่รายการใหม่โดยอัตโนมัติ()	//* จะสร้างบน frontend
 // GET /previous_activitymember
@@ -206,17 +212,17 @@ func GetPreviousAdding_reducing(c *gin.Context) {
 
 // }
 // List /adding_reducing
-func ListAdding_reducingss(c *gin.Context) {
-	var extendedAdding_reducing []extendedAdding_reducing
-	// if err := entity.DB().Raw("SELECT e.*, c.* FROM requests e JOIN subjects c ON e.subject_id = c.subject_id  AND  e.section = c.section").Scan(&request).Error; err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
-	query := entity.DB().Raw("SELECT a.* FROM adding_reducings a  ; ").Scan(&extendedAdding_reducing)
-	if err := query.Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": extendedAdding_reducing})
+// func ListAdding_reducingss(c *gin.Context) {
+// 	var extendedAdding_reducing []extendedAdding_reducing
+// 	// if err := entity.DB().Raw("SELECT e.*, c.* FROM requests e JOIN subjects c ON e.subject_id = c.subject_id  AND  e.section = c.section").Scan(&request).Error; err != nil {
+// 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 	// 	return
+// 	// }
+// 	query := entity.DB().Raw("SELECT a.* FROM adding_reducings a  ; ").Scan(&extendedAdding_reducing)
+// 	if err := query.Error; err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, gin.H{"data": extendedAdding_reducing})
 
-}
+// }

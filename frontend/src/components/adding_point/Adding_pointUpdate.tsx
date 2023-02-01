@@ -38,7 +38,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { Adding_pointInterface } from "../../models/IAdding_point";
 import { GradeInterface } from "../../models/IGrade";
 
-function Adding_pointCreate() {
+function Adding_pointUpdate() {
   const [addingpoint, setAdding_point] = React.useState<
     Partial<Adding_pointInterface>
   >({});
@@ -54,7 +54,7 @@ function Adding_pointCreate() {
 
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
-  const [message, setAlertMessage] = React.useState("");
+
   const navigate = useNavigate();
   const params = useParams();
   // const getRequest = async () => {
@@ -72,24 +72,24 @@ function Adding_pointCreate() {
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
-    const id = event.target.id as keyof typeof Adding_pointCreate;
+    const id = event.target.id as keyof typeof Adding_pointUpdate;
     const { value } = event.target;
     setAdding_point({ ...addingpoint, [id]: value });
     console.log(event.target.value);
   };
 
-  const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    const name = event.target.name as keyof typeof addingpoint;
-    setAdding_point({
-      ...addingpoint,
-      [name]: event.target.value,
-    });
-    console.log(event.target.value);
-  };
+//   const handleSelectChange = (event: SelectChangeEvent<string>) => {
+//     const name = event.target.name as keyof typeof addingpoint;
+//     setAdding_point({
+//       ...addingpoint,
+//       [name]: event.target.value,
+//     });
+//     console.log(event.target.value);
+//   };
 
   const apiUrl = "http://localhost:8080";
 
-  const requestOptions = {
+  const requestOptionsGet = {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   };
@@ -97,21 +97,33 @@ function Adding_pointCreate() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - addingpoints.length) : 0;
 
-  //รับค่าส่งไปbackend
-  const getAdding_points = async (adding_point_id: string) => {
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
+    const getCurrentAdd = async () => {
+      fetch(`${apiUrl}/adding_point/${params.adding_point_id}`, requestOptionsGet)
+        .then((response) => response.json())
+        .then((res) => {
+          if (res.data) {
+            setAdding_point(res.data);
+            console.log(res.data);
+          } else {
+            console.log("else");
+          }
+        });
     };
-    fetch(`${apiUrl}/adding_point/${adding_point_id}`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          setAdding_points(res.data);
-          console.log(res.data);
-        }
-      });
-  };
+  //รับค่าส่งไปbackend
+//   const getAdding_points = async (adding_point_id: string) => {
+//     const requestOptions = {
+//       method: "GET",
+//       headers: { "Content-Type": "application/json" },
+//     };
+//     fetch(`${apiUrl}/adding_point/${adding_point_id}`, requestOptions)
+//       .then((response) => response.json())
+//       .then((res) => {
+//         if (res.data) {
+//           setAdding_points(res.data);
+//           console.log(res.data);
+//         }
+//       });
+//   };
 
   //รับค่าจากfrontendไปกรองรายวิชา และกลุ่มจากprofessor
 
@@ -147,35 +159,18 @@ function Adding_pointCreate() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const requestOptionsGet = {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  };
-  const getPrevAdd = async () => {
-    fetch(`${apiUrl}/previous_adding_point`, requestOptionsGet)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          addingpoint.Adding_point_ID = res.data.Adding_point_ID + 1;
-        }
-        // else {
-        //   request.Request_ID = res.data = 401;
-        //   //console.log("else");
-        // }
-      });
-  };
 
   useEffect(() => {
-    getPrevAdd();
     /* เพิ่มข้อมูลเกรดของ นศ ในรายวิชานั้น กลุ่มนั้น
         GetEnrollDataBySubjectID()
       */
     /* Get Adding_Point data
       GetAddingPointBySubjectID()
       */
+     getCurrentAdd();
   }, []);
 
-  function submit() {
+  function submitUpdate() {
     let data = {
       Adding_point_ID:
         typeof addingpoint.Adding_point_ID === "string"
@@ -193,7 +188,7 @@ function Adding_pointCreate() {
 
     //const apiUrl = "http://localhost:8080/adding_points";
     const requestOptionsPatch = {
-      method: "POST",
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
@@ -204,10 +199,8 @@ function Adding_pointCreate() {
       .then((res) => {
         console.log(res);
         if (res.data) {
-          // setAlertMessage("บันทึกข้อมูลสำเร็จ");
           setSuccess(true);
         } else {
-          setAlertMessage(res.error);
           setError(true);
         }
       });
@@ -230,13 +223,13 @@ function Adding_pointCreate() {
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
           <Alert onClose={handleClose} severity="success">
-        บันทึกข้อมูลสำเร็จ
+            บันทึกข้อมูลสำเร็จ
           </Alert>
         </Snackbar>
 
         <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error">
-          {message}
+            บันทึกข้อมูลไม่สำเร็จ
           </Alert>
         </Snackbar>
         <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
@@ -285,6 +278,7 @@ function Adding_pointCreate() {
               rowsPerPageOptions={[5]}
             />
           </div> */}
+          <p>ลำดับ</p>
           <TextField
             disabled
             id="Adding_point_ID"
@@ -294,24 +288,24 @@ function Adding_pointCreate() {
             value={addingpoint.Adding_point_ID}
             onChange={handleInputChange}
           />
+          <p>รหัสอาจารย์</p>
           <TextField
-            label="รหัสอาจารย์"
             id="Professor_ID"
-            type="string"
+            type="number"
             variant="outlined"
             value={addingpoint.Professor_ID}
             onChange={handleInputChange}
           />
+          <p>รหัสลงทะเบียน</p>
           <TextField
-            label="รหัสลงทะเบียน"
             id="Enroll_ID"
             type="string"
             variant="outlined"
             value={addingpoint.Enroll_ID}
             onChange={handleInputChange}
           />
+          <p>grade</p>
           <TextField
-            label="เกรด"
             id="Grade_ID"
             type="string"
             variant="outlined"
@@ -446,7 +440,7 @@ function Adding_pointCreate() {
 
             <Button
               style={{ float: "right" }}
-              onClick={submit}
+              onClick={submitUpdate}
               variant="contained"
               color="primary"
             >
@@ -459,4 +453,4 @@ function Adding_pointCreate() {
   );
 }
 
-export default Adding_pointCreate;
+export default Adding_pointUpdate;

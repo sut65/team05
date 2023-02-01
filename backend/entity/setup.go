@@ -5,7 +5,6 @@ import (
 
 	"fmt"
 
-	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -42,7 +41,9 @@ func SetupDatabase() {
 		&Status{},
 		&RoomType{},
 		&Building{},
-		// &Room{},
+
+
+		&HistoryType{},
 		&Professor{},
 
 		&Qualification{},
@@ -72,27 +73,24 @@ func SetupDatabase() {
 	)
 
 	db = database
-	admin_password1, err := bcrypt.GenerateFromPassword([]byte("Gianmii5731"), 14)
-	admin_password2, err := bcrypt.GenerateFromPassword([]byte("Devupindate9890"), 14)
-	admin_password3, err := bcrypt.GenerateFromPassword([]byte("Suster3490"), 14)
 
 	// Create sample records
 	admin1 := Admin{
-		Admin_ID:       "AD6301235",
+		Admin_ID:       "AD01",
 		Admin_Email:    "Sompin@hotmail.com",
-		Admin_Password: string(admin_password1),
+		Admin_Password: "Gianmii5731",
 	}
 
 	admin2 := Admin{
-		Admin_ID:       "AD5902456",
+		Admin_ID:       "AD02",
 		Admin_Email:    "Patsatit@hotmail.com",
-		Admin_Password: string(admin_password2),
+		Admin_Password: "Devupindate9890",
 	}
 
 	admin3 := Admin{
-		Admin_ID:       "AD5301234",
+		Admin_ID:       "AD03",
 		Admin_Email:    "Alexander@hotmail.com",
-		Admin_Password: string(admin_password3),
+		Admin_Password: "Suster3490",
 	}
 	db.Create(&admin1)
 	db.Create(&admin2)
@@ -194,14 +192,10 @@ func SetupDatabase() {
 	}
 	db.Model(&Dormitory{}).Create(&dormitory3)
 
-	student_password1, err := bcrypt.GenerateFromPassword([]byte("Vuster2572"), 14)
-	student_password2, err := bcrypt.GenerateFromPassword([]byte("Oop1235"), 14)
-	student_password3, err := bcrypt.GenerateFromPassword([]byte("Kku5731mn"), 14)
-
 	student1 := Student{
-		Student_ID:       "B6310211",
+		Student_ID:       "B631021",
 		Student_Name:     "ปีเตอร์ สงบสุข",
-		Student_Password: string(student_password1),
+		Student_Password: "Vuster2572",
 		Datetime:         "22/08/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
@@ -210,9 +204,9 @@ func SetupDatabase() {
 	db.Model(&Student{}).Create(&student1)
 
 	student2 := Student{
-		Student_ID:       "B6200233",
+		Student_ID:       "B620023",
 		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
-		Student_Password: string(student_password2),
+		Student_Password: "Oop1235",
 		Datetime:         "22/09/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
@@ -221,9 +215,9 @@ func SetupDatabase() {
 	db.Model(&Student{}).Create(&student2)
 
 	student3 := Student{
-		Student_ID:       "B6201251",
+		Student_ID:       "B620125",
 		Student_Name:     "สมใจ ใยดี",
-		Student_Password: string(student_password3),
+		Student_Password: "Kku5731mn",
 		Datetime:         "22/10/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
@@ -241,7 +235,7 @@ func SetupDatabase() {
 	////---------------------------------------------------------------
 	professor1 := Professor{
 		Model:              gorm.Model{ID: 1},
-		Professor_ID:       "P5601235",
+		Professor_ID:       "123456",
 		Professor_name:     "Thanakorn Punya",
 		Professor_address:  "Nakhonratchasima",
 		Professor_email:    "nun@gmail.com",
@@ -255,7 +249,7 @@ func SetupDatabase() {
 
 	professor2 := Professor{
 		Model:              gorm.Model{ID: 2},
-		Professor_ID:       "P1234567",
+		Professor_ID:       "12345678",
 		Professor_name:     "Surachet Sukdee",
 		Professor_address:  "Nakhonratchasima",
 		Professor_email:    "nun2@gmail.com",
@@ -269,7 +263,7 @@ func SetupDatabase() {
 
 	professor3 := Professor{
 		Model:              gorm.Model{ID: 3},
-		Professor_ID:       "P6302245",
+		Professor_ID:       "6302245",
 		Professor_name:     "Weerachai Somsuk",
 		Professor_address:  "Chiang Mai",
 		Professor_email:    "nun2@gmail.com",
@@ -606,6 +600,19 @@ func SetupDatabase() {
 	}
 	db.Create(&system_analysis_midterm)
 
+
+	os_midterm := Exam_Schedule{
+		Exam_Schedule_ID: "OS",
+		Subject:          operating_system_sec1,
+		Room:             room_b2101,
+		Admin:            admin2,
+		Exam_Type:        "Midterm",
+		Exam_Date:        "18/05/2020",
+		Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 15, 00),
+		Exam_End_Time:    fmt.Sprintf("%02d:%02d", 17, 00),
+	}
+	db.Create(&os_midterm)
+
 	///------------------------Request_Type------------------------
 	Request_Type1 := Request_Type{
 		Request_Type_ID:   "R01",
@@ -641,7 +648,7 @@ func SetupDatabase() {
 	db.Create(&Request2)
 	enroll1 := Enroll{
 		Enroll_ID: "E001",
-		// Student_ID : "",
+		Student : student1,
 		Subject:        software_engineering_sec1,
 		Class_Schedule: system_analysis_sec1_class,
 		Exam_Schedule:  system_analysis_midterm,
@@ -650,10 +657,10 @@ func SetupDatabase() {
 
 	enroll2 := Enroll{
 		Enroll_ID: "E002",
-		// Student_ID : "",
+		Student : student2,
 		Subject:        operating_system_sec1,
 		Class_Schedule: os_sec1_class,
-		// Exam_Schedule: o,
+		Exam_Schedule: os_midterm,
 		Section: 1,
 	}
 	db.Create(&enroll1)
@@ -693,25 +700,61 @@ func SetupDatabase() {
 	}
 	db.Create(&Approval2)
 
+
+
+
+
+///---histroryType1----
+
+	HistoryType1 :=HistoryType{
+	HistoryType_ID: "HT1",
+	Type_Name: "ประวัติเพิ่ม",
+	}
+	db.Create(&HistoryType1)
+
+
+	HistoryType2 :=HistoryType{
+		HistoryType_ID: "HT2",
+		Type_Name: "ประวัติลด",
+		}
+		db.Create(&HistoryType2)
+
+	// HistoryType3 :=HistoryType{
+	// HistoryType_ID: "HT3",
+	// Type_Name: "ประวัติเปลี่ยนกลุ่ม",
+	// }
+	// db.Create(&HistoryType3)
+
 	///-----------------------Adding_reducing------------------------
 	Adding_reducing1 := Adding_reducing{
-		Change_ID: 1,
-		Status:    "เพิ่ม",
-		// Student:       student1,
-		Enroll:  enroll1,
-		Subject: software_engineering_sec2,
+		Change_ID:		 1,
+		Status:   		 "เพิ่ม",
+		HistoryType:	 HistoryType1 ,
+		Enroll:   		 enroll1, 	
+		Student:   		 student1, 
 	}
 	db.Create(&Adding_reducing1)
 
 	Adding_reducing2 := Adding_reducing{
-		Change_ID: 2,
-		Status:    "ลด",
-		// Student:       student1,
-		Enroll:  enroll2,
-		Subject: operating_system_sec1,
+		Change_ID:		 2,
+		Status:   		 "ลด",
+		HistoryType:	 HistoryType2 ,
+		Enroll:  		 enroll2 ,	
+		Student :   	 student2, 
 	}
 	db.Create(&Adding_reducing2)
 
+	// Adding_reducing3 := Adding_reducing{
+	// 	Change_ID: 3,
+	// 	Status:    "เปลี่ยนกลุ่ม",
+	// 	HistoryType	:	HistoryType3,
+	// 	Enroll:    enroll3, 	
+	// 	Student :   student3, 
+	// }
+	// db.Create(&Adding_reducing3)
+
+
+	//grade
 	Grade1 := Grade{
 		Grade_ID:    "A",
 		Description: "ดีเยี่ยม",
@@ -722,6 +765,8 @@ func SetupDatabase() {
 		Description: "ดีมาก",
 	}
 	db.Create(&Grade2)
+
+	//adding point
 
 	Adding_point1 := Adding_point{
 		Adding_point_ID: 1,
@@ -739,37 +784,4 @@ func SetupDatabase() {
 	}
 	db.Create(&Adding_point2)
 
-	payment_type1 := Payment_Type{
-		Payment_Type_ID: "P01",
-		Payment_Type_Name: "เงินสด",
-	}
-	db.Create(&payment_type1)
-
-	payment_type2 := Payment_Type{
-		Payment_Type_ID: "P02",
-		Payment_Type_Name: "โอนชำระ",
-	}
-	db.Create(&payment_type2)
-
-	payment1 := Payment{
-		Payment_ID: 001,
-		Payment_Type_ID: &payment_type1.Payment_Type_ID,
-		Receipt_number: "asdf816188",
-		Admin_ID: &admin1.Admin_ID,
-		Date_Time: "02/03/2566_21:35",
-		Unit: 20,
-		Amounts: 25000,
-	}
-	db.Create(&payment1)
-
-	payment2 := Payment{
-		Payment_ID: 002,
-		Payment_Type_ID: &payment_type2.Payment_Type_ID,
-		Admin_ID: &admin2.Admin_ID,
-		Receipt_number: "assdf81h6188",
-		Date_Time: "02/03/2566_21:35",
-		Unit: 12,
-		Amounts: 10000,
-	}
-	db.Create(&payment2)
 }

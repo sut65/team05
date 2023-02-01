@@ -39,7 +39,10 @@ import styled from "@emotion/styled";
 const apiUrl = "http://localhost:8080";
 const requestOptions = {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
 };
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

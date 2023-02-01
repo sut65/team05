@@ -49,7 +49,10 @@ function Student_Update() {
 
     const requestOptionsGet = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
     };
 
     const handleInputChange = (
@@ -130,7 +133,8 @@ function Student_Update() {
         const requestOptionsPatch = {
             method: "PATCH",
             headers: {
-                "Content-Type": "application/json"
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(data)
         };

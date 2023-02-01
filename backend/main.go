@@ -127,11 +127,14 @@ func main() {
 	r.GET("/subjectd/:coruse_id", controller.GetSubjectByCourse)
 
 
+	r.GET("/payment/:payment_id", controller.GetPayment)
 	r.GET("/payment", controller.ListPayment)
 	r.POST("/payment", controller.CreatePayment)
 	r.GET("/payment_type", controller.ListPayment_type)
-
+	r.PATCH("/updatepayment", controller.UpdatePayment)
 	r.GET("/previousenpayment", controller.GetPreviousPayment)
+	r.DELETE("/delepayment/:payment_id", controller.DeletePayment)
+	
 	//----------------------------------------------------------------------------------------------
 
 	// // Admin Routes

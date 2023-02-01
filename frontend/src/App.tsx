@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Home_Page from "./components/pages/Home_Page";
+// Import First Page
+import First_Page from "./components/pages/First_Page";
 
-// Sign In
-import SignIn from "./components/sign_in/Sign_In";
+// Import Home Page
+import Home_Page from "./components/pages/Home_Page";
 
 // Subject 
 import SubjectList from "./components/subject-management/Subject_List";
@@ -46,7 +47,7 @@ import Course_Update from "./components/course/Course_Update";
 
 // Footer
 import Footer from "./components/pages/Home_Footer";
-import Main_Page from "./components/pages/Main_Page";
+
 export default function App() {
     const [token, setToken] = React.useState<String>("");
     const [usertype, setUserType] = React.useState<String | null>("");
@@ -57,21 +58,20 @@ export default function App() {
         }
         setUserType(localStorage.getItem("usertype"))
     }, []);
-
     if (!token) {
         return (
             <div>
                 <Router>
                     <Routes>
-                        <Route path="/" element={<Home_Page />} />
-                        <Route path="/home" element={<Main_Page />} />
+                        <Route path="/" element={<First_Page />} />
+                        <Route path="/home" element={<Home_Page />} />
                     </Routes>
                 </Router>
+                <Footer />
             </div>
         )
     }
 
-    // Route only for admin
     else {
         if (usertype === "admin") {
             return (
@@ -79,8 +79,8 @@ export default function App() {
                     <div>
                         {/* <Home_Navbar /> */}
                         <Routes>
-                            <Route path="/" element={<Home_Page />} />
-                            <Route path="/home" element={<Main_Page />} />
+                            <Route path="/" element={<First_Page />} />
+                            <Route path="/home" element={<Home_Page />} />
 
                             {/* Course Path */}
                             <Route path="/course" element={<Course_List />} />
@@ -112,29 +112,19 @@ export default function App() {
                             <Route path="/exam_schedule/exam_schedule_create" element={<Exam_Schedule_Create />} />
                             <Route path="/exam_schedule/:subject_id/:exam_type" element={<Exam_Schedule_Info />} />
                             <Route path="/exam_schedule/update/:subject_id/:exam_type" element={<Exam_Schedule_Update />} />
-
-
-
-                            {/* Approval Path */}
-                            {/* <Route path="/approval" element={<Approval/>} /> */}
-                            {/* <Route path="/approval/approval_create" element={<ApprovalCreate/>} /> */}
-                            {/* <Route path="/approval/update/:approval_id" element={<ApprovalUpdate/>} /> */}
-
                         </Routes>
                         <Footer />
-
                     </div>
                 </Router>
-            );
+            )
         }
         else if (usertype === "student") {
             return (
                 <Router>
                     <div>
-                        {/* <Home_Navbar /> */}
                         <Routes>
-                            <Route path="/" element={<Home_Page />} />
-                            <Route path="/home" element={<Main_Page />} />
+                            <Route path="/" element={<First_Page />} />
+                            <Route path="/home" element={<Home_Page />} />
                             <Route path="/request" element={<Request />} />
 
                             <Route path="/request/update/:request_id" element={<RequestUpdate />} />
@@ -142,23 +132,39 @@ export default function App() {
                         </Routes>
                     </div>
                 </Router>
-            );
+            )
+        }
+        else if (usertype === "professor") {
+            return (
+                <Router>
+                    <div>
+                        <Routes>
+                            <Route path="/" element={<First_Page />} />
+                            <Route path="/home" element={<Home_Page />} />
+                            <Route path="/request" element={<Request />} />
+
+                            {/* Approval Path */}
+                            <Route path="/approval" element={<Approval />} />
+                            <Route path="/approval/approval_create" element={<ApprovalCreate />} />
+                            <Route path="/approval/update/:approval_id" element={<ApprovalUpdate />} />
+                        </Routes>
+                    </div>
+                </Router>
+            )
         }
         else {
             return (
-
                 <div>
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<Home_Page />} />
-                        <Route path="/home" element={<Main_Page />} />
-                    </Routes>
-                </Router>
-            </div>
-            );
+                    <Router>
+                        <Routes>
+                            <Route path="/" element={<First_Page />} />
+                            <Route path="/home" element={<Home_Page />} />
+                        </Routes>
+                    </Router>
+                    <Footer />
+                </div>
+            )
         }
     }
-
-
 
 }

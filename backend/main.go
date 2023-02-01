@@ -2,6 +2,7 @@ package main
 
 import (
 	// "github.com/B6025212/team05/controller"
+	"github.com/B6025212/team05/middlewares"
 
 	"github.com/B6025212/team05/controller"
 	"github.com/B6025212/team05/entity"
@@ -30,189 +31,134 @@ func main() {
 
 	r := gin.Default()
 	r.Use(CORSMiddleware())
+	r.POST("/login", controller.Login)
 
-	// ++++++++++++++++++ Course Routes +++++++++++++++++++++++++
-	r.GET("/courses", controller.ListCourses)
-	r.GET("/courses/:course_id", controller.GetCourseSearch)
-	r.GET("/course/:course_id", controller.GetCourse)
-	r.POST("/courses", controller.CreateCourse)
-	r.DELETE("/courses/:course_id", controller.DeleteCourse)
-	r.PATCH("/courses", controller.UpdateCourses)
+	router := r.Group("")
+	{
+		api := router.Use(middlewares.Authorizes())
+		{
+			api.GET("/majors", controller.ListMajors)
+			api.GET("/major/:id", controller.GetMajor)
+			api.POST("/majors", controller.CreateMajor)
+			api.DELETE("/majors/:major_id", controller.DeleteMajor)
 
-	// ++++++++++++++++++ Student Routes ++++++++++++++++++++++++
-	r.GET("/students", controller.ListStudents)
-	r.GET("/students/:student_id", controller.GetStudentSearch)
-	r.GET("/student/:course_id", controller.GetStudent)
-	r.POST("/students", controller.CreateStudent)
-	r.DELETE("/students/:student_id", controller.DeleteStudents)
-	r.PATCH("/students", controller.UpdateStudents)
+			api.GET("/qualifications", controller.ListQualifications)
+			api.GET("/qualification/:qualification_id", controller.GetQualification)
+			api.POST("qualifications", controller.CreateQualification)
+			api.DELETE("/qualifications/:qualification_id", controller.DeleteQualification)
+			api.GET("/qualification", controller.ListQualificationName)
 
-	// ++++++++++++++++++ Subject Routes ++++++++++++++++++++++++
-	r.GET("/subjects", controller.ListSubjects)
-	r.GET("/prev_subject", controller.GetPreviousSubject)
-	r.GET("/subject/:subject_id", controller.GetSubject)
-	r.GET("/subject/:subject_id/:section", controller.GetSubjectBySection)
-	r.POST("/subjects", controller.CreateSubject)
-	r.PATCH("/subjects", controller.UpdateSubjects)
-	r.DELETE("/subject/:subject_id/:section", controller.DeleteSubject)
-	r.GET("/subject_statuses", controller.ListSubjectStatus)
-	r.GET("/subject_categories", controller.ListSubjectCategory)
-	r.GET("/class_types", controller.ListClassType)
+			api.GET("/courses", controller.ListCourses)
+			api.GET("/courses/:course_id", controller.GetCourseSearch)
+			api.GET("/course/:course_id", controller.GetCourse)
+			api.POST("/courses", controller.CreateCourse)
+			api.DELETE("/courses/:course_id", controller.DeleteCourse)
+			api.PATCH("/courses", controller.UpdateCourses)
 
-	// ++++++++++++++++++ Class Schedule  Routes ++++++++++++++++++++++++
-	r.GET("/class_schedules", controller.ListClassSchedule)
-	r.GET("/class_schedule/:subject_id", controller.GetClassSchedule)
-	r.GET("/class_schedule/:subject_id/:section", controller.GetClassBySubjectID_and_Section)
-	r.POST("/class_schedules", controller.CreateClassSchedule)
-	r.PATCH("/class_schedules", controller.UpdateClassSchedule)
-	r.DELETE("/class_schedule/:class_schedule_id", controller.DeleteClassSchedule)
+			// ++++++++++++++++++ Student Routes ++++++++++++++++++++++++
+			api.GET("/students", controller.ListStudents)
+			api.GET("/students/:student_id", controller.GetStudentSearch)
+			api.GET("/student/:course_id", controller.GetStudent)
+			api.POST("/students", controller.CreateStudent)
+			api.DELETE("/students/:student_id", controller.DeleteStudents)
+			api.PATCH("/students", controller.UpdateStudents)
 
-	// ++++++++++++++++++ Exam Schedule Routes ++++++++++++++++++++++++
-	r.GET("/exam_schedules", controller.ListExamSchedule)
-	r.GET("/exam_schedule/:subject_id/:exam_type", controller.GetExamScheduleByType)
-	r.POST("/exam_schedules", controller.CreateExamSchedule)
-	r.PATCH("/exam_schedules", controller.UpdateExamSchedule)
-	r.DELETE("/exam_schedule/:exam_schedule_id", controller.DeleteExamSchedule)
+			// ++++++++++++++++++ Subject Routes ++++++++++++++++++++++++
+			api.GET("/subjects", controller.ListSubjects)
+			api.GET("/prev_subject", controller.GetPreviousSubject)
+			api.GET("/subject/:subject_id", controller.GetSubject)
+			api.GET("/subject/:subject_id/:section", controller.GetSubjectBySection)
+			api.POST("/subjects", controller.CreateSubject)
+			api.PATCH("/subjects", controller.UpdateSubjects)
+			api.DELETE("/subject/:subject_id/:section", controller.DeleteSubject)
+			api.GET("/subject_statuses", controller.ListSubjectStatus)
+			api.GET("/subject_categories", controller.ListSubjectCategory)
+			api.GET("/class_types", controller.ListClassType)
 
-	// ++++++++++++++++++ Room Routes ++++++++++++++++++++++++
-	r.GET("/rooms", controller.ListRoominforms)
-	r.GET("/room/:room_id", controller.GetRoominform)
-	r.POST("/rooms", controller.CreateRoominform)
-	r.PATCH("/rooms", controller.UpdateRoominform)
-	r.DELETE("/rooms/:room_id", controller.DeleteRoominform)
-	// ++++++++++++++++++ Request Routes ++++++++++++++++++++++++
-	r.GET("/requests", controller.ListRequest)
-	r.GET("/request/:request_id", controller.GetRequest)
-	r.GET("/previous_request", controller.GetPreviousRequest)
-	r.POST("/requests", controller.CreateRequest)
-	r.PATCH("/requests", controller.UpdateRequest)
-	r.DELETE("/request/:request_id", controller.DeleteRequest)
+			// ++++++++++++++++++ Class Schedule  Routes ++++++++++++++++++++++++
+			api.GET("/class_schedules", controller.ListClassSchedule)
+			api.GET("/class_schedule/:subject_id", controller.GetClassSchedule)
+			api.GET("/class_schedule/:subject_id/:section", controller.GetClassBySubjectID_and_Section)
+			api.POST("/class_schedules", controller.CreateClassSchedule)
+			api.PATCH("/class_schedules", controller.UpdateClassSchedule)
+			api.DELETE("/class_schedule/:class_schedule_id", controller.DeleteClassSchedule)
 
-	// Request_Type
-	r.GET("/request_types", controller.ListRequest_Type)
-	r.GET("/request_type/:request_type_id", controller.GetRequest_Type)
-	r.POST("/request_types", controller.CreateRequest_Type)
+			// ++++++++++++++++++ Exam Schedule Routes ++++++++++++++++++++++++
+			api.GET("/exam_schedules", controller.ListExamSchedule)
+			api.GET("/exam_schedule/:subject_id/:exam_type", controller.GetExamScheduleByType)
+			api.POST("/exam_schedules", controller.CreateExamSchedule)
+			api.PATCH("/exam_schedules", controller.UpdateExamSchedule)
+			api.DELETE("/exam_schedule/:exam_schedule_id", controller.DeleteExamSchedule)
 
-	// ++++++++++++++++++ Approval Routes ++++++++++++++++++++++++
-	// Approval
-	r.GET("/approvals", controller.ListApproval)
-	r.GET("/approval/:approval_id", controller.GetApproval)
-	r.GET("/previous_approval", controller.GetPreviousApproval)
-	r.POST("/approvals", controller.CreateApproval)
-	r.PATCH("/approvals", controller.UpdateApproval)
-	r.DELETE("/approval/:approval_id", controller.DeleteApproval)
+			// ++++++++++++++++++ Room Routes ++++++++++++++++++++++++
+			api.GET("/rooms", controller.ListRoominforms)
+			api.GET("/room/:room_id", controller.GetRoominform)
+			api.POST("/rooms", controller.CreateRoominform)
+			api.PATCH("/rooms", controller.UpdateRoominform)
+			api.DELETE("/rooms/:room_id", controller.DeleteRoominform)
+			// ++++++++++++++++++ Request Routes ++++++++++++++++++++++++
+			api.GET("/requests", controller.ListRequest)
+			api.GET("/request/:request_id", controller.GetRequest)
+			api.GET("/previous_request", controller.GetPreviousRequest)
+			api.POST("/requests", controller.CreateRequest)
+			api.PATCH("/requests", controller.UpdateRequest)
+			api.DELETE("/request/:request_id", controller.DeleteRequest)
 
-	// Approval_Type
-	r.GET("/approval_types", controller.ListApproval_Type)
-	r.GET("/approval_type/:request_type_id", controller.GetApproval_Type)
-	r.POST("/approval_types", controller.CreateApproval_Type)
+			// Request_Type
+			api.GET("/request_types", controller.ListRequest_Type)
+			api.GET("/request_type/:request_type_id", controller.GetRequest_Type)
+			api.POST("/request_types", controller.CreateRequest_Type)
 
-	// r.GET("/enrollsub", controller.ListEnrollSubject)
-	// r.GET("/enroll", controller.ListEnroll)
-	// r.GET("/enroll/enroll_id", controller.GetEnroll)
-	// r.POST("/enroll", controller.CreateEnroll)
-	// r.DELETE("/deleEnroll/:enroll_id", controller.DeleteEnroll)
+			// ++++++++++++++++++ Approval Routes ++++++++++++++++++++++++
+			// Approval
+			api.GET("/approvals", controller.ListApproval)
+			api.GET("/approval/:approval_id", controller.GetApproval)
+			api.GET("/previous_approval", controller.GetPreviousApproval)
+			api.POST("/approvals", controller.CreateApproval)
+			api.PATCH("/approvals", controller.UpdateApproval)
+			api.DELETE("/approval/:approval_id", controller.DeleteApproval)
 
-	//----------------------------------------------------------------------------------
-	r.GET("/enrollsub", controller.ListEnrollSubject)
-	r.GET("/enroll", controller.ListEnroll)
-	r.GET("/enroll/:subject_id", controller.GetEnrollSubject)
-	r.PATCH("/updateenroll", controller.UpdateEnroll)
-	r.GET("/currentenroll/:enroll_id", controller.GetEnroll)
-	// r.GET("/enroll/:enroll_id", controller.GetEnroll)
-	r.POST("/enroll", controller.CreateEnroll)
-	r.GET("/previousenroll", controller.GetPreviousREnroll)
-	r.DELETE("/deleEnroll/:enroll_id", controller.DeleteEnroll)
-	r.GET("/enrollsubs/:subject_id", controller.GetEnrollSubject)
-	r.GET("/subjectd/:coruse_id", controller.GetSubjectByCourse)
+			// Approval_Type
+			api.GET("/approval_types", controller.ListApproval_Type)
+			api.GET("/approval_type/:request_type_id", controller.GetApproval_Type)
+			api.POST("/approval_types", controller.CreateApproval_Type)
 
+			// // Admin Routes
+			api.GET("/admins", controller.ListAdmins)
+			api.GET("/admin/:id", controller.GetAdmin)
+			api.POST("/admins", controller.CreateAdmin)
 
-	r.GET("/payment/:payment_id", controller.GetPayment)
-	r.GET("/payment", controller.ListPayment)
-	r.POST("/payment", controller.CreatePayment)
-	r.GET("/payment_type", controller.ListPayment_type)
-	r.PATCH("/updatepayment", controller.UpdatePayment)
-	r.GET("/previousenpayment", controller.GetPreviousPayment)
-	r.DELETE("/delepayment/:payment_id", controller.DeletePayment)
-	
-	//----------------------------------------------------------------------------------------------
+			// // Professor Routes
+			api.GET("/professors", controller.ListProfessors)
+			api.GET("/professor/:id", controller.GetProfessor)
+			api.POST("/professors", controller.CreateProfessor)
+			api.PATCH("/professors", controller.UpdateProfessor)
+			api.DELETE("/professors/:id", controller.DeleteProfessor)
 
-	// // Admin Routes
-	r.GET("/admins", controller.ListAdmins)
-	r.GET("/admin/:id", controller.GetAdmin)
-	r.POST("/admins", controller.CreateAdmin)
+			// Grade
+			api.GET("/grades", controller.ListGrade)
+			api.GET("/grade/:grade_id", controller.GetGrade)
+			api.POST("/grades", controller.CreateGrade)
 
-	// // Professor Routes
-	r.GET("/professors", controller.ListProfessors)
-	r.GET("/professor/:id", controller.GetProfessor)
-	r.POST("/professors", controller.CreateProfessor)
-	r.PATCH("/professors", controller.UpdateProfessor)
-	r.DELETE("/professors/:id", controller.DeleteProfessor)
+			//Dormitory
+			api.GET("/dormitorys", controller.ListDormitorys)
+			api.GET("/dormitory/:domitory_id", controller.GetDormitory)
+			api.POST("dormitorys", controller.CreateDormitory)
+			api.DELETE("/dormitorys/:domitory_id", controller.DeleteDormitorys)
 
-	// // Major Routes
-	r.GET("/majors", controller.ListMajors)
-	r.GET("/major/:id", controller.GetMajor)
-	r.POST("/majors", controller.CreateMajor)
-	r.DELETE("/majors/:major_id", controller.DeleteMajor)
+			api.GET("/payment", controller.ListPayment)
+			api.POST("/payment", controller.CreatePayment)
+			api.GET("/payment_type", controller.ListPayment_type)
 
-	// // Status Routes
-	r.GET("/statuses", controller.ListStatuses)
-	r.GET("/status/:id", controller.GetStatus)
-	r.POST("/statuses", controller.CreateStatus)
+			// Status Routes
+			api.GET("/statuses", controller.ListStatuses)
+			api.GET("/status/:id", controller.GetStatus)
+			api.POST("/statuses", controller.CreateStatus)
+		}
 
-	// // Roomtype Routes
-	// r.GET("/roomtypes", controller.ListRoomtypes)
-	// r.GET("/roomtype/:id", controller.GetRoomtype)
-	// r.POST("/roomtypes", controller.CreateRoomtype)
+	}
 
-	// // Building Routes
-	// r.GET("/buildings", controller.ListBuildings)
-	// r.GET("/building/:id", controller.GetBuilding)
-	// r.POST("/buildings", controller.CreateBuilding)
-
-	// Request
-
-	r.GET("/qualifications", controller.ListQualifications)
-	r.GET("/qualification/:qualification_id", controller.GetQualification)
-	r.POST("qualifications", controller.CreateQualification)
-	r.DELETE("/qualifications/:qualification_id", controller.DeleteQualification)
-	r.GET("/qualification", controller.ListQualificationName)
-
-	// Run the server
-
-	//Adding_reducing
-	r.GET("/adding_reducingsss", controller.ListAdding_reducingss) //เรียกใช้เพื่อแสดงค่าในตารางของตัวเองทั้งหมด
-
-	r.GET("/subjects/:course_id", controller.GetSubjectByCourse)
-	r.GET("/adding_reducings", controller.ListAdding_reducing)
-	r.GET("/adding_reducing/:change_id", controller.GetAdding_reducing)
-	r.GET("/previous_adding", controller.GetPreviousAdding_reducing)
-	r.POST("/adding_reducings", controller.CreateAdding_reducing)
-	r.PATCH("/adding_reducings_update", controller.UpdateAdding_reducing)
-	r.DELETE("/adding_reducing/:change_id", controller.DeleteAdding_reducing)
-	// Run the server
-
-	//Adding_point
-
-	r.GET("/adding_points", controller.ListAdding_point)
-
-	//r.GET("/adding_points/:subject/:section", controller.GetStudenByEnroll)
-	r.GET("/adding_point/:adding_point_id", controller.GetAdding_point)
-	r.GET("/previous_adding_point", controller.GetPreviousAdding_point)
-	r.POST("/adding_points", controller.CreateAdding_point)
-	r.PATCH("adding_points", controller.UpdateAdding_point)
-	r.DELETE("/adding_point/:adding_point_id", controller.DeleteAdding_point)
-
-	// Grade
-	r.GET("/grades", controller.ListGrade)
-	r.GET("/grade/:grade_id", controller.GetGrade)
-	r.POST("/grades", controller.CreateGrade)
-
-	//Dormitory
-	r.GET("/dormitorys", controller.ListDormitorys)
-	r.GET("/dormitory/:domitory_id", controller.GetDormitory)
-	r.POST("dormitorys", controller.CreateDormitory)
-	r.DELETE("/dormitorys/:domitory_id", controller.DeleteDormitorys)
+	// //----------------------------------------------------------------------------------------------
 
 	r.Run()
 

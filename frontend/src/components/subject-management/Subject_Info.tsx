@@ -27,7 +27,9 @@ function SubjectInfo() {
     const getSubject = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
         };
         fetch(`${apiUrl}/subject/${params.subject_id}/${params.section}`, requestOptions)
             .then((response) => response.json())
@@ -42,7 +44,9 @@ function SubjectInfo() {
     const deleteSubject = async () => {
         const requestOptions = {
             method: "DELETE",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
         };
         fetch(`${apiUrl}/subject/${params.subject_id}/${params.section}`, requestOptions)
             .then((response) => response.json())

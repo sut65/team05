@@ -91,7 +91,9 @@ function Adding_pointUpdate() {
 
   const requestOptionsGet = {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json" },
   };
 
   const emptyRows =
@@ -189,7 +191,9 @@ function Adding_pointUpdate() {
     //const apiUrl = "http://localhost:8080/adding_points";
     const requestOptionsPatch = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
     console.log(JSON.stringify(data));

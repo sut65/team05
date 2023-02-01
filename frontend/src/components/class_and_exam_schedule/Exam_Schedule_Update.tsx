@@ -303,7 +303,7 @@ function Exam_Schedule_Update() {
                                         value={exam_date}
                                         onChange={(newValue) => {
                                             setExamDate(newValue);
-                                            exam_schedule.Exam_Date = `${newValue?.year()}-${newValue?.month() + 1}-${newValue?.date()}`
+                                            // exam_schedule.Exam_Date = `${newValue?.year()}-${newValue?.month() + 1}-${newValue?.date()}`
                                             // console.log(exam_schedule.Exam_Date)
                                         }}
                                         renderInput={(params: any) => <TextField variant="standard" {...params} />}

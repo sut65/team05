@@ -18,7 +18,7 @@ function Home_Page() {
             setToken(token);
         }
     }, []);
-
+    console.log(token)
     if (!token) {
         return (
             <SignIn />

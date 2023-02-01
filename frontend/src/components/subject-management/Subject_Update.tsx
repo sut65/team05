@@ -68,6 +68,7 @@ function UpdateSubject() {
     const requestOptionsGet = {
         method: "GET",
         headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json"
         },
     };
@@ -169,6 +170,7 @@ function UpdateSubject() {
         const requestOptionsPatch = {
             method: "PATCH",
             headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(data)

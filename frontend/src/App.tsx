@@ -112,6 +112,10 @@ export default function App() {
                             <Route path="/exam_schedule/exam_schedule_create" element={<Exam_Schedule_Create />} />
                             <Route path="/exam_schedule/:subject_id/:exam_type" element={<Exam_Schedule_Info />} />
                             <Route path="/exam_schedule/update/:subject_id/:exam_type" element={<Exam_Schedule_Update />} />
+                        
+                            <Route path="/approval" element={<Approval />} />
+                            <Route path="/approval/approval_create" element={<ApprovalCreate />} />
+                            <Route path="/approval/update/:approval_id" element={<ApprovalUpdate />} />
                         </Routes>
                         <Footer />
                     </div>
@@ -155,13 +159,6 @@ export default function App() {
         else {
             return (
                 <div>
-                    <Router>
-                        <Routes>
-                            <Route path="/" element={<First_Page />} />
-                            <Route path="/home" element={<Home_Page />} />
-                        </Routes>
-                    </Router>
-                    <Footer />
                 </div>
             )
         }

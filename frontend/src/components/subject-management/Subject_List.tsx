@@ -87,7 +87,9 @@ function SubjectList() {
     const getSubjects = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
         };
         fetch(`${apiUrl}/subjects`, requestOptions)
             .then((response) => response.json())
@@ -103,7 +105,9 @@ function SubjectList() {
     const getSubjectBySubjectID = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
         };
         fetch(`${apiUrl}/subject/${searchSubjectID}`, requestOptions)
             .then((response) => response.json())

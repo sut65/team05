@@ -85,7 +85,9 @@ function Adding_reducingCreate() {
   const getAdding_reducings = async () => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+		Authorization: `Bearer ${localStorage.getItem("token")}`,
+		"Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/adding_points`, requestOptions)
       .then((response) => response.json())
@@ -123,7 +125,9 @@ function Adding_reducingCreate() {
     console.log("good");
     const requestOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+		Authorization: `Bearer ${localStorage.getItem("token")}`,
+		"Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/adding_point/${Adding_point_ID}`, requestOptions)
       .then((response) => response.json())

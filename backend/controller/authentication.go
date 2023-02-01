@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/B6025212/team05/entity"
@@ -38,6 +39,7 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(payload)
 
 	if err := entity.DB().Raw("SELECT * FROM admins WHERE admin_id = ?", payload.ID).Scan(&admin).RowsAffected; err != 0 {
 		err := bcrypt.CompareHashAndPassword([]byte(admin.Admin_Password), []byte(payload.Password))
@@ -64,6 +66,8 @@ func Login(c *gin.Context) {
 			UserType: "admin",
 		}
 
+		fmt.Println(tokenResponse)
+
 		c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
 	} else if err := entity.DB().Raw("SELECT * FROM students WHERE student_id = ?", payload.ID).Scan(&student).RowsAffected; err != 0 {
 		err := bcrypt.CompareHashAndPassword([]byte(student.Student_Password), []byte(payload.Password))
@@ -89,6 +93,7 @@ func Login(c *gin.Context) {
 			ID:       student.Student_ID,
 			UserType: "student",
 		}
+		fmt.Println(tokenResponse)
 
 		c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
 	}

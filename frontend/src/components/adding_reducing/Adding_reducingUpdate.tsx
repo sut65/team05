@@ -308,9 +308,9 @@ const getAdding_reducings = async () => {
           ? parseInt(adding_reducing.Change_ID)
           : adding_reducing.Change_ID,
       // Student_ID: request.Student_ID ?? "",
-      HistoryType_ID: adding_reducing.HistoryType_ID ?? "",
+      // HistoryType_ID: adding_reducing.HistoryType_ID ?? "",
       Status: adding_reducing.Status ?? "",
-      Type_Name :adding_reducing.Type_Name ?? "",
+      // Type_Name :adding_reducing.Type_Name ?? "",
       Enroll_ID: adding_reducing.Enroll_ID ?? "",
     };
     console.log(data);

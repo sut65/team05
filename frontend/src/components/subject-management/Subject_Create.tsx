@@ -69,6 +69,7 @@ function CreateSubject() {
     const requestOptionsGet = {
         method: "GET",
         headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json"
         },
     };
@@ -165,7 +166,9 @@ function CreateSubject() {
 
         const requestOptionsPost = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
 

@@ -40,7 +40,7 @@ export default function SignIn() {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
     };
-    console.log(localStorage.getItem("usertype"))
+    // console.log(localStorage.getItem("usertype"))
 
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
@@ -56,28 +56,33 @@ export default function SignIn() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(signin),
+            // body: JSON.stringify(data),
+            body: JSON.stringify(signin)
         };
-        console.log(JSON.stringify(signin))
+        // // console.log(JSON.stringify(data))
+        // console.log(localStorage.getItem("token"))
+        // console.log(localStorage.getItem("id"))
+        // console.log(localStorage.getItem("usertype"))
 
         fetch(`${apiUrl}/login`, requestOptions)
-            .then((response) => response.json())
+            .then((response) => console.log(response.json()))
             .then((res) => {
                 // console.log(res)
-                if (res.data) {
-                    // console.log(res.data)
-                    setSuccess(true);
-                    localStorage.setItem("token", res.data.token);
-                    localStorage.setItem("id", res.data.id);
-                    localStorage.setItem("usertype", res.data.usertype);
-                    window.location.reload()
-                } else {
-                    setError(true);
-                }
-            });
+                // if (res.data) {
+                //     // console.log(res.data)
+                //     setSuccess(true);
+                //     localStorage.setItem("token", res.data.token);
+                //     localStorage.setItem("id", res.data.id);
+                //     localStorage.setItem("usertype", res.data.usertype);
+                //     window.location.reload()
+                // } else {
+                //     setError(true);
+                // }
+            }
+        );
 
 
-    }
+    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -103,6 +108,7 @@ export default function SignIn() {
                             required
                             fullWidth
                             id="ID"
+                            // value={signin.Password}
                             onChange={handleInputChange}
                             label=""
                             // name="email"
@@ -113,6 +119,7 @@ export default function SignIn() {
                             margin="normal"
                             required
                             fullWidth
+                            // value={signin.Password}
                             onChange={handleInputChange}
                             type="password"
                             id="Password"

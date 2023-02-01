@@ -270,7 +270,7 @@ function CreateEnroll() {
   function submit() {
     let data = {   
       Enroll_ID: enroll.Enroll_ID ?? "",
-      Student_ID: enroll.Student_ID ?? "",
+      // Student_ID: enroll.Student_ID ?? "",
       Subject_ID: enroll.Subject_ID ?? "",
       Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
       Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
@@ -307,8 +307,8 @@ function CreateEnroll() {
       : adding_reducing.Change_ID,
     Status:adding_reducing.Status ?? "",
     Enroll_ID: adding_reducing.Enroll_ID ?? "",
-    Student_ID:adding_reducing.Student_ID ?? "",
-    HistoryType_ID:adding_reducing.HistoryType_ID ?? "",
+    // Student_ID:adding_reducing.Student_ID ?? "",
+    // HistoryType_ID:adding_reducing.HistoryType_ID ?? "",
   
   
   };

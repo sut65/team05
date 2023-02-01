@@ -346,7 +346,7 @@ function Adding_reducingCreate() {
                   <TableCell align="left">{row.Day}</TableCell>
                   <TableCell align="left">{row.Start_Time}</TableCell>
                   <TableCell align="left">{row.End_Time}</TableCell>
-                  <TableCell align="left">{row.Exam_Date}</TableCell>
+                  {/* <TableCell align="left">{row.Exam_Date}</TableCell> */}
                   {/* <TableCell align="left">{row.Exa}</TableCell>
                   <TableCell align="left">{row.Exam_End_Time}</TableCell> */}
                   <TableCell align="left">{row.Unit}</TableCell>
@@ -369,7 +369,7 @@ function Adding_reducingCreate() {
                   ///${row.Subject_ID}/${row.Section}
                   onClick={() => {
                     navigate({ pathname: `/updateenroll/${row.Enroll_ID}` })
-                    navigate({ pathname: `/update/${row.Change_ID}` })
+                    // navigate({ pathname: `/update/${row.Change_ID}` })
               }}
                   >
                     <ModeEditIcon />
@@ -506,7 +506,7 @@ function Adding_reducingCreate() {
                   <StyledTableRow key={row.Change_ID}>
                     <TableCell component="th" scope="row" align="center">{row.Change_ID} </TableCell>
                     <TableCell align="center">{row.Status}</TableCell>
-                    <TableCell align="center">{row.Type_Name}</TableCell>
+                    {/* <TableCell align="center">{row.Type_Name}</TableCell> */}
                     <TableCell align="center">{row.Subject_ID}</TableCell>
                     <TableCell align="center">{row.Subject_EN_Name}</TableCell>
 {/*                     

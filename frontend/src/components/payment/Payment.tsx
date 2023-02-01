@@ -30,6 +30,8 @@ import { Payment } from "../../models/I_Payment";
 
 
 export function ListPayment() {
+    const navigate = useNavigate();
+    const params = useParams();
     const [payment, setPayment] = React.useState<Partial<Payment>>({});
     const [payments, setPayments] = React.useState<Payment[]>([]);
 
@@ -68,6 +70,8 @@ export function ListPayment() {
         setPage(0);
     };
 
+    
+
     const getPayment = async () => {
         const apiUrl = "http://localhost:8080/payment";
         const requestOptions = {
@@ -86,6 +90,28 @@ export function ListPayment() {
                 }
             });
     };
+
+    const deletePayment = async (payment_id: number) => {
+        console.log("good");
+        const apiUrl = "http://localhost:8080";
+        const requestOptions = {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        };
+
+        
+        fetch(`${apiUrl}/delepayment/${payment_id}`, requestOptions)
+          .then((response) => response.json())
+          .then((res) => {
+            if (res.data) {
+              console.log("Data remove");
+              window.location.href = "/";
+            } else {
+              console.log("Something was wrong!!");
+            }
+          });
+      };
+    
     useEffect(() => {
         getPayment();
     }, []);
@@ -123,17 +149,17 @@ export function ListPayment() {
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="left">เลขที่รายการ</TableCell>
-                                <TableCell align="left">รหัสนักศึกษา</TableCell>
-                                <TableCell align="left">หน่วยกิจรวม</TableCell>
-                                <TableCell align="left">วิธีการชำระเงิน</TableCell>
-                                <TableCell align="left">เลขที่ใบเสร็จ</TableCell>
-                                <TableCell align="left">จำนวนเงินที่ต้องชำระ</TableCell>
-                                <TableCell align="left">จำนวนเงินที่ชำระ</TableCell>
-                                <TableCell align="left">วันเวลาที่ชำระ</TableCell>
-                                <TableCell align="left">ไอดีผู้ทำรายการ</TableCell>
-                                <TableCell align="left">ลบรายการ</TableCell>
-                                <TableCell align="left">แก้ไขรายจ่าย</TableCell>
+                                <StyledTableCell align="left">เลขที่รายการ</StyledTableCell>
+                                <StyledTableCell align="left">รหัสนักศึกษา</StyledTableCell>
+                                <StyledTableCell align="left">หน่วยกิจรวม</StyledTableCell>
+                                <StyledTableCell align="left">วิธีการชำระเงิน</StyledTableCell>
+                                <StyledTableCell align="left">เลขที่ใบเสร็จ</StyledTableCell>
+                                <StyledTableCell align="left">จำนวนเงินที่ต้องชำระ</StyledTableCell>
+                                <StyledTableCell align="left">จำนวนเงินที่ชำระ</StyledTableCell>
+                                <StyledTableCell align="left">วันเวลาที่ชำระ</StyledTableCell>
+                                <StyledTableCell align="left">ไอดีผู้ทำรายการ</StyledTableCell>
+                                <StyledTableCell align="left">ลบรายการ</StyledTableCell>
+                                <StyledTableCell align="left">แก้ไขรายจ่าย</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -157,16 +183,16 @@ export function ListPayment() {
                                     <TableCell align="center">
                                         <IconButton
                                             aria-label="delete"
-                                            //onClick={() => deleteEnroll(row.Enroll_ID)}
+                                            onClick={() => deletePayment(row.Payment_ID)}
                                         >
                                             <DeleteIcon />
                                         </IconButton>
                                     </TableCell>
                                     <TableCell align="center">
                                         <IconButton
-                                            ///${row.Subject_ID}/${row.Section}
+                                           // ${row.Payment_ID}/${row.Section}
                                             onClick={() => {
-                                                //navigate({ pathname: `/updateenroll/${row.Enroll_ID}` })
+                                                navigate({ pathname: `/updatepayment/${row?.Payment_ID}` })
                                             }}
                                         >
                                             <ModeEditIcon />

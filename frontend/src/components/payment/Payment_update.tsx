@@ -34,7 +34,7 @@ import { Payment_Type } from "../../models/I_Payment";
 import { bgcolor } from "@mui/system";
 
 
-export function CreatePayment() {
+export function UpdatePayment() {
     const navigate = useNavigate();
     const params = useParams();
     const [date, setDate] = React.useState<Date | null>(null);
@@ -52,7 +52,6 @@ export function CreatePayment() {
     const [payments, setPayments] = React.useState<Payment[]>([]);
     const [payment, setPayment] = React.useState<Partial<Payment>>({});
     const [payment_type, setPayment_Type] = React.useState<Payment_Type[]>([]);
-    const [message, setAlertMessage] = React.useState("");
 
     const [error, setError] = React.useState(false);
 
@@ -82,7 +81,7 @@ export function CreatePayment() {
     const handleInputChangeSearch = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof CreatePayment;
+        const id = event.target.id as keyof typeof UpdatePayment;
         setSearchSubjectID(event.target.value);
     };
 
@@ -140,8 +139,6 @@ export function CreatePayment() {
         },
     }));
 
-
-
     const apiUrl = "http://localhost:8080";
     const requestOptionsGet = {
         method: "GET",
@@ -163,6 +160,21 @@ export function CreatePayment() {
     };
 
 
+   
+    const getCurrentPaymemt = async () => {
+      fetch(`${apiUrl}/payment/${params.payment_id}`, requestOptionsGet)
+        .then((response) => response.json())
+        .then((res) => {
+          if (res.data) {
+            setPayment(res.data);
+            console.log(res.data);
+          } else {
+            console.log("else");
+          }
+        });
+    };
+
+  
 
     const getEnroll = async () => {
         const requestOptions = {
@@ -209,37 +221,26 @@ export function CreatePayment() {
             });
     };
 
-    const getPrevEnroll = async () => {
-        fetch(`${apiUrl}/previousenroll`, requestOptionsGet)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    enroll.Enroll_ID = res.data.Enroll_ID + 1;
-                }
-                else {
-                    enroll.Enroll_ID = res.data = "1";
-                    //console.log("else");
-                }
-            });
-    };
-
-    const call = async () => {
-                if (payment.Unit) {
-                    payment.Unit = payment.Unit * 800;
-                }
-                else {
-                    payment.Unit = 800;
-                    //console.log("else");
-                }
-            
-    };
+    // const getPrevEnroll = async () => {
+    //     fetch(`${apiUrl}/previousenroll`, requestOptionsGet)
+    //         .then((response) => response.json())
+    //         .then((res) => {
+    //             if (res.data) {
+    //                 enroll.Enroll_ID = res.data.Enroll_ID + 1;
+    //             }
+    //             else {
+    //                 enroll.Enroll_ID = res.data = "1";
+    //                 //console.log("else");
+    //             }
+    //         });
+    // };
     
     const getPrevPayment = async () => {
         fetch(`${apiUrl}/previousenpayment`, requestOptionsGet)
           .then((response) => response.json())
           .then((res) => {
             if (res.data) {
-              payment.Payment_ID = res.data.Payment_ID + 1;
+              payment.Payment_ID = res.data.Payment_ID;
             }
             else {
               payment.Payment_ID = res.data = 1;
@@ -264,10 +265,11 @@ export function CreatePayment() {
      
 
     useEffect(() => {
-        getPrevPayment();
+        // getPrevPayment();
         getPayment_type();
-        getPrevEnroll();
-        
+        //getPrevEnroll();
+        getCurrentPaymemt();
+       
         
         if (searchSubjectID == "") {
             getEnroll();
@@ -277,26 +279,24 @@ export function CreatePayment() {
         console.log(searchSubjectID);
     }, []);
 
-    function submitPayment() {
+    function updatePayment() {
         let data = {
             Admin_ID: payment.Admin_ID ?? "",
             Amounts: typeof payment.Amounts === "string" ? parseInt(payment.Amounts) : payment.Amounts,
             Date_Time: payment.Date_Time ?? "",
             Payment_ID: typeof payment.Payment_ID === "string" ? parseInt(payment.Payment_ID) : payment.Payment_ID,
-            Payment_Type_ID: payment.Payment_Type_ID ?? "",
+            Payment_Type_ID: payment.Payment_Type_ID,
             Receipt_number: payment.Receipt_number ?? "",
             //Student_ID: payment.Student_ID ?? "",
             Unit: typeof payment.Unit === "string" ? parseInt(payment.Unit) : payment.Unit,
-
             // Student_ID:
             //Section: typeof enroll.Section === "string" ? parseInt(enroll.Section) : enroll.Section,
         };
-        
 
         
-        const apiUrl = "http://localhost:8080/payment";
+        const apiUrl = "http://localhost:8080/updatepayment";
         const requestOptions = {
-            method: "POST",
+            method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
@@ -304,12 +304,12 @@ export function CreatePayment() {
         fetch(apiUrl, requestOptions)
             .then((response) => response.json())
             .then((res) => {
+                console.log(res);
                 if (res.data) {
                     setSuccess(true);
-                  } else {
-                    setAlertMessage(res.error);
+                } else {
                     setError(true);
-                  }
+                }
             });
     }
 
@@ -326,22 +326,17 @@ export function CreatePayment() {
                 open={success}
                 autoHideDuration={6000}
                 onClose={handleClose}
-                id="success"
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
 
                 <Alert onClose={handleClose} severity="success">
-                บันทึกข้อมูลถูกต้อง
+                    แก้ไขข้อมูลสำเร็จ
                 </Alert>
             </Snackbar>
 
-            <Snackbar 
-            id="error"
-            open={error} 
-            autoHideDuration={6000} 
-            onClose={handleClose}>
+            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
-                    {message}
+                    แก้ไชข้อมูลไม่สำเร็จ
                 </Alert>
             </Snackbar>
             <Paper sx={{ pt: -1, pl: 1, pr: 1, mt: 1 }}>
@@ -372,7 +367,7 @@ export function CreatePayment() {
                             <p>กรุณาระบุรหัสนักศึกษา</p>
                             <Box>
                                 <TextField
-                                    id="outlined-basic"
+                                    id="Student_ID"
                                     label="ระบุรหัสนักศึกษา"
                                     variant="outlined"
                                 >
@@ -480,9 +475,8 @@ export function CreatePayment() {
                             <p style={{ paddingLeft: 18, }}>จำนวนเงินที่ต้องชำระ</p>
                             <TextField sx={{ width: "250px", pl: 2 }}
                                 size="small"
-                                id="AmountsCal"
-                                value={payment.AmountsCal}
-                                
+                                id="Payment_ID"
+                                value={payment.Payment_ID}
                             >
                             </TextField>
                         </Grid>
@@ -517,8 +511,8 @@ export function CreatePayment() {
                             <p style={{ paddingLeft: 18, }}>รหัสนักศึกษา</p>
                             <TextField sx={{ width: "250px", pl: 2 }}
                                 size="small"
-                                id="outlined-disabled"
-                                //value={payment.Student_ID}
+                                id="Student_ID"
+                                value={payment.Student_ID}
                                 onChange={handleInputChange}
                             >
                             </TextField>
@@ -603,9 +597,9 @@ export function CreatePayment() {
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    onClick={submitPayment}
+                                    onClick={updatePayment}
                                 >
-                                    บันทึกรายจ่าย
+                                    แก้ไขรายจ่าย
                                 </Button>
                             </Box>
                         </Box>
@@ -618,8 +612,4 @@ export function CreatePayment() {
         </Container >
     );
 
-} export default CreatePayment;
-
-function setAlertMessage(arg0: string) {
-    throw new Error("Function not implemented.");
-}
+} export default UpdatePayment;

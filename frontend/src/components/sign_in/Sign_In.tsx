@@ -56,7 +56,6 @@ export default function SignIn() {
             headers: {
                 "Content-Type": "application/json"
             },
-            // body: JSON.stringify(data),
             body: JSON.stringify(signin)
         };
         // // console.log(JSON.stringify(data))
@@ -65,19 +64,19 @@ export default function SignIn() {
         // console.log(localStorage.getItem("usertype"))
 
         fetch(`${apiUrl}/login`, requestOptions)
-            .then((response) => console.log(response.json()))
+            .then((response) => response.json())
             .then((res) => {
                 // console.log(res)
-                // if (res.data) {
+                if (res.data) {
                 //     // console.log(res.data)
-                //     setSuccess(true);
-                //     localStorage.setItem("token", res.data.token);
-                //     localStorage.setItem("id", res.data.id);
-                //     localStorage.setItem("usertype", res.data.usertype);
-                //     window.location.reload()
-                // } else {
-                //     setError(true);
-                // }
+                    setSuccess(true);
+                    localStorage.setItem("token", res.data.token);
+                    localStorage.setItem("id", res.data.id);
+                    localStorage.setItem("usertype", res.data.usertype);
+                    window.location.reload()
+                } else {
+                    setError(true);
+                }
             }
         );
 

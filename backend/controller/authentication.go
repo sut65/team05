@@ -34,6 +34,7 @@ func Login(c *gin.Context) {
 	var payload LoginPayload
 	var admin entity.Admin
 	var student entity.Student
+	var professor entity.Professor
 
 	if err := c.ShouldBindJSON(&payload); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -77,7 +78,7 @@ func Login(c *gin.Context) {
 		}
 
 		jwtWrapper := service.Student_JwtWrapper{
-			SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
+			SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzBVa",
 			Issuer:          "AuthService",
 			ExpirationHours: 24,
 		}
@@ -92,6 +93,33 @@ func Login(c *gin.Context) {
 			Token:    signedToken,
 			ID:       student.Student_ID,
 			UserType: "student",
+		}
+		fmt.Println(tokenResponse)
+
+		c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
+	} else if err := entity.DB().Raw("SELECT * FROM professors WHERE professor_id = ?", payload.ID).Scan(&professor).RowsAffected; err != 0 {
+		err := bcrypt.CompareHashAndPassword([]byte(professor.Professor_password), []byte(payload.Password))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "professor password is incerrect"})
+			return
+		}
+
+		jwtWrapper := service.Professor_JwtWrapper{
+			SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFEE",
+			Issuer:          "AuthService",
+			ExpirationHours: 24,
+		}
+
+		signedToken, err := jwtWrapper.GenerateProfessorToken(professor.Professor_ID)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
+			return
+		}
+
+		tokenResponse := LoginResponse{
+			Token:    signedToken,
+			ID:       professor.Professor_ID,
+			UserType: "professor",
 		}
 		fmt.Println(tokenResponse)
 

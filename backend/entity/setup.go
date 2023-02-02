@@ -5,6 +5,7 @@ import (
 
 	"fmt"
 
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -42,7 +43,6 @@ func SetupDatabase() {
 		&RoomType{},
 		&Building{},
 
-
 		&HistoryType{},
 		&Professor{},
 
@@ -73,24 +73,27 @@ func SetupDatabase() {
 	)
 
 	db = database
+	admin1_password, err := bcrypt.GenerateFromPassword([]byte("Gianmii5731"), 14)
+	admin2_password, err := bcrypt.GenerateFromPassword([]byte("Devupindate9890"), 14)
+	admin3_password, err := bcrypt.GenerateFromPassword([]byte("Suster3490"), 14)
 
 	// Create sample records
 	admin1 := Admin{
-		Admin_ID:       "AD01",
+		Admin_ID:       "AD1234567",
 		Admin_Email:    "Sompin@hotmail.com",
-		Admin_Password: "Gianmii5731",
+		Admin_Password: string(admin1_password),
 	}
 
 	admin2 := Admin{
-		Admin_ID:       "AD02",
+		Admin_ID:       "AD5402245",
 		Admin_Email:    "Patsatit@hotmail.com",
-		Admin_Password: "Devupindate9890",
+		Admin_Password: string(admin2_password),
 	}
 
 	admin3 := Admin{
-		Admin_ID:       "AD03",
+		Admin_ID:       "AD6312985",
 		Admin_Email:    "Alexander@hotmail.com",
-		Admin_Password: "Suster3490",
+		Admin_Password: string(admin3_password),
 	}
 	db.Create(&admin1)
 	db.Create(&admin2)
@@ -98,31 +101,26 @@ func SetupDatabase() {
 
 	////---------------------------------------------------------------
 
-	engineering := Institute{
-		Institute_ID:   "ENG",
-		Institute_Name: "Engineering",
-	}
-
-	medical := Institute{
-		Institute_ID:   "MED",
-		Institute_Name: "Medical",
-	}
+	engineering := Institute{Institute_ID: "ENG", Institute_Name: "Engineering"}
+	medical := Institute{Institute_ID: "MED", Institute_Name: "Medical"}
 	db.Create(&engineering)
 	db.Create(&medical)
 
-	cpe := Major{
-		Major_ID:   "CPE",
-		Major_Name: "Computer Engineering",
-		Institute:  engineering,
-	}
+	cpe := Major{Major_ID: "CPE", Major_Name: "Computer Engineering", Institute: engineering}
+	ee := Major{Major_ID: "EE", Major_Name: "Electrical Engineering", Institute: engineering}
+	elec := Major{Major_ID: "ELEC", Major_Name: "Electronic Engineering", Institute: engineering}
+	polymer := Major{Major_ID: "PE", Major_Name: "Polymer Engineering", Institute: engineering}
+	civil := Major{Major_ID: "CIVIL", Major_Name: "Civil Engineering", Institute: engineering}
+	mechanical := Major{Major_ID: "ME", Major_Name: "Mechanical Engineering", Institute: engineering}
+	ph := Major{Major_ID: "PH", Major_Name: "Public Health", Institute: medical}
 
-	ee := Major{
-		Major_ID:   "EE",
-		Major_Name: "Electrical Engineering",
-		Institute:  engineering,
-	}
 	db.Create(&cpe)
 	db.Create(&ee)
+	db.Create(&elec)
+	db.Create(&ph)
+	db.Create(&polymer)
+	db.Create(&civil)
+	db.Create(&mechanical)
 
 	//Qualification
 	qualification1 := Qualification{
@@ -192,10 +190,14 @@ func SetupDatabase() {
 	}
 	db.Model(&Dormitory{}).Create(&dormitory3)
 
+	student1_password, err := bcrypt.GenerateFromPassword([]byte("Vuster2572"), 14)
+	student2_password, err := bcrypt.GenerateFromPassword([]byte("Oop1235"), 14)
+	student3_password, err := bcrypt.GenerateFromPassword([]byte("Kku5731mn"), 14)
+
 	student1 := Student{
-		Student_ID:       "B631021",
+		Student_ID:       "B6310211",
 		Student_Name:     "ปีเตอร์ สงบสุข",
-		Student_Password: "Vuster2572",
+		Student_Password: string(student1_password),
 		Datetime:         "22/08/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
@@ -204,9 +206,9 @@ func SetupDatabase() {
 	db.Model(&Student{}).Create(&student1)
 
 	student2 := Student{
-		Student_ID:       "B620023",
+		Student_ID:       "B6200233",
 		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
-		Student_Password: "Oop1235",
+		Student_Password: string(student2_password),
 		Datetime:         "22/09/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
@@ -215,9 +217,9 @@ func SetupDatabase() {
 	db.Model(&Student{}).Create(&student2)
 
 	student3 := Student{
-		Student_ID:       "B620125",
+		Student_ID:       "B6201259",
 		Student_Name:     "สมใจ ใยดี",
-		Student_Password: "Kku5731mn",
+		Student_Password: string(student3_password),
 		Datetime:         "22/10/2563",
 		Admin:            admin1,
 		Course:           cpe2560,
@@ -233,9 +235,13 @@ func SetupDatabase() {
 	db.Create(&status1)
 
 	////---------------------------------------------------------------
+	professor1_password, err := bcrypt.GenerateFromPassword([]byte("B56221"), 14)
+	professor2_password, err := bcrypt.GenerateFromPassword([]byte("nun289546"), 14)
+	professor3_password, err := bcrypt.GenerateFromPassword([]byte("4924998abca"), 14)
+
 	professor1 := Professor{
 		Model:              gorm.Model{ID: 1},
-		Professor_ID:       "123456",
+		Professor_ID:       "P5302245",
 		Professor_name:     "Thanakorn Punya",
 		Professor_address:  "Nakhonratchasima",
 		Professor_email:    "nun@gmail.com",
@@ -244,12 +250,12 @@ func SetupDatabase() {
 		Admin:              admin3,
 		Qualification:      qualification1,
 		Major:              cpe,
-		Professor_password: "B56221",
+		Professor_password: string(professor1_password),
 	}
 
 	professor2 := Professor{
 		Model:              gorm.Model{ID: 2},
-		Professor_ID:       "12345678",
+		Professor_ID:       "P3934578",
 		Professor_name:     "Surachet Sukdee",
 		Professor_address:  "Nakhonratchasima",
 		Professor_email:    "nun2@gmail.com",
@@ -258,12 +264,12 @@ func SetupDatabase() {
 		Admin:              admin3,
 		Qualification:      qualification1,
 		Major:              ee,
-		Professor_password: "B56221",
+		Professor_password: string(professor2_password),
 	}
 
 	professor3 := Professor{
 		Model:              gorm.Model{ID: 3},
-		Professor_ID:       "6302245",
+		Professor_ID:       "P4924998",
 		Professor_name:     "Weerachai Somsuk",
 		Professor_address:  "Chiang Mai",
 		Professor_email:    "nun2@gmail.com",
@@ -272,7 +278,7 @@ func SetupDatabase() {
 		Admin:              admin3,
 		Qualification:      qualification1,
 		Major:              ee,
-		Professor_password: "B56221",
+		Professor_password: string(professor3_password),
 	}
 	db.Create(&professor1)
 	db.Create(&professor2)
@@ -301,8 +307,14 @@ func SetupDatabase() {
 		Class_Type_ID:   "L",
 		Class_Type_Name: "Labs",
 	}
+
+	project := Class_Type{
+		Class_Type_ID:   "P",
+		Class_Type_Name: "Project",
+	}
 	db.Create(&lecture)
 	db.Create(&labs)
+	db.Create(&project)
 
 	////---------------------------------------------------------------
 	category1 := Subject_Category{
@@ -514,6 +526,25 @@ func SetupDatabase() {
 	}
 	db.Create(&artificial_neural_network)
 
+	knowledge_discovery_and_data_mining := Subject{
+		ID:               11,
+		Subject_ID:       "523312",
+		Professor:        professor1,
+		Course:           cpe2560,
+		Subject_Status:   subject_open,
+		Class_Type:       lecture,
+		Subject_Category: category2,
+		Subject_TH_Name:  "การค้นพบความรู้และการทำเหมืองข้อมูล",
+		Subject_EN_Name:  "Knowledge Discovery and Data Mining",
+		Capacity:         40,
+		Enroll_Amount:    0,
+		Reserved:         5,
+		Reserved_Enroll:  0,
+		Unit:             4,
+		Section:          1,
+	}
+	db.Create(&knowledge_discovery_and_data_mining)
+
 	lab_room_type := RoomType{
 		RoomType_ID:   "RT01",
 		RoomType_name: "Labs",
@@ -525,14 +556,12 @@ func SetupDatabase() {
 	db.Create(&lab_room_type)
 	db.Create(&lecture_room_type)
 
-	building_b1 := Building{
-		Building_ID:   "B1",
-		Building_name: "อาคารเรียนรวม1",
-	}
-	building_b2 := Building{
-		Building_ID:   "B2",
-		Building_name: "อาคารเรียนรวม2",
-	}
+	building_b1 := Building{Building_ID: "B1", Building_name: "อาคารเรียนรวม1"}
+	building_b2 := Building{Building_ID: "B2", Building_name: "อาคารเรียนรวม2"}
+
+	building_f11 := Building{Building_ID: "F11", Building_name: "อาคารสิรินธรวิศวพัฒน์"}
+	building_b6 := Building{Building_ID: "B6", Building_name: "อาคารรัฐสีมาคุณากร"}
+
 	db.Create(&building_b1)
 	db.Create(&building_b2)
 
@@ -557,10 +586,29 @@ func SetupDatabase() {
 		Seats:    60,
 		RoomType: lab_room_type,
 		Admin:    admin1,
+		Building: building_f11,
+	}
+
+	room_b6105 := Room{
+		Room_ID:  "B6105",
+		Seats:    50,
+		RoomType: lecture_room_type,
+		Admin:    admin2,
+		Building: building_b6,
+	}
+
+	room_F11_software := Room{
+		Room_ID:  "F11-42-Software",
+		Seats:    60,
+		RoomType: lab_room_type,
+		Building: building_f11,
+		Admin:    admin3,
 	}
 	db.Create(&room_b2101)
 	db.Create(&room_b4101)
 	db.Create(&room_F11_micro)
+	db.Create(&room_F11_software)
+	db.Create(&room_b6105)
 
 	system_analysis_sec1_class := Class_Schedule{
 		Class_Schedule_ID:          "CLS523332-1-B2101-MON-1300-1500",
@@ -568,9 +616,9 @@ func SetupDatabase() {
 		Section:                    1,
 		Room:                       room_b2101,
 		Admin:                      admin1,
-		Start_Time:                 fmt.Sprintf("%02d:%02d", 10, 00),
-		End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
-		Class_Schedule_Description: "SA sec1",
+		Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+		End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+		Class_Schedule_Description: "System Analysis sec1",
 		Day:                        "Mon",
 	}
 
@@ -580,16 +628,29 @@ func SetupDatabase() {
 		Section:                    1,
 		Room:                       room_b2101,
 		Admin:                      admin1,
+		Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+		End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+		Class_Schedule_Description: "Operating System sec1 ",
+		Day:                        "Tue",
+	}
+
+	ann_sec1_class := Class_Schedule{
+		Class_Schedule_ID:          "CLS523414-1-B6105-MON-0900-1200",
+		Subject:                    artificial_neural_network,
+		Section:                    1,
+		Room:                       room_b6105,
+		Admin:                      admin2,
 		Start_Time:                 fmt.Sprintf("%02d:%02d", 9, 00),
 		End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
-		Class_Schedule_Description: "OS sec2",
+		Class_Schedule_Description: "Artificial Neural Network class",
 		Day:                        "Mon",
 	}
 	db.Create(&system_analysis_sec1_class)
 	db.Create(&os_sec1_class)
+	db.Create(&ann_sec1_class)
 
 	system_analysis_midterm := Exam_Schedule{
-		Exam_Schedule_ID: "EXAM-SA1",
+		Exam_Schedule_ID: "EXAM-523315-B2101-MID-1805-1500-1700",
 		Subject:          system_analysis_sec1,
 		Room:             room_b2101,
 		Admin:            admin2,
@@ -600,18 +661,29 @@ func SetupDatabase() {
 	}
 	db.Create(&system_analysis_midterm)
 
-
-	os_midterm := Exam_Schedule{
-		Exam_Schedule_ID: "OS",
+	os_final := Exam_Schedule{
+		Exam_Schedule_ID: "EXAM-523354-B6105-FIN-2207-1500-1700",
 		Subject:          operating_system_sec1,
-		Room:             room_b2101,
-		Admin:            admin2,
-		Exam_Type:        "Midterm",
-		Exam_Date:        "18/05/2020",
+		Room:             room_b6105,
+		Admin:            admin1,
+		Exam_Type:        "Final",
+		Exam_Date:        "22/07/2020",
 		Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 15, 00),
 		Exam_End_Time:    fmt.Sprintf("%02d:%02d", 17, 00),
 	}
-	db.Create(&os_midterm)
+
+	ann_midterm := Exam_Schedule{
+		Exam_Schedule_ID: "EXAM-523414-B6105-MID-1905-0900-1200",
+		Subject:          artificial_neural_network,
+		Room:             room_b6105,
+		Admin:            admin1,
+		Exam_Type:        "Final",
+		Exam_Date:        "19/05/2020",
+		Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
+		Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
+	}
+	db.Create(&os_final)
+	db.Create(&ann_midterm)
 
 	///------------------------Request_Type------------------------
 	Request_Type1 := Request_Type{
@@ -647,8 +719,8 @@ func SetupDatabase() {
 	}
 	db.Create(&Request2)
 	enroll1 := Enroll{
-		Enroll_ID: "E001",
-		Student : student1,
+		Enroll_ID:      "E001",
+		Student:        student1,
 		Subject:        software_engineering_sec1,
 		Class_Schedule: system_analysis_sec1_class,
 		Exam_Schedule:  system_analysis_midterm,
@@ -656,12 +728,12 @@ func SetupDatabase() {
 	}
 
 	enroll2 := Enroll{
-		Enroll_ID: "E002",
-		Student : student2,
+		Enroll_ID:      "E002",
+		Student:        student2,
 		Subject:        operating_system_sec1,
 		Class_Schedule: os_sec1_class,
-		Exam_Schedule: os_midterm,
-		Section: 1,
+		Exam_Schedule:  os_final,
+		Section:        1,
 	}
 	db.Create(&enroll1)
 	db.Create(&enroll2)
@@ -700,24 +772,19 @@ func SetupDatabase() {
 	}
 	db.Create(&Approval2)
 
+	///---histroryType1----
 
-
-
-
-///---histroryType1----
-
-	HistoryType1 :=HistoryType{
-	HistoryType_ID: "HT1",
-	Type_Name: "ประวัติเพิ่ม",
+	HistoryType1 := HistoryType{
+		HistoryType_ID: "HT1",
+		Type_Name:      "ประวัติเพิ่ม",
 	}
 	db.Create(&HistoryType1)
 
-
-	HistoryType2 :=HistoryType{
+	HistoryType2 := HistoryType{
 		HistoryType_ID: "HT2",
-		Type_Name: "ประวัติลด",
-		}
-		db.Create(&HistoryType2)
+		Type_Name:      "ประวัติลด",
+	}
+	db.Create(&HistoryType2)
 
 	// HistoryType3 :=HistoryType{
 	// HistoryType_ID: "HT3",
@@ -727,20 +794,20 @@ func SetupDatabase() {
 
 	///-----------------------Adding_reducing------------------------
 	Adding_reducing1 := Adding_reducing{
-		Change_ID:		 1,
-		Status:   		 "เพิ่ม",
-		HistoryType:	 HistoryType1 ,
-		Enroll:   		 enroll1, 	
-		Student:   		 student1, 
+		Change_ID:   1,
+		Status:      "เพิ่ม",
+		HistoryType: HistoryType1,
+		Enroll:      enroll1,
+		Student:     student1,
 	}
 	db.Create(&Adding_reducing1)
 
 	Adding_reducing2 := Adding_reducing{
-		Change_ID:		 2,
-		Status:   		 "ลด",
-		HistoryType:	 HistoryType2 ,
-		Enroll:  		 enroll2 ,	
-		Student :   	 student2, 
+		Change_ID:   2,
+		Status:      "ลด",
+		HistoryType: HistoryType2,
+		Enroll:      enroll2,
+		Student:     student2,
 	}
 	db.Create(&Adding_reducing2)
 
@@ -748,11 +815,10 @@ func SetupDatabase() {
 	// 	Change_ID: 3,
 	// 	Status:    "เปลี่ยนกลุ่ม",
 	// 	HistoryType	:	HistoryType3,
-	// 	Enroll:    enroll3, 	
-	// 	Student :   student3, 
+	// 	Enroll:    enroll3,
+	// 	Student :   student3,
 	// }
 	// db.Create(&Adding_reducing3)
-
 
 	//grade
 	Grade1 := Grade{

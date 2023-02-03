@@ -152,7 +152,10 @@ function RequestUpdate() {
   const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
   };
   const getCurrentRequest = async () => {
     fetch(`${apiUrl}/request/${params.request_id}`, requestOptionsGet)
@@ -171,7 +174,10 @@ function RequestUpdate() {
   const getSubjects = async () => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(`${apiUrl}/subjects`, requestOptions)
       .then((response) => response.json())
@@ -186,7 +192,10 @@ function RequestUpdate() {
   const getSubjectBySubjectID = async (subject_id: any) => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(`${apiUrl}/subject/${subject_id}`, requestOptions)
       .then((response) => response.json())
@@ -257,7 +266,10 @@ function RequestUpdate() {
     // const apiUrl = "http://localhost:8080/requests";
     const requestOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     };
     console.log(JSON.stringify(data));
@@ -326,31 +338,33 @@ function RequestUpdate() {
                 แก้ไขข้อมูลรายวิชา{" "}
               </Typography>
             </Grid>
-            <Box sx={{ marginLeft: "950px" }}>
-              <Box>
-                <p>รหัสนักศึกษา</p>
-                <TextField
-                  disabled
-                  id="Student_ID"
-                  variant="outlined"
-                  type="string"
-                  value={request.Student_ID}
-                  onChange={handleInputChange}
-                />
-              </Box>
-              <Box>
-                <p>รหัสลงทะเบียน</p>
-                <TextField
-                  disabled
-                  id="Request_ID"
-                  variant="outlined"
-                  type="number"
-                  defaultValue={request.Request_ID}
-                  value={request.Request_ID}
-                  onChange={handleInputChange}
-                />
-              </Box>
-            </Box>
+            <Grid sx={{ marginLeft: "450px" }}>
+              <p>รหัสลงทะเบียน</p>
+            </Grid>
+            <Grid sx={{ marginLeft: "30px" }}>
+              <TextField
+                disabled
+                id="Request_ID"
+                variant="outlined"
+                type="number"
+                defaultValue={request.Request_ID}
+                value={request.Request_ID}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid sx={{ marginLeft: "40px" }}>
+              <p>รหัสนักศึกษา</p>
+            </Grid>
+            <TextField
+              disabled
+              // label="รหัสนักศึกษา"
+              id="Student_ID"
+              variant="outlined"
+              type="string"
+              value={request.Student_ID}
+              sx={{ marginLeft: "30px" }}
+              onChange={handleInputChange}
+            />
           </Box>
         </Paper>
 

@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 import { RequestInterface } from "../../models/IRequest";
 import { Request_TypeInterface } from "../../models/IRequest_Type";
 import { Subject } from "../../models/I_Subject";
-import { Stack, Divider, Grid } from "@mui/material";
+import { Stack, Divider, Grid, Toolbar } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
@@ -27,6 +27,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material/Select";
+import Home_Navbar from "../navbars/Home_navbar";
 
 function Request() {
   const [request, setRequest] = React.useState<Partial<RequestInterface>>({});
@@ -80,7 +81,10 @@ function Request() {
   const getRequests = async () => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(`${apiUrl}/requests`, requestOptions)
       .then((response) => response.json())
@@ -112,7 +116,10 @@ function Request() {
     console.log("good");
     const requestOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(`${apiUrl}/request/${request_id}`, requestOptions)
       .then((response) => response.json())
@@ -210,6 +217,8 @@ function Request() {
           padding: 2,
         }}
       >
+        <Home_Navbar></Home_Navbar>
+        <Toolbar></Toolbar>
         <Paper
           elevation={3}
           sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
@@ -355,7 +364,9 @@ function Request() {
                       <IconButton
                         aria-label="edit"
                         onClick={() => {
-                          navigate({ pathname: `/request/update/${row.Request_ID}` });
+                          navigate({
+                            pathname: `/request/update/${row.Request_ID}`,
+                          });
                         }}
                       >
                         <ModeEditIcon />

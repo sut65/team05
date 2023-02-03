@@ -39,6 +39,7 @@ import {
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { AppBar } from "@mui/material";
+import { StudentsInterface } from "../../models/I_Student";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -59,7 +60,7 @@ function RequestCreate() {
   // >([]);
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
-
+  const [students, setStudents] = React.useState<StudentsInterface[]>([]);
   const [subjects, setSubjects] = React.useState<Subject[]>([]);
   const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
 
@@ -152,15 +153,45 @@ function RequestCreate() {
   const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
   };
+
+  //------------
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+const getStudent = async () => {
+  let student_id = localStorage.getItem("id");
+  
+  fetch(`${apiUrl}/students/${student_id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        request.Student_ID = res.data.Student_ID
+        
+      }
+      else {
+        console.log("else");
+      }
+    });
+};
 
   //----------subject----
 
   const getSubjects = async () => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(`${apiUrl}/subjects`, requestOptions)
       .then((response) => response.json())
@@ -175,7 +206,10 @@ function RequestCreate() {
   const getSubjectBySubjectID = async (subject_id: any) => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(`${apiUrl}/subject/${subject_id}`, requestOptions)
       .then((response) => response.json())
@@ -218,6 +252,7 @@ function RequestCreate() {
   useEffect(() => {
     getRequest_Type();
     getPrevRequest();
+    getStudent();
 
     if (searchSubjectID == "") {
       getSubjects();
@@ -250,7 +285,10 @@ function RequestCreate() {
     // const apiUrl = "http://localhost:8080/requests";
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     };
 
@@ -330,8 +368,12 @@ function RequestCreate() {
                 onChange={handleInputChange}
               />
             </Grid>
+            <Grid sx={{ marginLeft: "40px" }}>
+              <p>รหัสนักศึกษา</p>
+            </Grid>
             <TextField
-              label="รหัสนักศึกษา"
+              disabled
+              // label="รหัสนักศึกษา"
               id="Student_ID"
               variant="outlined"
               type="string"

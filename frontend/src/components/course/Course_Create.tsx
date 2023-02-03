@@ -35,6 +35,8 @@ import { FormHelperText, MenuItem, Select,} from "@mui/material";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
+import { AdminInterface } from "../../models/I_Admin";
+
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
@@ -60,7 +62,6 @@ function CourseCreate() {
  const [success, setSuccess] = React.useState(false);
 
  const [error, setError] = React.useState(false);
-
 
  const handleClose = (
 
@@ -105,6 +106,21 @@ function CourseCreate() {
   });
 };
 
+const getAdminID = async () => {
+  let uid = localStorage.getItem("id");
+
+  fetch(`${apiUrl}/admin/${uid}`, requestOptionsGet)
+      .then((response) => response.json())
+      .then((res) => {
+          if (res.data) {
+              courses.Admin_ID = res.data.Admin_ID
+
+          } else {
+              console.log("else");
+          }
+      });
+};
+
 const apiUrl = "http://localhost:8080";
 const requestOptionsGet = {
   method: "GET",
@@ -144,10 +160,7 @@ const requestOptionsGet = {
         });
       }
 
-      useEffect(() => {
-      getQualifications();
-      getMajors();
-          }, []);
+     
 
 
 
@@ -157,6 +170,7 @@ const requestOptionsGet = {
 
     Course_ID: courses.Course_ID ?? "",
 
+    Admin_ID: courses.Admin_ID ?? "",
     Course_Name: courses.Course_Name ?? "",
 
     Datetime: courses.Datetime,
@@ -203,6 +217,11 @@ const requestOptionsGet = {
      });
 
  }
+ useEffect(() => {
+  getQualifications();
+  getMajors();
+  getAdminID();
+      }, []);
 
 
  return (
@@ -266,15 +285,16 @@ const requestOptionsGet = {
              gutterBottom
 
            >
-            <Grid item xs={3} color="#115686" 
+            <Grid item xs={10} color="#115686" 
           sx={{  fontFamily : "LilyUPC" ,
            fontWeight : 'bold' ,fontSize:35}}>
 
-            <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2}}/> สร้างข้อมูลหลักสูตร
-             </Grid>
-
+            <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2 }}/> สร้างข้อมูลหลักสูตร
+                          
+                            </Grid>
            </Typography>
 
+         
          </Box>
 
        </Box>
@@ -282,6 +302,29 @@ const requestOptionsGet = {
        <Divider />
 
        <Grid container spacing={3} sx={{ padding: 2 }}>
+
+<Grid item xs={4} color="#FF0606" 
+          sx={{  fontFamily : "LilyUPC" ,
+           fontWeight : 'bold' ,fontSize:27}}>
+          <p>รหัสแอดมิน</p>
+
+        <FormControl fullWidth variant="outlined">
+        <TextField
+                                variant="outlined"
+                                id="Admin_ID"
+                                type="string"
+                                disabled
+                                value={courses.Admin_ID }
+                                inputProps={{
+                                  name: "Admin_ID",
+                                }}
+                                onChange={handleInputChange}
+                            />
+
+        </FormControl>
+
+        </Grid>
+   
 
        <Grid item xs={4} color="#115686" 
           sx={{  fontFamily : "LilyUPC" ,
@@ -309,6 +352,7 @@ const requestOptionsGet = {
         </FormControl>
 
         </Grid>
+
 
          <Grid item xs={4} color="#115686" 
           sx={{  fontFamily : "LilyUPC" ,

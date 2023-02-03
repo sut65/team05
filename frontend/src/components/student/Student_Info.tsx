@@ -179,6 +179,11 @@ function StudentInfo() {
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Dormitory_ID} </Box>
                         </Grid>
 
+                        <Grid container sx={{}}>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> แอดมินที่เพิ่มข้อมูล </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Admin_ID} </Box>
+                        </Grid>
+
                         <p></p>
 
                         <Divider />

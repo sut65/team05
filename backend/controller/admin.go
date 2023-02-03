@@ -26,14 +26,12 @@ func CreateAdmin(c *gin.Context) {
 // GET /admin/:id
 func GetAdmin(c *gin.Context) {
 	var admin entity.Admin
-	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM admins WHERE id = ?", id).Scan(&admin).Error; err != nil {
-
+	id := c.Param("admin_id")
+	if err := entity.DB().Raw("SELECT * FROM admins WHERE admin_id = ?", id).Find(&admin).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
 		return
-
 	}
+
 	c.JSON(http.StatusOK, gin.H{"data": admin})
 }
 

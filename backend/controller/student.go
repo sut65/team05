@@ -14,6 +14,7 @@ type extendedStudent struct {
 	entity.Student
 	Course_Name    string
 	Dormitory_Name string
+	Admin_Email    string
 }
 
 func CreateStudent(c *gin.Context) {
@@ -44,6 +45,7 @@ func CreateStudent(c *gin.Context) {
 		Datetime:         student.Datetime,
 		Course_ID:        student.Course_ID,
 		Dormitory_ID:     student.Dormitory_ID,
+		Admin_ID:         student.Admin_ID,
 	}
 
 	if err := entity.DB().Create(&student).Error; err != nil {
@@ -62,7 +64,7 @@ func CreateStudent(c *gin.Context) {
 
 func GetStudentSearch(c *gin.Context) {
 
-	var student extendedStudent
+	var student []extendedStudent
 
 	id := c.Param("student_id")
 
@@ -75,7 +77,6 @@ func GetStudentSearch(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": student})
-
 }
 
 func GetStudent(c *gin.Context) {
@@ -139,7 +140,7 @@ func UpdateStudents(c *gin.Context) {
 	var updated_Student_password = student.Student_Password
 	var updated_Dormitory_name = student.Dormitory_ID
 	var updated_Course_name = student.Course_ID
-
+	var updated_Admin_name = student.Admin_ID
 	var updated_Datetime = student.Datetime
 	// var updated_Qualification_ID = course.Qualification_ID
 	// var updated_Major_ID = course.Major_ID
@@ -165,6 +166,7 @@ func UpdateStudents(c *gin.Context) {
 		Datetime:         updated_Datetime,
 		Course_ID:        updated_Course_name,
 		Dormitory_ID:     updated_Dormitory_name,
+		Admin_ID:         updated_Admin_name,
 	}
 
 	if err := entity.DB().Save(&updated_student).Error; err != nil {

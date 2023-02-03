@@ -120,6 +120,9 @@ function Student_Update() {
         let data = {
           Student_ID: students.Student_ID ?? "",
 
+          Admin_ID: students.Admin_ID ?? "",
+
+
           Student_Name: students.Student_Name ?? "",
       
           Student_Password: students.Student_Password ?? "",
@@ -236,6 +239,32 @@ function Student_Update() {
           <Divider />
    
           <Grid container spacing={3} sx={{ padding: 2 }}>
+
+          <Grid item xs={4} color="#FF0606" 
+          sx={{  fontFamily : "LilyUPC" ,
+           fontWeight : 'bold' ,fontSize:27}}>
+          <p>รหัสแอดมิน</p>
+
+        <FormControl fullWidth variant="outlined">
+        <TextField
+   
+               id="Admin_ID"
+   
+               variant="outlined"
+   
+               type="string"
+   
+               size="medium"
+   
+               value={students.Admin_ID || ""}
+   
+               onChange={handleInputChange}
+   
+             />
+
+        </FormControl>
+
+        </Grid>
    
           <Grid item xs={4} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,

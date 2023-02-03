@@ -51,6 +51,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import AddIcon from '@mui/icons-material/Add';
 
+import { AdminInterface } from "../../models/I_Admin";
+
+
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
@@ -120,6 +123,20 @@ function StudentCreate() {
     [name]: event.target.value,
   });
 };
+const getAdminID = async () => {
+  let uid = localStorage.getItem("id");
+
+  fetch(`${apiUrl}/admin/${uid}`, requestOptionsGet)
+      .then((response) => response.json())
+      .then((res) => {
+          if (res.data) {
+              students.Admin_ID = res.data.Admin_ID
+
+          } else {
+              console.log("else");
+          }
+      });
+};
 
 const apiUrl = "http://localhost:8080";
 const requestOptionsGet = {
@@ -160,10 +177,6 @@ const requestOptionsGet = {
         });
       }
 
-      useEffect(() => {
-      getCourses();
-      getDormitorys();
-          }, []);
 
 
 
@@ -172,6 +185,8 @@ const requestOptionsGet = {
    let data = {
 
     Student_ID: students.Student_ID ?? "",
+
+    Admin_ID: students.Admin_ID ?? "",
 
     Student_Name: students.Student_Name ?? "",
 
@@ -200,6 +215,7 @@ const requestOptionsGet = {
      body: JSON.stringify(data),
 
    };
+   
 
 
    fetch(apiUrl, requestOptions)
@@ -221,6 +237,11 @@ const requestOptionsGet = {
      });
 
  }
+ useEffect(() => {
+  getCourses();
+  getDormitorys();
+  getAdminID();
+      }, []);
 
 
  return (
@@ -300,6 +321,28 @@ const requestOptionsGet = {
        <Divider />
 
        <Grid container spacing={3} sx={{ padding: 2 }}>
+
+       <Grid item xs={4} color="#FF0606" 
+          sx={{  fontFamily : "LilyUPC" ,
+           fontWeight : 'bold' ,fontSize:27}}>
+          <p>รหัสแอดมิน</p>
+
+        <FormControl fullWidth variant="outlined">
+        <TextField
+                                variant="outlined"
+                                id="Admin_ID"
+                                type="string"
+                                disabled
+                                value={students.Admin_ID }
+                                inputProps={{
+                                  name: "Admin_ID",
+                                }}
+                                onChange={handleInputChange}
+                            />
+
+        </FormControl>
+
+        </Grid>
 
        <Grid item xs={4} color="#115686" 
           sx={{  fontFamily : "LilyUPC" ,

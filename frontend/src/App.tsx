@@ -91,8 +91,8 @@ export default function App() {
 
                             {/* Student Path */}
                             <Route path="/student" element={<Student_List />} />
-                            <Route path="/student/:student_id" element={<Student_Info />} />
                             <Route path="/student/student_create" element={<Student_Create />} />
+                            <Route path="/student/:student_id" element={<Student_Info />} />
                             <Route path="/student/update/:student_id" element={<Student_Update />} />
 
                             {/* Subject Path */}

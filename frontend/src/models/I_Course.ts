@@ -23,6 +23,7 @@ export interface Course {
 
 
     Admin_ID: string;
+    Admin_Email: string;
     Admin: AdminInterface
     
 

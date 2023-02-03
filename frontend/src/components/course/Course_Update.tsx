@@ -28,6 +28,8 @@ function Class_Schedule_Update() {
     let [course, setCourse] = React.useState<Partial<Course>>({});
     const [major, setMajor] = React.useState<MajorsInterface[]>([]);
     const [qualification, setQualification] = React.useState<QualificationsInterface[]>([]);
+    const [admins, setAdmins] = React.useState<AdminInterface[]>([]);
+
 
     const [course_id, setCourseID] = React.useState<string>();
     const [success, setSuccess] = React.useState(false);
@@ -74,6 +76,19 @@ function Class_Schedule_Update() {
         });
 
     };
+
+    const getAdmins = async () => {
+      fetch(`${apiUrl}/admins`, requestOptionsGet)
+          .then((response) => response.json())
+          .then((res) => {
+              if (res.data) {
+                  console.log(res.data)
+                  setAdmins(res.data);
+              } else {
+                  console.log("else");
+              }
+          });
+        }
     
 
     const getCourse = async () => {
@@ -119,6 +134,7 @@ function Class_Schedule_Update() {
     useEffect(() => {
       getMajor();
       getQualifications();
+      getAdmins();
       getSendedCourse();
   }, []);
 
@@ -239,31 +255,38 @@ function Class_Schedule_Update() {
           <Divider />
    
           <Grid container spacing={3} sx={{ padding: 2 }}>
-          <Grid item xs={4} color="#FF0606" 
-          sx={{  fontFamily : "LilyUPC" ,
-           fontWeight : 'bold' ,fontSize:27}}>
-          <p>รหัสแอดมิน</p>
 
-        <FormControl fullWidth variant="outlined">
-        <TextField
+          <Grid item xs={6} color="#115686" 
+             sx={{  fontFamily : "LilyUPC" ,
+              fontWeight : 'bold' ,fontSize:27}}>
+               <FormControl fullWidth variant="outlined">
+                 
+                 <p>แอดมินที่จัดการข้อมูล</p>
+                 <Select
+                                   variant="standard"
+                                   id="Admin_ID"
+                                   value={course.Admin_ID}
+                                   onChange={handleSelectChange}
+                                   inputProps={{
+                                       name: "Admin_ID",
+                                       style: {
+                                           fontFamily: 'LilyUPC'
+                                       }
+                                   }}
    
-               id="Admin_ID"
-   
-               variant="outlined"
-   
-               type="string"
-   
-               size="medium"
-   
-               value={course.Admin_ID || ""}
-   
-               onChange={handleInputChange}
-   
-             />
-
-        </FormControl>
-
-        </Grid>
+                               >
+                                   {admins.map((item: AdminInterface) => (
+                                       <MenuItem
+                                           value={item.Admin_ID}
+                                           key={item.Admin_ID}
+                                       >
+                                           {item.Admin_Email}
+                                       </MenuItem>
+                                   ))}
+                               </Select>
+                   
+               </FormControl>
+             </Grid>
    
           <Grid item xs={4} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,

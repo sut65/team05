@@ -26,6 +26,7 @@ export interface StudentsInterface {
 
     
     Admin_ID: string;
+    Admin_Email: string;
     Admin: AdminInterface
     
 

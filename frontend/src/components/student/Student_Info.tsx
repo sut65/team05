@@ -23,9 +23,11 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import SendIcon from '@mui/icons-material/Send';
 
 import FolderIcon from '@mui/icons-material/Folder';
-import { Divider, Grid, Paper, Stack, TextField } from "@mui/material";
+import { Divider, Grid, Paper, Stack, Table, TableBody, TableCell, TableFooter, TableHead, TableRow, TextField, styled, tableCellClasses } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Users from "./Student_List";
+import TableContainer from "@mui/material/TableContainer";
+
 
 import CreateIcon from '@mui/icons-material/Create';
 
@@ -33,6 +35,9 @@ function StudentInfo() {
     const [students, setStudents] = React.useState<Partial<StudentsInterface>>({});
     const params = useParams();
     const navigate = useNavigate();
+   
+
+    
 
     const apiUrl = "http://localhost:8080";
 
@@ -60,7 +65,7 @@ function StudentInfo() {
                 "Content-Type": "application/json",
               },
         };
-        fetch(`${apiUrl}/students/${params.student_id}`, requestOptions)
+        fetch(`${apiUrl}/student/${params.student_id}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
       
@@ -93,7 +98,7 @@ function StudentInfo() {
     }
 
     useEffect(() => {
-            getStudents()
+        getStudents()
     }, []);
 
     return (
@@ -144,15 +149,7 @@ function StudentInfo() {
                         }}>
                         
                     
-                        {/* <TextField
-                        disabled
-                        id="Student_ID"
-                        variant="outlined"
-                        type="string"
-                        defaultValue={students?.Student_ID}
-                        value={students?.Course_ID}
-                        onChange={handleInputChange}
-                        /> */}
+                       
                         <Grid container sx={{}}>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> รหัสนักศึกษา </Box>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Student_ID} </Box>
@@ -179,10 +176,14 @@ function StudentInfo() {
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Dormitory_ID} </Box>
                         </Grid>
 
-                        <Grid container sx={{}}>
+                        <Grid container sx={{}} key={students.Admin_Email}>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> แอดมินที่เพิ่มข้อมูล </Box>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Admin_ID} </Box>
                         </Grid>
+
+                      
+                        
+                        
 
                         <p></p>
 

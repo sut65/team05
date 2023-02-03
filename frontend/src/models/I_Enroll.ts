@@ -1,8 +1,12 @@
 import { Course } from "./I_Course"
 import { Subject } from "./I_Subject";
+import { StudentsInterface } from "./I_Student";
 export interface EnrollInterface {
 
     Enroll_ID: string,
+
+    Student_ID: string,
+
 
     Coruse_Name: string,
     coruse: Course;
@@ -30,6 +34,9 @@ export interface EnrollInterface {
    
     Exam_Schedule_ID: string;
 
+    Exam_Date: string
+    Exam_Start_Time: string
+	Exam_End_Time: string
     Class_Schedule_ID: string;
 
     Section: number;
@@ -51,7 +58,7 @@ export interface extendedEnrollSubjectInterface {
     Subject_TH_Name: string
 	Subject_EN_Name: string
     Unit: string
-
+    Student_ID: string,
     Exam_Schedule_ID: string
     Exam_Type: string
     Exam_Date: string

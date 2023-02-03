@@ -146,7 +146,7 @@ function ListEnroll() {
 
               component={RouterLink}
 
-              to="/create"
+              to="/enroll_create"
 
               variant="contained"
 
@@ -170,8 +170,8 @@ function ListEnroll() {
                   <TableCell align="left">เริ่มเรียน</TableCell>
                   <TableCell align="left">เลิกเรียน</TableCell>
                   <TableCell align="left">วันสอบ</TableCell>
-                  {/* <TableCell align="left">เริ่มสอบ</TableCell>
-                  <TableCell align="left">เลิกสอบ</TableCell> */}
+                  <TableCell align="left">เริ่มสอบ</TableCell>
+                  <TableCell align="left">เลิกสอบ</TableCell>
                   <TableCell align="left">หน่วยกิต</TableCell>
                   <TableCell align="left">กลุ่ม</TableCell>
                   <TableCell align="center">ลบ</TableCell>
@@ -197,9 +197,10 @@ function ListEnroll() {
                     <TableCell align="left">{row.Day}</TableCell>
                     <TableCell align="left">{row.Start_Time}</TableCell>
                     <TableCell align="left">{row.End_Time}</TableCell>
-                    <TableCell align="left">{row.Exam_Schedule_ID}</TableCell>
-                    {/* <TableCell align="left">{row.Exa}</TableCell>
-                    <TableCell align="left">{row.Exam_End_Time}</TableCell> */}
+                    <TableCell align="left">{row.Exam_Date}</TableCell>
+                
+                    <TableCell align="left">{row.Exam_Start_Time}</TableCell>
+                    <TableCell align="left">{row.Exam_End_Time}</TableCell>
                     <TableCell align="left">{row.Unit}</TableCell>
                     <TableCell align="left">{row.Section}</TableCell>
                     <TableCell align="center">

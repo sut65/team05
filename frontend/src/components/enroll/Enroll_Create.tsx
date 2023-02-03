@@ -90,6 +90,16 @@ function CreateEnroll() {
     setError(false);
   };
 
+  
+  const handleInputChange = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof CreateEnroll;
+    const { value } = event.target;
+    setEnroll({ ...enroll, [id]: value });
+    console.log(event.target.value);
+  };
+
   const handleInputChangeSearch = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
@@ -203,6 +213,7 @@ function CreateEnroll() {
         }
       });
   };
+
   const getSubjectBySubjectID = async (subject_id: any) => {
     const requestOptions = {
       method: "GET",
@@ -249,7 +260,7 @@ function CreateEnroll() {
   function submit() {
     let data = {
       Enroll_ID: enroll.Enroll_ID ?? "",
-      // Student_ID:
+      Student_ID: enroll.Student_ID ?? "",
       Subject_ID: enroll.Subject_ID ?? "",
       Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
       Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
@@ -350,6 +361,20 @@ function CreateEnroll() {
                     </MenuItem>
                   ))}
                 </Select>
+              </Box>
+            </Grid>
+            <Grid >
+
+              <Box
+                component="form"
+                sx={{ '& .MuiTextField-root': { m: 1, width: '30ch' }, marginTop: -1, paddingLeft: 45, }}>
+                <TextField
+                  id="Student_ID"
+                  label="กรอกรหัสนักศึกษา"
+                  variant="outlined"
+                  value={enroll.Student_ID}
+                  onChange={handleInputChange}
+                />
               </Box>
             </Grid>
           </Grid>

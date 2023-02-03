@@ -58,7 +58,7 @@ func main() {
 			// ++++++++++++++++++ Student Routes ++++++++++++++++++++++++
 			api.GET("/students", controller.ListStudents)
 			api.GET("/students/:student_id", controller.GetStudentSearch)
-			api.GET("/student/:course_id", controller.GetStudent)
+			api.GET("/student/:student_id", controller.GetStudent)
 			api.POST("/students", controller.CreateStudent)
 			api.DELETE("/students/:student_id", controller.DeleteStudents)
 			api.PATCH("/students", controller.UpdateStudents)

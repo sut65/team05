@@ -83,9 +83,9 @@ func GetStudent(c *gin.Context) {
 
 	var student entity.Student
 
-	id := c.Param("student_id")
+	student_id := c.Param("student_id")
 
-	if err := entity.DB().Raw("SELECT s.* , c.course_name , d.dormitory_name FROM students s JOIN courses c JOIN dormitories d ON s.course_id = c.course_id AND s.dormitory_id = d.dormitory_id  WHERE student_id = ?", id).Find(&student).Error; err != nil {
+	if err := entity.DB().Raw("SELECT s.* , c.course_name , a.admin_email, d.dormitory_name FROM students s JOIN courses c JOIN dormitories d JOIN admins a ON s.course_id = c.course_id AND s.dormitory_id = d.dormitory_id AND s.admin_id = a.admin_id WHERE student_id = ?", student_id).Find(&student).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 

@@ -18,6 +18,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Link as RouterLink } from "react-router-dom";
+import { AdminInterface } from "../../models/I_Admin";
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -28,6 +29,7 @@ function Student_Update() {
     let [students, setStudents] = React.useState<Partial<StudentsInterface>>({});
     const [courses, setCourses] = React.useState<Course[]>([]);
     const [dormitorys, setDormitorys] = React.useState<DormitorysInterface[]>([]);
+    const [admins, setAdmins] = React.useState<AdminInterface[]>([]);
 
     const [student_id, setStudentID] = React.useState<string>();
     const [success, setSuccess] = React.useState(false);
@@ -54,7 +56,18 @@ function Student_Update() {
           "Content-Type": "application/json",
         },
     };
-
+     const getAdmins = async () => {
+      fetch(`${apiUrl}/admins`, requestOptionsGet)
+          .then((response) => response.json())
+          .then((res) => {
+              if (res.data) {
+                  console.log(res.data)
+                  setAdmins(res.data);
+              } else {
+                  console.log("else");
+              }
+          });
+        }
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: unknown }>
     ) => {
@@ -76,14 +89,14 @@ function Student_Update() {
     };
 
     const getStudents = async () => {
-        fetch(`${apiUrl}/student/${students.Student_ID}`, requestOptionsGet)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    setStudents(res.data);
-                }
-            });
-    };
+      fetch(`${apiUrl}/student/${students.Student_ID}`, requestOptionsGet)
+          .then((response) => response.json())
+          .then((res) => {
+              if (res.data) {
+                  setStudents(res.data);
+              }
+          });
+  };
 
     const getCourse = async () => {
         fetch(`${apiUrl}/courses`, requestOptionsGet)
@@ -105,7 +118,7 @@ function Student_Update() {
     };
 
     const getSendedStudent = async () => {
-        fetch(`${apiUrl}/students/${params.student_id}`, requestOptionsGet)
+        fetch(`${apiUrl}/student/${params.student_id}`, requestOptionsGet)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -160,6 +173,7 @@ function Student_Update() {
         getStudents();
         getDormitorys();
         getCourse();
+        getAdmins();
         getSendedStudent();
     }, []);
 
@@ -239,32 +253,37 @@ function Student_Update() {
           <Divider />
    
           <Grid container spacing={3} sx={{ padding: 2 }}>
-
-          <Grid item xs={4} color="#FF0606" 
-          sx={{  fontFamily : "LilyUPC" ,
-           fontWeight : 'bold' ,fontSize:27}}>
-          <p>รหัสแอดมิน</p>
-
-        <FormControl fullWidth variant="outlined">
-        <TextField
+<Grid item xs={6} color="#115686" 
+             sx={{  fontFamily : "LilyUPC" ,
+              fontWeight : 'bold' ,fontSize:27}}>
+               <FormControl fullWidth variant="outlined">
+                 
+                 <p>แอดมินที่จัดการข้อมูล</p>
+                 <Select
+                                   variant="standard"
+                                   id="Admin_ID"
+                                   value={students.Admin_ID}
+                                   onChange={handleSelectChange}
+                                   inputProps={{
+                                       name: "Admin_ID",
+                                       style: {
+                                           fontFamily: 'LilyUPC'
+                                       }
+                                   }}
    
-               id="Admin_ID"
-   
-               variant="outlined"
-   
-               type="string"
-   
-               size="medium"
-   
-               value={students.Admin_ID || ""}
-   
-               onChange={handleInputChange}
-   
-             />
-
-        </FormControl>
-
-        </Grid>
+                               >
+                                   {admins.map((item: AdminInterface) => (
+                                       <MenuItem
+                                           value={item.Admin_ID}
+                                           key={item.Admin_ID}
+                                       >
+                                           {item.Admin_Email}
+                                       </MenuItem>
+                                   ))}
+                               </Select>
+                   
+               </FormControl>
+             </Grid>
    
           <Grid item xs={4} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,

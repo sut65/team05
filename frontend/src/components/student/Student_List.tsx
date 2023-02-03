@@ -239,17 +239,14 @@ function Students_List() {
                             </TableHead>
 
                             <TableBody>
-                                {(rowsPerPage > 0
-                                    ? students.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    : students
-                                ).map((row) => (
+                                {(rowsPerPage > 0 ? students.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage): students).map((row) => (
                                     <StyledTableRow key={row.Student_ID}>
                                         <TableCell>{row.Student_ID}</TableCell>
                                         <TableCell>{row.Student_Name}</TableCell>
                                         <TableCell>{row.Student_Password}</TableCell>
                                         <TableCell>{row.Datetime}</TableCell>
-                                        <TableCell>{row.Dormitory_Name}</TableCell>
-                                        <TableCell>{row.Course_Name}</TableCell>
+                                        <TableCell>{row.Dormitory_ID}</TableCell>
+                                        <TableCell>{row.Course_ID}</TableCell>
                                         <TableCell>{row.Admin_ID}</TableCell>
                                         <TableCell>
                                             <Button

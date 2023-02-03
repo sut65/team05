@@ -27,12 +27,12 @@ func Authorizes() gin.HandlerFunc {
 			return
 		}
 
-		jwtWrapper := service.Admin_JwtWrapper{
+		jwtWrapper := service.JwtWrapper{
 			SecretKey: "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
 			Issuer:    "AuthService",
 		}
 
-		claims, err := jwtWrapper.ValidateAdminToken(clientToken)
+		claims, err := jwtWrapper.ValidateToken(clientToken)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 			return

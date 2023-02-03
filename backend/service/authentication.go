@@ -7,22 +7,23 @@ import (
 )
 
 // JwtWrapper wraps the signing key and the issuer
-type Student_JwtWrapper struct {
+type JwtWrapper struct {
 	SecretKey       string
 	Issuer          string
 	ExpirationHours int64
 }
 
 // JwtClaim adds std_id as a claim to the token
-type Student_JwtClaim struct {
-	Student_ID string
+type JwtClaim struct {
+	ID string
+	// Role_ID    string
 	jwt.RegisteredClaims
 }
 
 // Generate Token generates a jwt token
-func (j *Student_JwtWrapper) GenerateStudentToken(student_id string) (signedToken string, err error) {
-	claims := &Student_JwtClaim{
-		Student_ID: student_id,
+func (j *JwtWrapper) GenerateToken(id string) (signedToken string, err error) {
+	claims := &JwtClaim{
+		ID: id,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer: j.Issuer,
 		},
@@ -37,10 +38,10 @@ func (j *Student_JwtWrapper) GenerateStudentToken(student_id string) (signedToke
 }
 
 // Validate Token validates the jwt token
-func (j *Student_JwtWrapper) ValidateStudentToken(signedToken string) (claims *Student_JwtClaim, err error) {
+func (j *JwtWrapper) ValidateToken(signedToken string) (claims *JwtClaim, err error) {
 	token, err := jwt.ParseWithClaims(
 		signedToken,
-		&Student_JwtClaim{},
+		&JwtClaim{},
 		func(token *jwt.Token) (interface{}, error) {
 			return []byte(j.SecretKey), nil
 		},
@@ -50,7 +51,7 @@ func (j *Student_JwtWrapper) ValidateStudentToken(signedToken string) (claims *S
 		return
 	}
 
-	claims, ok := token.Claims.(*Student_JwtClaim)
+	claims, ok := token.Claims.(*JwtClaim)
 	if !ok {
 		err = errors.New("couldn't parse claims")
 		return

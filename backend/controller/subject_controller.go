@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/B6025212/team05/entity"
-
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -104,6 +104,10 @@ func CreateSubject(c *gin.Context) {
 		Reserved_Enroll:  subject.Reserved_Enroll,
 		Unit:             subject.Unit,
 		Section:          subject.Section,
+	}
+	if _, err := govalidator.ValidateStruct(new_subject); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	// บันทึก entity Subject

@@ -1,5 +1,7 @@
 import { DormitorysInterface } from "./I_Dormitory";
 import { Course } from "./I_Course";
+import { AdminInterface } from "./I_Admin";
+
 
 
 
@@ -21,6 +23,10 @@ export interface StudentsInterface {
     Dormitory_ID: string;
     Dormitory_Name: string;
     Dormitory: DormitorysInterface
+
+    
+    Admin_ID: string;
+    Admin: AdminInterface
     
 
    }

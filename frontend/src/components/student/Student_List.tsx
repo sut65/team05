@@ -104,10 +104,8 @@ function Students_List() {
         fetch(`${apiUrl}/students`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
-                console.log(res)
                 if (res.data) {
                     setStudents(res.data);
-                    // console.log(res.data);
                 }
             });
     };
@@ -235,6 +233,8 @@ function Students_List() {
                                     <StyledTableCell width={100} sx={{ border: 1 }}>วันที่เพิ่ม</StyledTableCell>
                                     <StyledTableCell width={100} sx={{ border: 1 }}>หอพัก</StyledTableCell>
                                     <StyledTableCell width={150} sx={{ border: 1 }}>หลักสูตร</StyledTableCell>
+                                    <StyledTableCell width={150} sx={{ border: 1 }}>แอดมิน</StyledTableCell>
+
                                 </TableRow>
                             </TableHead>
 
@@ -250,6 +250,7 @@ function Students_List() {
                                         <TableCell>{row.Datetime}</TableCell>
                                         <TableCell>{row.Dormitory_Name}</TableCell>
                                         <TableCell>{row.Course_Name}</TableCell>
+                                        <TableCell>{row.Admin_ID}</TableCell>
                                         <TableCell>
                                             <Button
                                                 variant="contained"

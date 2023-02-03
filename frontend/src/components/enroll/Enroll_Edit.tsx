@@ -88,6 +88,15 @@ function UpdateEnroll() {
         setPage(0);
     };
 
+    const handleInputChange = (
+        event: React.ChangeEvent<{ id?: string; value: any }>
+      ) => {
+        const id = event.target.id as keyof typeof UpdateEnroll;
+        const { value } = event.target;
+        setEnroll({ ...enroll, [id]: value });
+        console.log(event.target.value);
+      };
+
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
 
@@ -158,8 +167,8 @@ function UpdateEnroll() {
 
     function submitUpdate() {
         let data = {
+            Student_ID: enroll.Student_ID ?? "",
             Enroll_ID: enroll.Enroll_ID ?? "",
-            // Student_ID:
             Subject_ID: enroll.Subject_ID ?? "",
             Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
             Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
@@ -235,6 +244,20 @@ function UpdateEnroll() {
                                 ลงทะเบียนรายวิชา
                             </Typography>
                         </Box>
+                        <Grid >
+                            <p style={{ paddingLeft: 370, }}>กรอกรหัสนักศึกษา</p>
+                            <Box
+                                component="form"
+                                sx={{ '& .MuiTextField-root': { m: 1, width: '30ch' }, marginTop: -1, paddingLeft: 45, }}>
+                                <TextField
+                                    id="Student_ID"
+                                    label="กรอกรหัสนักศึกษา"
+                                    variant="outlined"
+                                    value={enroll.Student_ID}
+                                    onChange={handleInputChange}
+                                />
+                            </Box>
+                        </Grid>
 
                     </Box>
                 </Grid>

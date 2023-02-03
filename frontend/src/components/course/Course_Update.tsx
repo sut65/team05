@@ -16,6 +16,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Link as RouterLink } from "react-router-dom";
+import { AdminInterface } from "../../models/I_Admin";
+
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -72,6 +74,7 @@ function Class_Schedule_Update() {
         });
 
     };
+    
 
     const getCourse = async () => {
         fetch(`${apiUrl}/course/${course.Course_ID}`, requestOptionsGet)
@@ -122,6 +125,9 @@ function Class_Schedule_Update() {
 
     function submit() {
         let data = {
+
+            Admin_ID: course.Admin_ID ?? "",
+          
             Course_ID: course.Course_ID ?? "",
 
             Course_Name: course.Course_Name ?? "",
@@ -233,6 +239,31 @@ function Class_Schedule_Update() {
           <Divider />
    
           <Grid container spacing={3} sx={{ padding: 2 }}>
+          <Grid item xs={4} color="#FF0606" 
+          sx={{  fontFamily : "LilyUPC" ,
+           fontWeight : 'bold' ,fontSize:27}}>
+          <p>รหัสแอดมิน</p>
+
+        <FormControl fullWidth variant="outlined">
+        <TextField
+   
+               id="Admin_ID"
+   
+               variant="outlined"
+   
+               type="string"
+   
+               size="medium"
+   
+               value={course.Admin_ID || ""}
+   
+               onChange={handleInputChange}
+   
+             />
+
+        </FormControl>
+
+        </Grid>
    
           <Grid item xs={4} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,
@@ -380,7 +411,7 @@ function Class_Schedule_Update() {
    
             <Grid item xs={12}>
    
-              <Button component={RouterLink} to="/" variant="contained" color="warning">
+              <Button component={RouterLink} to="/course" variant="contained" color="warning">
    
               <ArrowBackIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
    

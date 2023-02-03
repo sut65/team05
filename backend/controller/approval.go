@@ -85,7 +85,7 @@ func ListApproval(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	// 	return
 	// }
-	query := entity.DB().Raw("SELECT a.*, s.*, at.*,c.*,p.* FROM approvals a JOIN requests r JOIN approval_types at JOIN courses c JOIN professors p JOIN subjects s ON a.request_id = r.request_id AND  r.subject_id = s.subject_id AND   s.section = r.section AND   a.approval_type_id = at.approval_type_id AND s.course_id = c.course_id AND p.id = s.professor_id").Scan(&extendedApproval)
+	query := entity.DB().Raw("SELECT a.*, s.*, at.*,c.*,p.* FROM approvals a JOIN requests r JOIN approval_types at JOIN courses c JOIN professors p JOIN subjects s ON a.request_id = r.request_id AND  r.subject_id = s.subject_id AND   s.section = r.section AND   a.approval_type_id = at.approval_type_id AND s.course_id = c.course_id AND s.professor_id = p.id").Scan(&extendedApproval)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

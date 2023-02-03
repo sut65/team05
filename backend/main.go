@@ -125,7 +125,7 @@ func main() {
 
 			// // Admin Routes
 			api.GET("/admins", controller.ListAdmins)
-			api.GET("/admin/:id", controller.GetAdmin)
+			api.GET("/admin/:admin_id", controller.GetAdmin)
 			api.POST("/admins", controller.CreateAdmin)
 
 			// // Professor Routes

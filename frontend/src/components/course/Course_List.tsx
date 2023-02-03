@@ -229,6 +229,7 @@ function Course_Lists() {
                                     <StyledTableCell width={100} sx={{ border: 1 }}>วันที่</StyledTableCell>
                                     <StyledTableCell width={100} sx={{ border: 1 }}>วุฒิ</StyledTableCell>
                                     <StyledTableCell width={50} sx={{ border: 1 }}>สาขา</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1 }}>แอดมินที่จัดการข้อมูล</StyledTableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -243,6 +244,7 @@ function Course_Lists() {
                                         <TableCell>{row.Datetime}</TableCell>
                                         <TableCell>{row.Qualification_Name}</TableCell>
                                         <TableCell>{row.Major_Name}</TableCell>
+                                        <TableCell>{row.Admin_ID}</TableCell>
                                         <TableCell>
                                             <Button
                                                 variant="contained"

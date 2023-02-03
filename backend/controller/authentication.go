@@ -49,13 +49,13 @@ func Login(c *gin.Context) {
 			return
 		}
 
-		jwtWrapper := service.Admin_JwtWrapper{
+		jwtWrapper := service.JwtWrapper{
 			SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
 			Issuer:          "AuthService",
 			ExpirationHours: 24,
 		}
 
-		signedToken, err := jwtWrapper.GenerateAdminToken(admin.Admin_ID)
+		signedToken, err := jwtWrapper.GenerateToken(admin.Admin_ID)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
 			return
@@ -77,13 +77,13 @@ func Login(c *gin.Context) {
 			return
 		}
 
-		jwtWrapper := service.Student_JwtWrapper{
-			SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzBVa",
+		jwtWrapper := service.JwtWrapper{
+			SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
 			Issuer:          "AuthService",
 			ExpirationHours: 24,
 		}
 
-		signedToken, err := jwtWrapper.GenerateStudentToken(student.Student_ID)
+		signedToken, err := jwtWrapper.GenerateToken(student.Student_ID)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
 			return
@@ -104,13 +104,13 @@ func Login(c *gin.Context) {
 			return
 		}
 
-		jwtWrapper := service.Professor_JwtWrapper{
-			SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFEE",
+		jwtWrapper := service.JwtWrapper{
+			SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
 			Issuer:          "AuthService",
 			ExpirationHours: 24,
 		}
 
-		signedToken, err := jwtWrapper.GenerateProfessorToken(professor.Professor_ID)
+		signedToken, err := jwtWrapper.GenerateToken(professor.Professor_ID)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
 			return

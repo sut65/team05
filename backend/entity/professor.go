@@ -36,5 +36,6 @@ type Professor struct {
 	MajorID *string
 	Major   Major `gorm:"references:Major_ID"`
 
-	Subjects []Subject `gorm:"foreignKey:Professor_ID"`
+	Subjects  []Subject  `gorm:"foreignKey:Professor_ID"`
+	Approvals []Approval `gorm:"foreignKey:Professor_ID"`
 }

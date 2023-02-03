@@ -1,5 +1,7 @@
 import { QualificationsInterface } from "./I_Qualification";
 import { MajorsInterface } from "./I_Major";
+import { AdminInterface } from "./I_Admin";
+
 
 export interface Course {
 
@@ -18,6 +20,10 @@ export interface Course {
     Major_ID: string;
     Major_Name: string;
     Major: MajorsInterface
+
+
+    Admin_ID: string;
+    Admin: AdminInterface
     
 
    }

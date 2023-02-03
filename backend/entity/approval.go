@@ -18,9 +18,9 @@ type Approval struct {
 
 	Reason string
 
-	Professor_ID *uint
-	Professor    Professor `gorm:"references:id"`
-	Section uint
+	Professor_ID *string
+	Professor    Professor `gorm:"references:Professor_ID"`
+	Section      uint
 
 	Request_ID *uint
 	Request    Request `gorm:"references:Request_ID"`

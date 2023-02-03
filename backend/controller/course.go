@@ -139,6 +139,7 @@ func UpdateCourses(c *gin.Context) {
 	var updated_Course_name = course.Course_Name
 	var updated_Qualification_name = course.Qualification_ID
 	var updated_Major_name = course.Major_ID
+	var updated_Admin_name = course.Admin_ID
 	var updated_Datetime = course.Datetime
 	// var updated_Qualification_ID = course.Qualification_ID
 	// var updated_Major_ID = course.Major_ID
@@ -163,6 +164,7 @@ func UpdateCourses(c *gin.Context) {
 		Datetime:         updated_Datetime,
 		Qualification_ID: updated_Qualification_name,
 		Major_ID:         updated_Major_name,
+		Admin_ID:         updated_Admin_name,
 	}
 
 	if err := entity.DB().Save(&updated_course).Error; err != nil {

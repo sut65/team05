@@ -87,7 +87,9 @@ function Approval() {
   const getApprovals = async () => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/approvals`, requestOptions)
       .then((response) => response.json())
@@ -119,7 +121,9 @@ function Approval() {
     console.log("good");
     const requestOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/approval/${approval_id}`, requestOptions)
       .then((response) => response.json())

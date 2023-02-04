@@ -874,6 +874,7 @@ HistoryType1 :=HistoryType{
 		Admin_ID: &admin1.Admin_ID,
 		Date_Time: "02/03/2566_21:35",
 		Unit: 20,
+		Payable: enroll1.Subject.Unit*800,
 		Amounts: 25000,
 	}
 	db.Create(&payment1)
@@ -886,6 +887,7 @@ HistoryType1 :=HistoryType{
 		Receipt_number: "assdf81h6188",
 		Date_Time: "02/03/2566_21:35",
 		Unit: 12,
+		Payable: enroll2.Subject.Unit*800,
 		Amounts: 10000,
 	}
 	db.Create(&payment2)

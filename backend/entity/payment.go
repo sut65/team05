@@ -21,5 +21,6 @@ type Payment struct {
 	Receipt_number string
 	Date_Time string
 	Unit      uint
+	Payable   uint
 	Amounts   uint
 }

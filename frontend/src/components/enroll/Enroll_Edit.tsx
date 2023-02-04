@@ -90,12 +90,12 @@ function UpdateEnroll() {
 
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
-      ) => {
+    ) => {
         const id = event.target.id as keyof typeof UpdateEnroll;
         const { value } = event.target;
         setEnroll({ ...enroll, [id]: value });
         console.log(event.target.value);
-      };
+    };
 
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
@@ -123,7 +123,6 @@ function UpdateEnroll() {
 
 
 
-
     const getcerantEnroll = async () => {
         const apiUrl = "http://localhost:8080";
         const requestOptions = {
@@ -139,6 +138,27 @@ function UpdateEnroll() {
                     // console.log(res.data);
                 }
 
+            });
+    };
+    const getStudent = async () => {
+        const apiUrl = "http://localhost:8080";
+        const requestOptionsGet = {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+            },
+        };
+        let uid = localStorage.getItem("id");
+        fetch(`${apiUrl}/student/${uid}`, requestOptionsGet)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    enroll.Student_ID = res.data.Student_ID;
+                }
+                else {
+                    console.log("else");
+                }
             });
     };
 
@@ -186,7 +206,7 @@ function UpdateEnroll() {
         };
         console.log(JSON.stringify(data));
         const apiUrl = "http://localhost:8080";
-        fetch(`${apiUrl}/enroll/updateenroll`, requestOptionsPatch)
+        fetch(`${apiUrl}/updateenroll`, requestOptionsPatch)
             .then((response) => response.json())
             .then((res) => {
                 console.log(res)
@@ -199,8 +219,9 @@ function UpdateEnroll() {
     }
     useEffect(() => {
         // console.log(params)
-        getcerantEnroll()
-        getSubjectsBySubjectID()
+        getStudent();
+        getcerantEnroll();
+        getSubjectsBySubjectID();
         // console.log(searchSubjectID);
     }, []);
 
@@ -244,20 +265,22 @@ function UpdateEnroll() {
                                 ลงทะเบียนรายวิชา
                             </Typography>
                         </Box>
-                        <Grid >
-                            <p style={{ paddingLeft: 370, }}>กรอกรหัสนักศึกษา</p>
+                        
+                            <Box flexGrow={1}>
+                            </Box>
                             <Box
                                 component="form"
-                                sx={{ '& .MuiTextField-root': { m: 1, width: '30ch' }, marginTop: -1, paddingLeft: 45, }}>
+                                sx={{ '& .MuiTextField-root': { m: 1, width: '15ch' }, marginTop: 0.1, paddingLeft: 45, }}>
                                 <TextField
+                                    disabled
+                                    size="small"
                                     id="Student_ID"
-                                    label="กรอกรหัสนักศึกษา"
                                     variant="outlined"
                                     value={enroll.Student_ID}
                                     onChange={handleInputChange}
                                 />
                             </Box>
-                        </Grid>
+                        
 
                     </Box>
                 </Grid>
@@ -299,7 +322,7 @@ function UpdateEnroll() {
 
                             component={RouterLink}
                             variant="outlined"
-                            to="/"
+                            to="/enroll"
                         >
                             {<ReplyIcon />}
                             กลับ

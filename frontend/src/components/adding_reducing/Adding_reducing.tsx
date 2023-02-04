@@ -33,6 +33,7 @@ function Adding_reducingCreate() {
   const [adding_reducing, setAdding_reducing] = React.useState<Partial<Adding_reducingInterface>>({});
   const [adding_reducings, setAdding_reducings] = React.useState<Adding_reducingInterface[]>([]);
   const [enroll, setEnroll] = React.useState<EnrollInterface[]>([]);
+  // const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchEnrollID, setSearchEnrollID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
@@ -53,28 +54,22 @@ function Adding_reducingCreate() {
     setError(false);
   };
 
-  // const handleInputChange = (
-  //   event: React.ChangeEvent<{ id?: string; value: any }>
-  // ) => {
-  //   const id = event.target.id as keyof typeof Request;
-  //   const { value } = event.target;
-  //   setAdding_reducing({ ...adding_reducing, [id]: value });
-  // };
+ 
 
   const apiUrl = "http://localhost:8080";
 
-  //update
-  const toUpdateRequestPage = () => {
-    navigate({
-      pathname: `/adding_reducings_update/${adding_reducing?.Change_ID}`,
-    });
-    // window.location.reload()
-  };
+  // //update
+  // const toUpdateRequestPage = () => {
+  //   navigate({
+  //     pathname: `/update/${adding_reducing.Change_ID}`,
+  //   });
+  //   // window.location.reload()
+  // };
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - adding_reducings.length) : 0;
 
-  //request
+  //ListAdding_reducing นำค่าจากตารางในdbของaddingมาแสดง
   const getAdding_reducings = async () => {
     const requestOptions = {
       method: "GET",
@@ -91,13 +86,13 @@ function Adding_reducingCreate() {
   };
 
 //จากdb
-    //listenroll
+    //listenroll เพื่อแสดงตาราง
     const getEnroll = async () => {
       const requestOptions = {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       };
-      fetch(`${apiUrl}/enrollsub`, requestOptions)
+      fetch(`${apiUrl}/enroll`, requestOptions)
         .then((response) => response.json())
         .then((res) => {
           if (res.data) {
@@ -106,21 +101,7 @@ function Adding_reducingCreate() {
           }
         });
     };
-  // const [RequestByRequestID, setRequestByRequestID] = React.useState("");
-  //  const getRequestByRequestID = async (request_id: any) => {
-  //    const requestOptions = {
-  //      method: "GET",
-  //      headers: { "Content-Type": "application/json" },
-  //    };
-  //    fetch(`${apiUrl}/request/${request_id}`, requestOptions)
-  //      .then((response) => response.json())
-  //      .then((res) => {
-  //        if (res.data) {
-  //          setRequestByRequestID(request_id);
-  //          setRequest(res.data);
-  //        }
-  //      });
-  //  };
+ 
 //รับค่าจากget enrollมาใช้โดยจะหาจากid enroll
   const getEnrollByEnrollID = async (enroll_id: any) => {
     const approvalOptions = {
@@ -137,27 +118,11 @@ function Adding_reducingCreate() {
       });
   };
 
-  // //delete
-  // const DeleteAdding_reducing= async (change_id: number) => {
-  //   console.log("good");
-  //   const requestOptions = {
-  //     method: "DELETE",
-  //     headers: { "Content-Type": "application/json" },
-  //   };
-  //   fetch(`${apiUrl}/adding_reducing/${change_id}`, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         console.log("Data remove");
-  //         window.location.href = "/";
-  //       } else {
-  //         console.log("Something was wrong!!");
-  //       }
-  //     });
-  // };
+  
 
 
-   //delete
+   //delete ตารางenroll
+
    const DeleteEnroll= async (enroll_id:string) => {
     console.log("good");
     const requestOptions = {
@@ -220,36 +185,7 @@ function Adding_reducingCreate() {
   }, []);
 
 
-  // function submit() {
-  //   let data = {
-  //     Change_ID:
-  //       typeof adding_reducing.Change_ID === "string"
-  //         ? parseInt(adding_reducing.Change_ID)
-  //         : adding_reducing.Change_ID,
-  //     Status: adding_reducing.Status ?? "",
-  //     Subject_ID: adding_reducing.Subject_ID ?? "", 
-  //     Enroll_ID: adding_reducing.Enroll_ID ?? "",
-  //   };
 
-  //   const apiUrl = "http://localhost:8080/requests";
-  //   const requestOptionsPatch = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(data),
-  //   };
-  //   console.log(JSON.stringify(data));
-
-  //   fetch(`${apiUrl}/request`, requestOptionsPatch)
-  //     .then((response) => response.json())
-
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setSuccess(true);
-  //       } else {
-  //         setError(true);
-  //       }
-  //     });
-  // }
 
   return (
     <div>
@@ -319,8 +255,6 @@ function Adding_reducingCreate() {
                 <TableCell align="left">เริ่มเรียน</TableCell>
                 <TableCell align="left">เลิกเรียน</TableCell>
                 <TableCell align="left">วันสอบ</TableCell>
-                {/* <TableCell align="left">เริ่มสอบ</TableCell>
-                <TableCell align="left">เลิกสอบ</TableCell> */}
                 <TableCell align="left">หน่วยกิต</TableCell>
                 <TableCell align="left">กลุ่ม</TableCell>
                 <TableCell align="center">ลบ</TableCell>
@@ -346,9 +280,7 @@ function Adding_reducingCreate() {
                   <TableCell align="left">{row.Day}</TableCell>
                   <TableCell align="left">{row.Start_Time}</TableCell>
                   <TableCell align="left">{row.End_Time}</TableCell>
-                  {/* <TableCell align="left">{row.Exam_Date}</TableCell> */}
-                  {/* <TableCell align="left">{row.Exa}</TableCell>
-                  <TableCell align="left">{row.Exam_End_Time}</TableCell> */}
+                  <TableCell align="left">{row.Exam_Date}</TableCell>
                   <TableCell align="left">{row.Unit}</TableCell>
                   <TableCell align="left">{row.Section}</TableCell>
                   <TableCell align="center">
@@ -357,7 +289,6 @@ function Adding_reducingCreate() {
                      onClick={() => {
                        DeleteEnroll(row.Enroll_ID)
                        console.log(row.Enroll_ID)
-                      //  navigate({ pathname: `/${row.Enroll_ID}` })
                     }
                     }
                     >
@@ -366,10 +297,8 @@ function Adding_reducingCreate() {
                   </TableCell>
                   <TableCell align="center">
                   <IconButton
-                  ///${row.Subject_ID}/${row.Section}
                   onClick={() => {
                     navigate({ pathname: `/updateenroll/${row.Enroll_ID}` })
-                    // navigate({ pathname: `/update/${row.Change_ID}` })
               }}
                   >
                     <ModeEditIcon />
@@ -464,24 +393,12 @@ function Adding_reducingCreate() {
           elevation={3}
           sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
         >
-          {/* <div style={{ height: 300, width: "100%", marginTop: "20px" }}>
-            <DataGrid
-              rows={request}
-              getRowId={(row) => row.Request_ID}
-              columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
-            />
-          </div> */}
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
                    ลำดับ
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    สถานะ
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
                     สถานะประวัติ
@@ -505,29 +422,9 @@ function Adding_reducingCreate() {
                 ).map((row) => (
                   <StyledTableRow key={row.Change_ID}>
                     <TableCell component="th" scope="row" align="center">{row.Change_ID} </TableCell>
-                    <TableCell align="center">{row.Status}</TableCell>
-                    {/* <TableCell align="center">{row.Type_Name}</TableCell> */}
+                    <TableCell align="center">{row.Type_Name}</TableCell>
                     <TableCell align="center">{row.Subject_ID}</TableCell>
-                    <TableCell align="center">{row.Subject_EN_Name}</TableCell>
-{/*                     
-                    <TableCell>
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => DeleteAdding_reducing(row.Change_ID)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell> */}
-                    {/* <TableCell align="center">
-                      <IconButton
-                        aria-label="edit"
-                        onClick={toUpdateRequestPage}
-                        component={RouterLink}
-                        to="/update"
-                      >
-                        <ModeEditIcon />
-                      </IconButton>
-                    </TableCell> */}
+                    <TableCell align="center">{row.Subject_EN_Name}</TableCell>  
                   </StyledTableRow>
                 ))}
                 {emptyRows > 0 && (
@@ -562,16 +459,6 @@ function Adding_reducingCreate() {
               </TableFooter>
             </Table>
           </TableContainer>
-          {/* <Box sx={{ padding: 2 }} textAlign="right">
-        <Button
-          component={RouterLink}
-          to="/create"
-          variant="contained"
-          color="primary"
-        >
-          แก้ไข
-        </Button>
-      </Box> */}
         </Paper>
       </Container>
     </div>

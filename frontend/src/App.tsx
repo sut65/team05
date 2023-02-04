@@ -55,6 +55,10 @@ import CreateEnroll from "./components/enroll/Enroll_Create";
 import ListEnroll from "./components/enroll/Enroll";
 import UpdateEnroll from "./components/enroll/Enroll_Edit";
 
+//adding_reducing
+import CreateAdducing from "./components/adding_reducing/Adding_reducingCreate";
+import ListAdducing from "./components/adding_reducing/Adding_reducing";
+import UpdateAdducing from "./components/adding_reducing/Adding_reducingUpdate";
 // Footer
 import Footer from "./components/pages/Home_Footer";
 
@@ -138,23 +142,45 @@ export default function App() {
         }
         else if (usertype === "student") {
             return (
-                <Router>
-                    <div>
-                        <Routes>
-                            <Route path="/" element={<First_Page />} />
-                            <Route path="/home" element={<Home_Page />} />
-                            <Route path="/request" element={<Request />} />
+              <Router>
+                <div>
+                  <Routes>
+                    <Route path="/" element={<First_Page />} />
+                    <Route path="/home" element={<Home_Page />} />
+                    <Route path="/request" element={<Request />} />
 
-                            <Route path="/request/update/:request_id" element={<RequestUpdate />} />
-                            <Route path="/request/request_create" element={<RequestCreate />} />
+                    <Route
+                      path="/request/update/:request_id"
+                      element={<RequestUpdate />}
+                    />
+                    <Route
+                      path="/request/request_create"
+                      element={<RequestCreate />}
+                    />
 
-                            <Route path="/enroll" element={<ListEnroll />} />
-                            <Route path="/enroll/create_enroll" element={<CreateEnroll />} />
-                            <Route path="/enroll/updateenroll/:enroll_id" element={<UpdateEnroll />} />
-                        </Routes>
-                    </div>
-                </Router>
-            )
+                    <Route path="/enroll" element={<ListEnroll />} />
+                    <Route
+                      path="/enroll/create_enroll"
+                      element={<CreateEnroll />}
+                    />
+                    <Route
+                      path="/enroll/updateenroll/:enroll_id"
+                      element={<UpdateEnroll />}
+                    />
+
+                    <Route path="/adding_reducing" element={<ListAdducing />} />
+                    <Route
+                      path="/adding_reducing/create_adding_reducing"
+                      element={<CreateAdducing />}
+                    />
+                    <Route
+                      path="/adding_reducing/updateenroll/:enroll_id"
+                      element={<UpdateAdducing />}
+                    />
+                  </Routes>
+                </div>
+              </Router>
+            );
         }
         else if (usertype === "professor") {
             return (

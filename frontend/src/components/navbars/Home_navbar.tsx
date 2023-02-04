@@ -176,60 +176,79 @@ function Home_Navbar() {
     }
     if (usertype === "student") {
         return (
-            <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1 }}>
+            <AppBar component="nav" sx={{ bgcolor: "#7CB6D5" }}>
+              <Toolbar>
+                <IconButton
+                  size="large"
+                  edge="start"
+                  aria-label="menu"
+                  onClick={toggleDrawerOpen}
+                  sx={{ mr: 2 }}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography
+                  component="div"
+                  sx={{
+                    color: "black",
+                    flexGrow: 1,
+                    fontFamily: "LilyUPC",
+                    fontSize: 36,
+                  }}
+                >
+                  {" "}
+                  ระบบลงทะเบียนเรียน{" "}
+                </Typography>
+              </Toolbar>
+            </AppBar>
 
-                <AppBar component="nav" sx={{ bgcolor: "#7CB6D5" }}>
-                    <Toolbar>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            aria-label="menu"
-                            onClick={toggleDrawerOpen}
-                            sx={{ mr: 2 }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography component="div" sx={{ color: 'black', flexGrow: 1, fontFamily: 'LilyUPC', fontSize: 36 }}> ระบบลงทะเบียนเรียน </Typography>
+            <Drawer open={open} onClose={toggleDrawerClose}>
+              <Box
+                style={{
+                  backgroundImage:
+                    "url(https://free4kwallpapers.com/uploads/originals/2018/05/22/japan-street-club-by-arseniy-chebynkin-wallpaper.jpg)",
+                }}
+              ></Box>
+              <Box width={"300px"}>
+                <Grid>
+                  <Typography variant="h5" color="primary" sx={{ ml: 2 }}>
+                    {" "}
+                    ระบบต่างๆ{" "}
+                  </Typography>
+                </Grid>
 
+                <Divider />
 
-                    </Toolbar>
-                </AppBar>
+                <List>
+                  <Box flex={1} sx={{ padding: 2 }}>
+                    <FormControl fullWidth>
+                      <Button
+                        onClick={() => {
+                          localStorage.clear();
+                          window.location.reload();
+                        }}
+                        component={RouterLink}
+                        to="/home"
+                        variant="contained"
+                      >
+                        {" "}
+                        ออกจากระบบ{" "}
+                      </Button>
+                    </FormControl>
+                  </Box>
+                  <ListItem disablePadding>
+                    <ListItemButton component={RouterLink} to="/">
+                      <ListItemText
+                        primary="หน้าหลัก"
+                        onClick={() => {
+                          page_navigate({ pathname: `/` });
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
 
-                <Drawer open={open} onClose={toggleDrawerClose}>
-                    <Box style={{
-                        backgroundImage: "url(https://free4kwallpapers.com/uploads/originals/2018/05/22/japan-street-club-by-arseniy-chebynkin-wallpaper.jpg)",
-                    }}></Box>
-                    <Box width={'300px'}>
-                        <Grid>
-                            <Typography variant="h5" color="primary" sx={{ ml: 2 }} > ระบบต่างๆ </Typography>
-                        </Grid>
-
-                        <Divider />
-
-                        <List>
-                            <Box flex={1} sx={{ padding: 2 }}>
-                                <FormControl fullWidth>
-                                    <Button
-                                        onClick={() => {
-                                            localStorage.clear()
-                                            window.location.reload()
-                                        }}
-                                        component={RouterLink}
-                                        to="/home"
-                                        variant="contained"
-                                    > ออกจากระบบ </Button>
-                                </FormControl>
-                            </Box>
-                            <ListItem disablePadding>
-                                <ListItemButton component={RouterLink} to="/">
-
-                                    <ListItemText primary="หน้าหลัก" onClick={() => { page_navigate({ pathname: `/` }) }} />
-                                </ListItemButton>
-                            </ListItem>
-
-
-
-                            {/* <ListItem disablePadding>
+                  {/* <ListItem disablePadding>
                                     <ListItemButton
                                         component={RouterLink}
                                         to="/course"
@@ -238,26 +257,25 @@ function Home_Navbar() {
                                     </ListItemButton>
                                 </ListItem> */}
 
+                  <ListItem disablePadding>
+                    <ListItemButton component={RouterLink} to="/adding_reducing">
+                      <ListItemText primary="ประวัติเพิ่มลดรายวิชา" />
+                    </ListItemButton>
+                  </ListItem>
 
-                            <ListItem disablePadding>
-                                <ListItemButton
-                                    component={RouterLink}
-                                    to="/request"
-                                >
-                                    <ListItemText primary="ยื่นคำร้องออนไลน์" />
-                                </ListItemButton>
-                            </ListItem>
-                            
-                            <ListItem disablePadding>
-                                <ListItemButton
-                                    component={RouterLink}
-                                    to="/enroll"
-                                >
-                                    <ListItemText primary="ลงทะเบียนรายวิชา" />
-                                </ListItemButton>
-                            </ListItem>
-                            
-                            {/* <ListItem disablePadding>
+                  <ListItem disablePadding>
+                    <ListItemButton component={RouterLink} to="/request">
+                      <ListItemText primary="ยื่นคำร้องออนไลน์" />
+                    </ListItemButton>
+                  </ListItem>
+
+                  <ListItem disablePadding>
+                    <ListItemButton component={RouterLink} to="/enroll">
+                      <ListItemText primary="ลงทะเบียนรายวิชา" />
+                    </ListItemButton>
+                  </ListItem>
+
+                  {/* <ListItem disablePadding>
                                     <ListItemButton
                                         component={RouterLink}
                                         to="/approval"
@@ -265,27 +283,33 @@ function Home_Navbar() {
                                         <ListItemText primary="อนุมัติคำร้องออนไลน์(สำหรับอาจารย์)" />
                                     </ListItemButton>
                                 </ListItem> */}
-                        </List>
-                        <Divider />
-                        <Typography
-                            sx={{
-                                padding: 1,
-                                fontWeight: 'bold',
-                                fontStyle: 'LilyUPC',
-                            }}
-                        > 523332 Software Engineering </Typography>
+                </List>
+                <Divider />
+                <Typography
+                  sx={{
+                    padding: 1,
+                    fontWeight: "bold",
+                    fontStyle: "LilyUPC",
+                  }}
+                >
+                  {" "}
+                  523332 Software Engineering{" "}
+                </Typography>
 
-                        <Typography
-                            sx={{
-                                padding: 1,
-                                fontWeight: 'bold',
-                                fontStyle: 'LilyUPC',
-                            }}
-                        > Group 15 </Typography>
-                    </Box>
-                </Drawer>
-            </Box>
-        )
+                <Typography
+                  sx={{
+                    padding: 1,
+                    fontWeight: "bold",
+                    fontStyle: "LilyUPC",
+                  }}
+                >
+                  {" "}
+                  Group 15{" "}
+                </Typography>
+              </Box>
+            </Drawer>
+          </Box>
+        );
     }
     if (usertype === "professor") {
         return (

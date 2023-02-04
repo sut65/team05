@@ -48,8 +48,8 @@ type Subject struct {
 	Subject_Category_ID *string
 	Subject_Category    Subject_Category `gorm:"references:Subject_Category_ID"`
 
-	Subject_TH_Name string
-	Subject_EN_Name string
+	Subject_TH_Name string `valid:"subject_th_name_valid~Subject TH Name Format Wrong!!"`
+	Subject_EN_Name string `valid:"subject_en_name_valid~Subject EN Name Format Wrong!!"`
 
 	Capacity      uint
 	Enroll_Amount uint
@@ -65,7 +65,7 @@ type Subject struct {
 	Exam_Schedules []Exam_Schedule  `gorm:"foreignKey:Subject_ID"`
 }
 
-func SetValidation() {
+func SetSubjectValidation() {
 	validator.CustomTypeTagMap.Set("stringlength", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 		str := i.(string)
 		if len(str) == 6 {
@@ -75,5 +75,18 @@ func SetValidation() {
 			return match
 		}
 		return false
+	}))
+
+	validator.CustomTypeTagMap.Set("subject_en_name_valid", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+		str := i.(string)
+		match, _ := regexp.MatchString(`^[a-zA-Z\s0-9]+$`, str)
+		return match
+	}))
+
+	validator.CustomTypeTagMap.Set("subject_th_name_valid", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+		str := i.(string)
+		match, _ := regexp.MatchString(`^[ก-๏\s0-9]+$`, str)
+		return match
+
 	}))
 }

@@ -32,7 +32,7 @@ func TestUnitMoreThanZero(t *testing.T) {
 
 func TestSubjectID(t *testing.T) {
 	g := NewGomegaWithT(t)
-	entity.SetValidation()
+	entity.SetSubjectValidation()
 
 	// Correct Format
 	subject1 := entity.Subject{
@@ -41,6 +41,35 @@ func TestSubjectID(t *testing.T) {
 	}
 
 	ok, err := govalidator.ValidateStruct((subject1))
+
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).NotTo(BeTrue())
+
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).ToNot(BeNil())
+
+	// err.Error ต้องมี error message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("Error จ้า"))
+}
+
+func TestSubjectName(t *testing.T) {
+	g := NewGomegaWithT(t)
+	entity.SetSubjectValidation()
+
+	// Correct Format
+	// system_analysis := entity.Subject{
+	// 	Unit:            1,
+	// 	Subject_TH_Name: "การวิเคราะห์และออกแบบระบบ",
+	// }
+
+	software_engineering := entity.Subject{
+		Unit:            1,
+		Subject_EN_Name: "Software Engineering",
+		Subject_TH_Name: "วิศวกรรมซอฟต์แวร์",
+	}
+
+	// ok, err := govalidator.ValidateStruct((system_analysis))
+	ok, err := govalidator.ValidateStruct((software_engineering))
 
 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
 	g.Expect(ok).NotTo(BeTrue())

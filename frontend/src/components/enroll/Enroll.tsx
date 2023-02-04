@@ -86,7 +86,7 @@ function ListEnroll() {
       .then((res) => {
         if (res.data) {
           console.log("Data remove");
-          window.location.href = "/";
+          window.location.href = "/enroll";
         } else {
           console.log("Something was wrong!!");
         }
@@ -146,7 +146,7 @@ function ListEnroll() {
 
               component={RouterLink}
 
-              to="/enroll_create"
+              to="/enroll/create_enroll"
 
               variant="contained"
 
@@ -215,7 +215,7 @@ function ListEnroll() {
                     <IconButton
                     ///${row.Subject_ID}/${row.Section}
                     onClick={() => {
-                      navigate({ pathname: `/updateenroll/${row.Enroll_ID}` })
+                      navigate({ pathname: `/enroll/updateenroll/${row.Enroll_ID}` })
                 }}
                     >
                       <ModeEditIcon />

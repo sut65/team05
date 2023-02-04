@@ -308,6 +308,7 @@ export function CreatePayment() {
         let data = {
             Admin_ID: payment.Admin_ID ?? "",
             Student_ID: payment.Student_ID ?? "",
+            Payable: typeof payment.Payable === "string" ? parseInt(payment.Payable) : payment.Payable,
             Amounts: typeof payment.Amounts === "string" ? parseInt(payment.Amounts) : payment.Amounts,
             Date_Time: payment.Date_Time ?? "",
             Payment_ID: typeof payment.Payment_ID === "string" ? parseInt(payment.Payment_ID) : payment.Payment_ID,
@@ -510,9 +511,9 @@ export function CreatePayment() {
                             <p style={{ paddingLeft: 18, }}>จำนวนเงินที่ต้องชำระ</p>
                             <TextField sx={{ width: "250px", pl: 2 }}
                                 size="small"
-                                id="AmountsCal"
-                                value={payment.AmountsCal}
-
+                                id="Payable"
+                                value={payment.Payable}
+                                onChange={handleInputChange}            
                             >
                             </TextField>
                         </Grid>

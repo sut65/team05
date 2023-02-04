@@ -10,6 +10,7 @@ import Container from "@mui/material/Container";
 
 import Box from "@mui/material/Box";
 
+
 import { EnrollInterface } from "../../models/I_Enroll";
 import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
@@ -70,15 +71,16 @@ export function ListPayment() {
         setPage(0);
     };
 
-    
+
 
     const getPayment = async () => {
         const apiUrl = "http://localhost:8080/payment";
         const requestOptions = {
             method: "GET",
-            headers: { 
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json" },
+                "Content-Type": "application/json"
+            },
         };
 
         fetch(apiUrl, requestOptions)
@@ -97,57 +99,76 @@ export function ListPayment() {
         console.log("good");
         const apiUrl = "http://localhost:8080";
         const requestOptions = {
-          method: "DELETE",
-          headers: { 
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json" },
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
         };
 
-        
+
         fetch(`${apiUrl}/delepayment/${payment_id}`, requestOptions)
-          .then((response) => response.json())
-          .then((res) => {
-            if (res.data) {
-              console.log("Data remove");
-              window.location.href = "/payment";
-            } else {
-              console.log("Something was wrong!!");
-            }
-          });
-      };
-    
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log("Data remove");
+                    window.location.href = "/payment";
+                } else {
+                    console.log("Something was wrong!!");
+                }
+            });
+    };
+
     useEffect(() => {
         getPayment();
     }, []);
     return (
-        <Container maxWidth="xl" sx={{mt:10}}>
-            <Box
-                display="flex"
-                sx={{
-                    marginTop: 2,
-                }}
-            >
-                <Box flexGrow={1}>
-                    <Typography
-                        component="h2"
-                        variant="h6"
-                        color="primary"
-                        gutterBottom
-                    >
-                        ประวัติรายการจ่าย
-                    </Typography>
+        <Container maxWidth="xl" sx={{ mt: 10 }}
+        >
+            <Paper sx={{ padding: 1 }}>
+                <Box
+                    display="flex"
+                    sx={{
+                        marginTop: 2,
+                    }}
+                >
+                    <Box flexGrow={1}>
+                        <Typography
+                            variant="h5"
+                            color="primary"
+                            gutterBottom
+                        >
+                            ประวัติรายการจ่าย
+                        </Typography>
+                    </Box>
+                    <Box>
+                        <Button
+                            component={RouterLink}
+                            to="/payment/payment_create"
+                            variant="contained"
+                            color="primary"
+                        >
+                            บันทึกรายจ่าย
+                        </Button>
+                    </Box>
                 </Box>
-                <Box>
-                    <Button
-                        component={RouterLink}
-                        to="/payment/payment_create"
-                        variant="contained"
-                        color="primary"
-                    >
-                        บันทึกรายจ่าย
-                    </Button>
-                </Box>
-            </Box>
+            </Paper>
+            <Paper sx={{mt:2}}>
+                <Typography
+                    sx={{padding:2}}
+                    variant="subtitle2"
+                    color="back"
+                    gutterBottom
+                >
+                    ระบบบันทึกรายจ่ายเป็นระบบที่ให้เจ้าหน้าที่ของมหาลัย 
+                    หรือแอดมินใช้ เพื่อยืนยันการชําระเงินค่าลงทะเบียนเรียนของนักศึกษา 
+                    โดยเมื่อนักศึกษาทําการจ่ายเงินตามจํานวนครบแล้ว 
+                    จะต้องยื่นหลักฐานเพื่อให้เจ้าหน้าที่ของมหาลัย หรือแอดมิน 
+                    ทําการบันทึกลงในระบบ โดยสิงที่ต้องบันทึกประกอบไปด้วยจํานวนเงินที่ชําระเลขที่ใบเสร็จ 
+                    ในกรณีที่นักศึกษาใช้ประเภทการชําระเป็นการชําระด้วยการโอน และกรอกวันเวลาที่จ่าย 
+                    นักศึกษาสามารถผ่อนจ่ายได้ ไม่จําเป็นต้องชําระเต็มจํานวนในครั้งเดียว แอดมินสามารถแก้ไขรายจ่ายให้นักศึกษาได้
+                </Typography>
+            </Paper>
             <Grid sx={{ mt: 5 }}>
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -180,7 +201,7 @@ export function ListPayment() {
                                     <TableCell align="left">{row.Unit}</TableCell>
                                     <TableCell align="left">{row.Payment_Type_ID}</TableCell>
                                     <TableCell align="left">{row.Receipt_number}</TableCell>
-                                    <TableCell align="left">{row.Amounts}</TableCell>
+                                    <TableCell align="left">{row.Payable}</TableCell>
                                     <TableCell align="left">{row.Amounts}</TableCell>
                                     <TableCell align="left">{row.Date_Time}</TableCell>
                                     <TableCell align="left">{row.Admin_ID}</TableCell>
@@ -194,7 +215,7 @@ export function ListPayment() {
                                     </TableCell>
                                     <TableCell align="center">
                                         <IconButton
-                                           // ${row.Payment_ID}/${row.Section}
+                                            // ${row.Payment_ID}/${row.Section}
                                             onClick={() => {
                                                 navigate({ pathname: `/payment/updatepayment/${row?.Payment_ID}` })
                                             }}
@@ -206,31 +227,31 @@ export function ListPayment() {
                             ))}
                         </TableBody>
                         <TableFooter>
-                                <TableRow>
-                                    <TablePagination
-                                        rowsPerPageOptions={[
-                                            5,
-                                            10,
-                                            15,
-                                            20,
-                                            25,
-                                            { label: "All", value: -1 },
-                                        ]}
-                                        colSpan={payments.length}
-                                        count={payments.length}
-                                        rowsPerPage={rowsPerPage}
-                                        page={page}
-                                        SelectProps={{
-                                            inputProps: {
-                                                "aria-label": "rows per page",
-                                            },
-                                            native: true,
-                                        }}
-                                        onPageChange={handleChangePage}
-                                        onRowsPerPageChange={handleChangeRowsPerPage}
-                                    />
-                                </TableRow>
-                            </TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                    rowsPerPageOptions={[
+                                        5,
+                                        10,
+                                        15,
+                                        20,
+                                        25,
+                                        { label: "All", value: -1 },
+                                    ]}
+                                    colSpan={payments.length}
+                                    count={payments.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    SelectProps={{
+                                        inputProps: {
+                                            "aria-label": "rows per page",
+                                        },
+                                        native: true,
+                                    }}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                />
+                            </TableRow>
+                        </TableFooter>
                     </Table>
                 </TableContainer>
 

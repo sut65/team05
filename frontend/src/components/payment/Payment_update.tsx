@@ -295,11 +295,13 @@ export function UpdatePayment() {
     function updatePayment() {
         let data = {
             Admin_ID: payment.Admin_ID ?? "",
+            Payable: typeof payment.Payable === "string" ? parseInt(payment.Payable) : payment.Payable,
             Amounts: typeof payment.Amounts === "string" ? parseInt(payment.Amounts) : payment.Amounts,
             Date_Time: payment.Date_Time ?? "",
             Payment_ID: typeof payment.Payment_ID === "string" ? parseInt(payment.Payment_ID) : payment.Payment_ID,
             Payment_Type_ID: payment.Payment_Type_ID,
-            Receipt_number: payment.Receipt_number ?? "",
+            Receipt_number: payment.Receipt_number
+             ?? "",
             Student_ID: payment.Student_ID ?? "",
             Unit: typeof payment.Unit === "string" ? parseInt(payment.Unit) : payment.Unit,
             // Student_ID:
@@ -491,8 +493,8 @@ export function UpdatePayment() {
                             <p style={{ paddingLeft: 18, }}>จำนวนเงินที่ต้องชำระ</p>
                             <TextField sx={{ width: "250px", pl: 2 }}
                                 size="small"
-                                id="AmountsCal"
-                                value={payment.AmountsCal}
+                                id="Payable"
+                                value={payment.Payable}
                             >
                             </TextField>
                         </Grid>

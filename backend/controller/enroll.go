@@ -26,19 +26,11 @@ type extendedEnroll struct {
 }
 
 func CreateEnroll(c *gin.Context) {
-	/*	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		Function for inserting new record of `subject` table
-		HTTP POST : /subjects
-		++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	*/
-	//var student entity.Student
-	//var student entit.Student
 	var enroll entity.Enroll
 	var student entity.Student
 	var subject entity.Subject
 	var class_schedule entity.Class_Schedule
 	var exam_schedule entity.Exam_Schedule
-	//var student entity.Student
-	//var room entity.room
 
 	if err := c.ShouldBindJSON(&enroll); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -71,7 +63,6 @@ func CreateEnroll(c *gin.Context) {
 		Subject_ID:        &subject.Subject_ID,
 		Exam_Schedule_ID:  &exam_schedule.Exam_Schedule_ID,
 		Class_Schedule_ID: &class_schedule.Class_Schedule_ID,
-		//Student:        student,
 		Section: enroll.Section,
 	}
 

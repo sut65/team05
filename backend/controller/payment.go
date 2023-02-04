@@ -52,7 +52,7 @@ func CreatePayment(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "student_id not found"})
 		return
 	}
-	
+
 	new_payment := entity.Payment{
 		Payment_ID:      payment.Payment_ID,
 		Payment_Type_ID: payment.Payment_Type_ID,
@@ -61,6 +61,7 @@ func CreatePayment(c *gin.Context) {
 		Receipt_number:  payment.Receipt_number,
 		Date_Time:       payment.Date_Time,
 		Unit:            payment.Unit,
+		Payable:         payment.Payable,
 		Amounts:         payment.Amounts,
 	}
 
@@ -140,6 +141,7 @@ func UpdatePayment(c *gin.Context) {
 	var update_admin = payment.Admin_ID
 	var update_student = payment.Student_ID
 	var update_datetime = payment.Date_Time
+	var updare_Payable = payment.Payable
 	var update_unit = payment.Unit
 	var update_Receipt_number = payment.Receipt_number
 
@@ -176,6 +178,7 @@ func UpdatePayment(c *gin.Context) {
 		Receipt_number:  update_Receipt_number,
 		Date_Time:       update_datetime,
 		Unit:            update_unit,
+		Payable:         updare_Payable,
 		Amounts:         update_amount,
 		//Student:        student,
 	}
@@ -221,4 +224,3 @@ func GetCall_Payment(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": unit})
 }
-

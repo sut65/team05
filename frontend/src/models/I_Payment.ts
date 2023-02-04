@@ -21,6 +21,6 @@ export interface Payment{
 	Receipt_number:string,
 	Date_Time: string,
 	Unit:      number,
-	AmountsCal: number
+	Payable: number
 	Amounts:   number,
 }

@@ -256,11 +256,24 @@ function CreateEnroll() {
             });
     };
 
-
+    const getStudent = async () => {
+        let uid = localStorage.getItem("id");
+        fetch(`${apiUrl}/student/${uid}`, requestOptionsGet)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    enroll.Student_ID = res.data.Student_ID;
+                }
+                else {
+                    console.log("else");
+                }
+            });
+    };
 
     useEffect(() => {
         getCourse();
         getPrevEnroll();
+        getStudent();
         if (searchSubjectID == "") {
             getSubjects();
         } else {
@@ -281,7 +294,7 @@ function CreateEnroll() {
         };
 
         console.log(data)
-        const apiUrl = "http://localhost:8080//enroll/create_enroll";
+        const apiUrl = "http://localhost:8080/enroll";
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -346,6 +359,20 @@ function CreateEnroll() {
                                 ลงทะเบียนรายวิชา
                             </Typography>
                         </Box>
+                        <Box flexGrow={1}>
+                        </Box>
+                        <Box
+                            component="form"
+                            sx={{ paddingRight:2 }}>
+                            <TextField
+                                disabled
+                                size="small"
+                                id="Student_ID"
+                                variant="outlined"
+                                value={enroll.Student_ID}
+                                onChange={handleInputChange}
+                            />
+                        </Box>
                     </Box>
                     {/* -------------------------------------------------------------------------------------- */}
                     <Grid container sx={{ marginTop: '3px', marginLeft: 5, }}>
@@ -373,20 +400,6 @@ function CreateEnroll() {
                                         </MenuItem>
                                     ))}
                                 </Select>
-                            </Box>
-                        </Grid>
-                        <Grid >
-
-                            <Box
-                                component="form"
-                                sx={{ '& .MuiTextField-root': { m: 1, width: '30ch' }, marginTop: -1, paddingLeft: 45, }}>
-                                <TextField
-                                    id="Student_ID"
-                                    label="กรอกรหัสนักศึกษา"
-                                    variant="outlined"
-                                    value={enroll.Student_ID}
-                                    onChange={handleInputChange}
-                                />
                             </Box>
                         </Grid>
                     </Grid>
@@ -559,4 +572,3 @@ function CreateEnroll() {
 
 
 export default CreateEnroll;
-    

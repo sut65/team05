@@ -777,45 +777,44 @@ func SetupDatabase() {
 	}
 	db.Create(&Approval2)
 
-	///---histroryType1----
+	
+///---histroryType1----
 
-	HistoryType1 := HistoryType{
-		HistoryType_ID: "HT1",
-		Type_Name:      "ประวัติเพิ่ม",
+HistoryType1 :=HistoryType{
+	History_Type_ID: "HT1",
+	Type_Name: "ประวัติเพิ่ม",
 	}
 	db.Create(&HistoryType1)
 
-	HistoryType2 := HistoryType{
-		HistoryType_ID: "HT2",
-		Type_Name:      "ประวัติลด",
-	}
-	db.Create(&HistoryType2)
 
-	// HistoryType3 :=HistoryType{
-	// HistoryType_ID: "HT3",
-	// Type_Name: "ประวัติเปลี่ยนกลุ่ม",
-	// }
-	// db.Create(&HistoryType3)
+	HistoryType2 :=HistoryType{
+		History_Type_ID: "HT2",
+		Type_Name: "ประวัติลด",
+		}
+		db.Create(&HistoryType2)
+
+	HistoryType3 :=HistoryType{
+	History_Type_ID: "HT3",
+	Type_Name: "ประวัติเปลี่ยนกลุ่ม",
+	}
+	db.Create(&HistoryType3)
 
 	///-----------------------Adding_reducing------------------------
 	Adding_reducing1 := Adding_reducing{
-		Change_ID:   1,
-		Status:      "เพิ่ม",
-		HistoryType: HistoryType1,
-		Enroll:      enroll1,
-		Student:     student1,
+		Change_ID:		 1,
+		HistoryType:	 HistoryType1 ,
+		Enroll:   		 enroll1, 	
+		Student:   		 student1, 
 	}
 	db.Create(&Adding_reducing1)
 
 	Adding_reducing2 := Adding_reducing{
-		Change_ID:   2,
-		Status:      "ลด",
-		HistoryType: HistoryType2,
-		Enroll:      enroll2,
-		Student:     student2,
+		Change_ID:		 2,
+		HistoryType:	 HistoryType2 ,
+		Enroll:  		 enroll2 ,	
+		Student :   	 student2, 
 	}
 	db.Create(&Adding_reducing2)
-
 	// Adding_reducing3 := Adding_reducing{
 	// 	Change_ID: 3,
 	// 	Status:    "เปลี่ยนกลุ่ม",

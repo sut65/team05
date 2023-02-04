@@ -539,9 +539,10 @@ export function UpdatePayment() {
                         <Grid >
                             <p style={{ paddingLeft: 17, }}>วิธีการชำระเงิน</p>
                             <Box
-
                                 sx={{ m: 1, marginTop: -2, }}>
                                 <Select sx={{ ml: 1, mt: 2, width: '25ch' }}
+                                    
+                                    
                                     id="Payment_Type_ID"
                                     size="small"
                                     value={payment.Payment_Type_ID}

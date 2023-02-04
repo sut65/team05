@@ -1,3 +1,5 @@
+
+
 package entity
 
 import (
@@ -70,6 +72,9 @@ func SetupDatabase() {
 		&Room{},
 		&Class_Schedule{},
 		&Exam_Schedule{},
+
+		&Payment{},
+		&Payment_Type{},
 	)
 
 	db = database
@@ -849,5 +854,41 @@ func SetupDatabase() {
 		Grade:           Grade2,
 	}
 	db.Create(&Adding_point2)
+
+	payment_type1 := Payment_Type{
+		Payment_Type_ID: "P01",
+		Payment_Type_Name: "เงินสด",
+	}
+	db.Create(&payment_type1)
+
+	payment_type2 := Payment_Type{
+		Payment_Type_ID: "P02",
+		Payment_Type_Name: "โอนชำระ",
+	}
+	db.Create(&payment_type2)
+
+	payment1 := Payment{
+		Payment_ID: 001,
+		Student: student2,
+		Payment_Type_ID: &payment_type1.Payment_Type_ID,
+		Receipt_number: "asdf816188",
+		Admin_ID: &admin1.Admin_ID,
+		Date_Time: "02/03/2566_21:35",
+		Unit: 20,
+		Amounts: 25000,
+	}
+	db.Create(&payment1)
+
+	payment2 := Payment{
+		Payment_ID: 002,
+		Student: student1,
+		Payment_Type_ID: &payment_type2.Payment_Type_ID,
+		Admin_ID: &admin2.Admin_ID,
+		Receipt_number: "assdf81h6188",
+		Date_Time: "02/03/2566_21:35",
+		Unit: 12,
+		Amounts: 10000,
+	}
+	db.Create(&payment2)
 
 }

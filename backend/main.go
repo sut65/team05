@@ -149,15 +149,35 @@ func main() {
 			api.POST("dormitorys", controller.CreateDormitory)
 			api.DELETE("/dormitorys/:domitory_id", controller.DeleteDormitorys)
 
-			api.GET("/payment", controller.ListPayment)
-			api.POST("/payment", controller.CreatePayment)
-			api.GET("/payment_type", controller.ListPayment_type)
-
 			// Status Routes
 			api.GET("/statuses", controller.ListStatuses)
 			api.GET("/status/:id", controller.GetStatus)
 			api.POST("/statuses", controller.CreateStatus)
+
+			//Payment
+			r.GET("/payment/:payment_id", controller.GetPayment)
+			api.GET("/payment", controller.ListPayment)
+			api.POST("/payment", controller.CreatePayment)
+			api.GET("/payment_type", controller.ListPayment_type)
+			api.GET("/previousenpayment", controller.GetPreviousPayment)
+			r.PATCH("/updatepayment", controller.UpdatePayment)
+			r.DELETE("/delepayment/:payment_id", controller.DeletePayment)
+
+			//Enroll
+			r.GET("/enrollsub", controller.ListEnrollSubject)
+			r.GET("/enroll", controller.ListEnroll)
+			r.GET("/enroll/:subject_id", controller.GetEnrollSubject)
+			r.PATCH("/updateenroll", controller.UpdateEnroll)
+			r.GET("/currentenroll/:enroll_id", controller.GetEnroll)
+			// r.GET("/enroll/:enroll_id", controller.GetEnroll)
+			r.POST("/enroll", controller.CreateEnroll)
+			r.GET("/previousenroll", controller.GetPreviousREnroll)
+			r.DELETE("/deleEnroll/:enroll_id", controller.DeleteEnroll)
+			r.GET("/enrollsubs/:subject_id", controller.GetEnrollSubject)
+			r.GET("/subjectd/:coruse_id", controller.GetSubjectByCourse)
 		}
+
+		
 
 	}
 

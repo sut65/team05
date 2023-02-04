@@ -116,6 +116,10 @@ export default function App() {
                             <Route path="/approval" element={<Approval />} />
                             <Route path="/approval/approval_create" element={<ApprovalCreate />} />
                             <Route path="/approval/update/:approval_id" element={<ApprovalUpdate />} />
+
+                            <Route path="/payment" element={< ListPayment/>} />
+                            <Route path="/payment/payment_create" element={<CreatePayment />} />
+                            <Route path="/payment/updatepayment/:payment_id" element={<UpdatePayment />} />
                         </Routes>
                         <Footer />
                     </div>

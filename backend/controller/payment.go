@@ -25,7 +25,7 @@ type extendedPayment struct {
 func CreatePayment(c *gin.Context) {
 	var payment entity.Payment
 	var payment_Type entity.Payment_Type
-	//var student entity.Student
+	var student entity.Student
 	var admin entity.Admin
 
 	if err := c.ShouldBindJSON(&payment); err != nil {
@@ -38,11 +38,6 @@ func CreatePayment(c *gin.Context) {
 		return
 	}
 
-	// if tx := entity.DB().Where("student_id = ?", payment.Student_ID).First(&student); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "student not found"})
-	// 	return
-	// }
-
 	if tx := entity.DB().Where("admin_id = ?", payment.Admin_ID).First(&admin); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
 		return
@@ -53,10 +48,10 @@ func CreatePayment(c *gin.Context) {
 		return
 	}
 
-	// if tx := entity.DB().Where("student_id = ?", enroll.Student_ID).First(&student); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
-	// 	return
-	// }
+	if tx := entity.DB().Where("student_id = ?", payment.Student_ID).First(&student); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "student_id not found"})
+		return
+	}
 	
 	new_payment := entity.Payment{
 		Payment_ID:      payment.Payment_ID,
@@ -67,7 +62,6 @@ func CreatePayment(c *gin.Context) {
 		Date_Time:       payment.Date_Time,
 		Unit:            payment.Unit,
 		Amounts:         payment.Amounts,
-		//Student:        student,
 	}
 
 	// บันทึก entity Subject

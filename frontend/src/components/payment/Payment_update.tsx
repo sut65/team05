@@ -300,7 +300,7 @@ export function UpdatePayment() {
             Payment_ID: typeof payment.Payment_ID === "string" ? parseInt(payment.Payment_ID) : payment.Payment_ID,
             Payment_Type_ID: payment.Payment_Type_ID,
             Receipt_number: payment.Receipt_number ?? "",
-            //Student_ID: payment.Student_ID ?? "",
+            Student_ID: payment.Student_ID ?? "",
             Unit: typeof payment.Unit === "string" ? parseInt(payment.Unit) : payment.Unit,
             // Student_ID:
             //Section: typeof enroll.Section === "string" ? parseInt(enroll.Section) : enroll.Section,

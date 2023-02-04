@@ -45,11 +45,6 @@ import CourseCreate from "./components/course/Course_Create";
 import Course_Info from "./components/course/Course_Info";
 import Course_Update from "./components/course/Course_Update";
 
-// payment
-import CreatePayment from "./components/payment/Payment_Create";
-import ListPayment from "./components/payment/Payment";
-import UpdatePayment from "./components/payment/Payment_update";
-
 // Footer
 import Footer from "./components/pages/Home_Footer";
 

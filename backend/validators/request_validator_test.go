@@ -1,7 +1,6 @@
 package entity
 
 import (
-	// "fmt"
 	"testing"
 
 	"github.com/B6025212/team05/entity"

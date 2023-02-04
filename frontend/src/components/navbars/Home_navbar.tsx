@@ -128,6 +128,14 @@ function Home_Navbar() {
                                         <ListItemText primary="ยื่นคำร้องออนไลน์" />
                                     </ListItemButton>
                                 </ListItem> */}
+                             <ListItem disablePadding>
+                                <ListItemButton
+                                    component={RouterLink}
+                                    to="/payment"
+                                >
+                                    <ListItemText primary="บันทึกรายจ่าย" />
+                                </ListItemButton>
+                            </ListItem>
 
                             <ListItem disablePadding>
                                 <ListItemButton

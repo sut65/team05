@@ -6,6 +6,7 @@ import (
 	"github.com/B6025212/team05/entity"
 
 	"github.com/gin-gonic/gin"
+	"github.com/asaskevich/govalidator"
 )
 type extendedRequest struct {
 	entity.Request
@@ -68,7 +69,10 @@ func CreateRequest(c *gin.Context) {
 		Reason: request.Reason,
 		Request_Type_ID: request.Request_Type_ID,
 	}
-
+	if _, err := govalidator.ValidateStruct(new_request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	// บันทึก entity request
 	if err := entity.DB().Create(&new_request).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

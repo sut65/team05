@@ -66,7 +66,7 @@ function RequestCreate() {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [message, setAlertMessage] = React.useState("");
   const navigate = useNavigate();
   const params = useParams();
 
@@ -170,7 +170,7 @@ function RequestCreate() {
 const getStudent = async () => {
   let student_id = localStorage.getItem("id");
   
-  fetch(`${apiUrl}/students/${student_id}`, requestOptions)
+  fetch(`${apiUrl}/student/${student_id}`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -299,6 +299,7 @@ const getStudent = async () => {
         if (res.data) {
           setSuccess(true);
         } else {
+          setAlertMessage(res.error);
           setError(true);
         }
       });
@@ -328,7 +329,7 @@ const getStudent = async () => {
 
         <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลไม่สำเร็จ
+            {message}
           </Alert>
         </Snackbar>
 

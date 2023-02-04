@@ -138,14 +138,7 @@ function Home_Navbar() {
                                 </ListItemButton>
                             </ListItem>
 
-                            <ListItem disablePadding>
-                                <ListItemButton
-                                    component={RouterLink}
-                                    to="/payment"
-                                >
-                                    <ListItemText primary="บันทึกรายจ่าย" />
-                                </ListItemButton>
-                            </ListItem>
+                           
 
                         </List>
                         <Divider />
@@ -246,7 +239,16 @@ function Home_Navbar() {
                                     <ListItemText primary="ยื่นคำร้องออนไลน์" />
                                 </ListItemButton>
                             </ListItem>
-
+                            
+                            <ListItem disablePadding>
+                                <ListItemButton
+                                    component={RouterLink}
+                                    to="/enroll"
+                                >
+                                    <ListItemText primary="ลงทะเบียนรายวิชา" />
+                                </ListItemButton>
+                            </ListItem>
+                            
                             {/* <ListItem disablePadding>
                                     <ListItemButton
                                         component={RouterLink}

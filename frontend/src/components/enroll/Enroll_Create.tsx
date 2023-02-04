@@ -281,7 +281,7 @@ function CreateEnroll() {
         };
 
         console.log(data)
-        const apiUrl = "http://localhost:8080/enroll";
+        const apiUrl = "http://localhost:8080//enroll/create_enroll";
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -416,7 +416,7 @@ function CreateEnroll() {
                         <Grid sx={{ marginTop: '63px', marginLeft: 3, }}>
                             <Button sx={{ width: '21ch' }}
                                 size="medium"
-                                component={RouterLink} to="/"
+                                component={RouterLink} to="/enroll"
                                 variant="contained"
                                 onClick={sendSearchedSubjectID}
                                 endIcon={<FactCheckIcon />}>ผลการลงทะเบียน</Button>

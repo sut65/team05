@@ -491,8 +491,8 @@ export function UpdatePayment() {
                             <p style={{ paddingLeft: 18, }}>จำนวนเงินที่ต้องชำระ</p>
                             <TextField sx={{ width: "250px", pl: 2 }}
                                 size="small"
-                                id="Payment_ID"
-                                value={payment.Payment_ID}
+                                id="AmountsCal"
+                                value={payment.AmountsCal}
                             >
                             </TextField>
                         </Grid>

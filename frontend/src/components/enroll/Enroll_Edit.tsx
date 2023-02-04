@@ -186,7 +186,7 @@ function UpdateEnroll() {
         };
         console.log(JSON.stringify(data));
         const apiUrl = "http://localhost:8080";
-        fetch(`${apiUrl}/updateenroll`, requestOptionsPatch)
+        fetch(`${apiUrl}/enroll/updateenroll`, requestOptionsPatch)
             .then((response) => response.json())
             .then((res) => {
                 console.log(res)

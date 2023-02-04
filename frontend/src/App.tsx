@@ -50,6 +50,11 @@ import CreatePayment from "./components/payment/Payment_Create";
 import ListPayment from "./components/payment/Payment";
 import UpdatePayment from "./components/payment/Payment_update";
 
+//enroll
+import CreateEnroll from "./components/enroll/Enroll_Create";
+import ListEnroll from "./components/enroll/Enroll";
+import UpdateEnroll from "./components/enroll/Enroll_Edit";
+
 // Footer
 import Footer from "./components/pages/Home_Footer";
 
@@ -142,6 +147,10 @@ export default function App() {
 
                             <Route path="/request/update/:request_id" element={<RequestUpdate />} />
                             <Route path="/request/request_create" element={<RequestCreate />} />
+
+                            <Route path="/enroll" element={<ListEnroll />} />
+                            <Route path="/enroll/create_enroll" element={<CreateEnroll />} />
+                            <Route path="/enroll/updateenroll/:enroll_id" element={<UpdateEnroll />} />
                         </Routes>
                     </div>
                 </Router>

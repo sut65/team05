@@ -33,6 +33,7 @@ func main() {
 	r.Use(CORSMiddleware())
 
 	entity.SetSubjectValidation()
+	entity.SetRequestValidation()
 
 	r.POST("/login", controller.Login)
 

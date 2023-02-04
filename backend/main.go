@@ -31,6 +31,9 @@ func main() {
 
 	r := gin.Default()
 	r.Use(CORSMiddleware())
+
+	entity.SetSubjectValidation()
+
 	r.POST("/login", controller.Login)
 
 	router := r.Group("")

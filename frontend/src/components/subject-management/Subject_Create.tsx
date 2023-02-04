@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { FormHelperText, MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
 import { Course } from "../../models/I_Course";
 import AddIcon from '@mui/icons-material/Add';
+import Swal from 'sweetalert2'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -30,21 +31,21 @@ function CreateSubject() {
     const [subject_status, setSubjectStatus] = React.useState<Subject_Status[]>([]);
     const [subject_category, setSubjectCategory] = React.useState<Subject_Category[]>([]);
     const [class_types, setClassTypes] = React.useState<Class_Type[]>([]);
-    const [success, setSuccess] = React.useState(false);
-    const [error, setError] = React.useState(false);
+    // const [success, setSuccess] = React.useState(false);
+    // const [error, setError] = React.useState(false);
 
     const apiUrl = "http://localhost:8080";
 
-    const handleClose = (
-        event?: React.SyntheticEvent | Event,
-        reason?: string
-    ) => {
-        if (reason === "clickaway") {
-            return;
-        }
-        setSuccess(false);
-        setError(false);
-    };
+    // const handleClose = (
+    //     event?: React.SyntheticEvent | Event,
+    //     reason?: string
+    // ) => {
+    //     if (reason === "clickaway") {
+    //         return;
+    //     }
+    //     setSuccess(false);
+    //     setError(false);
+    // };
 
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: unknown }>
@@ -172,16 +173,37 @@ function CreateSubject() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/subjects`, requestOptionsPost)
-            .then((response) => response.json())
-            .then((res) => {
-                console.log(res)
-                if (res.data) {
-                    setSuccess(true);
-                } else {
-                    setError(true);
-                }
-            });
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`${apiUrl}/subjects`, requestOptionsPost)
+                .then((response) => response.json())
+                .then((res) => {
+                    console.log(res)
+                    if (res.data) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Saved!',
+                            text: 'Success',
+                        })
+                        // setSuccess(true);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: res.error,
+                        })
+                        // setError(true);
+                    }
+                });
+            } 
+        })
+       
     }
 
     return (
@@ -193,7 +215,7 @@ function CreateSubject() {
                 width: "auto",
                 height: "auto",
             }}>
-            <Snackbar
+            {/* <Snackbar
                 open={success}
                 autoHideDuration={6000}
                 onClose={handleClose}
@@ -203,13 +225,13 @@ function CreateSubject() {
                 <Alert onClose={handleClose} severity="success">
                     บันทึกข้อมูลสำเร็จ
                 </Alert>
-            </Snackbar>
+            </Snackbar> */}
 
-            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+            {/* <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
                     บันทึกข้อมูลไม่สำเร็จ
                 </Alert>
-            </Snackbar>
+            </Snackbar> */}
 
 
             {/* Header */}

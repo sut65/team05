@@ -48,8 +48,8 @@ type Subject struct {
 	Subject_Category_ID *string
 	Subject_Category    Subject_Category `gorm:"references:Subject_Category_ID"`
 
-	Subject_TH_Name string `valid:"subject_th_name_valid~Subject TH Name Format Wrong!!"`
-	Subject_EN_Name string `valid:"subject_en_name_valid~Subject EN Name Format Wrong!!"`
+	Subject_TH_Name string `valid:"subject_th_name_valid~Incorrect Subject TH Name format!!"`
+	Subject_EN_Name string `valid:"subject_en_name_valid~Incorrect Subject EN Name format!!"`
 
 	Capacity      uint
 	Enroll_Amount uint

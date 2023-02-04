@@ -74,9 +74,10 @@ export function CreatePayment() {
     ) => {
         const id = event.target.id as keyof typeof payment;
         const { value } = event.target;
-        setPayment({ 
-            ...payment, 
-            [id]: event.target.value });
+        setPayment({
+            ...payment,
+            [id]: event.target.value
+        });
     };
 
     const handleInputChangeSearch = (
@@ -145,7 +146,24 @@ export function CreatePayment() {
     const apiUrl = "http://localhost:8080";
     const requestOptionsGet = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+        },
+    };
+
+    const getAdmin = async () => {
+        let uid = localStorage.getItem("id");
+        fetch(`${apiUrl}/admin/${uid}`, requestOptionsGet)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    payment.Admin_ID = res.data.Admin_ID;
+                }
+                else {
+                    console.log("else");
+                }
+            });
     };
 
     // Fetch income type from API 
@@ -167,7 +185,10 @@ export function CreatePayment() {
     const getEnroll = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
         };
         fetch(`${apiUrl}/enroll`, requestOptions)
             .then((response) => response.json())
@@ -197,7 +218,10 @@ export function CreatePayment() {
     const getSubjectBySubjectID = async (subject_id: any) => {
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
         };
         fetch(`${apiUrl}/subljects/${subject_id}`, requestOptions)
             .then((response) => response.json())
@@ -223,30 +247,32 @@ export function CreatePayment() {
             });
     };
 
+   
+
     const call = async () => {
-                if (payment.Unit) {
-                    payment.Unit = payment.Unit * 800;
-                }
-                else {
-                    payment.Unit = 800;
-                    //console.log("else");
-                }
-            
+        if (payment.Unit) {
+            payment.Unit = payment.Unit * 800;
+        }
+        else {
+            payment.Unit = 800;
+            //console.log("else");
+        }
+
     };
-    
+
     const getPrevPayment = async () => {
         fetch(`${apiUrl}/previousenpayment`, requestOptionsGet)
-          .then((response) => response.json())
-          .then((res) => {
-            if (res.data) {
-              payment.Payment_ID = res.data.Payment_ID + 1;
-            }
-            else {
-              payment.Payment_ID = res.data = 1;
-              //console.log("else");
-            }
-          });
-      };
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    payment.Payment_ID = res.data.Payment_ID + 1;
+                }
+                else {
+                    payment.Payment_ID = res.data = 1;
+                    //console.log("else");
+                }
+            });
+    };
 
     //   const getCall_Payment = async () => {
     //     fetch(`${apiUrl}/getcall_payment`, requestOptionsGet)
@@ -261,14 +287,15 @@ export function CreatePayment() {
     //         }
     //       });
     //   };
-     
+
 
     useEffect(() => {
         getPrevPayment();
         getPayment_type();
         getPrevEnroll();
-        
-        
+        getAdmin();
+
+
         if (searchSubjectID == "") {
             getEnroll();
         } else {
@@ -280,24 +307,27 @@ export function CreatePayment() {
     function submitPayment() {
         let data = {
             Admin_ID: payment.Admin_ID ?? "",
+            Student_ID: payment.Student_ID ?? "",
             Amounts: typeof payment.Amounts === "string" ? parseInt(payment.Amounts) : payment.Amounts,
             Date_Time: payment.Date_Time ?? "",
             Payment_ID: typeof payment.Payment_ID === "string" ? parseInt(payment.Payment_ID) : payment.Payment_ID,
             Payment_Type_ID: payment.Payment_Type_ID ?? "",
             Receipt_number: payment.Receipt_number ?? "",
-            //Student_ID: payment.Student_ID ?? "",
             Unit: typeof payment.Unit === "string" ? parseInt(payment.Unit) : payment.Unit,
 
             // Student_ID:
             //Section: typeof enroll.Section === "string" ? parseInt(enroll.Section) : enroll.Section,
         };
-        
 
-        
+
+
         const apiUrl = "http://localhost:8080/payment";
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(data),
         };
         console.log(data)
@@ -306,22 +336,22 @@ export function CreatePayment() {
             .then((res) => {
                 if (res.data) {
                     setSuccess(true);
-                  } else {
+                } else {
                     setAlertMessage(res.error);
                     setError(true);
-                  }
+                }
             });
     }
 
     return (
         <Container maxWidth={false}
-        sx={{
-            mt:10,
-            bgcolor: "#e1e1e1",
-            padding: 2,
-            width: "auto",
-            height: "auto",
-        }}>
+            sx={{
+                mt: 10,
+                bgcolor: "#e1e1e1",
+                padding: 2,
+                width: "auto",
+                height: "auto",
+            }}>
             <Snackbar
                 open={success}
                 autoHideDuration={6000}
@@ -331,15 +361,15 @@ export function CreatePayment() {
             >
 
                 <Alert onClose={handleClose} severity="success">
-                บันทึกข้อมูลถูกต้อง
+                    บันทึกข้อมูลถูกต้อง
                 </Alert>
             </Snackbar>
 
-            <Snackbar 
-            id="error"
-            open={error} 
-            autoHideDuration={6000} 
-            onClose={handleClose}>
+            <Snackbar
+                id="error"
+                open={error}
+                autoHideDuration={6000}
+                onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
                     {message}
                 </Alert>
@@ -482,7 +512,7 @@ export function CreatePayment() {
                                 size="small"
                                 id="AmountsCal"
                                 value={payment.AmountsCal}
-                                
+
                             >
                             </TextField>
                         </Grid>
@@ -505,9 +535,14 @@ export function CreatePayment() {
                                 component="form"
                                 sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -1, paddingLeft: 1, }}>
                                 <TextField sx={{ width: "200px" }}
+                                    type="string"
                                     size="small"
                                     id="Admin_ID"
+                                    disabled
                                     value={payment.Admin_ID}
+                                    inputProps={{
+                                        name: "Admin_ID",
+                                    }}
                                     onChange={handleInputChange}
                                 >
                                 </TextField>
@@ -517,8 +552,8 @@ export function CreatePayment() {
                             <p style={{ paddingLeft: 18, }}>รหัสนักศึกษา</p>
                             <TextField sx={{ width: "250px", pl: 2 }}
                                 size="small"
-                                id="outlined-disabled"
-                                //value={payment.Student_ID}
+                                id="Student_ID"
+                                value={payment.Student_ID}
                                 onChange={handleInputChange}
                             >
                             </TextField>
@@ -591,7 +626,7 @@ export function CreatePayment() {
                         >
                             <Button
                                 component={RouterLink}
-                                to="/"
+                                to="/payment"
                                 variant="contained"
                                 color="primary"
                             >

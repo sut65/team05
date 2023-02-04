@@ -130,13 +130,22 @@ function Home_Navbar() {
                                 </ListItem> */}
 
                             <ListItem disablePadding>
-                                    <ListItemButton
-                                        component={RouterLink}
-                                        to="/approval"
-                                    >
-                                        <ListItemText primary="อนุมัติคำร้องออนไลน์(สำหรับอาจารย์)" />
-                                    </ListItemButton>
-                                </ListItem>
+                                <ListItemButton
+                                    component={RouterLink}
+                                    to="/approval"
+                                >
+                                    <ListItemText primary="อนุมัติคำร้องออนไลน์(สำหรับอาจารย์)" />
+                                </ListItemButton>
+                            </ListItem>
+
+                            <ListItem disablePadding>
+                                <ListItemButton
+                                    component={RouterLink}
+                                    to="/payment"
+                                >
+                                    <ListItemText primary="บันทึกรายจ่าย" />
+                                </ListItemButton>
+                            </ListItem>
 
                         </List>
                         <Divider />

@@ -76,7 +76,9 @@ export function ListPayment() {
         const apiUrl = "http://localhost:8080/payment";
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
         };
 
         fetch(apiUrl, requestOptions)
@@ -96,7 +98,9 @@ export function ListPayment() {
         const apiUrl = "http://localhost:8080";
         const requestOptions = {
           method: "DELETE",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json" },
         };
 
         
@@ -105,7 +109,7 @@ export function ListPayment() {
           .then((res) => {
             if (res.data) {
               console.log("Data remove");
-              window.location.href = "/";
+              window.location.href = "/payment";
             } else {
               console.log("Something was wrong!!");
             }
@@ -136,7 +140,7 @@ export function ListPayment() {
                 <Box>
                     <Button
                         component={RouterLink}
-                        to="/create"
+                        to="/payment/payment_create"
                         variant="contained"
                         color="primary"
                     >
@@ -192,7 +196,7 @@ export function ListPayment() {
                                         <IconButton
                                            // ${row.Payment_ID}/${row.Section}
                                             onClick={() => {
-                                                navigate({ pathname: `/updatepayment/${row?.Payment_ID}` })
+                                                navigate({ pathname: `/payment/updatepayment/${row?.Payment_ID}` })
                                             }}
                                         >
                                             <ModeEditIcon />

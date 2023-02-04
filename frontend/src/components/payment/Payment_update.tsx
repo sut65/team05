@@ -73,9 +73,10 @@ export function UpdatePayment() {
     ) => {
         const id = event.target.id as keyof typeof payment;
         const { value } = event.target;
-        setPayment({ 
-            ...payment, 
-            [id]: event.target.value });
+        setPayment({
+            ...payment,
+            [id]: event.target.value
+        });
     };
 
     const handleInputChangeSearch = (
@@ -142,7 +143,10 @@ export function UpdatePayment() {
     const apiUrl = "http://localhost:8080";
     const requestOptionsGet = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+        },
     };
 
     // Fetch income type from API 
@@ -160,26 +164,29 @@ export function UpdatePayment() {
     };
 
 
-   
+
     const getCurrentPaymemt = async () => {
-      fetch(`${apiUrl}/payment/${params.payment_id}`, requestOptionsGet)
-        .then((response) => response.json())
-        .then((res) => {
-          if (res.data) {
-            setPayment(res.data);
-            console.log(res.data);
-          } else {
-            console.log("else");
-          }
-        });
+        fetch(`${apiUrl}/payment/${params.payment_id}`, requestOptionsGet)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setPayment(res.data);
+                    console.log(res.data);
+                } else {
+                    console.log("else");
+                }
+            });
     };
 
-  
+
 
     const getEnroll = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
         };
         fetch(`${apiUrl}/enroll`, requestOptions)
             .then((response) => response.json())
@@ -195,7 +202,10 @@ export function UpdatePayment() {
     const getSubjectByCourse = async (course_id: any) => {
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
         };
         fetch(`${apiUrl}/subjectd/${course_id}`, requestOptions)
             .then((response) => response.json())
@@ -209,7 +219,10 @@ export function UpdatePayment() {
     const getSubjectBySubjectID = async (subject_id: any) => {
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
         };
         fetch(`${apiUrl}/subljects/${subject_id}`, requestOptions)
             .then((response) => response.json())
@@ -234,20 +247,20 @@ export function UpdatePayment() {
     //             }
     //         });
     // };
-    
+
     const getPrevPayment = async () => {
         fetch(`${apiUrl}/previousenpayment`, requestOptionsGet)
-          .then((response) => response.json())
-          .then((res) => {
-            if (res.data) {
-              payment.Payment_ID = res.data.Payment_ID;
-            }
-            else {
-              payment.Payment_ID = res.data = 1;
-              //console.log("else");
-            }
-          });
-      };
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    payment.Payment_ID = res.data.Payment_ID;
+                }
+                else {
+                    payment.Payment_ID = res.data = 1;
+                    //console.log("else");
+                }
+            });
+    };
 
     //   const getCall_Payment = async () => {
     //     fetch(`${apiUrl}/getcall_payment`, requestOptionsGet)
@@ -262,15 +275,15 @@ export function UpdatePayment() {
     //         }
     //       });
     //   };
-     
+
 
     useEffect(() => {
         // getPrevPayment();
         getPayment_type();
         //getPrevEnroll();
         getCurrentPaymemt();
-       
-        
+
+
         if (searchSubjectID == "") {
             getEnroll();
         } else {
@@ -293,11 +306,14 @@ export function UpdatePayment() {
             //Section: typeof enroll.Section === "string" ? parseInt(enroll.Section) : enroll.Section,
         };
 
-        
+
         const apiUrl = "http://localhost:8080/updatepayment";
         const requestOptions = {
             method: "PATCH",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(data),
         };
         console.log(data)
@@ -315,13 +331,13 @@ export function UpdatePayment() {
 
     return (
         <Container maxWidth={false}
-        sx={{
-            mt:10,
-            bgcolor: "#e1e1e1",
-            padding: 2,
-            width: "auto",
-            height: "auto",
-        }}>
+            sx={{
+                mt: 10,
+                bgcolor: "#e1e1e1",
+                padding: 2,
+                width: "auto",
+                height: "auto",
+            }}>
             <Snackbar
                 open={success}
                 autoHideDuration={6000}
@@ -585,7 +601,7 @@ export function UpdatePayment() {
                         >
                             <Button
                                 component={RouterLink}
-                                to="/"
+                                to="/payment"
                                 variant="contained"
                                 color="primary"
                             >

@@ -24,13 +24,17 @@ function Exam_Schedule_Info() {
 
     const requestOptionsGet = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json" },
     };
 
     const getExamSchedulesBySubjectID = async () => {
         const requestOptionsGet = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
         };
         fetch(`${apiUrl}/exam_schedule/${params.subject_id}/${params.exam_type}`, requestOptionsGet)
             .then((response) => response.json())
@@ -56,7 +60,9 @@ function Exam_Schedule_Info() {
     const deleteExamSchedule = async () => {
         const requestOptionsDelete = {
             method: "DELETE",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
         };
         fetch(`${apiUrl}/exam_schedule/${exam_schedule?.Exam_Schedule_ID}`, requestOptionsDelete)
             .then((response) => response.json())

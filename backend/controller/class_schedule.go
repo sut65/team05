@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	validate_function "github.com/B6025212/team05/custom_validate_function"
 	"github.com/B6025212/team05/entity"
 
 	"github.com/gin-gonic/gin"
@@ -55,8 +56,11 @@ func CreateClassSchedule(c *gin.Context) {
 		Start_Time:                 class_schedule.Start_Time,
 		End_Time:                   class_schedule.End_Time,
 	}
-
-	// บันทึก entity Subject
+	if _, err := validate_function.ClassScheduleValidate(new_class_schedule.Day, room, new_class_schedule.Start_Time, new_class_schedule.End_Time); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// บันทึก entity Class_Schedule
 	if err := entity.DB().Create(&new_class_schedule).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

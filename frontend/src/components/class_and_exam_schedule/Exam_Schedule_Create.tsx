@@ -125,7 +125,9 @@ function Exam_Schedule_Create() {
     const getSubject = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
         };
         fetch(`${apiUrl}/subject/${exam_schedule.Subject_ID}/1`, requestOptions)
             .then((response) => response.json())
@@ -206,7 +208,9 @@ function Exam_Schedule_Create() {
 
         const requestOptionsPost = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
 

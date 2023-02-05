@@ -1,5 +1,3 @@
-
-
 package entity
 
 import (
@@ -18,6 +16,16 @@ func DB() *gorm.DB {
 
 	return db
 
+}
+
+func OpenDatabaseForTesting() *gorm.DB {
+	database, err := gorm.Open(sqlite.Open("C:\\Users\\asus\\Desktop\\SE-G5\\Code\\team05\\backend\\test.db"), &gorm.Config{})
+
+	if err != nil {
+		panic("failed to connect database")
+	}
+	db = database
+	return db
 }
 
 func OpenDatabase() {
@@ -476,7 +484,7 @@ func SetupDatabase() {
 
 	system_analysis_sec1 := Subject{
 		ID:               8,
-		Subject_ID:       "523315",
+		Subject_ID:       "523331",
 		Professor:        professor2,
 		Course:           cpe2560,
 		Subject_Status:   subject_open,
@@ -587,7 +595,7 @@ func SetupDatabase() {
 	}
 
 	room_F11_micro := Room{
-		Room_ID:  "F11-41-MircoP",
+		Room_ID:  "F1141MircoP",
 		Seats:    60,
 		RoomType: lab_room_type,
 		Admin:    admin1,
@@ -603,7 +611,7 @@ func SetupDatabase() {
 	}
 
 	room_F11_software := Room{
-		Room_ID:  "F11-42-Software",
+		Room_ID:  "F1142Software",
 		Seats:    60,
 		RoomType: lab_room_type,
 		Building: building_f11,
@@ -616,7 +624,7 @@ func SetupDatabase() {
 	db.Create(&room_b6105)
 
 	system_analysis_sec1_class := Class_Schedule{
-		Class_Schedule_ID:          "CLS523332-1-B2101-MON-1300-1500",
+		Class_Schedule_ID:          "CLS523332-1-B2101-Mon-1300-1500",
 		Subject:                    system_analysis_sec1,
 		Section:                    1,
 		Room:                       room_b2101,
@@ -628,7 +636,7 @@ func SetupDatabase() {
 	}
 
 	os_sec1_class := Class_Schedule{
-		Class_Schedule_ID:          "CLS523354-2-B2101-MON-1300-1500",
+		Class_Schedule_ID:          "CLS523354-2-B2101-Tue-1300-1500",
 		Subject:                    operating_system_sec1,
 		Section:                    1,
 		Room:                       room_b2101,
@@ -640,7 +648,7 @@ func SetupDatabase() {
 	}
 
 	ann_sec1_class := Class_Schedule{
-		Class_Schedule_ID:          "CLS523414-1-B6105-MON-0900-1200",
+		Class_Schedule_ID:          "CLS523414-1-B6105-Mon-0900-1200",
 		Subject:                    artificial_neural_network,
 		Section:                    1,
 		Room:                       room_b6105,
@@ -650,12 +658,52 @@ func SetupDatabase() {
 		Class_Schedule_Description: "Artificial Neural Network class",
 		Day:                        "Mon",
 	}
+
+	kdd_class := Class_Schedule{
+		Class_Schedule_ID:          "CLS523211-1-B6105-Fri-1000-1200",
+		Subject:                    knowledge_discovery_and_data_mining,
+		Section:                    1,
+		Room:                       room_b6105,
+		Admin:                      admin1,
+		Start_Time:                 fmt.Sprintf("%02d:%02d", 10, 00),
+		End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
+		Class_Schedule_Description: "Knowledge Discovery and Data Mining Class",
+		Day:                        "Fri",
+	}
+	// Class_D : {Day : "Tue", Room_ID: "F-11-MicroP", 	 Start_Time:16:00, End_Time:19:00}
+	os_lab_class := Class_Schedule{
+		Class_Schedule_ID:          "CLS523354-1-F1142Software-Tue-1600-1900",
+		Subject:                    operating_system_sec1,
+		Section:                    1,
+		Room:                       room_F11_software,
+		Admin:                      admin2,
+		Start_Time:                 fmt.Sprintf("%02d:%02d", 16, 00),
+		End_Time:                   fmt.Sprintf("%02d:%02d", 19, 00),
+		Class_Schedule_Description: "Operating System Lab Class",
+		Day:                        "Tue",
+	}
+
+	problem_solving_sec1_class := Class_Schedule{
+		Class_Schedule_ID:          "CLS523354-1-F1142Software-Mon-1300-1600",
+		Subject:                    problem_solving_sec1,
+		Section:                    1,
+		Room:                       room_F11_software,
+		Admin:                      admin2,
+		Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+		End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
+		Class_Schedule_Description: "Problem Solving Sec 1 Class",
+		Day:                        "Mon",
+	}
+
 	db.Create(&system_analysis_sec1_class)
+	db.Create(&problem_solving_sec1_class)
 	db.Create(&os_sec1_class)
+	db.Create(&os_lab_class)
 	db.Create(&ann_sec1_class)
+	db.Create(&kdd_class)
 
 	system_analysis_midterm := Exam_Schedule{
-		Exam_Schedule_ID: "EXAM-523315-B2101-MID-1805-1500-1700",
+		Exam_Schedule_ID: "EXAM-523315-B2101-Mid-1805-1500-1700",
 		Subject:          system_analysis_sec1,
 		Room:             room_b2101,
 		Admin:            admin2,
@@ -667,7 +715,7 @@ func SetupDatabase() {
 	db.Create(&system_analysis_midterm)
 
 	os_final := Exam_Schedule{
-		Exam_Schedule_ID: "EXAM-523354-B6105-FIN-2207-1500-1700",
+		Exam_Schedule_ID: "EXAM-523354-B6105-Fin-2207-1500-1700",
 		Subject:          operating_system_sec1,
 		Room:             room_b6105,
 		Admin:            admin1,
@@ -678,7 +726,7 @@ func SetupDatabase() {
 	}
 
 	ann_midterm := Exam_Schedule{
-		Exam_Schedule_ID: "EXAM-523414-B6105-MID-1905-0900-1200",
+		Exam_Schedule_ID: "EXAM-523414-B6105-Mid-1905-0900-1200",
 		Subject:          artificial_neural_network,
 		Room:             room_b6105,
 		Admin:            admin1,
@@ -777,42 +825,40 @@ func SetupDatabase() {
 	}
 	db.Create(&Approval2)
 
-	
-///---histroryType1----
+	///---histroryType1----
 
-HistoryType1 :=HistoryType{
-	History_Type_ID: "HT1",
-	Type_Name: "ประวัติเพิ่ม",
+	HistoryType1 := HistoryType{
+		History_Type_ID: "HT1",
+		Type_Name:       "ประวัติเพิ่ม",
 	}
 	db.Create(&HistoryType1)
 
-
-	HistoryType2 :=HistoryType{
+	HistoryType2 := HistoryType{
 		History_Type_ID: "HT2",
-		Type_Name: "ประวัติลด",
-		}
-		db.Create(&HistoryType2)
+		Type_Name:       "ประวัติลด",
+	}
+	db.Create(&HistoryType2)
 
-	HistoryType3 :=HistoryType{
-	History_Type_ID: "HT3",
-	Type_Name: "ประวัติเปลี่ยนกลุ่ม",
+	HistoryType3 := HistoryType{
+		History_Type_ID: "HT3",
+		Type_Name:       "ประวัติเปลี่ยนกลุ่ม",
 	}
 	db.Create(&HistoryType3)
 
 	///-----------------------Adding_reducing------------------------
 	Adding_reducing1 := Adding_reducing{
-		Change_ID:		 1,
-		HistoryType:	 HistoryType1 ,
-		Enroll:   		 enroll1, 	
-		Student:   		 student1, 
+		Change_ID:   1,
+		HistoryType: HistoryType1,
+		Enroll:      enroll1,
+		Student:     student1,
 	}
 	db.Create(&Adding_reducing1)
 
 	Adding_reducing2 := Adding_reducing{
-		Change_ID:		 2,
-		HistoryType:	 HistoryType2 ,
-		Enroll:  		 enroll2 ,	
-		Student :   	 student2, 
+		Change_ID:   2,
+		HistoryType: HistoryType2,
+		Enroll:      enroll2,
+		Student:     student2,
 	}
 	db.Create(&Adding_reducing2)
 	// Adding_reducing3 := Adding_reducing{
@@ -855,40 +901,40 @@ HistoryType1 :=HistoryType{
 	db.Create(&Adding_point2)
 
 	payment_type1 := Payment_Type{
-		Payment_Type_ID: "P01",
+		Payment_Type_ID:   "P01",
 		Payment_Type_Name: "เงินสด",
 	}
 	db.Create(&payment_type1)
 
 	payment_type2 := Payment_Type{
-		Payment_Type_ID: "P02",
+		Payment_Type_ID:   "P02",
 		Payment_Type_Name: "โอนชำระ",
 	}
 	db.Create(&payment_type2)
 
 	payment1 := Payment{
-		Payment_ID: 001,
-		Student: student2,
+		Payment_ID:      001,
+		Student:         student2,
 		Payment_Type_ID: &payment_type1.Payment_Type_ID,
-		Receipt_number: "asdf816188",
-		Admin_ID: &admin1.Admin_ID,
-		Date_Time: "02/03/2566_21:35",
-		Unit: 20,
-		Payable: enroll1.Subject.Unit*800,
-		Amounts: 25000,
+		Receipt_number:  "asdf816188",
+		Admin_ID:        &admin1.Admin_ID,
+		Date_Time:       "02/03/2566_21:35",
+		Unit:            20,
+		Payable:         enroll1.Subject.Unit * 800,
+		Amounts:         25000,
 	}
 	db.Create(&payment1)
 
 	payment2 := Payment{
-		Payment_ID: 002,
-		Student: student1,
+		Payment_ID:      002,
+		Student:         student1,
 		Payment_Type_ID: &payment_type2.Payment_Type_ID,
-		Admin_ID: &admin2.Admin_ID,
-		Receipt_number: "assdf81h6188",
-		Date_Time: "02/03/2566_21:35",
-		Unit: 12,
-		Payable: enroll2.Subject.Unit*800,
-		Amounts: 10000,
+		Admin_ID:        &admin2.Admin_ID,
+		Receipt_number:  "assdf81h6188",
+		Date_Time:       "02/03/2566_21:35",
+		Unit:            12,
+		Payable:         enroll2.Subject.Unit * 800,
+		Amounts:         10000,
 	}
 	db.Create(&payment2)
 

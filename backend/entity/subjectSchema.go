@@ -79,13 +79,13 @@ func SetSubjectValidation() {
 
 	validator.CustomTypeTagMap.Set("subject_en_name_valid", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 		str := i.(string)
-		match, _ := regexp.MatchString(`^[a-zA-Z\s0-9]+$`, str)
+		match, _ := regexp.MatchString(`^[a-zA-Z\s0-9-]+$`, str)
 		return match
 	}))
 
 	validator.CustomTypeTagMap.Set("subject_th_name_valid", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 		str := i.(string)
-		match, _ := regexp.MatchString(`^[ก-๏\s0-9]+$`, str)
+		match, _ := regexp.MatchString(`^[ก-๏\s0-9-]+$`, str)
 		return match
 
 	}))

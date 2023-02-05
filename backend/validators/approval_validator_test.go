@@ -13,7 +13,7 @@ func TestApprovalReasonNotBlank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	approval := entity.Approval{
-		Reason:     "", // ผิด
+		Reason: "", // ผิด
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -33,7 +33,7 @@ func TestApprovalReasonNotSpecialCharacters(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	reason := entity.Approval{
-		Reason:     "1234?$#@", // ผิด
+		Reason: "1234?$#@", // ผิด
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -48,4 +48,3 @@ func TestApprovalReasonNotSpecialCharacters(t *testing.T) {
 	// err.Error ต้องมี error message แสดงออกมา
 	g.Expect(err.Error()).To(Equal("Reason cannot be special characters or number"))
 }
-

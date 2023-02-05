@@ -163,6 +163,28 @@ function ApprovalCreate() {
     },
   };
 
+  //------------professor
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  const getProfessor = async () => {
+    let id = localStorage.getItem("id");
+
+    fetch(`${apiUrl}/professor/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          approval.Professor_ID = res.data.Professor_ID;
+        } else {
+          console.log("else");
+        }
+      });
+  };
+
   //----------Request----
 
   const getRequests = async () => {
@@ -232,6 +254,7 @@ function ApprovalCreate() {
   useEffect(() => {
     getApproval_Type();
     getPrevApproval();
+    getProfessor();
 
     if (searchRequestID == "") {
       getRequests();
@@ -249,10 +272,10 @@ function ApprovalCreate() {
           : approval.Approval_ID,
       // approval.Approval_ID ?? "",
       // Student_ID: approval.Student_ID ?? "",
-      Professor_ID:
-        typeof approval.Professor_ID === "string"
-          ? parseInt(approval.Professor_ID)
-          : approval.Professor_ID,
+      Professor_ID: approval.Professor_ID ?? "",
+        // typeof approval.Professor_ID === "string"
+        //   ? parseInt(approval.Professor_ID)
+        //   : approval.Professor_ID,
       Request_ID:
         typeof approval.Request_ID === "string"
           ? parseInt(approval.Request_ID)

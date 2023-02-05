@@ -70,7 +70,7 @@ function ApprovalCreate() {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [message, setAlertMessage] = React.useState("");
   const navigate = useNavigate();
   const params = useParams();
 
@@ -157,7 +157,32 @@ function ApprovalCreate() {
   const apiUrl = "http://localhost:8080";
   const approvalOptionsGet = {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  //------------professor
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  const getProfessor = async () => {
+    let id = localStorage.getItem("id");
+
+    fetch(`${apiUrl}/professor/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          approval.Professor_ID = res.data.Professor_ID;
+        } else {
+          console.log("else");
+        }
+      });
   };
 
   //----------Request----
@@ -165,7 +190,10 @@ function ApprovalCreate() {
   const getRequests = async () => {
     const approvalOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(`${apiUrl}/requests`, approvalOptions)
       .then((response) => response.json())
@@ -180,7 +208,10 @@ function ApprovalCreate() {
   const getRequestByRequestID = async (request_id: any) => {
     const approvalOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(`${apiUrl}/request/${request_id}`, approvalOptions)
       .then((response) => response.json())
@@ -223,6 +254,7 @@ function ApprovalCreate() {
   useEffect(() => {
     getApproval_Type();
     getPrevApproval();
+    getProfessor();
 
     if (searchRequestID == "") {
       getRequests();
@@ -240,10 +272,10 @@ function ApprovalCreate() {
           : approval.Approval_ID,
       // approval.Approval_ID ?? "",
       // Student_ID: approval.Student_ID ?? "",
-      Professor_ID:
-        typeof approval.Professor_ID === "string"
-          ? parseInt(approval.Professor_ID)
-          : approval.Professor_ID,
+      Professor_ID: approval.Professor_ID ?? "",
+        // typeof approval.Professor_ID === "string"
+        //   ? parseInt(approval.Professor_ID)
+        //   : approval.Professor_ID,
       Request_ID:
         typeof approval.Request_ID === "string"
           ? parseInt(approval.Request_ID)
@@ -257,7 +289,10 @@ function ApprovalCreate() {
     // const apiUrl = "http://localhost:8080/approvals";
     const approvalOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     };
 
@@ -268,6 +303,7 @@ function ApprovalCreate() {
         if (res.data) {
           setSuccess(true);
         } else {
+          setAlertMessage(res.error);
           setError(true);
         }
       });
@@ -297,7 +333,7 @@ function ApprovalCreate() {
 
         <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลไม่สำเร็จ
+            {message}
           </Alert>
         </Snackbar>
 
@@ -351,8 +387,9 @@ function ApprovalCreate() {
                 value={approval.Approval_ID}
                 onChange={handleInputChange}
               />
+              <p>อาจารย์</p>
               <TextField
-                label="รหัสอาจารย์"
+                disabled
                 id="Professor_ID"
                 variant="outlined"
                 type="string"

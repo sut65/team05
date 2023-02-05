@@ -158,7 +158,10 @@ function ApprovalUpdate() {
   const apiUrl = "http://localhost:8080";
   const approvalOptionsGet = {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
   };
   const getCurrentApproval = async () => {
     fetch(`${apiUrl}/approval/${params.approval_id}`, approvalOptionsGet)
@@ -176,7 +179,10 @@ function ApprovalUpdate() {
   const getApprovals = async () => {
     const approvalOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(`${apiUrl}/approvals`, approvalOptions)
       .then((response) => response.json())
@@ -191,7 +197,10 @@ function ApprovalUpdate() {
   const getApprovalByApprovalID = async (approval_id: any) => {
     const approvalOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(`${apiUrl}/approval/${approval_id}`, approvalOptions)
       .then((response) => response.json())
@@ -269,7 +278,10 @@ function ApprovalUpdate() {
     // const apiUrl = "http://localhost:8080/approvals";
     const approvalOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     };
     console.log(JSON.stringify(data));

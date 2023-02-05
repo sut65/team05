@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/B6025212/team05/entity"
+	"github.com/asaskevich/govalidator"
 
 	"github.com/gin-gonic/gin"
 )
@@ -40,7 +41,7 @@ func CreateApproval(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "student status not found"})
 	// 	return
 	// }
-	if tx := entity.DB().Where("id = ?", approval.Professor_ID).First(&professor); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("professor_id = ?", approval.Professor_ID).First(&professor); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
 		return
 	}
@@ -68,6 +69,11 @@ func CreateApproval(c *gin.Context) {
 		Reason:           approval.Reason,
 		Approval_Type_ID: approval.Approval_Type_ID,
 		Request_ID:       approval.Request_ID,
+	}
+
+		if _, err := govalidator.ValidateStruct(new_approval); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	// บันทึก entity request

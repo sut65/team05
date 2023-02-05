@@ -59,7 +59,9 @@ function Class_Schedule_Create() {
     const getSubject = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
         };
         fetch(`${apiUrl}/subject/${class_schedule.Subject_ID}/${class_schedule.Section}`, requestOptions)
             .then((response) => response.json())
@@ -73,7 +75,9 @@ function Class_Schedule_Create() {
     const getRooms = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
         };
         fetch(`${apiUrl}/rooms`, requestOptions)
             .then((response) => response.json())
@@ -154,7 +158,9 @@ function Class_Schedule_Create() {
 
         const requestOptionsPost = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
 

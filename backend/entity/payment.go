@@ -19,8 +19,8 @@ type Payment struct {
 	Admin    Admin `gorm:"references:Admin_ID"`
 
 	Receipt_number string
-	Date_Time string
-	Unit      uint
+	Date_Time string `valid:"required~Date_Time cannot be blank"`
+	Unit      uint	`valid:"required~Unit cannot be blank"`
 	Payable   uint
-	Amounts   uint
+	Amounts   uint	`valid:"required~amounts cannot be blank"`
 }

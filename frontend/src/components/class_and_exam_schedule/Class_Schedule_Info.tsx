@@ -53,7 +53,9 @@ function Class_Schedule_Info() {
     const deleteClassSchedule = async () => {
         const requestOptionsDelete = {
             method: "DELETE",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json" },
         };
         fetch(`${apiUrl}/class_schedule/${class_schedule?.Class_Schedule_ID}`, requestOptionsDelete)
             .then((response) => response.json())

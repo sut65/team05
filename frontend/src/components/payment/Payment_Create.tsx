@@ -32,6 +32,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Payment } from "../../models/I_Payment";
 import { Payment_Type } from "../../models/I_Payment";
 import { bgcolor } from "@mui/system";
+import { amber } from "@mui/material/colors";
 
 
 export function CreatePayment() {
@@ -45,10 +46,10 @@ export function CreatePayment() {
 
     const [subjects, setSubjects] = React.useState<Subject[]>([]);
     const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
-
     const [success, setSuccess] = React.useState(false);
     const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
     const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
+    const [payment1, setPayment1] = React.useState<Payment>();
     const [payments, setPayments] = React.useState<Payment[]>([]);
     const [payment, setPayment] = React.useState<Partial<Payment>>({});
     const [payment_type, setPayment_Type] = React.useState<Payment_Type[]>([]);
@@ -69,16 +70,30 @@ export function CreatePayment() {
         setSuccess(false);
         setError(false);
     };
+
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
         const id = event.target.id as keyof typeof payment;
-        const { value } = event.target;
+
         setPayment({
             ...payment,
             [id]: event.target.value
         });
     };
+
+  let add = function (num1: any) {
+    if ((num1 === undefined)) {
+      return 0;
+    } else {
+     payment.Payable = num1 * 800;
+      return payment.Payable;
+    }
+
+  }
+
+
+
 
     const handleInputChangeSearch = (
         event: React.ChangeEvent<{ id?: string; value: any }>
@@ -247,18 +262,6 @@ export function CreatePayment() {
             });
     };
 
-   
-
-    const call = async () => {
-        if (payment.Unit) {
-            payment.Unit = payment.Unit * 800;
-        }
-        else {
-            payment.Unit = 800;
-            //console.log("else");
-        }
-
-    };
 
     const getPrevPayment = async () => {
         fetch(`${apiUrl}/previousenpayment`, requestOptionsGet)
@@ -512,8 +515,9 @@ export function CreatePayment() {
                             <TextField sx={{ width: "250px", pl: 2 }}
                                 size="small"
                                 id="Payable"
-                                value={payment.Payable}
-                                onChange={handleInputChange}            
+                                value={add(payment.Unit)}
+                                //value={payment.Payable}
+                                onChange={handleInputChange}
                             >
                             </TextField>
                         </Grid>

@@ -68,7 +68,7 @@ func CreateProfessor(c *gin.Context) {
 func GetProfessor(c *gin.Context) {
 	var professor entity.Professor
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM professoes WHERE id = ?", id).Scan(&professor).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM professors WHERE professor_id = ?", id).Scan(&professor).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 

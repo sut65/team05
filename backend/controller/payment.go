@@ -43,13 +43,13 @@ func CreatePayment(c *gin.Context) {
 		return
 	}
 
-	if _, err := govalidator.ValidateStruct(payment); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if tx := entity.DB().Where("student_id = ?", payment.Student_ID).First(&student); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "student_id not found"})
 		return
 	}
 
-	if tx := entity.DB().Where("student_id = ?", payment.Student_ID).First(&student); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "student_id not found"})
+	if _, err := govalidator.ValidateStruct(payment); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

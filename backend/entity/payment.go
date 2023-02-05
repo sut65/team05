@@ -54,4 +54,5 @@ func SetDate_TimeValidation() {
 		match, _ := regexp.MatchString(`[0-9]|[/:.]`, str)
 		return match
 	}))
+	
 }

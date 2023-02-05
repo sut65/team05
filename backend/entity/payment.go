@@ -39,6 +39,7 @@ type Payment struct {
 // 	}))
 // }
 
+
 func SetReceipt_numberValidation() {
 	validator.CustomTypeTagMap.Set("Receipt_number_check", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 		str := i.(string)

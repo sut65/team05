@@ -157,7 +157,10 @@ function ApprovalCreate() {
   const apiUrl = "http://localhost:8080";
   const approvalOptionsGet = {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
   };
 
   //----------Request----
@@ -165,7 +168,10 @@ function ApprovalCreate() {
   const getRequests = async () => {
     const approvalOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(`${apiUrl}/requests`, approvalOptions)
       .then((response) => response.json())
@@ -180,7 +186,10 @@ function ApprovalCreate() {
   const getRequestByRequestID = async (request_id: any) => {
     const approvalOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(`${apiUrl}/request/${request_id}`, approvalOptions)
       .then((response) => response.json())
@@ -257,7 +266,10 @@ function ApprovalCreate() {
     // const apiUrl = "http://localhost:8080/approvals";
     const approvalOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     };
 
@@ -352,8 +364,9 @@ function ApprovalCreate() {
                 value={approval.Approval_ID}
                 onChange={handleInputChange}
               />
+              <p>อาจารย์</p>
               <TextField
-                label="รหัสอาจารย์"
+                disabled
                 id="Professor_ID"
                 variant="outlined"
                 type="string"

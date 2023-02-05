@@ -34,6 +34,7 @@ func main() {
 
 	entity.SetSubjectValidation()
 	entity.SetRequestValidation()
+	entity.SetApprovalValidation()
 
 	r.POST("/login", controller.Login)
 

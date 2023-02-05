@@ -70,7 +70,7 @@ function ApprovalCreate() {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [message, setAlertMessage] = React.useState("");
   const navigate = useNavigate();
   const params = useParams();
 
@@ -268,6 +268,7 @@ function ApprovalCreate() {
         if (res.data) {
           setSuccess(true);
         } else {
+          setAlertMessage(res.error);
           setError(true);
         }
       });
@@ -297,7 +298,7 @@ function ApprovalCreate() {
 
         <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลไม่สำเร็จ
+            {message}
           </Alert>
         </Snackbar>
 

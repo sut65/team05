@@ -41,7 +41,7 @@ func CreateApproval(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "student status not found"})
 	// 	return
 	// }
-	if tx := entity.DB().Where("id = ?", approval.Professor_ID).First(&professor); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("professor_id = ?", approval.Professor_ID).First(&professor); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
 		return
 	}

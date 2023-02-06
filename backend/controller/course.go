@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/B6025212/team05/entity"
+	"github.com/asaskevich/govalidator"
 
 	"github.com/gin-gonic/gin"
 
@@ -46,8 +47,12 @@ func CreateCourse(c *gin.Context) {
 		Qualification_ID: course.Qualification_ID,
 		Admin_ID:         course.Admin_ID,
 	}
+	if _, err := govalidator.ValidateStruct(new_course); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-	if err := entity.DB().Create(&course).Error; err != nil {
+	if err := entity.DB().Create(&new_course).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 

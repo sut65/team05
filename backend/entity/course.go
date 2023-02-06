@@ -1,7 +1,9 @@
 package entity
 
 import (
-	
+	"regexp"
+
+	validator "github.com/asaskevich/govalidator"
 )
 
 // วุฒิ
@@ -32,12 +34,13 @@ type Major struct {
 }
 
 // หลักสูตร
+
 type Course struct {
-	Course_ID string `gorm:"primaryKey"`
+	Course_ID string `gorm:"primaryKey" valid:"courseidcheckul~Course ID cannot be lowercase !!!,courseidthaiall~Course ID  cannot be Thai Language !!!,required~Course ID cannot be null"`
 
-	Course_Name string
+	Course_Name string `valid:"coursenamechecklanguage~Course Name cannot be English Language,required~Course Name cannot be null,maxstringlength(35)~Course Name can not greater than 10 character"`
 
-	Datetime string
+	Datetime string `valid:"required~Datetime cannot be null,datetimechecknumber~Datetime cannot be English or thai language,maxstringlength(10)~Datetime cannot greater than 10 character"`
 
 	Qualification_ID *string
 	Qualification    Qualification `gorm:"references:Qualification_ID"`
@@ -51,3 +54,23 @@ type Course struct {
 	Courses  []Course  `gorm:"foreignKey:Course_ID"`
 	Subjects []Subject `gorm:"foreignKey:Course_ID"`
 }
+
+func SetCourseIDValidation() {
+	validator.CustomTypeTagMap.Set("courseidcheckul", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+
+		str := i.(string)
+		match, _ := regexp.MatchString(`([A-Zก-๏])`, str)
+		return match
+
+	}))
+
+	validator.CustomTypeTagMap.Set("courseidthaiall", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+
+		str := i.(string)
+		match, _ := regexp.MatchString(`([A-Za-z])`, str)
+		return match
+
+	}))
+}
+
+

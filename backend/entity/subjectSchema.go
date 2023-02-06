@@ -33,20 +33,20 @@ type Subject struct {
 	ID         uint   `gorm:"primaryKey"`
 	Subject_ID string `gorm:"primaryKey" valid:"subject_id_format~Wrong Subject ID Format"`
 
-	Professor_ID *uint
-	Professor    Professor `gorm:"references:id"`
+	Professor_ID *uint     `valid:"-"`
+	Professor    Professor `gorm:"references:id" valid:"-"`
 
-	Course_ID *string
-	Course    Course `gorm:"references:Course_ID"`
+	Course_ID *string `valid:"-"`
+	Course    Course  `gorm:"references:Course_ID" valid:"-"`
 
-	Subject_Status_ID *string
-	Subject_Status    Subject_Status `gorm:"references:Subject_Status_ID"`
+	Subject_Status_ID *string        `valid:"-"`
+	Subject_Status    Subject_Status `gorm:"references:Subject_Status_ID" valid:"-"`
 
-	Class_Type_ID *string
-	Class_Type    Class_Type `gorm:"references:Class_Type_ID"`
+	Class_Type_ID *string    `valid:"-"`
+	Class_Type    Class_Type `gorm:"references:Class_Type_ID" valid:"-"`
 
-	Subject_Category_ID *string
-	Subject_Category    Subject_Category `gorm:"references:Subject_Category_ID"`
+	Subject_Category_ID *string          `valid:"-"`
+	Subject_Category    Subject_Category `gorm:"references:Subject_Category_ID" valid:"-"`
 
 	Subject_TH_Name string `valid:"subject_th_name_valid~Incorrect Subject TH Name format!!"`
 	Subject_EN_Name string `valid:"subject_en_name_valid~Incorrect Subject EN Name format!!"`

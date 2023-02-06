@@ -9,14 +9,14 @@ type Adding_point struct {
 	Adding_point_ID uint `gorm:"primaryKey "`
 
 
-	Professor_ID *string
+	Professor_ID *string `valid:"-"`
 	Professor    Professor `gorm:"references:Professor_ID"`
 
-	Enroll_ID *string
-	Enroll    Enroll `gorm:"references:Enroll_ID"`
+	Enroll_ID *string `valid:"-"`
+	Enroll    Enroll `gorm:"references:Enroll_ID" valid:"-"`
 
-	Grade_ID string	`valid:"required~Grade_ID cannot be blank"`
-	Grade    Grade `gorm:"references:Grade_ID "`
+	Grade_ID string	`valid:"required~Grade_ID cannot be blank" `
+	Grade    Grade `gorm:"references:Grade_ID " valid:"-"`
 
 	//Professors      []Professor      `gorm:"foreignKey:Professor_ID"`
 	//Enrolls         []Enroll         `gorm:"foreignKey:Enroll_ID"`

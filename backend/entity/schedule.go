@@ -7,13 +7,13 @@ type Class_Schedule struct {
 	Class_Schedule_ID string `gorm:"primaryKey" valid:"required~Class Schedule ID Cannot be blank"`
 
 	Subject_ID *string
-	Subject    Subject `gorm:"references:Subject_ID"`
+	Subject    Subject `gorm:"references:Subject_ID" valid:"-"`
 	Section    uint
 
-	Admin_ID *string
-	Admin    Admin `gorm:"references:Admin_ID"`
-	Room_ID  *string
-	Room     Room `gorm:"references:Room_ID"`
+	Admin_ID *string `valid:"-"`
+	Admin    Admin   `gorm:"references:Admin_ID" valid:"-"`
+	Room_ID  *string `valid:"-"`
+	Room     Room    `gorm:"references:Room_ID" valid:"-"`
 
 	Class_Schedule_Description string
 	Day                        string
@@ -24,12 +24,12 @@ type Class_Schedule struct {
 type Exam_Schedule struct {
 	Exam_Schedule_ID string `gorm:"primaryKey"`
 
-	Subject_ID *string
-	Subject    Subject `gorm:"references:Subject_ID"`
-	Admin_ID   *string
-	Admin      Admin `gorm:"references:Admin_ID"`
-	Room_ID    *string
-	Room       Room `gorm:"references:Room_ID"`
+	Subject_ID *string `valid:"-"`
+	Subject    Subject `gorm:"references:Subject_ID" valid:"-"`
+	Admin_ID   *string `valid:"-"`
+	Admin      Admin   `gorm:"references:Admin_ID" valid:"-"`
+	Room_ID    *string `valid:"-"`
+	Room       Room    `gorm:"references:Room_ID" valid:"-"`
 
 	Exam_Type string
 	Exam_Date string

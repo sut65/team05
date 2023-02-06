@@ -13,7 +13,7 @@ func TestApprovalReasonNotBlank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	approval := entity.Approval{
-		Reason: "", // ผิด
+		Reason:     "", // ผิด
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -32,12 +32,12 @@ func TestApprovalReasonNotBlank(t *testing.T) {
 func TestApprovalReasonNotSpecialCharacters(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	reason := entity.Approval{
-		Reason: "1234?$#@", // ผิด
+	reason2 := entity.Approval{
+		Reason:     "1234?$#@", // ผิด
 	}
 
 	// ตรวจสอบด้วย govalidator
-	ok, err := govalidator.ValidateStruct(reason)
+	ok, err := govalidator.ValidateStruct(reason2)
 
 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
 	g.Expect(ok).ToNot(BeTrue())
@@ -47,4 +47,24 @@ func TestApprovalReasonNotSpecialCharacters(t *testing.T) {
 
 	// err.Error ต้องมี error message แสดงออกมา
 	g.Expect(err.Error()).To(Equal("Reason cannot be special characters or number"))
+}
+
+func TestMaxcharectorReason(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	reason2 := entity.Approval{
+		Reason: "กกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก", // ผิด
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(reason2)
+
+	// ok ต้องไม่เป็น true แปลว่าต้องจับ error ได้
+	g.Expect(ok).NotTo(BeTrue())
+
+	// err ต้องไม่เป็น nil แปลว่าต้องจับ error ได้
+	g.Expect(err).NotTo(BeNil())
+
+	// err.Error() ต้องมี message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("The reason cannot be more than 30 characters"))
 }

@@ -33,6 +33,7 @@ import { Payment } from "../../models/I_Payment";
 import { Payment_Type } from "../../models/I_Payment";
 import { bgcolor } from "@mui/system";
 import { amber } from "@mui/material/colors";
+import { StudentsInterface } from "../../models/I_Student";
 
 
 export function CreatePayment() {
@@ -45,7 +46,7 @@ export function CreatePayment() {
     //const [subject, setSubject] = React.useState<Subject[]>([]);
 
     const [subjects, setSubjects] = React.useState<Subject[]>([]);
-    const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
+    const [SearchStudentID, setSearchStudentID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
     const [success, setSuccess] = React.useState(false);
     const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
     const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
@@ -54,6 +55,7 @@ export function CreatePayment() {
     const [payment, setPayment] = React.useState<Partial<Payment>>({});
     const [payment_type, setPayment_Type] = React.useState<Payment_Type[]>([]);
     const [message, setAlertMessage] = React.useState("");
+    const [student, setStudent] = React.useState<StudentsInterface[]>([]);
 
     const [error, setError] = React.useState(false);
 
@@ -75,32 +77,33 @@ export function CreatePayment() {
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
         const id = event.target.id as keyof typeof payment;
-
+        const searched_stuent_id = event.target.value;
+        setSearchStudentID(searched_stuent_id)
         setPayment({
             ...payment,
             [id]: event.target.value
         });
     };
 
-  let add = function (num1: any) {
-    if ((num1 === undefined)) {
-      return 0;
-    } else {
-     payment.Payable = num1 * 800;
-      return payment.Payable;
+    let add = function (num1: any) {
+        if ((num1 === undefined)) {
+            return 0;
+        } else {
+            payment.Payable = num1 * 800;
+            return payment.Payable;
+        }
+
     }
 
-  }
 
 
 
-
-    const handleInputChangeSearch = (
-        event: React.ChangeEvent<{ id?: string; value: any }>
-    ) => {
-        const id = event.target.id as keyof typeof CreatePayment;
-        setSearchSubjectID(event.target.value);
-    };
+    // const handleInputChangeSearch = (
+    //     event: React.ChangeEvent<{ id?: string; value: any }>
+    // ) => {
+    //     const id = event.target.id as keyof typeof CreatePayment;
+    //     setSearchStudentID(event.target.value);
+    // };
 
     const handleSelectChange = (event: SelectChangeEvent<string>) => {
         const name = event.target.name as keyof typeof payment;
@@ -127,12 +130,9 @@ export function CreatePayment() {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
 
-    const sendSearchedSubjectID = () => {
-        //navigate({ pathname: `/subject/${searchSubjectID}` });
-        setSearchSubjectID(searchSubjectID);
-        getSubjectBySubjectID(searchSubjectID);
-        //window.location.reload();
-        //console.log(searchSubjectID);
+    const sendSearchedStudentID = () => {
+        setSearchStudentID(SearchStudentID);
+        getEnrollByStudentID(SearchStudentID);
     };
 
     // Declaring a HTTP request for requesting GET method
@@ -210,27 +210,13 @@ export function CreatePayment() {
             .then((res) => {
                 console.log(res);
                 if (res.data) {
-                    setEnrolls(res.data);
+                    //setEnrolls(res.data);
                     console.log(res.data);
                 }
             });
     };
 
-    const getSubjectByCourse = async (course_id: any) => {
-        const requestOptions = {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        };
-        fetch(`${apiUrl}/subjectd/${course_id}`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setSubjects(res.data);
-                }
-            });
-    };
-    const getSubjectBySubjectID = async (subject_id: any) => {
+    const getEnrollByStudentID = async (student_id: any) => {
         const requestOptions = {
             method: "GET",
             headers: {
@@ -238,11 +224,13 @@ export function CreatePayment() {
                 "Content-Type": "application/json"
             },
         };
-        fetch(`${apiUrl}/subljects/${subject_id}`, requestOptions)
+        console.log(SearchStudentID)
+        fetch(`${apiUrl}/enrolls/${SearchStudentID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
+                console.log(res.data);
                 if (res.data) {
-                    setSearchSubjectID(subject_id);
+                    setEnrolls(res.data);
                     setSubjects(res.data);
                 }
             });
@@ -277,21 +265,6 @@ export function CreatePayment() {
             });
     };
 
-    //   const getCall_Payment = async () => {
-    //     fetch(`${apiUrl}/getcall_payment`, requestOptionsGet)
-    //       .then((response) => response.json())
-    //       .then((res) => {
-    //         if (res.data) {
-    //           payment.Unit = res.data.Unit * 800;
-    //         }
-    //         else {
-    //           payment.Unit = res.data = 1;
-    //           //console.log("else");
-    //         }
-    //       });
-    //   };
-
-
     useEffect(() => {
         getPrevPayment();
         getPayment_type();
@@ -299,12 +272,14 @@ export function CreatePayment() {
         getAdmin();
 
 
-        if (searchSubjectID == "") {
+        if (SearchStudentID == "") {
             getEnroll();
         } else {
-            getSubjectBySubjectID(searchSubjectID);
+            getEnrollByStudentID(SearchStudentID);
         }
-        console.log(searchSubjectID);
+        console.log(
+
+        );
     }, []);
 
     function submitPayment() {
@@ -318,12 +293,7 @@ export function CreatePayment() {
             Payment_Type_ID: payment.Payment_Type_ID ?? "",
             Receipt_number: payment.Receipt_number ?? "",
             Unit: typeof payment.Unit === "string" ? parseInt(payment.Unit) : payment.Unit,
-
-            // Student_ID:
-            //Section: typeof enroll.Section === "string" ? parseInt(enroll.Section) : enroll.Section,
         };
-
-
 
         const apiUrl = "http://localhost:8080/payment";
         const requestOptions = {
@@ -406,94 +376,93 @@ export function CreatePayment() {
                             <p>กรุณาระบุรหัสนักศึกษา</p>
                             <Box>
                                 <TextField
-                                    id="outlined-basic"
                                     label="ระบุรหัสนักศึกษา"
                                     variant="outlined"
+                                    onChange={handleInputChange}
                                 >
                                 </TextField>
                             </Box>
                         </Grid>
                         <Grid sx={{ marginTop: '63px', marginLeft: 1, }}>
                             <Button
-                                variant="contained">
+                                variant="contained"
+                                onClick={sendSearchedStudentID}
+                            >
                                 ค้นหารหัสนักศึกษา
                             </Button>
                         </Grid>
                     </Grid>
-                    <Grid sx={{ marginTop: '20px', display: 'flex', marginLeft: 1 }}>
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="left">รหัสวิชา</TableCell>
-                                        <TableCell align="left">ชื่อวิชา</TableCell>
-                                        <TableCell align="left">Subject name</TableCell>
-                                        <TableCell align="left">วันเรียน</TableCell>
-                                        <TableCell align="left">เริ่มเรียน</TableCell>
-                                        <TableCell align="left">เลิกเรียน</TableCell>
-                                        <TableCell align="left">หน่วยกิต</TableCell>
-                                        <TableCell align="left">กลุ่ม</TableCell>
-                                    </TableRow>
-                                </TableHead>
+                    <Paper sx={{width:700}}>
+                        <Grid sx={{ marginTop: '20px', display: 'flex', marginLeft: 1 }}>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="left">รหัสวิชา</TableCell>
+                                            <TableCell align="left">ชื่อวิชา</TableCell>
+                                            <TableCell align="left">Subject name</TableCell>
+                                            <TableCell align="left">หน่วยกิต</TableCell>
+                                            <TableCell align="left">กลุ่ม</TableCell>
+                                        </TableRow>
+                                    </TableHead>
 
-                                <TableBody>
-                                    {(rowsPerPage > 0
-                                        ? enrolls.slice(
-                                            page * rowsPerPage,
-                                            page * rowsPerPage + rowsPerPage)
-                                        : enrolls
-                                    ).map((row) => (
-                                        <TableRow
-                                            key={row.Enroll_ID}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell align="left">{row.Subject_ID}</TableCell>
-                                            <TableCell align="left">{row.Subject_TH_Name}</TableCell>
-                                            <TableCell align="left">{row.Subject_EN_Name}</TableCell>
-                                            <TableCell align="left">{row.Day}</TableCell>
-                                            <TableCell align="left">{row.Start_Time}</TableCell>
-                                            <TableCell align="left">{row.End_Time}</TableCell>
-                                            <TableCell align="left">{row.Unit}</TableCell>
-                                            <TableCell align="left">{row.Section}</TableCell>
-                                            <TableCell align="center">
-                                            </TableCell>
+                                    <TableBody>
+                                        {(rowsPerPage > 0
+                                            ? enrolls.slice(
+                                                page * rowsPerPage,
+                                                page * rowsPerPage + rowsPerPage)
+                                            : enrolls
+                                        ).map((row) => (
+                                            <TableRow
+                                                key={row.Enroll_ID
+                                                }
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <TableCell align="left">{row.Subject_ID}</TableCell>
+                                                <TableCell align="left">{row.Subject_TH_Name}</TableCell>
+                                                <TableCell align="left">{row.Subject_EN_Name}</TableCell>
+                                                <TableCell align="left">{row.Unit}</TableCell>
+                                                <TableCell align="left">{row.Section}</TableCell>
+                                                <TableCell align="center">
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                        {emptyRows > 0 && (
+                                            <TableRow style={{ height: 53 * emptyRows }}>
+                                                <TableCell colSpan={1} />
+                                            </TableRow>
+                                        )}
+                                    </TableBody>
+                                    <TableFooter>
+                                        <TableRow>
+                                            <TablePagination
+                                                rowsPerPageOptions={[
+                                                    5,
+                                                    10,
+                                                    15,
+                                                    20,
+                                                    25,
+                                                    { label: "All", value: -1 },
+                                                ]}
+                                                colSpan={enrolls.length}
+                                                count={enrolls.length}
+                                                rowsPerPage={rowsPerPage}
+                                                page={page}
+                                                SelectProps={{
+                                                    inputProps: {
+                                                        "aria-label": "rows per page",
+                                                    },
+                                                    native: true,
+                                                }}
+                                                onPageChange={handleChangePage}
+                                                onRowsPerPageChange={handleChangeRowsPerPage}
+                                            />
                                         </TableRow>
-                                    ))}
-                                    {emptyRows > 0 && (
-                                        <TableRow style={{ height: 53 * emptyRows }}>
-                                            <TableCell colSpan={1} />
-                                        </TableRow>
-                                    )}
-                                </TableBody>
-                                <TableFooter>
-                                    <TableRow>
-                                        <TablePagination
-                                            rowsPerPageOptions={[
-                                                5,
-                                                10,
-                                                15,
-                                                20,
-                                                25,
-                                                { label: "All", value: -1 },
-                                            ]}
-                                            colSpan={enrolls.length}
-                                            count={enrolls.length}
-                                            rowsPerPage={rowsPerPage}
-                                            page={page}
-                                            SelectProps={{
-                                                inputProps: {
-                                                    "aria-label": "rows per page",
-                                                },
-                                                native: true,
-                                            }}
-                                            onPageChange={handleChangePage}
-                                            onRowsPerPageChange={handleChangeRowsPerPage}
-                                        />
-                                    </TableRow>
-                                </TableFooter>
-                            </Table>
-                        </TableContainer>
-                    </Grid>
+                                    </TableFooter>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                    </Paper>
 
                     <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
                         <Grid >

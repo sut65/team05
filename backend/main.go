@@ -32,10 +32,14 @@ func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
-	entity.SetSubjectValidation()
-	entity.SetRequestValidation()
-	entity.SetReceipt_numberValidation()
-	entity.SetApprovalValidation()
+
+
+
+
+
+
+
+
 
 	r.POST("/login", controller.Login)
 
@@ -178,13 +182,12 @@ func main() {
 			r.DELETE("/deleEnroll/:enroll_id", controller.DeleteEnroll)
 			r.GET("/enrollsubs/:subject_id", controller.GetEnrollSubject)
 			r.GET("/subjectd/:coruse_id", controller.GetSubjectByCourse)
-		//---------------------
-			r.GET("/adding_reducings", controller.ListAdding_reducing)
-			// r.GET("/adding_reducing/:change_id", controller.GetAdding_reducing)
-			r.GET("/previous_adding", controller.GetPreviousAdding_reducing)
-			r.POST("/adding_reducings", controller.CreateAdding_reducing)
-			// r.PATCH("/adding_reducings", controller.UpdateAdding_reducing)
-
+		//---------------------adding_reducings
+		r.GET("/adding_reducings", controller.ListAdding_reducing)
+		r.GET("/previous_adding", controller.GetPreviousAdding_reducing)
+		r.POST("/adding_reducings", controller.CreateAdding_reducing)
+		r.PATCH("/adding_reducings", controller.UpdateEnrollforadding)
+		r.POST("/adding_reducingsonly", controller.CreateAdding_reducingonly)
 		}
 
 		

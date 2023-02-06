@@ -40,6 +40,7 @@ func main() {
 	entity.SetApprovalValidation()
 	entity.SetReceipt_numberValidation()
 	entity.SetDate_TimeValidation()
+	entity.SetGradeIDValidation()
 	r.POST("/login", controller.Login)
 
 	router := r.Group("")
@@ -187,6 +188,16 @@ func main() {
 			r.POST("/adding_reducings", controller.CreateAdding_reducing)
 			r.PATCH("/adding_reducings", controller.UpdateEnrollforadding)
 			r.POST("/adding_reducingsonly", controller.CreateAdding_reducingonly)
+			//---------------------Adding_point
+			r.GET("/adding_points/:subject_id", controller.GetSubjectByAdding)
+			r.GET("/adding_points", controller.ListAdding_point)
+			r.GET("/adding_point", controller.ListAddingByEnroll)
+			r.GET("/adding_point/:adding_point_id", controller.GetAdding_point)
+			r.GET("/previous_adding_point", controller.GetPreviousAdding_point)
+			r.POST("/adding_points", controller.CreateAdding_point)
+			r.PATCH("/adding_points", controller.UpdateAdding_point)
+			r.DELETE("/adding_points/:adding_point_id", controller.DeleteAdding_point)
+
 		}
 
 	}

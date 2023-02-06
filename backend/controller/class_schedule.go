@@ -156,6 +156,11 @@ func UpdateClassSchedule(c *gin.Context) {
 		return
 	}
 
+	if tx := entity.DB().Where("admin_id = ?", class_schedule.Admin_ID).First(&admin); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
+		return
+	}
+
 	if tx := entity.DB().Where("class_schedule_id = ?", class_schedule.Class_Schedule_ID).Find(&class_schedule); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "subject with this section not found"})
 		return

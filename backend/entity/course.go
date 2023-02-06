@@ -83,6 +83,17 @@ func SetCourseNameValidation() {
 
 }
 
+func SetCourseDatetimeValidation() {
+	validator.CustomTypeTagMap.Set("datetimechecknumber", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+
+		str := i.(string)
+		match, _ := regexp.MatchString(`([0-9]|[/])`, str)
+		return match
+
+	}))
+
+}
+
 
 
 

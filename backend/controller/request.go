@@ -108,6 +108,24 @@ func GetRequest(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": request})
 }
+func GetRequestBySubjectID(c *gin.Context) {
+	/* Query subject record by subject_id and section */
+	var request []extendedRequest
+	student := c.Param("student_id")
+	subject := c.Param("subject_id")
+
+	//* SQL command : SELECT * FROM `subjects` WHERE subject_id = ? AND section = ?;
+	// if tx := entity.DB().Where("student_id = ?", student).Find(&enroll); tx.RowsAffected == 0 {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "enroll with this student not found"})
+	// 	return
+	// }
+	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* ,s.* FROM requests r JOIN students s JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.student_id = s.student_id AND r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id WHERE sb.subject_id = ?", subject,student).Scan(&request)
+	if err := query.Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": request})
+}
 
 // DELETE /request
 func DeleteRequest(c *gin.Context) {

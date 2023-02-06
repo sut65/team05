@@ -112,7 +112,7 @@ func main() {
 			api.POST("/requests", controller.CreateRequest)
 			api.PATCH("/requests", controller.UpdateRequest)
 			api.DELETE("/request/:request_id", controller.DeleteRequest)
-
+			r.GET("/requests/:subject_id", controller.GetRequestBySubjectID)
 			// Request_Type
 			api.GET("/request_types", controller.ListRequest_Type)
 			api.GET("/request_type/:request_type_id", controller.GetRequest_Type)

@@ -64,9 +64,9 @@ function ApprovalCreate() {
   // >([]);
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
-
+  const [subjects, setSubjects] = React.useState<Subject[]>([]);
   const [requests, setRequests] = React.useState<RequestInterface[]>([]);
-  const [searchRequestID, setSearchRequestID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
+  const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -97,8 +97,12 @@ function ApprovalCreate() {
   const handleInputChangeSearch = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
-    const id = event.target.id as keyof typeof ApprovalCreate;
-    setSearchRequestID(event.target.value);
+    const id = event.target.id as keyof typeof approval;
+    setSearchSubjectID(event.target.value);
+    setApproval({
+      ...approval,
+      [id]: event.target.value,
+    });
   };
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
@@ -120,10 +124,10 @@ function ApprovalCreate() {
 
   const sendSearchedRequestID = () => {
     // navigate({ pathname: `/subject/${searchSubjectID}` });
-    setSearchRequestID(searchRequestID);
-    getRequestByRequestID(searchRequestID);
+    setSearchSubjectID(searchSubjectID);
+    getRequestBySubjectID(searchSubjectID);
     // window.location.reload();
-    console.log(searchRequestID);
+    console.log(searchSubjectID);
   };
 
   const handleChangeRowsPerPage = (
@@ -199,13 +203,13 @@ function ApprovalCreate() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setRequests(res.data);
+          //setRequests(res.data);
           console.log(res.data);
         }
       });
   };
 
-  const getRequestByRequestID = async (request_id: any) => {
+  const getRequestBySubjectID = async (subject_id: any) => {
     const approvalOptions = {
       method: "GET",
       headers: {
@@ -213,11 +217,12 @@ function ApprovalCreate() {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/request/${request_id}`, approvalOptions)
+    console.log(searchSubjectID);
+    fetch(`${apiUrl}/requests/${searchSubjectID}`, approvalOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setSearchRequestID(request_id);
+          setSubjects(res.data);
           setRequests(res.data);
         }
       });
@@ -256,12 +261,12 @@ function ApprovalCreate() {
     getPrevApproval();
     getProfessor();
 
-    if (searchRequestID == "") {
+    if (searchSubjectID == "") {
       getRequests();
     } else {
-      getRequestByRequestID(searchRequestID);
+      getRequestBySubjectID(searchSubjectID);
     }
-    console.log(searchRequestID);
+    console.log(searchSubjectID);
   }, []);
 
   function submit() {
@@ -273,9 +278,9 @@ function ApprovalCreate() {
       // approval.Approval_ID ?? "",
       // Student_ID: approval.Student_ID ?? "",
       Professor_ID: approval.Professor_ID ?? "",
-        // typeof approval.Professor_ID === "string"
-        //   ? parseInt(approval.Professor_ID)
-        //   : approval.Professor_ID,
+      // typeof approval.Professor_ID === "string"
+      //   ? parseInt(approval.Professor_ID)
+      //   : approval.Professor_ID,
       Request_ID:
         typeof approval.Request_ID === "string"
           ? parseInt(approval.Request_ID)
@@ -357,61 +362,46 @@ function ApprovalCreate() {
                 อนุมัติคำร้องออนไลน์
               </Typography>
             </Grid>
-            {/* <TextField
-              label="รหัสนักศึกษา"
-              id="Student_ID"
-              variant="outlined"
-              type="string"
-              value={approval.Student_ID}
-              sx={{ marginLeft: "550px" }}
-              onChange={handleInputChange}
-            /> */}
-
-            {/*<TextField
-              label="รหัสลงทะเบียน"
-              id="Request_ID"
-              variant="outlined"
-              type="string"
-              value={approval.Request_ID}
-              onChange={handleInputChange}
-              // sx={{ marginLeft: "550px" }}
-            /> */}
-            <Box sx={{ marginLeft: "850px" }}>
-              <p>ลำดับ</p>
-              <TextField
-                disabled
-                id="Approval_ID"
-                variant="outlined"
-                type="number"
-                defaultValue={approval.Approval_ID}
-                value={approval.Approval_ID}
-                onChange={handleInputChange}
-              />
-              <p>อาจารย์</p>
-              <TextField
-                disabled
-                id="Professor_ID"
-                variant="outlined"
-                type="string"
-                value={approval.Professor_ID}
-                onChange={handleInputChange}
-              />
+            <Box sx={{ marginLeft: "950px" }}>
+              <Box>
+                <p>รหัสอาจารย์</p>
+                <TextField
+                  disabled
+                  id="Professor_ID"
+                  variant="outlined"
+                  type="string"
+                  value={approval.Professor_ID}
+                  onChange={handleInputChange}
+                />
+              </Box>
+              <Box>
+                <p>ลำดับ</p>
+                <TextField
+                  disabled
+                  id="Approval_ID"
+                  variant="outlined"
+                  type="number"
+                  defaultValue={approval.Approval_ID}
+                  value={approval.Approval_ID}
+                  onChange={handleInputChange}
+                />
+              </Box>
             </Box>
           </Box>
         </Paper>
 
         <Paper elevation={3} sx={{ bgcolor: "white", marginBottom: 2 }}>
-          {/* <Grid container sx={{ padding: 2, marginLeft: "15px" }}>
+          <Grid container sx={{ padding: 2, marginLeft: "15px" }}>
             <Grid>
-              <p>รหัสลงทะเบียน</p>
+              <p>กรุณาระบุรหัสวิชา</p>
             </Grid>
             <Grid sx={{ marginLeft: "20px" }}>
               <Box sx={{ width: "250px" }}>
                 <TextField
-                  id="Request_ID"
+                  label="ระบุรหัสวิชา"
                   variant="outlined"
-                  type="string"
-                  value={approval.Request_ID}
+                  // type="string"
+                  // value={approval.Request_ID}
                   onChange={handleInputChangeSearch}
                 />
               </Box>
@@ -430,7 +420,7 @@ function ApprovalCreate() {
                 />
               </Button>
             </Grid>
-          </Grid> */}
+          </Grid>
 
           <Box
             sx={{

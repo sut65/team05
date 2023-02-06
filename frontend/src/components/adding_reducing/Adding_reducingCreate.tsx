@@ -54,11 +54,11 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
 function CreateEnroll() {
   const navigate = useNavigate();
   const params = useParams();
-  const [date, setDate] = React.useState<Date | null>(null);
+  // const [date, setDate] = React.useState<Date | null>(null);
   const [adding_reducing, setAdding_reducing] = React.useState<Partial<Adding_reducingInterface>>({});
-  const [adding_reducings, setAdding_reducings] = React.useState<Adding_reducingInterface[]>([]);
+  // const [adding_reducings, setAdding_reducings] = React.useState<Adding_reducingInterface[]>([]);
   const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
-  const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
+  // const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
   const [subjects, setSubjects] = React.useState<Subject[]>([]);
   const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
   const [success, setSuccess] = React.useState(false);

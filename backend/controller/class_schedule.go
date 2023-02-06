@@ -13,7 +13,7 @@ import (
 func CreateClassSchedule(c *gin.Context) {
 	var subject entity.Subject
 	var room entity.Room
-	// var admin entity.Admin
+	var admin entity.Admin
 	var class_schedule entity.Class_Schedule
 
 	if err := c.ShouldBindJSON(&class_schedule); err != nil {
@@ -40,22 +40,27 @@ func CreateClassSchedule(c *gin.Context) {
 	// Communication Diagram Step
 	// ค้นหา entity Admin ด้วย id ของ Admin ที่รับเข้ามา
 	// SELECT * FROM `admins` WHERE admin_id = <class_schedule.Admin_ID>
-	// if tx := entity.DB().Where("admin_id = ?", class_schedule.Admin_ID).First(&admin); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
-	// 	return
-	// }
+	if tx := entity.DB().Where("admin_id = ?", class_schedule.Admin_ID).First(&admin); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
+		return
+	}
 
 	new_class_schedule := entity.Class_Schedule{
-		Class_Schedule_ID: class_schedule.Class_Schedule_ID,
-		Subject:           subject,
-		Section:           class_schedule.Section,
-		Room:              room,
-		// Admin:                      admin,
+		Class_Schedule_ID:          class_schedule.Class_Schedule_ID,
+		Subject:                    subject,
+		Section:                    class_schedule.Section,
+		Room:                       room,
+		Admin:                      admin,
 		Class_Schedule_Description: class_schedule.Class_Schedule_Description,
 		Day:                        class_schedule.Day,
 		Start_Time:                 class_schedule.Start_Time,
 		End_Time:                   class_schedule.End_Time,
 	}
+	if _, err := validate_function.ValidateClassScheduleID(new_class_schedule.Class_Schedule_ID, new_class_schedule); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	if _, err := validate_function.ClassScheduleValidate(new_class_schedule.Day, room, new_class_schedule.Start_Time, new_class_schedule.End_Time); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

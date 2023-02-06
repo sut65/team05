@@ -1,5 +1,11 @@
 package entity
 
+import (
+	"regexp"
+
+	validator "github.com/asaskevich/govalidator"
+)
+
 type Grade struct {
 	Grade_ID      string `gorm:"primaryKey"`
 	Description   string
@@ -9,17 +15,33 @@ type Adding_point struct {
 	Adding_point_ID uint `gorm:"primaryKey "`
 
 
-	Professor_ID *string `valid:"-"`
+	Professor_ID *string
 	Professor    Professor `gorm:"references:Professor_ID"`
 
-	Enroll_ID *string `valid:"-"`
-	Enroll    Enroll `gorm:"references:Enroll_ID" valid:"-"`
+	Enroll_ID *string
+	Enroll    Enroll `gorm:"references:Enroll_ID"`
 
-	Grade_ID string	`valid:"required~Grade_ID cannot be blank" `
-	Grade    Grade `gorm:"references:Grade_ID " valid:"-"`
+	Grade_ID string	`valid:"required~Grade_ID cannot be blank,gradeidchecklowercase~Please use uppercase letters,gradeidthaiall~Don't use ThaiAlphabet"`
+	Grade    Grade `gorm:"references:Grade_ID "`
 
-	//Professors      []Professor      `gorm:"foreignKey:Professor_ID"`
-	//Enrolls         []Enroll         `gorm:"foreignKey:Enroll_ID"`
-	//Subjects        []Subject        `gorm:"foreignKey:Subject_ID"`
+	
+}
 
+
+func SetGradeIDValidation() {
+	validator.CustomTypeTagMap.Set("gradeidchecklowercase", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+
+		str := i.(string)
+		match, _ := regexp.MatchString(`([A-Zก-๏+])`, str)
+		return match
+
+	}))
+
+	validator.CustomTypeTagMap.Set("gradeidthaiall", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+
+		str := i.(string)
+		match, _ := regexp.MatchString(`([A-Za-z+])`, str)
+		return match
+
+	}))
 }

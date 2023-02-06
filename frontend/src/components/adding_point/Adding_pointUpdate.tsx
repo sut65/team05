@@ -51,7 +51,7 @@ function Adding_pointUpdate() {
   const [subject, setSubject] = React.useState<Subject[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [message, setAlertMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
 
@@ -92,13 +92,13 @@ function Adding_pointUpdate() {
   const requestOptionsGet = {
     method: "GET",
     headers: { 
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      // Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json" },
   };
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - addingpoints.length) : 0;
-
+//เรียกใช้ฟังก์ชั่นเพื่อส่งค่าaddingมาใช้ในการอัพเดต
     const getCurrentAdd = async () => {
       fetch(`${apiUrl}/adding_point/${params.adding_point_id}`, requestOptionsGet)
         .then((response) => response.json())
@@ -178,7 +178,7 @@ function Adding_pointUpdate() {
         typeof addingpoint.Adding_point_ID === "string"
           ? parseInt(addingpoint.Adding_point_ID)
           : addingpoint.Adding_point_ID,
-      // Adding_point_ID: addingpoint.Adding_point_ID ?? "",
+   
       Professor_ID:
         addingpoint.Professor_ID === "string"
           ? parseInt(addingpoint.Professor_ID)
@@ -192,7 +192,7 @@ function Adding_pointUpdate() {
     const requestOptionsPatch = {
       method: "PATCH",
       headers: { 
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        // Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
@@ -204,9 +204,10 @@ function Adding_pointUpdate() {
         console.log(res);
         if (res.data) {
           setSuccess(true);
-        } else {
+      } else {
+          setAlertMessage(res.error);
           setError(true);
-        }
+      }
       });
   }
 
@@ -233,7 +234,7 @@ function Adding_pointUpdate() {
 
         <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลไม่สำเร็จ
+          {message}
           </Alert>
         </Snackbar>
         <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
@@ -255,19 +256,7 @@ function Adding_pointUpdate() {
             </Box>
           </Box>
 
-          <Box>
-            Requirements ระบบลงทะเบียนเรียน
-            เป็นระบบที่ใช้บริการเพื่อให้นักศึกษาของมหาวิทยาลัยหนึ่ง
-            สามารถลงทะเบียนเรียนในหลักสูตรที่มหาวิทลัยนั้นได้กำหนดไว้ ในส่วนแรก
-            เช่น การลงทะเบียนเรียนในรายวิชาต่างๆ ,
-            การเพิ่มลดรายวิชาและการยื่นคำร้องกรณีกลุ่มเต็ม
-            โดยที่กล่าวมาข้างต้นนี้จะเกี่ยวข้องกับสิทธิของผู้เป็นนักศึกษาที่สามารถใช้สิทธิในระบบลงทะเบียนเรียนได้
-            ส่วนของการจัดสรรห้องเรียน , การบันทึกผลการเรียน ,
-            และการอนุมัติคำร้องกรณีกลุ่มเต็มจะเป็นสิทธิของผู้เป็นอาจารย์ที่สามารถใช้งานในส่วนนี้ได้
-            และส่วนสุดท้ายจะมี การเพิ่มข้อมูลนักศึกษา , การเพิ่มข้อมูลหลักสูตร ,
-            การเพิ่มข้อมูลรายวิชาและการคำนวณค่าใช่จ่าย
-            โดยในส่วนนี้จะเป็นสิทธิของผู้เป็นแอดมินที่มีสิทธิสามารถใช้งานได้
-          </Box>
+         
         </Paper>
         <Paper
           elevation={3}

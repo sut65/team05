@@ -34,9 +34,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material/Select";
-
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Adding_pointInterface } from "../../models/IAdding_point";
 import { GradeInterface } from "../../models/IGrade";
+import { EnrollInterface } from "../../models/I_Enroll";
 
 function Adding_pointCreate() {
   const [addingpoint, setAdding_point] = React.useState<
@@ -47,14 +48,16 @@ function Adding_pointCreate() {
   >([]);
   const [grade, setGreade] = React.useState<GradeInterface[]>([]);
   //   const [professor, setProfessor] = React.useState<Professor[]>([]);
-  const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
-  const [subject, setSubject] = React.useState<Subject[]>([]);
+  const [subjects, setSubjects] = React.useState<Subject[]>([]);
+  const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
+  const [searchEnrollID, setSearchEnrollID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [message, setAlertMessage] = React.useState("");
+
   const navigate = useNavigate();
   const params = useParams();
   // const getRequest = async () => {
@@ -68,7 +71,23 @@ function Adding_pointCreate() {
     setSuccess(false);
     setError(false);
   };
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#5B98B9",
+      color: theme.palette.common.white,
+      fontSize: 17,
+    },
+  }));
 
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: "white",
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 1,
+    },
+  }));
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
@@ -87,17 +106,37 @@ function Adding_pointCreate() {
     console.log(event.target.value);
   };
 
-  const apiUrl = "http://localhost:8080";
+  const handleInputChangeSearch = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof Adding_pointCreate;
+    setSearchEnrollID(event.target.value);
+  };
 
-  const requestOptions = {
-    method: "GET",
-    headers: { 
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json" },
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - addingpoints.length) : 0;
+
+  // const sendSearchedSubjectID = () => {
+  //   //navigate({ pathname: `/subject/${searchSubjectID}` });
+  //   setSearchEnrollID(searchEnrollID);
+  //   getSubjectByEnrollID(searchEnrollID);
+  //   //window.location.reload();
+  //   //console.log(searchSubjectID);
+  // };
 
   //รับค่าส่งไปbackend
   const getAdding_points = async (adding_point_id: string) => {
@@ -118,41 +157,78 @@ function Adding_pointCreate() {
   //รับค่าจากfrontendไปกรองรายวิชา และกลุ่มจากprofessor
 
   //table
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#5B98B9",
-      color: theme.palette.common.white,
-      fontSize: 17,
-    },
-  }));
+  // const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  //   [`&.${tableCellClasses.head}`]: {
+  //     backgroundColor: "#5B98B9",
+  //     color: theme.palette.common.white,
+  //     fontSize: 17,
+  //   },
+  // }));
 
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: "white",
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 1,
-    },
-  }));
+  // const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  //   "&:nth-of-type(odd)": {
+  //     backgroundColor: "white",
+  //   },
+  //   // hide last border
+  //   "&:last-child td, &:last-child th": {
+  //     border: 1,
+  //   },
+  // }));
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   };
+//ดึง id enrollมาใช้เพื่อเช้คว่าใครลงรหัสรายวิชานี้บ้าง
+  const getEnrolls = async () => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/enroll`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res);
+        if (res.data) {
+          setAdding_points(res.data);
+          console.log(res.data);
+        }
+      });
+  };
+
+//ดึง id professorมาใช้ในfrontent เพื่อให้ทราบว่าอาจารคนไหนแก้ไข
+  const getProfessor_ID = async () => {
+    let id = localStorage.getItem("id")
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/professor/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res);
+        if (res.data) {
+          setAdding_points(res.data);
+          console.log(res.data);
+        }
+      });
+  };
+  // const getSubjectByEnrollID = async (subject_id: any) => {
+  //   const requestOptions = {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json" },
+  //   };
+  //   fetch(`${apiUrl}/enroll/${subject_id}`, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         setSearchEnrollID(subject_id);
+  //         setEnrolls(res.data);
+  //       }console.log(res.data);
+  //     });
+  // };
+//เพิ่มค่าid addทีละ1
   const getPrevAdd = async () => {
     fetch(`${apiUrl}/previous_adding_point`, requestOptionsGet)
       .then((response) => response.json())
@@ -169,12 +245,13 @@ function Adding_pointCreate() {
 
   useEffect(() => {
     getPrevAdd();
-    /* เพิ่มข้อมูลเกรดของ นศ ในรายวิชานั้น กลุ่มนั้น
-        GetEnrollDataBySubjectID()
-      */
-    /* Get Adding_Point data
-      GetAddingPointBySubjectID()
-      */
+    if (searchEnrollID == "") {
+      getEnrolls();
+    } 
+    //else {
+    //   getSubjectByEnrollID(searchEnrollID);
+    // }
+    // console.log(searchEnrollID);
   }, []);
 
   function submit() {
@@ -196,9 +273,7 @@ function Adding_pointCreate() {
     //const apiUrl = "http://localhost:8080/adding_points";
     const requestOptionsPatch = {
       method: "POST",
-      headers: { 
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
     console.log(JSON.stringify(data));
@@ -208,12 +283,11 @@ function Adding_pointCreate() {
       .then((res) => {
         console.log(res);
         if (res.data) {
-          // setAlertMessage("บันทึกข้อมูลสำเร็จ");
           setSuccess(true);
-        } else {
+      } else {
           setAlertMessage(res.error);
           setError(true);
-        }
+      }
       });
   }
 
@@ -234,15 +308,16 @@ function Adding_pointCreate() {
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
           <Alert onClose={handleClose} severity="success">
-        บันทึกข้อมูลสำเร็จ
+            บันทึกข้อมูลสำเร็จ
           </Alert>
         </Snackbar>
 
         <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error">
-          {message}
+            {message}
           </Alert>
         </Snackbar>
+        
         <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
           <Box
             display="flex"
@@ -280,159 +355,176 @@ function Adding_pointCreate() {
           elevation={3}
           sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
         >
-          {/* <div style={{ height: 300, width: "100%", marginTop: "20px" }}>
-            <DataGrid
-              rows={request}
-              getRowId={(row) => row.Request_ID}
-              columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
+          <Grid container sx={{ padding: 2, marginLeft: "15px" }}>
+            {/* <Grid>
+              <p>รหัสวิชา</p>
+            </Grid>
+            <Grid sx={{ marginLeft: "20px" }}>
+              <Box sx={{ width: "250px" }}>
+                <TextField
+                  id="Subject_ID"
+                  variant="outlined"
+                  type="string"
+                  onChange={handleInputChangeSearch}
+                />
+              </Box>
+            </Grid>
+            <Grid sx={{ marginTop: "10px" }}>
+              <Button
+                size="medium"
+                variant="contained"
+                onClick={sendSearchedSubjectID}
+              >
+                ค้นหารายวิชา
+                <SvgIcon
+                  sx={{ marginLeft: "5px" }}
+                  component={SearchIcon}
+                  inheritViewBox
+                />
+              </Button>
+            </Grid> */}
+            <TextField
+              sx={{ marginLeft: "300px" }}
+              disabled
+              id="Adding_point_ID"
+              variant="outlined"
+              type="number"
+              
+              value={addingpoint.Adding_point_ID}
+              onChange={handleInputChange}
             />
-          </div> */}
-          <TextField
-            disabled
-            id="Adding_point_ID"
-            variant="outlined"
-            type="number"
-            defaultValue={addingpoint.Adding_point_ID}
-            value={addingpoint.Adding_point_ID}
-            onChange={handleInputChange}
-          />
-          <TextField
-            label="รหัสอาจารย์"
-            id="Professor_ID"
-            type="string"
-            variant="outlined"
-            value={addingpoint.Professor_ID}
-            onChange={handleInputChange}
-          />
-          <TextField
-            label="รหัสลงทะเบียน"
-            id="Enroll_ID"
-            type="string"
-            variant="outlined"
-            value={addingpoint.Enroll_ID}
-            onChange={handleInputChange}
-          />
-          <TextField
-            label="เกรด"
-            id="Grade_ID"
-            type="string"
-            variant="outlined"
-            value={addingpoint.Grade_ID}
-            onChange={handleInputChange}
-          />
-          {/* <TextField
-            label="รายวิชา"
-            id="Subject_ID"
-            type="string"
-            variant="outlined"
-            value={addingpoint.Subject_ID}
-            onChange={handleInputChange}
-          /> */}
-          {/* <TextField
-            label="กลุ่ม"
-            id="Section"
-            variant="outlined"
-            defaultValue={addingpoint.Section}
-          /> */}
-          {/* <Grid sx={{ marginTop: "10px" }}>
-            <Button
-              size="medium"
-              variant="contained"
-              //onClick={sendSearchedSubjectID}
-            >
-              ค้นหา
-              <SvgIcon
-                sx={{ marginLeft: "5px" }}
-                component={SearchIcon}
-                inheritViewBox
-              />
-            </Button>
-          </Grid> */}
-          {/* <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    รหัสนักศึกษา
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    ชื่อ-นามสกุล
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    เกรด
-                  </StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {(rowsPerPage > 0
-                  ? addingpoints.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : addingpoints
-                ).map((row) => (
-                  <StyledTableRow key={row.Adding_point_ID}>
-                    <TableCell component="th" scope="row" align="center">
-                      {row.Enroll_ID}{" "}
-                    </TableCell>
-                    <TableCell align="center">
-                      <TextField
-                        id="Grade_ID"
-                        variant="outlined"
-                        type="number"
-                        defaultValue={addingpoint.Grade_ID}
-                      />
-                    </TableCell>
-                    {/* <TableCell align="center">{row.Subject_EN_Name}</TableCell> */}
-          {/* <TableCell align="center">{row.Course_Name}</TableCell> */}
-          {/* <TableCell align="center">{row.Section}</TableCell> */}
+            <TextField
+              label="รหัสอาจารย์"
+              id="Professor_ID"
+              type="string"
+              variant="outlined"
+              value={addingpoint.Professor_ID}
+              onChange={handleInputChange}
+            />
+            <TextField
+              label="เกรด"
+              id="Grade_ID"
+              type="string"
+              variant="outlined"
+              value={addingpoint.Grade_ID}
+              onChange={handleInputChange}
+            />
+          </Grid>
 
-          {/* <TableCell align="center">
-                      <IconButton
-                        aria-label="edit"
-                        onClick={toUpdateRequestPage}
-                        component={RouterLink}
-                        to="/update"
-                      >
-                        <ModeEditIcon />
-                      </IconButton>
-                    </TableCell> */}
-          {/* </StyledTableRow> */}
-          {/* ))}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: 53 * emptyRows }}>
-                    <TableCell colSpan={6} />
+          <Grid
+            sx={{
+              marginTop: "20px",
+              display: "flex",
+              marginLeft: 1,
+              paddingBlockEnd: 10,
+            }}
+          >
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="left">รหัสนักศึกษา</StyledTableCell>
+                    <StyledTableCell align="left">รหัสวิชา</StyledTableCell>
+                    <StyledTableCell align="left">ชื่อวิชา</StyledTableCell>
+                    <StyledTableCell align="left">Subject name</StyledTableCell>
+                    <StyledTableCell align="left">หน่วยกิต</StyledTableCell>
+                    <StyledTableCell align="left">กลุ่ม</StyledTableCell>
+                    <StyledTableCell align="center">เลือก</StyledTableCell>
                   </TableRow>
-                )} */}
-          {/* </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[
-                      5,
-                      10,
-                      25,
-                      { label: "All", value: -1 },
-                    ]}
-                    colSpan={addingpoints.length}
-                    count={addingpoints.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    SelectProps={{
-                      inputProps: {
-                        "aria-label": "rows per page",
-                      },
-                      native: true,
-                    }}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-                </TableRow>
-              </TableFooter>
-            </Table>
-          </TableContainer> */}
+                </TableHead>
+
+                <TableBody>
+                  {(rowsPerPage > 0
+                    ? addingpoints.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                    : addingpoints
+                  ).map((row) => (
+                    <StyledTableRow
+                      key={row.Enroll_ID}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <StyledTableCell align="left">
+                        {row.Student_ID}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Subject_ID}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Subject_TH_Name}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Subject_EN_Name}
+                      </StyledTableCell>
+                      {/* <StyledTableCell align="left">{row.Day}</StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Start_Time}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.End_Time}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Exam_Schedule_ID}
+                      </StyledTableCell> */}
+                      {/* <TableCell align="left">{row.Exa}</TableCell>
+                    <TableCell align="left">{row.Exam_End_Time}</TableCell> */}
+                      <StyledTableCell align="left">{row.Unit}</StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Section}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <IconButton
+                          // id="Subject_ID"
+                          onClick={() => {
+                            addingpoint.Subject_ID = row.Subject_ID;
+                            addingpoint.Student_ID = row.Student_ID;
+                            addingpoint.Enroll_ID = row.Enroll_ID;
+                            console.log(addingpoint.Subject_ID);
+                            console.log(addingpoint.Student_ID);
+                            console.log(addingpoint.Enroll_ID);
+                          }}
+                        >
+                          <CheckCircleIcon />
+                        </IconButton>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={1} />
+                    </TableRow>
+                  )}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                      rowsPerPageOptions={[
+                        5,
+                        10,
+                        15,
+                        20,
+                        25,
+                        { label: "All", value: -1 },
+                      ]}
+                      colSpan={enrolls.length}
+                      count={enrolls.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      SelectProps={{
+                        inputProps: {
+                          "aria-label": "rows per page",
+                        },
+                        native: true,
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                  </TableRow>
+                </TableFooter>
+              </Table>
+            </TableContainer>
+          </Grid>
           <Grid
             item
             xs={12}

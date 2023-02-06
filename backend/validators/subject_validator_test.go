@@ -74,7 +74,8 @@ func TestSubjectName(t *testing.T) {
 	// }
 
 	software_engineering := entity.Subject{
-		Unit:            1,
+		Section:         1,
+		Unit:            0,
 		Subject_EN_Name: "Software Engineering",
 		Subject_TH_Name: "วิศวกรรมซอฟต์แวร์",
 	}
@@ -87,11 +88,14 @@ func TestSubjectName(t *testing.T) {
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
 	g.Expect(err).ToNot(BeNil())
-	splitErrors := strings.Split(err.Error(), ";")
-	if len(splitErrors) == 1 {
-		// err.Error ต้องมี error message แสดงออกมา
-		g.Expect(err.Error()).To(Equal("Error!"))
-	} else {
-		g.Expect(splitErrors[0]).To(Equal("Error!"))
-	}
+
+	g.Expect(err.Error()).To(Equal("Error!"))
+
+	// splitErrors := strings.Split(err.Error(), ";")
+	// if len(splitErrors) == 1 {
+	// 	// err.Error ต้องมี error message แสดงออกมา
+	// 	g.Expect(err.Error()).To(Equal("Error!"))
+	// } else {
+	// 	g.Expect(splitErrors[0]).To(Equal("Error!"))
+	// }
 }

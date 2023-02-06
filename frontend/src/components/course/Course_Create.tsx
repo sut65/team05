@@ -63,6 +63,11 @@ function CourseCreate() {
 
  const [error, setError] = React.useState(false);
 
+ const [message, setAlertMessage] = React.useState("");
+
+
+
+
  const handleClose = (
 
    event?: React.SyntheticEvent | Event,
@@ -204,15 +209,12 @@ const requestOptionsGet = {
 
      .then((res) => {
 
-       if (res.data) {
-
-         setSuccess(true);
-
-       } else {
-
-         setError(true);
-
-       }
+        if (res.data) {
+                    setSuccess(true);
+                } else {
+                    setAlertMessage(res.error);
+                    setError(true);
+                }
 
      });
 
@@ -252,7 +254,7 @@ const requestOptionsGet = {
 
        <Alert onClose={handleClose} severity="error">
 
-         บันทึกข้อมูลไม่สำเร็จ
+       {message}
 
        </Alert>
 

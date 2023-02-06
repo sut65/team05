@@ -16,9 +16,7 @@ type Approval_Type struct {
 type Approval struct {
 	// gorm.Model
 
-	Approval_ID uint `gorn:"primaryKey"`
-
-	Reason string `valid:"required~Reason cannot be blank,approval_valid~Reason cannot be special characters or number"`
+	Approval_ID uint `gorm:"primaryKey"`
 
 	Professor_ID *string
 	Professor    Professor `gorm:"references:Professor_ID"`
@@ -27,13 +25,16 @@ type Approval struct {
 	Request_ID *uint
 	Request    Request `gorm:"references:Request_ID"`
 
+	Reason string `valid:"required~Reason cannot be blank,approval_check~Reason cannot be special characters or number,maxstringlength(30)~The reason cannot be more than 30 characters"`
+	// `valid:" required~Reason cannot be blank,approval_check~Reason cannot be special characters or number"`
+	
 	Approval_Type_ID *string
 	Approval_Type    Approval_Type `gorm:"references:Approval_Type_ID"`
 }
 
 
 func SetApprovalValidation() {
-	validator.CustomTypeTagMap.Set("approval_valid", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+	validator.CustomTypeTagMap.Set("approval_check", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 		str := i.(string)
 		match, _ := regexp.MatchString(`^[a-zA-Z\sก-๏]+$`, str)
 		return match

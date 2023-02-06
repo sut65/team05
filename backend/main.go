@@ -32,10 +32,14 @@ func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
-	entity.SetSubjectValidation()
-	entity.SetRequestValidation()
-	entity.SetReceipt_numberValidation()
-	entity.SetApprovalValidation()
+
+
+
+
+
+
+
+
 
 	r.POST("/login", controller.Login)
 

@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/B6025212/team05/entity"
@@ -13,21 +14,26 @@ func TestUnitMoreThanZero(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	subject1 := entity.Subject{
-		Unit: 0, // ไม่ถูกต้อง หน่วยกิจต้องมากกว่า 0
+		Unit:    0, // ไม่ถูกต้อง หน่วยกิจต้องมากกว่า 0
+		Section: 0, // ไม่ถูกต้อง กลุ่มต้องไม่เป็น 0
 	}
 
 	// ตรวจสอบด้วย govalidator
 	ok, err := govalidator.ValidateStruct((subject1))
-	// ok := govalidator.IsPositive(float64(subject1.Unit))
 
 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
 	g.Expect(ok).NotTo(BeTrue())
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
 	g.Expect(err).ToNot(BeNil())
+	splitErrors := strings.Split(err.Error(), ";")
+	if len(splitErrors) == 1 {
+		// err.Error ต้องมี error message แสดงออกมา
+		g.Expect(err.Error()).To(Equal("Error!"))
+	} else {
+		g.Expect(splitErrors[0]).To(Equal("Error!"))
+	}
 
-	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("หน่วยกิจต้องมากกว่า 0"))
 }
 
 func TestSubjectID(t *testing.T) {
@@ -37,6 +43,7 @@ func TestSubjectID(t *testing.T) {
 	// Correct Format
 	subject1 := entity.Subject{
 		Subject_ID: "IST202502",
+		Section:    1,
 		Unit:       1,
 	}
 
@@ -47,9 +54,13 @@ func TestSubjectID(t *testing.T) {
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
 	g.Expect(err).ToNot(BeNil())
-
-	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Error จ้า"))
+	splitErrors := strings.Split(err.Error(), ";")
+	if len(splitErrors) == 1 {
+		// err.Error ต้องมี error message แสดงออกมา
+		g.Expect(err.Error()).To(Equal("Error!"))
+	} else {
+		g.Expect(splitErrors[0]).To(Equal("Error!"))
+	}
 }
 
 func TestSubjectName(t *testing.T) {
@@ -76,7 +87,11 @@ func TestSubjectName(t *testing.T) {
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
 	g.Expect(err).ToNot(BeNil())
-
-	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Error จ้า"))
+	splitErrors := strings.Split(err.Error(), ";")
+	if len(splitErrors) == 1 {
+		// err.Error ต้องมี error message แสดงออกมา
+		g.Expect(err.Error()).To(Equal("Error!"))
+	} else {
+		g.Expect(splitErrors[0]).To(Equal("Error!"))
+	}
 }

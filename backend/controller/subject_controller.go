@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/B6025212/team05/entity"
 	"github.com/asaskevich/govalidator"
@@ -105,9 +106,17 @@ func CreateSubject(c *gin.Context) {
 		Unit:             subject.Unit,
 		Section:          subject.Section,
 	}
-	if _, err := govalidator.ValidateStruct(new_subject); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+
+	_, err := govalidator.ValidateStruct(new_subject)
+	if err != nil {
+		splitErrors := strings.Split(err.Error(), ";")
+		if len(splitErrors) == 1 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		} else {
+			c.JSON(http.StatusBadRequest, gin.H{"error": splitErrors[0]})
+			return
+		}
 	}
 
 	// บันทึก entity Subject

@@ -57,8 +57,8 @@ type Subject struct {
 	Reserved        uint
 	Reserved_Enroll uint
 
-	Unit           uint `valid:"required~Unit must greater than 0"`
-	Section        uint
+	Unit           uint             `valid:"required~Unit must greater than 0"`
+	Section        uint             `valid:"required~Section must greater than 0"`
 	Enroll         []Enroll         `gorm:"foreignKey:Subject_ID"`
 	Requests       []Request        `gorm:"foreignKey:Subject_ID"`
 	Class_Schedule []Class_Schedule `gorm:"foreignKey:Subject_ID"`

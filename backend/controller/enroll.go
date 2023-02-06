@@ -25,6 +25,22 @@ type extendedEnroll struct {
 	Exam_End_Time   string
 }
 
+type extendedEnrollByStudent struct{
+	entity.Enroll
+	Student         string
+	Subject_ID      string
+	Course_Name     string
+	Subject_TH_Name string
+	Subject_EN_Name string
+	Day             string
+	Start_Time      string
+	End_Time        string
+	Exam_Date       string
+	Unit            string
+	Exam_Start_Time string
+	Exam_End_Time   string
+}
+
 func CreateEnroll(c *gin.Context) {
 	var enroll entity.Enroll
 	var student entity.Student
@@ -108,6 +124,34 @@ func GetEnroll(c *gin.Context) {
 	enroll_id := c.Param("enroll_id")
 	if tx := entity.DB().Where("enroll_id = ?", enroll_id).Find(&enroll); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "enroll not found"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": enroll})
+}
+
+// func GetEnrollByStudentID(c *gin.Context) {
+// 	var enroll entity.Enroll
+// 	enroll_id := c.Param("enroll_id")
+// 	if tx := entity.DB().Where("enroll_id = ?", enroll_id).Find(&enroll); tx.RowsAffected == 0 {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": "enroll not found"})
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, gin.H{"data": enroll})
+// }
+func GetEnrollByStudentID(c *gin.Context) {
+	/* Query subject record by subject_id and section */
+	var enroll []extendedEnrollByStudent
+	student := c.Param("student_id")
+	subject := c.Param("subject_id")
+
+	//* SQL command : SELECT * FROM `subjects` WHERE subject_id = ? AND section = ?;
+	// if tx := entity.DB().Where("student_id = ?", student).Find(&enroll); tx.RowsAffected == 0 {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "enroll with this student not found"})
+	// 	return
+	// }
+	query := entity.DB().Raw("SELECT e.*, s.* FROM enrolls e JOIN subjects s ON e.subject_id = s.subject_id AND e.section = s.section WHERE student_id = ?", student,subject).Scan(&enroll)
+	if err := query.Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": enroll})

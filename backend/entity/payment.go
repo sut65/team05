@@ -24,8 +24,8 @@ type Payment struct {
 	Admin_ID *string
 	Admin    Admin `gorm:"references:Admin_ID"`
 
-	Receipt_number string `valid:"Receipt_number_check~Receipt_number_check not valid!!"`
-	Date_Time      string `valid:"Date_Time~Date_Time not valid!!"`
+	Receipt_number string `valid:"receipt_number_check~receipt number not valid!!,receipt_thai_check~receipt number cannot be thai character,receipt_english_check~receipt number cannot be english character"`
+	Date_Time      string `valid:"datetime~datetime not valid!!"`
 	Unit           uint   `valid:"required~Unit cannot be blank"`
 	Payable        uint
 	Amounts        uint `valid:"required~Amounts cannot be blank"`
@@ -40,15 +40,21 @@ type Payment struct {
 // }
 
 func SetReceipt_numberValidation() {
-	validator.CustomTypeTagMap.Set("Receipt_number_check", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+	validator.CustomTypeTagMap.Set("receipt_english_check", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 		str := i.(string)
-		match, _ := regexp.MatchString(`[0-9]|[a-zA-Z]`, str)
+		match, _ := regexp.MatchString(`[0-9ก-๏]`, str)
+		return match
+	}))
+
+	validator.CustomTypeTagMap.Set("receipt_thai_check", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+		str := i.(string)
+		match, _ := regexp.MatchString(`[a-zA-Z0-9]`, str)
 		return match
 	}))
 }
 
 func SetDate_TimeValidation() {
-	validator.CustomTypeTagMap.Set("Receipt_number_check", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+	validator.CustomTypeTagMap.Set("datetime", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 		str := i.(string)
 		match, _ := regexp.MatchString(`[0-9]|[/:.]`, str)
 		return match

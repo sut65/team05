@@ -304,6 +304,9 @@ function Approval() {
                     รหัสลงทะเบียน
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
+                    รหัสนักศึกษา
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
                     รหัสวิชา
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
@@ -344,6 +347,9 @@ function Approval() {
                     <TableCell component="th" scope="row" align="center">
                       {row.Request_ID}
                     </TableCell>
+                    <StyledTableCell component="th" scope="row" align="center">
+                      {row.Student_ID}
+                    </StyledTableCell>
                     <TableCell align="center">{row.Subject_ID}</TableCell>
                     <TableCell align="center">{row.Subject_EN_Name}</TableCell>
                     <TableCell align="center">{row.Unit}</TableCell>
@@ -366,7 +372,9 @@ function Approval() {
                       <IconButton
                         aria-label="edit"
                         onClick={() => {
-                          navigate({ pathname: `/approval/update/${row.Approval_ID}` });
+                          navigate({
+                            pathname: `/approval/update/${row.Approval_ID}`,
+                          });
                         }}
                       >
                         <ModeEditIcon />

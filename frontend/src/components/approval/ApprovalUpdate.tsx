@@ -93,13 +93,6 @@ function ApprovalUpdate() {
     console.log(event.target.value);
   };
 
-  //  const handleInputChangeSearch = (
-  //    event: React.ChangeEvent<{ id?: string; value: any }>
-  //  ) => {
-  //    const id = event.target.id as keyof typeof ApprovalUpdate;
-  //    setSearchApprovalID(event.target.value);
-  //  };
-
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const name = event.target.name as keyof typeof approval;
     setApproval({
@@ -224,21 +217,6 @@ function ApprovalUpdate() {
       });
   };
 
-  // fetch previous ActivityMember
-  // const getPrevRequestUpdate = async () => {
-  //   fetch(`${apiUrl}/previous_approval`, approvalOptionsGet)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         approval.Request_ID = res.data.Request_ID + 1;
-  //       }
-  //       // else {
-  //       //   approval.Request_ID = res.data = 401;
-  //       //   //console.log("else");
-  //       // }
-  //     });
-  // };
-
   useEffect(() => {
     getApproval_Type();
     // getPrevApprovalUpdate();
@@ -350,75 +328,37 @@ function ApprovalUpdate() {
                 แก้ไขข้อมูลรายวิชา{" "}
               </Typography>
             </Grid>
-            {/* <TextField
-              label="รหัสนักศึกษา"
-              id="Student_ID"
-              variant="outlined"
-              type="string"
-              value={approval.Student_ID}
-              sx={{ marginLeft: "550px" }}
-              onChange={handleInputChange}
-            /> */}
-            <Box sx={{ marginLeft: "950px" }}>
-              <Box>
-                <p>รหัสอาจารย์</p>
-                <TextField
-                  disabled
-                  id="Professor_ID"
-                  variant="outlined"
-                  type="string"
-                  value={approval.Professor_ID}
-                  onChange={handleInputChange}
-                />
-              </Box>
-              <Box>
-                <p>ลำดับ</p>
-                <TextField
-                  disabled
-                  id="Approval_ID"
-                  variant="outlined"
-                  type="number"
-                  defaultValue={approval.Approval_ID}
-                  value={approval.Approval_ID}
-                  onChange={handleInputChange}
-                />
-              </Box>
-            </Box>
+            <Grid sx={{ marginLeft: "480px" }}>
+              <p>รหัสอาจารย์</p>
+            </Grid>
+            <Grid sx={{ marginLeft: "40px" }}>
+              <TextField
+                disabled
+                id="Professor_ID"
+                variant="outlined"
+                type="string"
+                value={approval.Professor_ID}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid sx={{ marginLeft: "40px" }}>
+              <p>ลำดับ</p>
+            </Grid>
+            <Grid sx={{ marginLeft: "40px" }}>
+              <TextField
+                disabled
+                id="Approval_ID"
+                variant="outlined"
+                type="number"
+                defaultValue={approval.Approval_ID}
+                value={approval.Approval_ID}
+                onChange={handleInputChange}
+              />
+            </Grid>
           </Box>
         </Paper>
 
         <Paper elevation={3} sx={{ bgcolor: "white", marginBottom: 2 }}>
-          {/* <Grid container sx={{ padding: 2, marginLeft: "15px" }}>
-            <Grid>
-              <p>รหัสลงทะเบียน</p>
-            </Grid>
-            <Grid sx={{ marginLeft: "20px" }}>
-              <Box sx={{ width: "250px" }}>
-                <TextField
-                  id="Approval_ID"
-                  variant="outlined"
-                  type="string"
-                  value={approval.Request_ID}
-                  onChange={handleInputChangeSearch}
-                />
-              </Box>
-            </Grid> */}
-          {/* <Grid sx={{ marginTop: "10px" }}>
-              <Button
-                size="medium"
-                variant="contained"
-                onClick={sendSearchedSubjectID}
-              >
-                ค้นหา
-                <SvgIcon
-                  sx={{ marginLeft: "5px" }}
-                  component={SearchIcon}
-                  inheritViewBox
-                />
-              </Button>
-            </Grid> */}
-          {/* </Grid> */}
-
           <Box
             sx={{
               marginBottom: 1,
@@ -435,9 +375,9 @@ function ApprovalUpdate() {
                     <StyledTableCell align="center" sx={{ border: 1 }}>
                       รหัสลงทะเบียน
                     </StyledTableCell>
-                    {/* <StyledTableCell align="center" sx={{ border: 1 }}>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
                       รหัสนักศึกษา
-                    </StyledTableCell> */}
+                    </StyledTableCell>
                     <StyledTableCell align="center" sx={{ border: 1 }}>
                       รหัสวิชา
                     </StyledTableCell>
@@ -486,6 +426,13 @@ function ApprovalUpdate() {
                         scope="row"
                         align="center"
                       >
+                        {row.Student_ID}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        component="th"
+                        scope="row"
+                        align="center"
+                      >
                         {row.Subject_ID}
                       </StyledTableCell>
                       <StyledTableCell align="center">
@@ -528,30 +475,6 @@ function ApprovalUpdate() {
                     </TableRow>
                   )}
                 </TableBody>
-                {/* <TableFooter>
-                  <TableRow>
-                    <TablePagination
-                      rowsPerPageOptions={[
-                        5,
-                        10,
-                        25,
-                        { label: "All", value: -1 },
-                      ]}
-                      colSpan={approvals.length}
-                      count={approvals.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      SelectProps={{
-                        inputProps: {
-                          "aria-label": "rows per page",
-                        },
-                        native: true,
-                      }}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                  </TableRow>
-                </TableFooter> */}
               </Table>
             </TableContainer>
             <Grid container sx={{ padding: 2 }}>

@@ -133,6 +133,7 @@ func UpdateClassSchedule(c *gin.Context) {
 	var class_schedule entity.Class_Schedule
 	var subject entity.Subject
 	var room entity.Room
+	var admin entity.Admin
 
 	if err := c.ShouldBindJSON(&class_schedule); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -155,6 +156,11 @@ func UpdateClassSchedule(c *gin.Context) {
 		return
 	}
 
+	if tx := entity.DB().Where("admin_id = ?", class_schedule.Admin_ID).First(&admin); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
+		return
+	}
+
 	if tx := entity.DB().Where("class_schedule_id = ?", class_schedule.Class_Schedule_ID).Find(&class_schedule); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "subject with this section not found"})
 		return
@@ -165,10 +171,21 @@ func UpdateClassSchedule(c *gin.Context) {
 		Subject:                    subject,
 		Section:                    updated_section,
 		Room:                       room,
+		Admin:                      admin,
 		Class_Schedule_Description: updated_class_schedule_description,
 		Day:                        updated_day,
 		Start_Time:                 updated_start_time,
 		End_Time:                   updated_end_time,
+	}
+
+	if _, err := validate_function.ValidateClassScheduleID(updated_class_schedule.Class_Schedule_ID, updated_class_schedule); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if _, err := validate_function.ClassScheduleValidate(updated_class_schedule.Day, room, updated_class_schedule.Start_Time, updated_class_schedule.End_Time); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	if err := entity.DB().Save(&updated_class_schedule).Error; err != nil {

@@ -26,9 +26,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material/Select";
-import {
-  Adding_reducingInterface,
-} from "../../models/IAdding_Reducing";
+
 import { Adding_pointInterface } from "../../models/IAdding_point";
 
 function Adding_reducingCreate() {
@@ -85,9 +83,7 @@ function Adding_reducingCreate() {
   const getAdding_reducings = async () => {
     const requestOptions = {
       method: "GET",
-      headers: { 
-		Authorization: `Bearer ${localStorage.getItem("token")}`,
-		"Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/adding_points`, requestOptions)
       .then((response) => response.json())
@@ -98,12 +94,6 @@ function Adding_reducingCreate() {
         }
       });
   };
-
-
-
-
-
-
   // const [RequestByRequestID, setRequestByRequestID] = React.useState("");
   //  const getRequestByRequestID = async (request_id: any) => {
   //    const requestOptions = {
@@ -120,16 +110,15 @@ function Adding_reducingCreate() {
   //      });
   //  };
 
-   //delete
-  const deleteAdding_point = async (Adding_point_ID: number) => {
+  //delete ตารางadding
+
+  const DeleteAdding_point= async (adding_point_id:number) => {
     console.log("good");
     const requestOptions = {
       method: "DELETE",
-      headers: { 
-		Authorization: `Bearer ${localStorage.getItem("token")}`,
-		"Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/adding_point/${Adding_point_ID}`, requestOptions)
+    fetch(`${apiUrl}/adding_points/${adding_point_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -176,7 +165,6 @@ function Adding_reducingCreate() {
 
   useEffect(() => {
     getAdding_reducings();
-    
   }, []);
 
   // function submit() {
@@ -311,20 +299,21 @@ function Adding_reducingCreate() {
                     </TableCell>
                     <TableCell align="center">{row.Student_Name}</TableCell>
                     <TableCell align="center">{row.Grade_ID}</TableCell>
-                     <TableCell>
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => {
-                          deleteAdding_point(row.Adding_point_ID);
-                        }}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
+                    <TableCell align="center">
+                    <IconButton
+                     aria-label="delete"
+                     onClick={() => {
+                      DeleteAdding_point(row.Adding_point_ID)
+                       console.log(row.Adding_point_ID)
+                    }
+                    }
+                    >
+                    <DeleteIcon />
+                  </IconButton>
+                  </TableCell>
                     <TableCell align="center">
                       <IconButton
-                        aria-label="edit"
-                        // onClick={toUpdateRequestPage}
+                        aria-label="edit"             
                         // component={RouterLink}
                         // to="/update"
                         onClick={() => {

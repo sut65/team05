@@ -352,41 +352,45 @@ function ApprovalCreate() {
               marginTop: 1,
             }}
           >
-            <Grid width="550px">
-              <Typography
-                component="h2"
-                variant="h4"
-                color="primary"
-                gutterBottom
-              >
-                อนุมัติคำร้องออนไลน์
-              </Typography>
+            <Grid>
+              <Grid width="550px">
+                <Typography
+                  component="h2"
+                  variant="h4"
+                  color="primary"
+                  gutterBottom
+                >
+                  อนุมัติคำร้องออนไลน์
+                </Typography>
+              </Grid>
             </Grid>
-            <Box sx={{ marginLeft: "950px" }}>
-              <Box>
+            
+              <Grid sx={{ marginLeft: "200px" }}>
                 <p>รหัสอาจารย์</p>
-                <TextField
-                  disabled
-                  id="Professor_ID"
-                  variant="outlined"
-                  type="string"
-                  value={approval.Professor_ID}
-                  onChange={handleInputChange}
-                />
-              </Box>
-              <Box>
-                <p>ลำดับ</p>
-                <TextField
-                  disabled
-                  id="Approval_ID"
-                  variant="outlined"
-                  type="number"
-                  defaultValue={approval.Approval_ID}
-                  value={approval.Approval_ID}
-                  onChange={handleInputChange}
-                />
-              </Box>
-            </Box>
+              </Grid>
+              <Grid sx={{ marginLeft: "40px" }}>
+              <TextField
+                disabled
+                id="Professor_ID"
+                variant="outlined"
+                type="string"
+                value={approval.Professor_ID}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid sx={{ marginLeft: "40px" }}>
+              <p>ลำดับ</p>
+            </Grid>
+            <Grid sx={{ marginLeft: "40px" }}>
+            <TextField
+              disabled
+              id="Approval_ID"
+              variant="outlined"
+              type="number"
+              defaultValue={approval.Approval_ID}
+              value={approval.Approval_ID}
+              onChange={handleInputChange}
+            /></Grid>
           </Box>
         </Paper>
 

@@ -31,7 +31,7 @@ type Subject_Category struct {
 
 type Subject struct {
 	ID         uint   `gorm:"primaryKey"`
-	Subject_ID string `gorm:"primaryKey" valid:"stringlength~Wrong Subject ID Format"`
+	Subject_ID string `gorm:"primaryKey" valid:"subject_id_format~Wrong Subject ID Format"`
 
 	Professor_ID *uint
 	Professor    Professor `gorm:"references:id"`
@@ -66,7 +66,7 @@ type Subject struct {
 }
 
 func SetSubjectValidation() {
-	validator.CustomTypeTagMap.Set("stringlength", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+	validator.CustomTypeTagMap.Set("subject_id_format", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 		str := i.(string)
 		if len(str) == 6 {
 			return true

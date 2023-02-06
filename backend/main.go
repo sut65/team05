@@ -31,16 +31,15 @@ func main() {
 
 	r := gin.Default()
 	r.Use(CORSMiddleware())
-
-
-
-
-
-
-
-
-
-
+	entity.SetSubjectValidation()
+	entity.SetRequestValidation()
+	entity.SetReceipt_numberValidation()
+	entity.SetApprovalValidation()
+	entity.SetCourseIDValidation()
+	entity.SetCourseNameValidation()
+	entity.SetCourseDatetimeValidation()
+	entity.SetReceipt_numberValidation()
+	entity.SetDate_TimeValidation()
 	r.POST("/login", controller.Login)
 
 	router := r.Group("")
@@ -169,7 +168,7 @@ func main() {
 			api.GET("/previousenpayment", controller.GetPreviousPayment)
 			r.PATCH("/updatepayment", controller.UpdatePayment)
 			r.DELETE("/delepayment/:payment_id", controller.DeletePayment)
-
+			r.GET("/enrolls/:student_id", controller.GetEnrollByStudentID)
 			//Enroll
 			r.GET("/enrollsub", controller.ListEnrollSubject)
 			r.GET("/enroll", controller.ListEnroll)

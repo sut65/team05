@@ -20,14 +20,14 @@ type Professor struct {
 	// Field implemented by B6025121
 	// AdminID          *uint
 	// Admin           Admin `gorm:"references:id"`
-	StatusID *string
-	Status   Status `gorm:"references:Status_ID"`
+	StatusID *string `valid:"-"`
+	Status   Status `gorm:"references:Status_ID" valid:"-"`
 
-	AdminID *string
-	Admin   Admin `gorm:"references:Admin_ID"`
+	AdminID *string `valid:"-"`
+	Admin   Admin `gorm:"references:Admin_ID" valid:"-"`
 
-	Qualification_ID *string
-	Qualification    Qualification `gorm:"references:Qualification_ID"`
+	Qualification_ID *string `valid:"-"`
+	Qualification    Qualification `gorm:"references:Qualification_ID" valid:"-"`
 
 	// Field implemented by B6025121
 	// MajorID *uint

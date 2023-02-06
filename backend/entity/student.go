@@ -1,8 +1,8 @@
 package entity
 
-import (
-)
-//Dormitory
+import ()
+
+// Dormitory
 type Dormitory struct {
 	Dormitory_ID string `gorm:"primaryKey"`
 
@@ -18,14 +18,14 @@ type Student struct {
 	Student_Password string
 	Datetime         string
 
-	Admin_ID *string
-	Admin    Admin `gorm:"references:Admin_ID"`
+	Admin_ID *string `valid:"-"`
+	Admin    Admin   `gorm:"references:Admin_ID" valid:"-"`
 
-	Course_ID *string
-	Course    Course `gorm:"references:Course_ID"`
+	Course_ID *string `valid:"-"`
+	Course    Course  `gorm:"references:Course_ID" valid:"-"`
 
-	Dormitory_ID *string
-	Dormitory    Dormitory `gorm:"references:Dormitory_ID"`
+	Dormitory_ID *string   `valid:"-"`
+	Dormitory    Dormitory `gorm:"references:Dormitory_ID" valid:"-"`
 
-	Enrolls []Enroll `gorm:"foreignKey:Student_ID"`
+	Enrolls []Enroll `gorm:"foreignKey:Student_ID" valid:"-"`
 }

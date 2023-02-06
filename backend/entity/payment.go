@@ -15,16 +15,16 @@ type Payment_Type struct {
 type Payment struct {
 	Payment_ID uint `gorm:"primaryKey"`
 
-	Payment_Type_ID *string
-	Payment_Type    Payment_Type `gorm:"references:Payment_Type_ID"`
+	Payment_Type_ID *string	`valid:"-"`
+	Payment_Type    Payment_Type `gorm:"references:Payment_Type_ID" valid:"-"`
 
-	Student_ID *string
-	Student    Student `gorm:"references:Student_ID"`
+	Student_ID *string	`valid:"-"`
+	Student    Student `gorm:"references:Student_ID" valid:"-"`
 
-	Admin_ID *string
-	Admin    Admin `gorm:"references:Admin_ID"`
+	Admin_ID *string `valid:"-"`
+	Admin    Admin `gorm:"references:Admin_ID" valid:"-"`
 
-	Receipt_number string `valid:"receipt_number_check~receipt number not valid!!,receipt_thai_check~receipt number cannot be thai character,receipt_english_check~receipt number cannot be english character"`
+	Receipt_number string `valid:"receipt_thai_check~receipt number cannot be thai character,receipt_english_check~receipt number cannot be english character"`
 	Date_Time      string `valid:"datetime~datetime not valid!!"`
 	Unit           uint   `valid:"required~Unit cannot be blank"`
 	Payable        uint

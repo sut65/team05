@@ -42,14 +42,14 @@ type Course struct {
 
 	Datetime string `valid:"required~Datetime cannot be null,datetimechecknumber~Datetime cannot be English or thai language,maxstringlength(10)~Datetime cannot greater than 10 character"`
 
-	Qualification_ID *string
-	Qualification    Qualification `gorm:"references:Qualification_ID"`
+	Qualification_ID *string       `valid:"-"`
+	Qualification    Qualification `gorm:"references:Qualification_ID" valid:"-"`
 
-	Admin_ID *string
-	Admin    Admin `gorm:"references:Admin_ID"`
+	Admin_ID *string `valid:"-"`
+	Admin    Admin   `gorm:"references:Admin_ID" valid:"-"`
 
-	Major_ID *string
-	Major    Major `gorm:"references:Major_ID"`
+	Major_ID *string `valid:"-"`
+	Major    Major   `gorm:"references:Major_ID" valid:"-"`
 
 	Courses  []Course  `gorm:"foreignKey:Course_ID"`
 	Subjects []Subject `gorm:"foreignKey:Course_ID"`
@@ -93,7 +93,3 @@ func SetCourseDatetimeValidation() {
 	}))
 
 }
-
-
-
-

@@ -18,14 +18,14 @@ type Room struct {
 	Room_ID string `gorm:"primaryKey"`
 	Seats   uint
 
-	RoomType_ID *string
-	RoomType    RoomType `gorm:"references:RoomType_ID"`
+	RoomType_ID *string  `valid:"-"`
+	RoomType    RoomType `gorm:"references:RoomType_ID" valid:"-"`
 
-	Building_ID *string
-	Building    Building `gorm:"references:Building_ID"`
+	Building_ID *string  `valid:"-"`
+	Building    Building `gorm:"references:Building_ID" valid:"-"`
 
-	Admin_ID *string
-	Admin    Admin `gorm:"references:Admin_ID"`
+	Admin_ID *string `valid:"-"`
+	Admin    Admin   `gorm:"references:Admin_ID " valid:"-"`
 
 	Class_Schedules []Class_Schedule `gorm:"foreignKey:Room_ID"`
 	Exam_Schedules  []Exam_Schedule  `gorm:"foreignKey:Room_ID"`

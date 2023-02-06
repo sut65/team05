@@ -72,5 +72,17 @@ func SetCourseIDValidation() {
 
 	}))
 }
+func SetCourseNameValidation() {
+	validator.CustomTypeTagMap.Set("coursenamechecklanguage", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+
+		str := i.(string)
+		match, _ := regexp.MatchString(`([ก-๏0-9])`, str)
+		return match
+
+	}))
+
+}
+
+
 
 

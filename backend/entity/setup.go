@@ -30,7 +30,7 @@ func OpenDatabaseForTesting() *gorm.DB {
 
 func OpenDatabase() {
 
-	database, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	database, err := gorm.Open(sqlite.Open("C:\\Users\\asus\\Desktop\\SE-G5\\Code\\team05\\backend\\test.db"), &gorm.Config{})
 
 	if err != nil {
 		panic("failed to connect database")
@@ -40,7 +40,7 @@ func OpenDatabase() {
 
 func SetupDatabase() {
 
-	database, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	database, err := gorm.Open(sqlite.Open("C:\\Users\\asus\\Desktop\\SE-G5\\Code\\team05\\backend\\test.db"), &gorm.Config{})
 
 	if err != nil {
 		panic("failed to connect database")

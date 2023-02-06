@@ -5,6 +5,11 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { Class_Schedule } from "../../models/I_Schedule";
 import { Subject } from "../../models/I_Subject";
 import { Room } from "../../models/I_Room";
+import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { formatTime } from "../services/FormatDateTime";
+import { Dayjs } from "dayjs";
+import Swal from 'sweetalert2'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -19,6 +24,8 @@ function Class_Schedule_Create() {
     const [class_schedule_id, setClassScheduleID] = React.useState<string>();
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
+    const [start_time, setStartTime] = React.useState<Dayjs | null>(null);
+    const [end_time, setEndTime] = React.useState<Dayjs | null>(null);
 
     const apiUrl = "http://localhost:8080";
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -59,9 +66,10 @@ function Class_Schedule_Create() {
     const getSubject = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { 
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json" },
+                "Content-Type": "application/json"
+            },
         };
         fetch(`${apiUrl}/subject/${class_schedule.Subject_ID}/${class_schedule.Section}`, requestOptions)
             .then((response) => response.json())
@@ -75,9 +83,10 @@ function Class_Schedule_Create() {
     const getRooms = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { 
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json" },
+                "Content-Type": "application/json"
+            },
         };
         fetch(`${apiUrl}/rooms`, requestOptions)
             .then((response) => response.json())
@@ -149,32 +158,48 @@ function Class_Schedule_Create() {
             Section: typeof class_schedule.Section === "string" ? parseInt(class_schedule.Section) : class_schedule.Section,
             Subject_ID: class_schedule.Subject_ID ?? "",
             Room_ID: class_schedule.Room_ID ?? "",
-            Admin_ID: class_schedule.Admin_ID ?? "",
+            Admin_ID: localStorage.getItem("id"),
             Class_Schedule_Description: class_schedule.Class_Schedule_Description ?? "",
             Day: class_schedule.Day ?? "",
-            Start_Time: class_schedule.Start_Time ?? "",
-            End_Time: class_schedule.End_Time ?? "",
+            Start_Time: formatTime(start_time),
+            End_Time: formatTime(end_time),
         }
 
         const requestOptionsPost = {
             method: "POST",
-            headers: { 
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json" },
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(data),
         };
-
-        fetch(`${apiUrl}/class_schedules`, requestOptionsPost)
-            .then((response) => response.json())
-            .then((res) => {
-                console.log(res)
-                if (res.data) {
-                    setSuccess(true);
-                } else {
-                    setError(true);
-                }
-            });
-
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`${apiUrl}/class_schedules`, requestOptionsPost)
+                .then((response) => response.json())
+                .then((res) => {
+                    if (res.data) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Saved!',
+                            text: 'Success',
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: res.error,
+                        })
+                    }
+                });
+            } 
+        })
     }
 
     useEffect(() => {
@@ -190,30 +215,6 @@ function Class_Schedule_Create() {
                 width: "auto",
                 height: "auto",
             }}>
-
-            <Snackbar
-                open={success}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            >
-
-                <Alert onClose={handleClose} severity="success">
-                    บันทึกข้อมูลสำเร็จ
-                </Alert>
-            </Snackbar>
-
-            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="error">
-                    บันทึกข้อมูลไม่สำเร็จ
-                </Alert>
-            </Snackbar>
-            {/* Header */}
-            <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
-                <Typography variant="h4" sx={{ fontFamily: 'Mitr-Regular' }}> ระบบจัดสรรห้องเรียนและห้องสอบ </Typography>
-                <Typography sx={{ fontFamily: 'Mitr-Regular' }}> เพิ่มข้อมูลการใช้ห้องเรียน </Typography>
-            </Paper>
-
             <Grid container item
                 sx={{
                     // border: 1,
@@ -240,7 +241,7 @@ function Class_Schedule_Create() {
                             <Box sx={{ padding: 1 }}>
                                 <Button
                                     onClick={() => {
-                                        class_schedule.Class_Schedule_ID = `CLS-${class_schedule.Subject_ID}-${class_schedule.Section}-${class_schedule.Room_ID}-${class_schedule.Day}-${class_schedule.Start_Time}-${class_schedule.End_Time}`
+                                        class_schedule.Class_Schedule_ID = `CLS${class_schedule.Subject_ID}-${class_schedule.Section}-${class_schedule.Room_ID}-${class_schedule.Day}-${formatTime(start_time)}-${formatTime(end_time)}`
                                         setClassScheduleID(class_schedule.Class_Schedule_ID)
                                     }}
                                     variant="contained"
@@ -287,7 +288,7 @@ function Class_Schedule_Create() {
                     </Grid>
 
                     <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
+                        <Box flexGrow={50} sx={{ border: 0, width: "auto", padding: 1 }}>
                             <Typography sx={{ fontFamily: 'Mitr-Regular' }}> ห้องเรียน </Typography>
                             <FormControl fullWidth>
                                 <Select
@@ -309,35 +310,39 @@ function Class_Schedule_Create() {
                             </FormControl>
                         </Box>
 
-                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
+                        <Box flexGrow={5} sx={{ border: 0, width: "auto", padding: 1 }}>
                             <Typography sx={{ fontFamily: 'Mitr-Regular' }}> เวลาเริ่มเรียน </Typography>
                             <FormControl fullWidth>
-                                <TextField
-                                    id="Start_Time"
-                                    variant="standard"
-                                    type="string"
-                                    value={class_schedule.Start_Time}
-                                    onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
-                                />
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <TimePicker
+                                        ampm={false}
+                                        value={start_time}
+                                        onChange={(newValue) => {
+                                            setStartTime(newValue)
+                                        }}
+                                        renderInput={(params) => <TextField variant="standard" {...params} />}
+                                    />
+                                </LocalizationProvider>
                             </FormControl>
                         </Box>
 
-                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
+                        <Box flexGrow={5} sx={{ border: 0, width: "auto", padding: 1 }}>
                             <Typography sx={{ fontFamily: 'Mitr-Regular' }}> เวลาเลิกเรียน </Typography>
                             <FormControl fullWidth>
-                                <TextField
-                                    id="End_Time"
-                                    variant="standard"
-                                    type="string"
-                                    value={class_schedule.End_Time}
-                                    onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
-                                />
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <TimePicker
+                                        ampm={false}
+                                        value={end_time}
+                                        onChange={(newValue) => {
+                                            setEndTime(newValue)
+                                        }}
+                                        renderInput={(params) => <TextField variant="standard" {...params} />}
+                                    />
+                                </LocalizationProvider>
                             </FormControl>
                         </Box>
 
-                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
+                        <Box flexGrow={20} sx={{ border: 0, width: "auto", padding: 1 }}>
                             <Typography sx={{ fontFamily: 'Mitr-Regular' }}> วัน </Typography>
                             <FormControl fullWidth>
                                 <Select
@@ -384,8 +389,6 @@ function Class_Schedule_Create() {
                     {ShowSubjectInfo()}
                 </Box>
             </Grid>
-
-
         </Container>
     )
 }

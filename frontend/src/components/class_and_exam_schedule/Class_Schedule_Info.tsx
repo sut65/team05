@@ -25,7 +25,9 @@ function Class_Schedule_Info() {
 
     const requestOptionsGet = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json" },
     };
 
     const getClassSchedulesBySubjectID = async () => {

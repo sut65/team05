@@ -56,9 +56,9 @@ import ListEnroll from "./components/enroll/Enroll";
 import UpdateEnroll from "./components/enroll/Enroll_Edit";
 
 //adding_reducing
-import CreateAdducing from "./components/adding_reducing/Adding_reducingCreate";
-import ListAdducing from "./components/adding_reducing/Adding_reducing";
-import UpdateAdducing from "./components/adding_reducing/Adding_reducingUpdate";
+import Adding_reducing from "./components/adding_reducing/Adding_reducing";
+import Adding_reducingCreate from "./components/adding_reducing/Adding_reducingCreate";
+import Adding_reducingUpdate from "./components/adding_reducing/Adding_reducingUpdate";
 // Footer
 import Footer from "./components/pages/Home_Footer";
 
@@ -168,15 +168,10 @@ export default function App() {
                       element={<UpdateEnroll />}
                     />
 
-                    <Route path="/adding_reducing" element={<ListAdducing />} />
-                    <Route
-                      path="/adding_reducing/create_adding_reducing"
-                      element={<CreateAdducing />}
-                    />
-                    <Route
-                      path="/adding_reducing/updateenroll/:enroll_id"
-                      element={<UpdateAdducing />}
-                    />
+                   {/* Adding_reducing Path */}
+                   <Route path="/" element={<Adding_reducing/>} /> 
+                    <Route path="/create" element={<Adding_reducingCreate/>} />
+                    <Route path="/updateenroll/:enroll_id" element={<Adding_reducingUpdate/>} /> 
                   </Routes>
                 </div>
               </Router>

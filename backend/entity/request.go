@@ -23,7 +23,7 @@ type Request struct {
 	Subject    Subject `gorm:"references:Subject_ID"`
 	Section    uint
 
-	Reason          string `valid:"required~Reason cannot be blank,reason_valid~Reason cannot be special characters or number"`
+	Reason          string `valid:"required~Reason cannot be blank,reason_valid~Reason cannot be special characters or number,maxstringlength(30)~The reason cannot be more than 30 characters"`
 	
 	
 	Request_Type_ID *string

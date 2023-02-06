@@ -71,7 +71,7 @@ func CreateApproval(c *gin.Context) {
 		Request_ID:       approval.Request_ID,
 	}
 
-		if _, err := govalidator.ValidateStruct(new_approval); err != nil {
+	if _, err := govalidator.ValidateStruct(new_approval); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

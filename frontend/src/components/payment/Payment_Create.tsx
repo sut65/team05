@@ -371,7 +371,7 @@ export function CreatePayment() {
                 <Paper
 
                 >
-                    <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
+                    <Grid container sx={{ marginTop: '5px', marginLeft: 7, }}>
                         <Grid >
                             <p>กรุณาระบุรหัสนักศึกษา</p>
                             <Box>
@@ -392,8 +392,8 @@ export function CreatePayment() {
                             </Button>
                         </Grid>
                     </Grid>
-                    <Paper sx={{width:700}}>
-                        <Grid sx={{ marginTop: '20px', display: 'flex', marginLeft: 1 }}>
+                    
+                        <Grid sx={{ marginTop: '20px', display: 'flex', paddingLeft:6,marginLeft: 1 ,width:700}}>
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
@@ -462,8 +462,6 @@ export function CreatePayment() {
                                 </Table>
                             </TableContainer>
                         </Grid>
-                    </Paper>
-
                     <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
                         <Grid >
                             <p style={{ paddingLeft: 17, }}>หน่วยกิจรวม</p>

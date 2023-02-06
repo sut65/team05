@@ -31,13 +31,13 @@ func main() {
 
 	r := gin.Default()
 	r.Use(CORSMiddleware())
+	entity.SetCourseIDValidation()
+	entity.SetCourseNameValidation()
+	entity.SetCourseDatetimeValidation()
 	entity.SetSubjectValidation()
 	entity.SetRequestValidation()
 	entity.SetReceipt_numberValidation()
 	entity.SetApprovalValidation()
-	entity.SetCourseIDValidation()
-	entity.SetCourseNameValidation()
-	entity.SetCourseDatetimeValidation()
 	entity.SetReceipt_numberValidation()
 	entity.SetDate_TimeValidation()
 	r.POST("/login", controller.Login)
@@ -181,15 +181,13 @@ func main() {
 			r.DELETE("/deleEnroll/:enroll_id", controller.DeleteEnroll)
 			r.GET("/enrollsubs/:subject_id", controller.GetEnrollSubject)
 			r.GET("/subjectd/:coruse_id", controller.GetSubjectByCourse)
-		//---------------------adding_reducings
-		r.GET("/adding_reducings", controller.ListAdding_reducing)
-		r.GET("/previous_adding", controller.GetPreviousAdding_reducing)
-		r.POST("/adding_reducings", controller.CreateAdding_reducing)
-		r.PATCH("/adding_reducings", controller.UpdateEnrollforadding)
-		r.POST("/adding_reducingsonly", controller.CreateAdding_reducingonly)
+			//---------------------adding_reducings
+			r.GET("/adding_reducings", controller.ListAdding_reducing)
+			r.GET("/previous_adding", controller.GetPreviousAdding_reducing)
+			r.POST("/adding_reducings", controller.CreateAdding_reducing)
+			r.PATCH("/adding_reducings", controller.UpdateEnrollforadding)
+			r.POST("/adding_reducingsonly", controller.CreateAdding_reducingonly)
 		}
-
-		
 
 	}
 

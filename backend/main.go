@@ -128,12 +128,12 @@ func main() {
 			api.POST("/approvals", controller.CreateApproval)
 			api.PATCH("/approvals", controller.UpdateApproval)
 			api.DELETE("/approval/:approval_id", controller.DeleteApproval)
-
+			api.GET("/approvalprofessor/:approval_id", controller.ListApprovalProfessor)
+			api.GET("/approvalupdate/:approval_id", controller.ListApprovalForUpdate)
 			// Approval_Type
 			api.GET("/approval_types", controller.ListApproval_Type)
-			api.GET("/approval_type/:request_type_id", controller.GetApproval_Type)
+			api.GET("/approval_type/:approval_type_id", controller.GetApproval_Type)
 			api.POST("/approval_types", controller.CreateApproval_Type)
-
 			// // Admin Routes
 			api.GET("/admins", controller.ListAdmins)
 			api.GET("/admin/:admin_id", controller.GetAdmin)

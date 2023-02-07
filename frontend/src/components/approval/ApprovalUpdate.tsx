@@ -26,9 +26,7 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import TableFooter from "@mui/material/TableFooter";
 import SearchIcon from "@mui/icons-material/Search";
-
 import { RequestInterface } from "../../models/IRequest";
-
 import { SelectChangeEvent } from "@mui/material/Select";
 import {
   Autocomplete,
@@ -110,14 +108,6 @@ function ApprovalUpdate() {
     setPage(newPage);
   };
 
-  const sendSearchedSubjectID = () => {
-    // navigate({ pathname: `/subject/${searchSubjectID}` });
-    setSearchApprovalID(searchApprovalID);
-    getApprovalByApprovalID(searchApprovalID);
-    // window.location.reload();
-    console.log(searchApprovalID);
-  };
-
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -177,7 +167,7 @@ function ApprovalUpdate() {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/approvals`, approvalOptions)
+    fetch(`${apiUrl}/approvalupdate/${params.approval_id}`, approvalOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -187,23 +177,6 @@ function ApprovalUpdate() {
       });
   };
 
-  const getApprovalByApprovalID = async (approval_id: any) => {
-    const approvalOptions = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    };
-    fetch(`${apiUrl}/approval/${approval_id}`, approvalOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          setSearchApprovalID(approval_id);
-          setApprovals(res.data);
-        }
-      });
-  };
   const getApproval_Type = async () => {
     fetch(`${apiUrl}/approval_types`, approvalOptionsGet)
       .then((response) => response.json())
@@ -219,14 +192,8 @@ function ApprovalUpdate() {
 
   useEffect(() => {
     getApproval_Type();
-    // getPrevApprovalUpdate();
     getCurrentApproval();
-
-    if (searchApprovalID == "") {
-      getApprovals();
-    } else {
-      getApprovalByApprovalID(searchApprovalID);
-    }
+    getApprovals();
     console.log(searchApprovalID);
   }, []);
 
@@ -236,13 +203,7 @@ function ApprovalUpdate() {
         typeof approval.Approval_ID === "string"
           ? parseInt(approval.Approval_ID)
           : approval.Approval_ID,
-      // approval.Approval_ID ?? "",
-      // Student_ID: approval.Student_ID ?? "",
-      Professor_ID:
-        typeof approval.Professor_ID === "string"
-          ? parseInt(approval.Professor_ID)
-          : approval.Professor_ID,
-
+      Professor_ID: approval.Professor_ID ?? "",
       Request_ID:
         typeof approval.Request_ID === "string"
           ? parseInt(approval.Request_ID)
@@ -321,11 +282,11 @@ function ApprovalUpdate() {
                 color="primary"
                 gutterBottom
               >
-                ยื่นคำร้องออนไลน์
+                อนุมัติคำร้องออนไลน์
               </Typography>
               <Typography sx={{ fontFamily: "Mitr-Regular" }}>
                 {" "}
-                แก้ไขข้อมูลรายวิชา{" "}
+                แก้ไขข้อมูลอนุมัติคำร้องออนไลน์{" "}
               </Typography>
             </Grid>
             <Grid sx={{ marginLeft: "480px" }}>
@@ -449,23 +410,6 @@ function ApprovalUpdate() {
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {row.Professor_Name}
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        <Button
-                          variant="contained"
-                          sx={{ borderRadius: 0 }}
-                          onClick={() => {
-                            approval.Professor_ID = row.Professor_ID;
-                            approval.Approval_ID = row.Approval_ID;
-                            approval.Request_ID = row.Request_ID;
-                            approval.Section = row.Section;
-                            console.log(approval.Approval_ID);
-                            console.log(approval.Request_ID);
-                            console.log(approval.Section);
-                          }}
-                        >
-                          เพิ่ม
-                        </Button>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}

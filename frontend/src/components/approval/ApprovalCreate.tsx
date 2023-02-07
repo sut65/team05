@@ -26,22 +26,10 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import TableFooter from "@mui/material/TableFooter";
 import SearchIcon from "@mui/icons-material/Search";
-
 import { SelectChangeEvent } from "@mui/material/Select";
-import {
-  Autocomplete,
-  FormHelperText,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  SvgIcon,
-  unstable_useEnhancedEffect,
-} from "@mui/material";
+import {InputLabel,MenuItem,Select,SvgIcon, Toolbar,} from "@mui/material";
 import { useParams } from "react-router-dom";
-import { AppBar } from "@mui/material";
 import { RequestInterface } from "../../models/IRequest";
-import AddIcon from "@mui/icons-material/Add";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -59,9 +47,6 @@ function ApprovalCreate() {
   const [approval_type, setApproval_Type] = React.useState<
     Approval_TypeInterface[]
   >([]);
-  // const [student, setStudent] = React.useState<
-  //    StudentInterface[]
-  // >([]);
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [subjects, setSubjects] = React.useState<Subject[]>([]);
@@ -275,12 +260,7 @@ function ApprovalCreate() {
         typeof approval.Approval_ID === "string"
           ? parseInt(approval.Approval_ID)
           : approval.Approval_ID,
-      // approval.Approval_ID ?? "",
-      // Student_ID: approval.Student_ID ?? "",
       Professor_ID: approval.Professor_ID ?? "",
-      // typeof approval.Professor_ID === "string"
-      //   ? parseInt(approval.Professor_ID)
-      //   : approval.Professor_ID,
       Request_ID:
         typeof approval.Request_ID === "string"
           ? parseInt(approval.Request_ID)
@@ -362,13 +342,17 @@ function ApprovalCreate() {
                 >
                   อนุมัติคำร้องออนไลน์
                 </Typography>
+                <Typography sx={{ fontFamily: "Mitr-Regular" }}>
+                  {" "}
+                  บันทึกข้อมูลอนุมัติคำร้องออนไลน์{" "}
+                </Typography>
               </Grid>
             </Grid>
-            
-              <Grid sx={{ marginLeft: "200px" }}>
-                <p>รหัสอาจารย์</p>
-              </Grid>
-              <Grid sx={{ marginLeft: "40px" }}>
+
+            <Grid sx={{ marginLeft: "200px" }}>
+              <p>รหัสอาจารย์</p>
+            </Grid>
+            <Grid sx={{ marginLeft: "40px" }}>
               <TextField
                 disabled
                 id="Professor_ID"
@@ -382,27 +366,28 @@ function ApprovalCreate() {
               <p>ลำดับ</p>
             </Grid>
             <Grid sx={{ marginLeft: "40px" }}>
-            <TextField
-              disabled
-              id="Approval_ID"
-              variant="outlined"
-              type="number"
-              defaultValue={approval.Approval_ID}
-              value={approval.Approval_ID}
-              onChange={handleInputChange}
-            /></Grid>
+              <TextField
+                disabled
+                id="Approval_ID"
+                variant="outlined"
+                type="number"
+                defaultValue={approval.Approval_ID}
+                value={approval.Approval_ID}
+                onChange={handleInputChange}
+              />
+            </Grid>
           </Box>
         </Paper>
 
         <Paper elevation={3} sx={{ bgcolor: "white", marginBottom: 2 }}>
           <Grid container sx={{ padding: 2, marginLeft: "15px" }}>
             <Grid>
-              <p>กรุณาระบุรหัสวิชา</p>
+              <p>รหัสวิชา</p>
             </Grid>
             <Grid sx={{ marginLeft: "20px" }}>
               <Box sx={{ width: "250px" }}>
                 <TextField
-                  label="ระบุรหัสวิชา"
+                  label="กรอกรหัสวิชา"
                   variant="outlined"
                   // type="string"
                   // value={approval.Request_ID}

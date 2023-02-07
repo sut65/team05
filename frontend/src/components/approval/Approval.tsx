@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 import { RequestInterface } from "../../models/IRequest";
 import { Request_TypeInterface } from "../../models/IRequest_Type";
 import { Subject } from "../../models/I_Subject";
-import { Stack, Divider, Grid } from "@mui/material";
+import { Stack, Divider, Grid, Toolbar } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
@@ -29,6 +29,7 @@ import { useParams } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { ApprovalInterface } from "../../models/I_Approval";
 import { Approval_TypeInterface } from "../../models/I_Approval_Type";
+import Home_Navbar from "../navbars/Home_navbar";
 
 function Approval() {
   const [approval, setApproval] = React.useState<Partial<ApprovalInterface>>(
@@ -72,26 +73,20 @@ function Approval() {
 
   const apiUrl = "http://localhost:8080";
 
-  //update
-  // const toUpdateApprovalPage = () => {
-  //   navigate({
-  //     pathname: `/approvals/update/${approval?.Approval_ID}`,
-  //   });
-  //   // window.location.reload()
-  // };
-
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - approvals.length) : 0;
-
-  //approvall
-  const getApprovals = async () => {
-    const requestOptions = {
+  
+  const requestOptions = {
       method: "GET",
       headers: { 
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json" },
-    };
-    fetch(`${apiUrl}/approvals`, requestOptions)
+  };
+  
+  //approvall
+  const getApprovals = async () => {
+    let uid = localStorage.getItem("id");
+    fetch(`${apiUrl}/approvalprofessor/${uid}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -100,22 +95,6 @@ function Approval() {
         }
       });
   };
-  // const [RequestByRequestID, setRequestByRequestID] = React.useState("");
-  //  const getRequestByRequestID = async (request_id: any) => {
-  //    const requestOptions = {
-  //      method: "GET",
-  //      headers: { "Content-Type": "application/json" },
-  //    };
-  //    fetch(`${apiUrl}/request/${request_id}`, requestOptions)
-  //      .then((response) => response.json())
-  //      .then((res) => {
-  //        if (res.data) {
-  //          setRequestByRequestID(request_id);
-  //          setRequest(res.data);
-  //        }
-  //      });
-  //  };
-
   //delete
   const deleteApproval = async (approval_id: number) => {
     console.log("good");
@@ -174,42 +153,6 @@ function Approval() {
     getApprovals();
   }, []);
 
-  // function submit() {
-  //   let data = {
-  //     Request_ID:
-  //       typeof request.Request_ID === "string"
-  //         ? parseInt(request.Request_ID)
-  //         : request.Request_ID,
-  //     // request.Request_ID ?? "",
-  //     // Student_ID: request.Student_ID ?? "",
-  //     Professor_ID: request.Professor_ID ?? "",
-
-  //     Subject_ID: request.Subject_ID ?? "",
-  //     Section: request.Section ?? "",
-  //     Reason: request.Reason ?? "",
-  //     Request_Type_ID: request.Request_Type_ID ?? "",
-  //   };
-
-  //   const apiUrl = "http://localhost:8080/requests";
-  //   const requestOptionsPatch = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(data),
-  //   };
-  //   console.log(JSON.stringify(data));
-
-  //   fetch(`${apiUrl}/request`, requestOptionsPatch)
-  //     .then((response) => response.json())
-
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setSuccess(true);
-  //       } else {
-  //         setError(true);
-  //       }
-  //     });
-  // }
-
   return (
     <div>
       <Container
@@ -221,6 +164,8 @@ function Approval() {
           padding: 2,
         }}
       >
+        <Home_Navbar></Home_Navbar>
+        <Toolbar></Toolbar>
         <Paper
           elevation={3}
           sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
@@ -284,15 +229,6 @@ function Approval() {
           elevation={3}
           sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
         >
-          {/* <div style={{ height: 300, width: "100%", marginTop: "20px" }}>
-            <DataGrid
-              rows={request}
-              getRowId={(row) => row.Request_ID}
-              columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
-            />
-          </div> */}
           <TableContainer component={Paper}>
             <Table>
               <TableHead>

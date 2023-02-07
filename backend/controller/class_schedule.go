@@ -3,8 +3,8 @@ package controller
 import (
 	"net/http"
 
-	validate_function "github.com/B6025212/team05/custom_validate_function"
 	"github.com/B6025212/team05/entity"
+	. "github.com/B6025212/team05/service"
 
 	"github.com/gin-gonic/gin"
 )
@@ -56,12 +56,12 @@ func CreateClassSchedule(c *gin.Context) {
 		Start_Time:                 class_schedule.Start_Time,
 		End_Time:                   class_schedule.End_Time,
 	}
-	if _, err := validate_function.ValidateClassScheduleID(new_class_schedule.Class_Schedule_ID, new_class_schedule); err != nil {
+	if _, err := ValidateClassScheduleID(new_class_schedule.Class_Schedule_ID, new_class_schedule); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if _, err := validate_function.ClassScheduleValidate(new_class_schedule.Day, room, new_class_schedule.Start_Time, new_class_schedule.End_Time); err != nil {
+	if _, err := ValidateClassScheduleUnique(new_class_schedule.Day, room, new_class_schedule.Start_Time, new_class_schedule.End_Time); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -178,15 +178,21 @@ func UpdateClassSchedule(c *gin.Context) {
 		End_Time:                   updated_end_time,
 	}
 
-	if _, err := validate_function.ValidateClassScheduleID(updated_class_schedule.Class_Schedule_ID, updated_class_schedule); err != nil {
+	if _, err := ValidateClassScheduleID(updated_class_schedule.Class_Schedule_ID, updated_class_schedule); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if _, err := validate_function.ClassScheduleValidate(updated_class_schedule.Day, room, updated_class_schedule.Start_Time, updated_class_schedule.End_Time); err != nil {
+	if _, err := ValidateClassScheduleUnique(updated_class_schedule.Day, room, updated_class_schedule.Start_Time, updated_class_schedule.End_Time); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	// ใส่คำสั่งลบข้อมูลเดิมทิ้ง แล้วแทนที่ด้วยข้อมูลใหม่
+	// TODO
+	// TODO
+	// TODO
+	// TODO
 
 	if err := entity.DB().Save(&updated_class_schedule).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

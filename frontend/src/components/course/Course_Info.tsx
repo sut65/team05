@@ -81,6 +81,7 @@ function CourseInfo() {
 
     useEffect(() => {
             getCourses()
+            // console.log(course)
     }, []);
 
     return (
@@ -151,18 +152,18 @@ function CourseInfo() {
 
                         <Grid container sx={{}}>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> คุณวุฒิ </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Qualification_ID}
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Qualification_Name}
                             </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> สาขา </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Major_ID} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Major_Name} </Box>
                         </Grid>
                         
                         <Grid container sx={{}}>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> รหัสแอดมินที่เพิ่ม </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Admin_ID} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Admin_Email} </Box>
                         </Grid>
 
                         <p></p>

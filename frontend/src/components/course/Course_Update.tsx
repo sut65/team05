@@ -34,6 +34,7 @@ function Class_Schedule_Update() {
     const [course_id, setCourseID] = React.useState<string>();
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
+    const [message, setAlertMessage] = React.useState("");
 
     const [searchedCourse, setSearchCourse] = React.useState<string>();
     const apiUrl = "http://localhost:8080";
@@ -77,18 +78,20 @@ function Class_Schedule_Update() {
 
     };
 
-    const getAdmins = async () => {
-      fetch(`${apiUrl}/admins`, requestOptionsGet)
+    const getAdminID = async () => {
+      let uid = localStorage.getItem("id");
+    
+      fetch(`${apiUrl}/admin/${uid}`, requestOptionsGet)
           .then((response) => response.json())
           .then((res) => {
               if (res.data) {
-                  console.log(res.data)
-                  setAdmins(res.data);
+                  course.Admin_ID = res.data.Admin_ID
+    
               } else {
                   console.log("else");
               }
           });
-        }
+    };
     
 
     const getCourse = async () => {
@@ -134,7 +137,7 @@ function Class_Schedule_Update() {
     useEffect(() => {
       getMajor();
       getQualifications();
-      getAdmins();
+      getAdminID();
       getSendedCourse();
   }, []);
 
@@ -169,10 +172,11 @@ function Class_Schedule_Update() {
             .then((res) => {
                 console.log(res)
                 if (res.data) {
-                    setSuccess(true);
-                } else {
-                    setError(true);
-                }
+                  setSuccess(true);
+              } else {
+                  setAlertMessage(res.error);
+                  setError(true);
+              }
             });
 
     }
@@ -206,7 +210,7 @@ function Class_Schedule_Update() {
    
           <Alert onClose={handleClose} severity="error">
    
-            แก้ไขข้อมูลไม่สำเร็จ
+          {message}
    
           </Alert>
    
@@ -256,37 +260,27 @@ function Class_Schedule_Update() {
    
           <Grid container spacing={3} sx={{ padding: 2 }}>
 
-          <Grid item xs={6} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
-              fontWeight : 'bold' ,fontSize:27}}>
-               <FormControl fullWidth variant="outlined">
-                 
-                 <p>แอดมินที่จัดการข้อมูล</p>
-                 <Select
-                                   variant="standard"
-                                   id="Admin_ID"
-                                   value={course.Admin_ID}
-                                   onChange={handleSelectChange}
-                                   inputProps={{
-                                       name: "Admin_ID",
-                                       style: {
-                                           fontFamily: 'LilyUPC'
-                                       }
-                                   }}
-   
-                               >
-                                   {admins.map((item: AdminInterface) => (
-                                       <MenuItem
-                                           value={item.Admin_ID}
-                                           key={item.Admin_ID}
-                                       >
-                                           {item.Admin_Email}
-                                       </MenuItem>
-                                   ))}
-                               </Select>
-                   
-               </FormControl>
-             </Grid>
+          <Grid item xs={4} color="#FF0606" 
+          sx={{  fontFamily : "LilyUPC" ,
+           fontWeight : 'bold' ,fontSize:27}}>
+          <p>รหัสแอดมิน</p>
+
+        <FormControl fullWidth variant="outlined">
+        <TextField
+                                variant="outlined"
+                                id="Admin_ID"
+                                type="string"
+                                disabled
+                                value={course.Admin_ID }
+                                inputProps={{
+                                  name: "Admin_ID",
+                                }}
+                                onChange={handleInputChange}
+                            />
+
+        </FormControl>
+
+        </Grid>
    
           <Grid item xs={4} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,

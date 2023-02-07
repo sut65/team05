@@ -178,7 +178,7 @@ func SetupDatabase() {
 		Course_Name:   "หลักสูตรวิศวกรรมไฟฟ้า 2560",
 		Datetime:      "22/07/2563",
 		Qualification: qualification3,
-		Admin:         admin1,
+		Admin:         admin2,
 		Major:         ee,
 	}
 	db.Create(&cpe2560)

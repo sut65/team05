@@ -58,6 +58,7 @@ func main() {
 			api.DELETE("/qualifications/:qualification_id", controller.DeleteQualification)
 			api.GET("/qualification", controller.ListQualificationName)
 
+			api.GET("/coursesadmin/:course_id", controller.ListCoursesAdmin)
 			api.GET("/courses", controller.ListCourses)
 			api.GET("/courses/:course_id", controller.GetCourseSearch)
 			api.GET("/course/:course_id", controller.GetCourse)

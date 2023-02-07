@@ -98,7 +98,8 @@ function Course_Lists() {
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - courses.length) : 0;
 
     const getCourses = async () => {
-        fetch(`${apiUrl}/courses`, requestOptions)
+        let uid = localStorage.getItem("id");
+        fetch(`${apiUrl}/coursesadmin/${uid}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {

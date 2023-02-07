@@ -86,11 +86,11 @@ func GetCourseSearch(c *gin.Context) {
 
 func GetCourse(c *gin.Context) {
 
-	var course entity.Course
+	var course extendedCourse
 
 	id := c.Param("course_id")
 
-	if err := entity.DB().Raw("SELECT c.*, m.major_name,qualification_name FROM courses c JOIN majors m JOIN qualifications q ON c.major_id = m.major_id AND c.qualification_id = q.qualification_id WHERE course_id = ?", id).Find(&course).Error; err != nil {
+	if err := entity.DB().Raw("SELECT c.*, m.major_name,qualification_name ,admin_email FROM courses c JOIN majors m JOIN qualifications q JOIN admins a ON c.major_id = m.major_id AND c.qualification_id = q.qualification_id AND c.admin_id = a.admin_id WHERE course_id = ?", id).Find(&course).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -99,6 +99,22 @@ func GetCourse(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": course})
+
+}
+func ListCoursesAdmin(c *gin.Context) {
+
+	var courses []extendedCourse
+	id := c.Param("course_id")
+
+	if err := entity.DB().Raw("SELECT c.*, m.major_name,qualification_name ,admin_email FROM courses c JOIN majors m JOIN qualifications q JOIN admins a ON c.major_id = m.major_id AND c.qualification_id = q.qualification_id AND c.admin_id = a.admin_id WHERE a.admin_id = ?", id).Find(&courses).Error; err != nil {
+
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": courses})
 
 }
 
@@ -171,11 +187,15 @@ func UpdateCourses(c *gin.Context) {
 		Major_ID:         updated_Major_name,
 		Admin_ID:         updated_Admin_name,
 	}
+	if _, err := govalidator.ValidateStruct(updated_course); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := entity.DB().Save(&updated_course).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": course})
+	c.JSON(http.StatusOK, gin.H{"data": updated_course})
 }

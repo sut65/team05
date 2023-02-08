@@ -2,7 +2,7 @@ import { Button, FormControl, Grid, MenuItem, Paper, Select, SelectChangeEvent, 
 import { Box, Container } from "@mui/system";
 import React, { useEffect } from "react";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { Class_Schedule } from "../../models/I_Schedule";
+import { Class_Schedule, Class_Schedule_For_Update } from "../../models/I_Schedule";
 import { Subject } from "../../models/I_Subject";
 import { Room } from "../../models/I_Room";
 import { useParams } from "react-router-dom";
@@ -19,30 +19,18 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
 function Class_Schedule_Update() {
     const params = useParams()
 
-    let [class_schedule, setClassSchedule] = React.useState<Partial<Class_Schedule>>({});
+    const [class_schedule, setClassSchedule] = React.useState<Partial<Class_Schedule_For_Update>>({});
     const [subject, setSubject] = React.useState<Subject>();
     const [rooms, setRooms] = React.useState<Room[]>([]);
     const [searchedSubject, setSearchSubject] = React.useState<string>();
     const [searchedSection, setSearchSection] = React.useState<number>();
     const [class_schedule_id, setClassScheduleID] = React.useState<string>();
-    const [success, setSuccess] = React.useState(false);
-    const [error, setError] = React.useState(false);
     const [start_time, setStartTime] = React.useState<Dayjs | null>(null);
     const [end_time, setEndTime] = React.useState<Dayjs | null>(null);
+    const [old_class_schedule_id, setOldClassScheduleID] = React.useState<string>();
 
     const apiUrl = "http://localhost:8080";
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-
-    const handleClose = (
-        event?: React.SyntheticEvent | Event,
-        reason?: string
-    ) => {
-        if (reason === "clickaway") {
-            return;
-        }
-        setSuccess(false);
-        setError(false);
-    };
 
     const requestOptionsGet = {
         method: "GET",
@@ -94,12 +82,13 @@ function Class_Schedule_Update() {
     };
 
     const getSendedClassSchedule = async () => {
-        fetch(`${apiUrl}/class_schedule/${params.subject_id}/${params.section}`, requestOptionsGet)
+        fetch(`${apiUrl}/class_schedule_by_id/${params.class_schedule_id}`, requestOptionsGet)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setClassSchedule(res.data);
-                    console.log(res.data)
+                    setOldClassScheduleID(res.data.Class_Schedule_ID)
+                    console.log(old_class_schedule_id)
                 }
             });
     };
@@ -161,6 +150,7 @@ function Class_Schedule_Update() {
 
     function submit() {
         let data = {
+            Old_Class_Schedule_ID: old_class_schedule_id,
             Class_Schedule_ID: class_schedule.Class_Schedule_ID ?? "",
             Section: typeof class_schedule.Section === "string" ? parseInt(class_schedule.Section) : class_schedule.Section,
             Subject_ID: class_schedule.Subject_ID ?? "",
@@ -198,6 +188,7 @@ function Class_Schedule_Update() {
                                 title: 'Updated!',
                                 text: 'updated success',
                             })
+                            setOldClassScheduleID(data.Class_Schedule_ID)
                         } else {
                             Swal.fire({
                                 icon: 'error',
@@ -229,7 +220,7 @@ function Class_Schedule_Update() {
             {/* Header */}
             <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
                 <Typography variant="h4" sx={{ fontFamily: 'Mitr-Regular' }}> ระบบจัดสรรห้องเรียนและห้องสอบ </Typography>
-                <Typography sx={{ fontFamily: 'Mitr-Regular' }}> เพิ่มข้อมูลการใช้ห้องเรียน </Typography>
+                <Typography sx={{ fontFamily: 'Mitr-Regular' }}> อัพเดตข้อมูลการใช้ห้องเรียน </Typography>
             </Paper>
 
             <Grid container item

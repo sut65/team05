@@ -215,6 +215,12 @@ function Class_Schedule_Create() {
                 width: "auto",
                 height: "auto",
             }}>
+                {/* Header */}
+            <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
+                <Typography variant="h4" sx={{ fontFamily: 'Mitr-Regular' }}> ระบบจัดสรรห้องเรียนและห้องสอบ </Typography>
+                <Typography sx={{ fontFamily: 'Mitr-Regular' }}> เพิ่มข้อมูลการใช้ห้องเรียน </Typography>
+            </Paper>
+
             <Grid container item
                 sx={{
                     // border: 1,

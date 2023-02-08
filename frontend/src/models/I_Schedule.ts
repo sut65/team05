@@ -13,6 +13,22 @@ export interface Class_Schedule {
     End_Time: string;
 
 }
+export interface Class_Schedule_For_Update {
+    Old_Class_Schedule_ID : string;
+    Class_Schedule_ID: string;
+    Subject_ID: string;
+    Section: number;
+
+    Admin_ID: string;
+    Room_ID: string;
+    Class_Schedule_Description: string;
+    Day: string;
+    Start_Time: string;
+    End_Time: string;
+
+
+}
+
 
 export interface Exam_Schedule {
     Exam_Schedule_ID: string;

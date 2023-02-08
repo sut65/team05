@@ -159,11 +159,12 @@ func ListSubjects(c *gin.Context) {
 }
 
 // SELECT e.*,cs.*,ex.* FROM `subjects` e JOIN `class_schedules` cs JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id
+//SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id GROUP BY e.id
 func ListEnrollSubject(c *gin.Context) {
 
 	var extendedEnrollSubject []extendedEnrollSubject
 
-	query := entity.DB().Raw("SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id GROUP BY e.id").Scan(&extendedEnrollSubject)
+	query := entity.DB().Raw("SELECT e.*,cs.*,ex.*,c.Course_Name, p.professor_name FROM subjects e INNER JOIN class_schedules cs INNER JOIN exam_schedules ex  INNER JOIN courses c INNER JOIN professors p ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id  AND e.professor_id = p.id GROUP BY e.id").Scan(&extendedEnrollSubject)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

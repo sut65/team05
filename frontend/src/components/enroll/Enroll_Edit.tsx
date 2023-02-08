@@ -135,6 +135,7 @@ function UpdateEnroll() {
                 console.log(res.data);
                 if (res.data) {
                     setEnrolls(res.data);
+                    getSubjectsBySubjectID(res.data.Subject_ID , res.data.Enroll_ID);
                     // console.log(res.data);
                 }
 
@@ -162,23 +163,23 @@ function UpdateEnroll() {
             });
     };
 
-    const getSubjectsBySubjectID = async () => {
+    const getSubjectsBySubjectID = async (subject_id : any ,enroll_id : any) => {
         const apiUrl = "http://localhost:8080";
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         };
-        fetch(`${apiUrl}/enroll/${enrolls?.Subject_ID}`, requestOptions)
+        fetch(`${apiUrl}/enroll/${subject_id}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setSubjects(res.data);
                     // console.log(res.data);
-                    console.log(enrolls?.Enroll_ID)
-                    enroll.Enroll_ID = enrolls?.Enroll_ID
-
+                    // console.log(enrolls?.Enroll_ID)
+                    // enroll.Enroll_ID = enrolls?.Enroll_ID
+                    console.log(enroll_id)
+                    enroll.Enroll_ID = enroll_id
                     // console.log(enroll.Enroll_ID)
-
                 }
             });
     };
@@ -221,7 +222,7 @@ function UpdateEnroll() {
         // console.log(params)
         getStudent();
         getcerantEnroll();
-        getSubjectsBySubjectID();
+        //getSubjectsBySubjectID();
         // console.log(searchSubjectID);
     }, []);
 
@@ -308,14 +309,6 @@ function UpdateEnroll() {
                             size="small"
                             value={enrolls?.Subject_ID}
                         />
-                    </Grid>
-                    <Grid sx={{ ml: 1, mt: 2 }}>
-                        <Button
-                            variant="outlined"
-                            onClick={getSubjectsBySubjectID}>
-                            {<ReplayIcon />}
-                            โหลดข้อมูล
-                        </Button>
                     </Grid>
                     <Grid sx={{ ml: 1, mt: 2 }}>
                         <Button

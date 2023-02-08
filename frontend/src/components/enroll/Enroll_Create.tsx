@@ -68,6 +68,7 @@ function CreateEnroll() {
 
     //const [subject, setSubject] = React.useState<Subject[]>([]);
 
+    const [SearchSubjectByCourse, setSubjectByCourse] = React.useState("");
     const [subjects, setSubjects] = React.useState<Subject[]>([]);
     const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
 
@@ -110,12 +111,16 @@ function CreateEnroll() {
 
     const handleSelectChange = (event: SelectChangeEvent<string>) => {
         const name = event.target.name as keyof typeof enroll;
+        const searched_course_id = event.target.value;
+        // const sendSearchedCourseID = () => {
+        //      setSubjectByCourse(searched_course_id);
+        // };
+        console.log(searched_course_id)
+        getSubjectByCourseID(searched_course_id)
         setEnroll({
             ...enroll,
             [name]: event.target.value,
         });
-        getSubjectByCourse(event.target.value)
-        console.log(event.target.value)
     };
 
     const handleChangePage = (
@@ -187,6 +192,25 @@ function CreateEnroll() {
             });
     };
 
+    const getSubjectByCourseID = async (course_id: any) => {
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+        };
+        console.log(SearchSubjectByCourse)
+        fetch(`${apiUrl}/subjects/${course_id}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                console.log(res.data);
+                if (res.data) {
+                    setSubjectByCourse(res.data);
+                }
+            });
+    };
+
     const getSubjects = async () => {
         const requestOptions = {
             method: "GET",
@@ -206,23 +230,23 @@ function CreateEnroll() {
             });
     };
 
-    const getSubjectByCourse = async (course_id: any) => {
-        const requestOptions = {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json"
-            }
-        };
-        fetch(`${apiUrl}/subjectd/${course_id}`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setEnroll(res.data);
-                }
-            });
-    };
+    // const getSubjectByCourse = async (course_id: any) => {
+    //     const requestOptions = {
+    //         method: "GET",
+    //         headers: {
+    //             Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //             "Content-Type": "application/json"
+    //         }
+    //     };
+    //     fetch(`${apiUrl}/subjectd/${course_id}`, requestOptions)
+    //         .then((response) => response.json())
+    //         .then((res) => {
+    //             if (res.data) {
+    //                 console.log(res.data)
+    //                 setEnroll(res.data);
+    //             }
+    //         });
+    // };
 
     const getSubjectBySubjectID = async (subject_id: any) => {
         const requestOptions = {
@@ -274,12 +298,14 @@ function CreateEnroll() {
         getCourse();
         getPrevEnroll();
         getStudent();
-        if (searchSubjectID == "") {
+        console.log(SearchSubjectByCourse)
+        if (SearchSubjectByCourse == "") {
             getSubjects();
         } else {
-            getSubjectBySubjectID(searchSubjectID);
+            //getSubjectBySubjectID(searchSubjectID);
+            getSubjectByCourseID(SearchSubjectByCourse)
         }
-        console.log(searchSubjectID);
+        console.log(SearchSubjectByCourse);
     }, []);
 
     function submit() {
@@ -363,7 +389,7 @@ function CreateEnroll() {
                         </Box>
                         <Box
                             component="form"
-                            sx={{ paddingRight:2 }}>
+                            sx={{ paddingRight: 2 }}>
                             <TextField
                                 disabled
                                 size="small"
@@ -459,13 +485,13 @@ function CreateEnroll() {
 
                                 <TableBody>
                                     {(rowsPerPage > 0
-                                        ? enrolls.slice(
+                                        ? subjects.slice(
                                             page * rowsPerPage,
                                             page * rowsPerPage + rowsPerPage)
-                                        : enrolls
+                                        : subjects
                                     ).map((row) => (
                                         <TableRow
-                                            key={row.Enroll_ID}
+                                            key={row.ID}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell align="left">{row.Subject_ID}</TableCell>
@@ -515,8 +541,8 @@ function CreateEnroll() {
                                                 25,
                                                 { label: "All", value: -1 },
                                             ]}
-                                            colSpan={enrolls.length}
-                                            count={enrolls.length}
+                                            colSpan={subjects.length}
+                                            count={subjects.length}
                                             rowsPerPage={rowsPerPage}
                                             page={page}
                                             SelectProps={{

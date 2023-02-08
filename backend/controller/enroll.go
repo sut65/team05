@@ -53,6 +53,8 @@ func CreateEnroll(c *gin.Context) {
 		return
 	}
 
+	
+
 	if tx := entity.DB().Where("subject_id = ?", enroll.Subject_ID).First(&subject); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "subject_id not found"})
 		return
@@ -265,12 +267,12 @@ func GetPreviousREnroll(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": enroll})
 }
 
-func GetSubjectByCourse(c *gin.Context) {
-	var subject []entity.Subject
-	id := c.Param("course_id")
-	if err := entity.DB().Raw("SELECT e.*, c.* ,d.day,st.start_time,en.end_time ,co.course_id FROM `enrolls` e JOIN `subjects` c JOIN `class_schedules` cs JOIN `class_schedules` d JOIN `class_schedules` st JOIN `class_schedules` en JOIN `courses` co ON e.subject_id = c.subject_id AND  e.section = c.section AND e.subject_id = cs.subject_id AND e.subject_id = d.subject_id AND e.subject_id = st.subject_id AND c.subject_id WHERE co.course_id=?", id).Find(&subject).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": subject})
-}
+// func GetSubjectByCourse(c *gin.Context) {
+// 	var subject []entity.Subject
+// 	id := c.Param("course_id")
+// 	if err := entity.DB().Raw("SELECT e.*, c.* ,d.day,st.start_time,en.end_time ,co.course_id FROM `enrolls` e JOIN `subjects` c JOIN `class_schedules` cs JOIN `class_schedules` d JOIN `class_schedules` st JOIN `class_schedules` en JOIN `courses` co ON e.subject_id = c.subject_id AND  e.section = c.section AND e.subject_id = cs.subject_id AND e.subject_id = d.subject_id AND e.subject_id = st.subject_id AND c.subject_id WHERE co.course_id=?", id).Find(&subject).Error; err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, gin.H{"data": subject})
+// }

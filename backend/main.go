@@ -115,11 +115,12 @@ func main() {
 			api.PATCH("/requests", controller.UpdateRequest)
 			api.DELETE("/request/:request_id", controller.DeleteRequest)
 			r.GET("/requests/:subject_id", controller.GetRequestBySubjectID)
+			api.GET("/requeststudent/:request_id", controller.ListRequestStudent)
+			api.GET("/requestupdate/:request_id", controller.ListRequestForUpdate)
 			// Request_Type
 			api.GET("/request_types", controller.ListRequest_Type)
 			api.GET("/request_type/:request_type_id", controller.GetRequest_Type)
 			api.POST("/request_types", controller.CreateRequest_Type)
-
 			// ++++++++++++++++++ Approval Routes ++++++++++++++++++++++++
 			// Approval
 			api.GET("/approvals", controller.ListApproval)
@@ -130,6 +131,7 @@ func main() {
 			api.DELETE("/approval/:approval_id", controller.DeleteApproval)
 			api.GET("/approvalprofessor/:approval_id", controller.ListApprovalProfessor)
 			api.GET("/approvalupdate/:approval_id", controller.ListApprovalForUpdate)
+			api.GET("/approvalstudent/:student_id", controller.ListApprovalStudent)
 			// Approval_Type
 			api.GET("/approval_types", controller.ListApproval_Type)
 			api.GET("/approval_type/:approval_type_id", controller.GetApproval_Type)
@@ -138,7 +140,6 @@ func main() {
 			api.GET("/admins", controller.ListAdmins)
 			api.GET("/admin/:admin_id", controller.GetAdmin)
 			api.POST("/admins", controller.CreateAdmin)
-
 			// // Professor Routes
 			api.GET("/professors", controller.ListProfessors)
 			api.GET("/professor/:id", controller.GetProfessor)

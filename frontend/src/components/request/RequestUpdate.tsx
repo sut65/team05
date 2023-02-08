@@ -61,7 +61,7 @@ function RequestUpdate() {
   const [error, setError] = React.useState(false);
 
   const [subjects, setSubjects] = React.useState<Subject[]>([]);
-  const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
+  const [searchRequestID, setSearchRequestID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -93,7 +93,7 @@ function RequestUpdate() {
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
     const id = event.target.id as keyof typeof RequestUpdate;
-    setSearchSubjectID(event.target.value);
+    setSearchRequestID(event.target.value);
   };
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
@@ -113,13 +113,13 @@ function RequestUpdate() {
     setPage(newPage);
   };
 
-  const sendSearchedSubjectID = () => {
-    // navigate({ pathname: `/subject/${searchSubjectID}` });
-    setSearchSubjectID(searchSubjectID);
-    getSubjectBySubjectID(searchSubjectID);
-    // window.location.reload();
-    console.log(searchSubjectID);
-  };
+  // const sendSearchedSubjectID = () => {
+  //   // navigate({ pathname: `/subject/${searchSubjectID}` });
+  //   setSearchRequestID(searchRequestID);
+  //   //getRequestBySubjectID(searchRequestID);
+  //   // window.location.reload();
+  //   console.log(searchRequestID);
+  // };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -163,6 +163,7 @@ function RequestUpdate() {
       .then((res) => {
         if (res.data) {
           setRequest(res.data);
+          getRequestBySubjectID(res.data.Subject_ID);
           console.log(res.data);
         } else {
           console.log("else");
@@ -171,25 +172,7 @@ function RequestUpdate() {
   };
   //----------subject----
 
-  const getSubjects = async () => {
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    };
-    fetch(`${apiUrl}/subjects`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          setSubjects(res.data);
-          //console.log(res.data);
-        }
-      });
-  };
-
-  const getSubjectBySubjectID = async (subject_id: any) => {
+  const getRequestBySubjectID = async(subject_id : any) => {
     const requestOptions = {
       method: "GET",
       headers: {
@@ -200,9 +183,14 @@ function RequestUpdate() {
     fetch(`${apiUrl}/subject/${subject_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
+        console.log(res.data);
         if (res.data) {
-          setSearchSubjectID(subject_id);
           setSubjects(res.data);
+
+          console.log(request?.Request_ID);
+          request.Request_ID = request?.Request_ID;
+
+          // console.log(enroll.Enroll_ID)
         }
       });
   };
@@ -220,32 +208,10 @@ function RequestUpdate() {
       });
   };
 
-  // fetch previous ActivityMember
-  // const getPrevRequestUpdate = async () => {
-  //   fetch(`${apiUrl}/previous_request`, requestOptionsGet)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         request.Request_ID = res.data.Request_ID + 1;
-  //       }
-  //       // else {
-  //       //   request.Request_ID = res.data = 401;
-  //       //   //console.log("else");
-  //       // }
-  //     });
-  // };
 
   useEffect(() => {
     getRequest_Type();
-    // getPrevRequestUpdate();
     getCurrentRequest();
-
-    if (searchSubjectID == "") {
-      getSubjects();
-    } else {
-      getSubjectBySubjectID(searchSubjectID);
-    }
-    console.log(searchSubjectID);
   }, []);
 
   function submitUpdate() {
@@ -369,36 +335,6 @@ function RequestUpdate() {
         </Paper>
 
         <Paper elevation={3} sx={{ bgcolor: "white", marginBottom: 2 }}>
-          <Grid container sx={{ padding: 2, marginLeft: "15px" }}>
-            <Grid>
-              <p>รหัสวิชา</p>
-            </Grid>
-            <Grid sx={{ marginLeft: "20px" }}>
-              <Box sx={{ width: "250px" }}>
-                <TextField
-                  id="Subject_ID"
-                  variant="outlined"
-                  type="string"
-                  onChange={handleInputChangeSearch}
-                />
-              </Box>
-            </Grid>
-            <Grid sx={{ marginTop: "10px" }}>
-              <Button
-                size="medium"
-                variant="contained"
-                onClick={sendSearchedSubjectID}
-              >
-                ค้นหารายวิชา
-                <SvgIcon
-                  sx={{ marginLeft: "5px" }}
-                  component={SearchIcon}
-                  inheritViewBox
-                />
-              </Button>
-            </Grid>
-          </Grid>
-
           <Box
             sx={{
               marginBottom: 1,

@@ -87,6 +87,17 @@ func ListApprovalProfessor(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": extendedApproval})
 }
 
+func ListApprovalStudent(c *gin.Context) {
+	var extendedApproval []extendedApproval
+	id := c.Param("student_id")
+	query := entity.DB().Raw("SELECT a.*, s.*, at.*,c.*,p.*,sd.* FROM approvals a JOIN requests r JOIN approval_types at JOIN courses c JOIN professors p JOIN subjects s JOIN students sd ON a.request_id = r.request_id AND  sd.student_id = r.student_id AND  r.subject_id = s.subject_id AND  r.subject_id = s.subject_id AND s.section = r.section AND a.approval_type_id = at.approval_type_id AND s.course_id = c.course_id AND s.professor_id = p.id WHERE sd.student_id = ?",id).Find(&extendedApproval)
+	if err := query.Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": extendedApproval})
+}
+
 func ListApproval(c *gin.Context) {
 	var extendedApproval []extendedApproval
 	query := entity.DB().Raw("SELECT a.*, s.*, at.*,c.*,p.*,sd.* FROM approvals a JOIN requests r JOIN approval_types at JOIN courses c JOIN professors p JOIN subjects s JOIN students sd ON a.request_id = r.request_id AND  sd.student_id = r.student_id AND  r.subject_id = s.subject_id AND  r.subject_id = s.subject_id AND s.section = r.section AND   a.approval_type_id = at.approval_type_id AND s.course_id = c.course_id AND s.professor_id = p.id").Scan(&extendedApproval)

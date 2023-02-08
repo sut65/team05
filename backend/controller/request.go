@@ -84,11 +84,29 @@ func CreateRequest(c *gin.Context) {
 // List /request
 func ListRequest(c *gin.Context) {
 	var extendedRequest []extendedRequest
-	// if err := entity.DB().Raw("SELECT e.*, c.* FROM requests e JOIN subjects c ON e.subject_id = c.subject_id  AND  e.section = c.section").Scan(&request).Error; err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
 		query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* FROM requests r JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id").Scan(&extendedRequest)
+	if err := query.Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": extendedRequest})
+}
+
+func ListRequestStudent(c *gin.Context) {
+	var extendedRequest []extendedRequest
+	id := c.Param("request_id")
+	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* ,s.* FROM requests r JOIN students s JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.student_id = s.student_id AND r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id WHERE s.student_id = ?",id).Find(&extendedRequest)
+	if err := query.Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": extendedRequest})
+}
+
+func ListRequestForUpdate(c *gin.Context) {
+	var extendedRequest []extendedRequest
+	id := c.Param("request_id")
+	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* ,s.* FROM requests r JOIN students s JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.student_id = s.student_id AND r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id WHERE r.request_id = ?",id).Scan(&extendedRequest)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

@@ -46,12 +46,13 @@ import { Course } from "../../models/I_Course";
 import {IconButton,MenuItem,SvgIcon,TableFooter,TablePagination,} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
+import { StudentsInterface } from "../../models/I_Student";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function CreateEnroll() {
+function Adding_reducingUpdate() {
   const navigate = useNavigate();
   const params = useParams();
   // const [date, setDate] = React.useState<Date | null>(null);
@@ -59,6 +60,7 @@ function CreateEnroll() {
   // const [adding_reducings, setAdding_reducings] = React.useState<Adding_reducingInterface[]>([]);
   const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
   // const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
+  const [student, setStudent] = React.useState<StudentsInterface[]>([]);
   const [subjects, setSubjects] = React.useState<Subject[]>([]);
   const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
   const [success, setSuccess] = React.useState(false);
@@ -78,13 +80,24 @@ function CreateEnroll() {
     setError(false);
   };
 
+  const handleInputChange = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof Adding_reducingUpdate;
+    const { value } = event.target;
+    setEnroll({ ...enroll, [id]: value });
+    console.log(event.target.value);
+  };
+
+
+
   const handleInputChangeSearch = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
-    const id = event.target.id as keyof typeof CreateEnroll;
+    const id = event.target.id as keyof typeof Adding_reducingUpdate;
     setSearchSubjectID(event.target.value);
-    console.log(searchSubjectID)
   };
+
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const name = event.target.name as keyof typeof enroll;
@@ -141,10 +154,74 @@ function CreateEnroll() {
     },
   }));
 
+
+
+
+  const getStudent = async () => {
+    let uid = localStorage.getItem("id");
+    fetch(`${apiUrl}/student/${uid}`, requestOptionsGet)
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.data) {
+                adding_reducing.Student_ID = res.data.Student_ID;
+            }
+            else {
+                console.log("else");
+            }
+        });
+};
+
+
+
+//เรียกใช้เพื่อดึงค่าenroll idมาใช้ในการอัพเดตค่าในตารางenroll
+  const getEnrollID = async () => {
+    const apiUrl = "http://localhost:8080";
+    const requestOptions = {
+        method: "GET",
+        headers: { 
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/currentenroll/${params.enroll_id}`, requestOptions)
+        .then((response) => response.json())
+        .then((res) => {
+            console.log(res.data);
+            if (res.data) {
+                setEnroll(res.data);
+                // console.log(res.data);
+            }
+
+        });
+};
+
+
+//เรียกใช้หังชั่นCreateAdding_reducingonly
+const getAdding_reducingonly = async () => {
+  const apiUrl = "http://localhost:8080";
+  const requestOptions = {
+      method: "GET",
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
+  };
+  fetch(`${apiUrl}/adding_reducingsonly`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+          console.log(res.data);
+          if (res.data) {
+              setAdding_reducing(res.data);
+              // console.log(res.data);
+          }
+
+      });
+};
+
   const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json" },
   };
 
   // Fetch income type from API เรียกใช้listcourse เพื่อนำค่ามาใช้ในcombobox โดยใช้ชื่อcourse name
@@ -164,7 +241,9 @@ function CreateEnroll() {
   const getSubjects = async () => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/enrollsub`, requestOptions)
       .then((response) => response.json())
@@ -180,7 +259,9 @@ function CreateEnroll() {
   const getSubjectByCourse = async (course_id: any) => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
     }
     fetch(`${apiUrl}/subjectd/${course_id}`, requestOptions)
       .then((response) => response.json())
@@ -195,7 +276,9 @@ function CreateEnroll() {
   const getSubjectBySubjectID = async (subject_id: any) => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/enroll/${subject_id}`, requestOptions)
       .then((response) => response.json())
@@ -208,18 +291,18 @@ function CreateEnroll() {
       });
   };
 ///เพิ่มค่าid enrollทีละ1
-  const getPrevEnroll = async () => {
-    fetch(`${apiUrl}/previousenroll`, requestOptionsGet)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          enroll.Enroll_ID = res.data.Enroll_ID + 1;
-        } else {
-          enroll.Enroll_ID = res.data = "1";
-          //console.log("else");
-        }
-      });
-  };
+  // const getPrevEnroll = async () => {
+  //   fetch(`${apiUrl}/previousenroll`, requestOptionsGet)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         enroll.Enroll_ID = res.data.Enroll_ID + 1;
+  //       } else {
+  //         enroll.Enroll_ID = res.data = "1";
+  //         //console.log("else");
+  //       }
+  //     });
+  // };
 
 
   //เพิ่มค่าid addingทีละ1
@@ -238,7 +321,8 @@ function CreateEnroll() {
 
   useEffect(() => {
     getCourse();
-    getPrevEnroll();
+    getStudent();
+    getEnrollID();
     getPrevadding_reducing();
     if (searchSubjectID == "") {
       getSubjects();
@@ -250,11 +334,11 @@ function CreateEnroll() {
   }, []);
 
   function submit() {
-    adding_reducing.Student_ID = "B631021";
-    adding_reducing.History_Type_ID = "HT1";//fixค่าไว้ว่าเมื่อกดเพิ่มจะให้ค่าในตารางเป้นประวัติเพิ่ม
+    
+    adding_reducing.History_Type_ID = "HT3";//fixค่าไว้ว่าเมื่อกดเพิ่มจะให้ค่าในตารางเป้นประวัติเพิ่ม
     let data = {
       Enroll_ID: enroll.Enroll_ID ?? "",
-      Student_ID: adding_reducing.Student_ID,
+      Student_ID: adding_reducing.Student_ID ?? "",
       Subject_ID: enroll.Subject_ID ?? "",
       Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
       Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
@@ -262,18 +346,19 @@ function CreateEnroll() {
       Change_ID: typeof adding_reducing.Change_ID === "string"? parseInt(adding_reducing.Change_ID) : adding_reducing.Change_ID,
       History_Type_ID: adding_reducing.History_Type_ID,
     };
-
-    // console.log(data)
+    console.log(data)
    
-    //สร้างข้อมูลตารางadding
-    const apiUrl = "http://localhost:8080/adding_reducings";
+    //อัพเดตข้อมูลตารางenrollโดยใช้ฟังชั่นUpdateEnrollforadding
+    const apiUrl = "http://localhost:8080";
     const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: "PATCH",
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
 
-    fetch(apiUrl, requestOptions)
+    fetch(`${apiUrl}/adding_reducings`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         console.log(res);
@@ -283,6 +368,30 @@ function CreateEnroll() {
           setError(true);
         }
       });
+
+
+//สร้างตารางใหม่ของaddingตารางเดียว
+      const apiUrl1 = "http://localhost:8080";
+      const requestOptionsGet = {
+        method: "POST",
+        headers: { 
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      };
+  
+      fetch(`${apiUrl1}/adding_reducingsonly`, requestOptionsGet)
+        .then((response) => response.json())
+        .then((res) => {
+          console.log(res);
+          if (res.data) {
+            setSuccess(true);
+          } else {
+            setError(true);
+          }
+        });
+  
+    
 
   }
 
@@ -328,6 +437,8 @@ function CreateEnroll() {
                     name: "Coures_ID",
                   }}
                 >
+
+                  
                   {course.map((item: Course) => (
                     <MenuItem value={item.Course_ID} key={item.Course_ID}>
                       {item.Course_Name}
@@ -337,6 +448,12 @@ function CreateEnroll() {
               </Box>
             </Grid>
           </Grid>
+
+         
+
+
+
+
 
           <Grid container sx={{ marginTop: "5px", marginLeft: 5 }}>
             <Grid>
@@ -527,4 +644,4 @@ function CreateEnroll() {
   );
 }
 
-export default CreateEnroll;
+export default Adding_reducingUpdate;

@@ -28,12 +28,14 @@ import { useParams } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 import { EnrollInterface } from "../../models/I_Enroll";
+import { StudentsInterface } from "../../models/I_Student";
 
 function Adding_reducingCreate() {
   const [adding_reducing, setAdding_reducing] = React.useState<Partial<Adding_reducingInterface>>({});
   const [adding_reducings, setAdding_reducings] = React.useState<Adding_reducingInterface[]>([]);
   const [enroll, setEnroll] = React.useState<EnrollInterface[]>([]);
   // const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
+  const [student, setStudent] = React.useState<StudentsInterface[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchEnrollID, setSearchEnrollID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
@@ -73,7 +75,9 @@ function Adding_reducingCreate() {
   const getAdding_reducings = async () => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/adding_reducings`, requestOptions)
       .then((response) => response.json())
@@ -90,7 +94,9 @@ function Adding_reducingCreate() {
     const getEnroll = async () => {
       const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json" },
       };
       fetch(`${apiUrl}/enroll`, requestOptions)
         .then((response) => response.json())
@@ -106,7 +112,9 @@ function Adding_reducingCreate() {
   const getEnrollByEnrollID = async (enroll_id: any) => {
     const approvalOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/enroll/${enroll_id}`, approvalOptions)
       .then((response) => response.json())
@@ -118,29 +126,49 @@ function Adding_reducingCreate() {
       });
   };
 
+  const requestOptionsGet = {
+    method: "GET",
+    headers: { 
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json" },
+  };
   
+  const getStudent = async () => {
+    let uid = localStorage.getItem("id");
+    fetch(`${apiUrl}/student/${uid}`, requestOptionsGet)
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.data) {
+                adding_reducing.Student_ID = res.data.Student_ID;
+            }
+            else {
+                console.log("else");
+            }
+        });
+};
 
 
    //delete ตารางenroll
 
-   const DeleteEnroll= async (enroll_id:string) => {
+   const DeleteEnroll = async (enroll_id: string) => {
     console.log("good");
     const requestOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/deleteEnroll/${enroll_id}`, requestOptions)
+
+    fetch(`${apiUrl}/deleEnroll/${enroll_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
           console.log("Data remove");
-          window.location.href = "/";
+          window.location.href ="/adding_reducing";
         } else {
           console.log("Something was wrong!!");
         }
       });
   };
-
   //table
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -176,6 +204,7 @@ function Adding_reducingCreate() {
 
   useEffect(() => {
     getAdding_reducings();
+    getStudent();
     if (searchEnrollID == "") {
       getEnroll();
     } else {
@@ -229,7 +258,7 @@ function Adding_reducingCreate() {
 
             component={RouterLink}
 
-            to="/create"
+            to="/adding_reducing/create"
 
             variant="contained"
 
@@ -285,7 +314,7 @@ function Adding_reducingCreate() {
                     <IconButton
                      aria-label="delete"
                      onClick={() => {
-                       DeleteEnroll(row.Enroll_ID)
+                      DeleteEnroll(row.Enroll_ID)
                        console.log(row.Enroll_ID)
                     }
                     }
@@ -296,7 +325,7 @@ function Adding_reducingCreate() {
                   <TableCell align="center">
                   <IconButton
                   onClick={() => {
-                    navigate({ pathname: `/updateenroll/${row.Enroll_ID}` })
+                    navigate({ pathname: `/adding_reducing/updateenroll/${row.Enroll_ID}` })
               }}
                   >
                     <ModeEditIcon />

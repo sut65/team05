@@ -184,22 +184,21 @@ func main() {
 			r.DELETE("/deleEnroll/:enroll_id", controller.DeleteEnroll)
 			r.GET("/enrollsubs/:subject_id", controller.GetEnrollSubject)
 			r.GET("/subjectd/:coruse_id", controller.GetSubjectByCourse)
-			//---------------------adding_reducings
-			r.GET("/adding_reducings", controller.ListAdding_reducing)
-			r.GET("/previous_adding", controller.GetPreviousAdding_reducing)
-			r.POST("/adding_reducings", controller.CreateAdding_reducing)
-			r.PATCH("/adding_reducings", controller.UpdateEnrollforadding)
-			r.POST("/adding_reducingsonly", controller.CreateAdding_reducingonly)
-			//---------------------Adding_point
-			r.GET("/adding_points/:subject_id", controller.GetSubjectByAdding)
-			r.GET("/adding_points", controller.ListAdding_point)
-			r.GET("/adding_point", controller.ListAddingByEnroll)
-			r.GET("/adding_point/:adding_point_id", controller.GetAdding_point)
-			r.GET("/previous_adding_point", controller.GetPreviousAdding_point)
-			r.POST("/adding_points", controller.CreateAdding_point)
-			r.PATCH("/adding_points", controller.UpdateAdding_point)
-			r.DELETE("/adding_points/:adding_point_id", controller.DeleteAdding_point)
-
+			//---------------------adding_reducings----------------------
+			api.GET("/adding_reducings", controller.ListAdding_reducing)
+			api.GET("/previous_adding", controller.GetPreviousAdding_reducing)
+			api.POST("/adding_reducings", controller.CreateAdding_reducing)
+			api.PATCH("/adding_reducings", controller.UpdateEnrollforadding)
+			api.POST("/adding_reducingsonly", controller.CreateAdding_reducingonly)
+			//---------------------Adding_point--------------------------
+			api.GET("/adding_points/:subject_id", controller.GetSubjectByAdding)
+			api.GET("/adding_points", controller.ListAdding_point)
+			api.GET("/adding_point", controller.ListAddingByEnroll)
+			api.GET("/adding_point/:adding_point_id", controller.GetAdding_point)
+			api.GET("/previous_adding_point", controller.GetPreviousAdding_point)
+			api.POST("/adding_points", controller.CreateAdding_point)
+			api.PATCH("/adding_points", controller.UpdateAdding_point)
+			api.DELETE("/adding_points/:adding_point_id", controller.DeleteAdding_point)
 		}
 
 	}

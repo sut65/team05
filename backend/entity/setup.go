@@ -510,7 +510,7 @@ func SetupDatabase() {
 
 		system_analysis_sec2 := Subject{
 			ID:               9,
-			Subject_ID:       "523315",
+			Subject_ID:       "523331",
 			Professor:        professor2,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
@@ -630,9 +630,21 @@ func SetupDatabase() {
 		db.Create(&room_F11_micro)
 		db.Create(&room_F11_software)
 		db.Create(&room_b6105)
+		pluri_thai_class := Class_Schedule{
+			Class_Schedule_ID:          "CLSIST202502-1-B4101-Wed-13:00-15:00",
+			Subject:                    pluri_thai,
+			Section:                    1,
+			Room:                       room_b4101,
+			Admin:                      admin2,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+			Class_Schedule_Description: "รายวิชาไทยพหุ เรียนที่ห้อง B4101",
+			Day:                        "Wed",
+		}
+		db.Create(&pluri_thai_class)
 
 		system_analysis_sec1_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523332-1-B2101-Mon-1300-1500",
+			Class_Schedule_ID:          "CLS523331-1-B2101-Mon-13:00-15:00",
 			Subject:                    system_analysis_sec1,
 			Section:                    1,
 			Room:                       room_b2101,
@@ -643,20 +655,45 @@ func SetupDatabase() {
 			Day:                        "Mon",
 		}
 
+		system_analysis_sec2_class := Class_Schedule{
+			Class_Schedule_ID:          "CLS523331-2-B2101-Mon-13:00-15:00",
+			Subject:                    system_analysis_sec2,
+			Section:                    2,
+			Room:                       room_b2101,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+			Class_Schedule_Description: "System Analysis sec2",
+			Day:                        "Mon",
+		}
+
 		os_sec1_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523354-2-B2101-Tue-1300-1500",
+			Class_Schedule_ID:          "CLS523354-1-B2101-Tue-13:00-15:00",
 			Subject:                    operating_system_sec1,
 			Section:                    1,
 			Room:                       room_b2101,
 			Admin:                      admin1,
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
-			Class_Schedule_Description: "Operating System sec1 ",
+			Class_Schedule_Description: "Operating System sec2",
 			Day:                        "Tue",
 		}
 
+		os_sec2_class := Class_Schedule{
+			Class_Schedule_ID:          "CLS523354-2-B2101-Tue-13:00-15:00",
+			Subject:                    operating_system_sec2,
+			Section:                    2,
+			Room:                       room_b2101,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+			Class_Schedule_Description: "Operating System sec2",
+			Day:                        "Tue",
+		}
+		db.Create(&os_sec2_class)
+
 		ann_sec1_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523414-1-B6105-Mon-0900-1200",
+			Class_Schedule_ID:          "CLS523414-1-B6105-Mon-09:00-12:00",
 			Subject:                    artificial_neural_network,
 			Section:                    1,
 			Room:                       room_b6105,
@@ -668,7 +705,7 @@ func SetupDatabase() {
 		}
 
 		kdd_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523211-1-B6105-Fri-1000-1200",
+			Class_Schedule_ID:          "CLS523211-1-B6105-Fri-10:00-12:00",
 			Subject:                    knowledge_discovery_and_data_mining,
 			Section:                    1,
 			Room:                       room_b6105,
@@ -679,20 +716,32 @@ func SetupDatabase() {
 			Day:                        "Fri",
 		}
 		// Class_D : {Day : "Tue", Room_ID: "F-11-MicroP", 	 Start_Time:16:00, End_Time:19:00}
-		os_lab_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523354-1-F1142Software-Tue-1600-1900",
+		os_lab_sec1_class := Class_Schedule{
+			Class_Schedule_ID:          "CLS523354-1-F1142Software-Thu-13:00-16:00",
 			Subject:                    operating_system_sec1,
 			Section:                    1,
 			Room:                       room_F11_software,
 			Admin:                      admin2,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
+			Class_Schedule_Description: "Operating System Lab Class Sec1",
+			Day:                        "Thu",
+		}
+
+		os_lab_sec2_class := Class_Schedule{
+			Class_Schedule_ID:          "CLS523354-2-F1142Software-Thu-16:00-19:00",
+			Subject:                    operating_system_sec2,
+			Section:                    2,
+			Room:                       room_F11_software,
+			Admin:                      admin2,
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 16, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 19, 00),
-			Class_Schedule_Description: "Operating System Lab Class",
-			Day:                        "Tue",
+			Class_Schedule_Description: "Operating System Lab Class Sec2",
+			Day:                        "Thu",
 		}
 
 		problem_solving_sec1_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523354-1-F1142Software-Mon-1300-1600",
+			Class_Schedule_ID:          "CLS523203-1-F1142Software-Mon-13:00-16:00",
 			Subject:                    problem_solving_sec1,
 			Section:                    1,
 			Room:                       room_F11_software,
@@ -704,14 +753,16 @@ func SetupDatabase() {
 		}
 
 		db.Create(&system_analysis_sec1_class)
+		db.Create(&system_analysis_sec2_class)
 		db.Create(&problem_solving_sec1_class)
 		db.Create(&os_sec1_class)
-		db.Create(&os_lab_class)
+		db.Create(&os_lab_sec1_class)
+		db.Create(&os_lab_sec2_class)
 		db.Create(&ann_sec1_class)
 		db.Create(&kdd_class)
 
 		system_analysis_midterm := Exam_Schedule{
-			Exam_Schedule_ID: "EXAM-523315-B2101-Mid-1805-1500-1700",
+			Exam_Schedule_ID: "EXAM523331-B2101-Mid-1805-15:00-17:00",
 			Subject:          system_analysis_sec1,
 			Room:             room_b2101,
 			Admin:            admin2,
@@ -720,10 +771,22 @@ func SetupDatabase() {
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 15, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 17, 00),
 		}
+
+		system_analysis_final := Exam_Schedule{
+			Exam_Schedule_ID: "EXAM523331-B2101-Fin-2107-09:00-12:00",
+			Subject:          system_analysis_sec1,
+			Room:             room_b6105,
+			Admin:            admin2,
+			Exam_Type:        "Final",
+			Exam_Date:        "21/07/2020",
+			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
+			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
+		}
 		db.Create(&system_analysis_midterm)
+		db.Create(&system_analysis_final)
 
 		os_final := Exam_Schedule{
-			Exam_Schedule_ID: "EXAM-523354-B6105-Fin-2207-1500-1700",
+			Exam_Schedule_ID: "EXAM523354-B6105-Fin-2207-15:00-17:00",
 			Subject:          operating_system_sec1,
 			Room:             room_b6105,
 			Admin:            admin1,
@@ -734,7 +797,7 @@ func SetupDatabase() {
 		}
 
 		ann_midterm := Exam_Schedule{
-			Exam_Schedule_ID: "EXAM-523414-B6105-Mid-1905-0900-1200",
+			Exam_Schedule_ID: "EXAM523414-B6105-Mid-1905-09:00-12:00",
 			Subject:          artificial_neural_network,
 			Room:             room_b6105,
 			Admin:            admin1,

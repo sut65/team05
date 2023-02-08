@@ -61,7 +61,7 @@ func CreateClassSchedule(c *gin.Context) {
 		return
 	}
 
-	if _, err := ValidateClassScheduleUnique(new_class_schedule.Day, room, new_class_schedule.Start_Time, new_class_schedule.End_Time); err != nil {
+	if _, err := ValidateClassScheduleUnique(new_class_schedule.Day, room, new_class_schedule.Start_Time, new_class_schedule.End_Time, subject); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -183,7 +183,7 @@ func UpdateClassSchedule(c *gin.Context) {
 		return
 	}
 
-	if _, err := ValidateClassScheduleUnique(updated_class_schedule.Day, room, updated_class_schedule.Start_Time, updated_class_schedule.End_Time); err != nil {
+	if _, err := ValidateClassScheduleUnique(updated_class_schedule.Day, room, updated_class_schedule.Start_Time, updated_class_schedule.End_Time, subject); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

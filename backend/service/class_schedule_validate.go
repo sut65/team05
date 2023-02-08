@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -28,21 +29,45 @@ func (e ClassScheduleError) Error() string {
 	return e.msg
 }
 
-func ValidateClassScheduleUnique(new_day string, room entity.Room, new_start_time string, new_end_time string) (bool, error) {
-
+func ValidateClassScheduleUnique(new_day string, room entity.Room, new_start_time string, new_end_time string, subject entity.Subject) (bool, error) {
+	time_pattern := "15:04"
 	var class_schedules []entity.Class_Schedule
 	database := entity.OpenDatabase()
+	fmt.Println(new_day, room.Room_ID, new_start_time, new_end_time, subject.Subject_ID)
 
-	if tx := database.Where("room_id = ? AND day = ?", room.Room_ID, new_day).Find(&class_schedules); tx.RowsAffected >= 1 {
+	// ตรวจสอบว่าใน database มีรายวิชาอื่น ที่ใช้ห้องในวันดังกล่าว และช่วงเวลาดังกล่าวหรือไม่
+	// E.g. SELECT * FROM class_schedules WHERE room_id = 'B2101' AND day = 'Mon' AND subject_id != '523332' AND start_time = '13:00' AND end_time = '15:00'
+	// ถ้าไม่เจอจะไม่เข้าเงื่อนไขนี้
+	if tx := database.Where("room_id = ? AND day = ? AND subject_id != ? AND start_time = ? AND end_time = ?", room.Room_ID, new_day, subject.Subject_ID, new_start_time, new_end_time).Find(&class_schedules); tx.RowsAffected >= 1 {
+		err_message := fmt.Sprintf("Cannot add class schedule. In day %s, room %s, in time interval %s - %s, already occupied", new_day, room.Room_ID, new_start_time, new_end_time)
+		return false, ClassScheduleError{err_message}
+
+		// ตรวจสอบว่าใน database มีรายวิชาอื่นที่ใช้ห้องในวันดังกล่าวหรือไม่
+		// E.g. SELECT * FROM class_schedules WHERE room_id = 'B2101' AND day = 'Mon' AND subject_id != '523332'
+		// ถ้าไม่เจอจะไม่เข้าเงื่อนไขนี้
+	} else if tx := database.Where("room_id = ? AND day = ? AND subject_id != ?", room.Room_ID, new_day, subject.Subject_ID).Find(&class_schedules); tx.RowsAffected >= 1 {
 		var listed_class_schedules = class_schedules
-		if tx := database.Where("room_id = ? AND day = ? AND start_time = ?", room.Room_ID, new_day, new_start_time).Find(&class_schedules); tx.RowsAffected >= 1 {
-			return false, ClassScheduleError{"Cannot add class schedule, this start time's already occupied"}
-		} else if tx := database.Where("room_id = ? AND day = ? AND end_time = ?", room.Room_ID, new_day, new_end_time).Find(&class_schedules); tx.RowsAffected >= 1 {
 
-			return false, ClassScheduleError{"Cannot add class schedule, this end time's already occupied"}
+		// ตรวจสอบว่าใน database มีรายวิชาอื่นที่ใช้ห้องในวันดังกล่าว และมี start_time ตรงกันหรือไม่
+		// E.g. SELECT * FROM class_schedules WHERE room_id = 'B2101' AND day = 'Mon' AND start_time = '13:00' AND subject_id != '523331'
+		// ถ้าไม่เจอจะไม่เข้าเงื่อนไขนี้
+		if tx := database.Where("room_id = ? AND day = ? AND start_time = ? AND subject_id != ?", room.Room_ID, new_day, new_start_time, subject.Subject_ID).Find(&class_schedules); tx.RowsAffected >= 1 {
+
+			err_message := fmt.Sprintf("Cannot add class schedule. In day %s, room %s, start time %s already occupied", new_day, room.Room_ID, new_start_time)
+			return false, ClassScheduleError{err_message}
+
+			// ตรวจสอบว่าใน database มีรายวิชาอื่นที่ใช้ห้องในวันดังกล่าว และมี end_time ตรงกันหรือไม่
+			// E.g. SELECT * FROM class_schedules WHERE room_id = 'B2101' AND day = 'Mon' AND end_time = '15:00' AND subject_id != '523331'
+			// ถ้าไม่เจอจะไม่เข้าเงื่อนไขนี้
+		} else if tx := database.Where("room_id = ? AND day = ? AND end_time = ? AND subject_id != ?", room.Room_ID, new_day, new_end_time, subject.Subject_ID).Find(&class_schedules); tx.RowsAffected >= 1 {
+			err_message := fmt.Sprintf("Cannot add class schedule. In day %s, room %s, end time %s already occupied", new_day, room.Room_ID, new_end_time)
+			return false, ClassScheduleError{err_message}
+
+			// เมื่อตรวจสอบแล้ว ไม่มีรายวิชาอื่นที่ใช้ห้องในวันดังกล่าวใน database เลย
+			// ตรวจสอบช่วงเวลาที่เหลื่อมล้ำกัน รวมรายวิชาอื่นและรายวิชาที่เพิ่มเข้ามาด้วย
 		} else {
-			time_pattern := "15:04"
 
+			database.Where("room_id = ? AND day = ?", room.Room_ID, new_day).Find(&listed_class_schedules)
 			for _, record := range listed_class_schedules {
 				check_start, _ := time.Parse(time_pattern, new_start_time)
 				check_end, _ := time.Parse(time_pattern, new_end_time)
@@ -50,15 +75,33 @@ func ValidateClassScheduleUnique(new_day string, room entity.Room, new_start_tim
 				end, _ := time.Parse(time_pattern, record.End_Time)
 
 				if inTimeSpan(start, end, check_start) {
-					return false, ClassScheduleError{"Cannot add class schedule, start time is overlapped"}
+					err_message := fmt.Sprintf("Cannot add class schedule. In day %s, room %s, start time %s is overlapped with some class schedule ", new_day, room.Room_ID, new_start_time)
+					return false, ClassScheduleError{err_message}
 				} else if inTimeSpan(start, end, check_end) {
-					return false, ClassScheduleError{"Cannot add class schedule, end time is overlapped"}
+					err_message := fmt.Sprintf("Cannot add class schedule. In day %s, room %s, end time %s is overlapped with some class schedule ", new_day, room.Room_ID, new_end_time)
+					return false, ClassScheduleError{err_message}
 
 				}
 			}
 			return true, nil
 		}
 	} else {
+		database.Where("room_id = ? AND day = ?", room.Room_ID, new_day).Find(&class_schedules)
+		for _, record := range class_schedules {
+			check_start, _ := time.Parse(time_pattern, new_start_time)
+			check_end, _ := time.Parse(time_pattern, new_end_time)
+			start, _ := time.Parse(time_pattern, record.Start_Time)
+			end, _ := time.Parse(time_pattern, record.End_Time)
+
+			if inTimeSpan(start, end, check_start) {
+				err_message := fmt.Sprintf("Cannot add %s class schedule. start time %s is overlapped", subject.Subject_ID, new_start_time)
+				return false, ClassScheduleError{err_message}
+			} else if inTimeSpan(start, end, check_end) {
+				err_message := fmt.Sprintf("Cannot add %s class schedule. end time %s is overlapped", subject.Subject_ID, new_end_time)
+				return false, ClassScheduleError{err_message}
+			}
+		}
+
 		return true, nil
 	}
 }

@@ -138,7 +138,7 @@ function CreateEnroll() {
     };
 
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - enrolls.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
 
     const sendSearchedSubjectID = () => {
         //navigate({ pathname: `/subject/${searchSubjectID}` });
@@ -200,14 +200,16 @@ function CreateEnroll() {
                 "Content-Type": "application/json"
             },
         };
-        console.log(SearchSubjectByCourse)
         fetch(`${apiUrl}/subjects/${course_id}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 console.log(res.data);
                 if (res.data) {
-                    setSubjectByCourse(res.data);
+                    setSubjects(res.data);
+                }else {
+                    console.log("else");
                 }
+                
             });
     };
 
@@ -303,7 +305,7 @@ function CreateEnroll() {
             getSubjects();
         } else {
             //getSubjectBySubjectID(searchSubjectID);
-            getSubjectByCourseID(SearchSubjectByCourse)
+            getSubjectByCourseID(SearchSubjectByCourse);
         }
         console.log(SearchSubjectByCourse);
     }, []);
@@ -559,34 +561,6 @@ function CreateEnroll() {
                             </Table>
                         </TableContainer>
                     </Grid>
-                    {/* <Box
-        component="form"
-        sx={{'& .MuiTextField-root': { m: 1, width: '30ch' },
-        }}>  
-      <div><Box sx={{paddingLeft:1,}}>
-        กรอกรหัสวิชา
-    </Box>
-        </div>
-    </Box> 
-        <div>
-            <Box 
-            display={"flex"}
-        sx={{
-            marginTop: 5,
-            width: 1000,
-            height: 70,
-            }}>
-            <Box
-            component="form"
-            sx={{'& .MuiTextField-root': { m: 1, width: '30ch' },
-            }}>
-            <div> 
-            <TextField id="outlined-basic" label="รหัสวิชา" variant="outlined" />
-            </div>
-            </Box>
-            </Box>
-        </div> */}
-
                 </Paper>
             </div>
 

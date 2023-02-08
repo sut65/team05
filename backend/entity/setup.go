@@ -380,7 +380,24 @@ func SetupDatabase() {
 			ID:               2,
 			Subject_ID:       "523332",
 			Professor:        professor1,
-			Course:           cpe2560,
+			Course:           cpe2564,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "วิศวกรรมซอฟต์แวร์",
+			Subject_EN_Name:  "Software Engineering",
+			Capacity:         60,
+			Enroll_Amount:    0,
+			Reserved:         20,
+			Reserved_Enroll:  0,
+			Unit:             4,
+			Section:          2,
+		}
+		software_engineering_sec3 := Subject{
+			ID:               3,
+			Subject_ID:       "523332",
+			Professor:        professor1,
+			Course:           cpe2564,
 			Subject_Status:   subject_open,
 			Class_Type:       lecture,
 			Subject_Category: category1,
@@ -395,12 +412,12 @@ func SetupDatabase() {
 		}
 		db.Create(&software_engineering_sec1)
 		db.Create(&software_engineering_sec2)
-
+		db.Create(&software_engineering_sec3)
 		operating_system_sec1 := Subject{
 			ID:               3,
 			Subject_ID:       "523354",
 			Professor:        professor1,
-			Course:           cpe2560,
+			Course:           cpe2564,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
 			Subject_Category: category1,
@@ -494,7 +511,7 @@ func SetupDatabase() {
 			ID:               8,
 			Subject_ID:       "523331",
 			Professor:        professor2,
-			Course:           cpe2560,
+			Course:           ee2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
 			Subject_Category: category1,

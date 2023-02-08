@@ -52,7 +52,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function Adding_reducingUpdate() {
+function CreateEnroll() {
   const navigate = useNavigate();
   const params = useParams();
   // const [date, setDate] = React.useState<Date | null>(null);
@@ -60,9 +60,11 @@ function Adding_reducingUpdate() {
   // const [adding_reducings, setAdding_reducings] = React.useState<Adding_reducingInterface[]>([]);
   const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
   // const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
-  const [student, setStudent] = React.useState<StudentsInterface[]>([]);
   const [subjects, setSubjects] = React.useState<Subject[]>([]);
+  const [student, setStudent] = React.useState<StudentsInterface[]>([]);
   const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
+  
+
   const [success, setSuccess] = React.useState(false);
   const [course, setCourse] = React.useState<Course[]>([]);
   const [error, setError] = React.useState(false);
@@ -80,34 +82,29 @@ function Adding_reducingUpdate() {
     setError(false);
   };
 
-  const handleInputChange = (
-    event: React.ChangeEvent<{ id?: string; value: any }>
-  ) => {
-    const id = event.target.id as keyof typeof Adding_reducingUpdate;
-    const { value } = event.target;
-    setEnroll({ ...enroll, [id]: value });
-    console.log(event.target.value);
-  };
-
-
-
   const handleInputChangeSearch = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
-    const id = event.target.id as keyof typeof Adding_reducingUpdate;
+    const id = event.target.id as keyof typeof CreateEnroll;
     setSearchSubjectID(event.target.value);
+    
+    console.log(searchSubjectID)
+    
   };
-
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const name = event.target.name as keyof typeof enroll;
+    const searched_course_id = event.target.value;
+    // const sendSearchedCourseID = () => {
+    //      setSubjectByCourse(searched_course_id);
+    // };
+    console.log(searched_course_id)
+    getSubjectByCourseID(searched_course_id)
     setEnroll({
-      ...enroll,
-      [name]: event.target.value,
+        ...enroll,
+        [name]: event.target.value,
     });
-    // getSubjectByCourse(event.target.value);
-    console.log(event.target.value);
-  };
+};
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -134,6 +131,13 @@ function Adding_reducingUpdate() {
     //console.log(searchSubjectID);
   };
 
+ 
+
+
+  
+
+  ///setSearchCourseID(searchCourseID);
+  ////  getSubjectByCourseID(searchCourseID);
   // Declaring a HTTP request for requesting GET method
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -153,68 +157,6 @@ function Adding_reducingUpdate() {
       border: 1,
     },
   }));
-
-
-
-
-  const getStudent = async () => {
-    let uid = localStorage.getItem("id");
-    fetch(`${apiUrl}/student/${uid}`, requestOptionsGet)
-        .then((response) => response.json())
-        .then((res) => {
-            if (res.data) {
-                adding_reducing.Student_ID = res.data.Student_ID;
-            }
-            else {
-                console.log("else");
-            }
-        });
-};
-
-
-
-//เรียกใช้เพื่อดึงค่าenroll idมาใช้ในการอัพเดตค่าในตารางenroll
-  const getEnrollID = async () => {
-    const apiUrl = "http://localhost:8080";
-    const requestOptions = {
-        method: "GET",
-        headers: { 
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json" },
-    };
-    fetch(`${apiUrl}/currentenroll/${params.enroll_id}`, requestOptions)
-        .then((response) => response.json())
-        .then((res) => {
-            console.log(res.data);
-            if (res.data) {
-                setEnroll(res.data);
-                // console.log(res.data);
-            }
-
-        });
-};
-
-
-//เรียกใช้หังชั่นCreateAdding_reducingonly
-const getAdding_reducingonly = async () => {
-  const apiUrl = "http://localhost:8080";
-  const requestOptions = {
-      method: "GET",
-      headers: { 
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json" },
-  };
-  fetch(`${apiUrl}/adding_reducingsonly`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-          console.log(res.data);
-          if (res.data) {
-              setAdding_reducing(res.data);
-              // console.log(res.data);
-          }
-
-      });
-};
 
   const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
@@ -242,8 +184,8 @@ const getAdding_reducingonly = async () => {
     const requestOptions = {
       method: "GET",
       headers: { 
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json" },
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/enrollsub`, requestOptions)
       .then((response) => response.json())
@@ -255,23 +197,51 @@ const getAdding_reducingonly = async () => {
         }
       });
   };
-//รับค่าเพื่อแสดงในตารางเวลาsearchด้วยsubjectID
-  const getSubjectByCourse = async (course_id: any) => {
-    const requestOptions = {
+// //รับค่าเพื่อแสดงในตารางเวลาsearchด้วยsubjectID
+const getSubjectByCourseID = async (course_id: any) => {
+  const requestOptions = {
       method: "GET",
-      headers: { 
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json" },
-    }
-    fetch(`${apiUrl}/subjectd/${course_id}`, requestOptions)
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+      },
+  };
+  fetch(`${apiUrl}/subjects/${course_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
-        if (res.data) {
           console.log(res.data);
-          setSubjects(res.data);
-        }
+          if (res.data) {
+              setSubjects(res.data);
+          }else {
+              console.log("else");
+          }
+          
       });
-  };  
+};  
+
+
+
+  const getStudent = async () => {
+    let uid = localStorage.getItem("id");
+    fetch(`${apiUrl}/student/${uid}`, requestOptionsGet)
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.data) {
+                adding_reducing.Student_ID = res.data.Student_ID;
+            }
+            else {
+                console.log("else");
+            }
+        });
+};
+
+
+
+
+
+
+
+
   //ใช้ค้นหารหัสวิชาจากที่เลือกมาใช้
   const getSubjectBySubjectID = async (subject_id: any) => {
     const requestOptions = {
@@ -291,18 +261,18 @@ const getAdding_reducingonly = async () => {
       });
   };
 ///เพิ่มค่าid enrollทีละ1
-  // const getPrevEnroll = async () => {
-  //   fetch(`${apiUrl}/previousenroll`, requestOptionsGet)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         enroll.Enroll_ID = res.data.Enroll_ID + 1;
-  //       } else {
-  //         enroll.Enroll_ID = res.data = "1";
-  //         //console.log("else");
-  //       }
-  //     });
-  // };
+  const getPrevEnroll = async () => {
+    fetch(`${apiUrl}/previousenroll`, requestOptionsGet)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          enroll.Enroll_ID = res.data.Enroll_ID + 1;
+        } else {
+          enroll.Enroll_ID = res.data = "1";
+          //console.log("else");
+        }
+      });
+  };
 
 
   //เพิ่มค่าid addingทีละ1
@@ -321,13 +291,15 @@ const getAdding_reducingonly = async () => {
 
   useEffect(() => {
     getCourse();
-    getStudent();
-    getEnrollID();
+    getPrevEnroll();
     getPrevadding_reducing();
+    getStudent();
     if (searchSubjectID == "") {
       getSubjects();
+      
     } else {
       getSubjectBySubjectID(searchSubjectID);
+      
     }
     console.log(searchSubjectID);   
    
@@ -335,7 +307,7 @@ const getAdding_reducingonly = async () => {
 
   function submit() {
     
-    adding_reducing.History_Type_ID = "HT3";//fixค่าไว้ว่าเมื่อกดเพิ่มจะให้ค่าในตารางเป้นประวัติเพิ่ม
+    
     let data = {
       Enroll_ID: enroll.Enroll_ID ?? "",
       Student_ID: adding_reducing.Student_ID ?? "",
@@ -344,55 +316,33 @@ const getAdding_reducingonly = async () => {
       Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
       Section: enroll.Section,
       Change_ID: typeof adding_reducing.Change_ID === "string"? parseInt(adding_reducing.Change_ID) : adding_reducing.Change_ID,
-      History_Type_ID: adding_reducing.History_Type_ID,
+      History_Type_ID: adding_reducing.History_Type_ID = "HT1",//fixค่าไว้ว่าเมื่อกดเพิ่มจะให้ค่าในตารางเป้นประวัติเพิ่ม
     };
+
     console.log(data)
    
-    //อัพเดตข้อมูลตารางenrollโดยใช้ฟังชั่นUpdateEnrollforadding
-    const apiUrl = "http://localhost:8080";
+    //สร้างข้อมูลตารางadding
+    const apiUrl = "http://localhost:8080/adding_reducings";
     const requestOptions = {
-      method: "PATCH",
+      method: "POST",
       headers: { 
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
 
-    fetch(`${apiUrl}/adding_reducings`, requestOptions)
+    fetch(apiUrl, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         console.log(res);
         if (res.data) {
           setSuccess(true);
+         
         } else {
           setError(true);
         }
-      });
-
-
-//สร้างตารางใหม่ของaddingตารางเดียว
-      const apiUrl1 = "http://localhost:8080";
-      const requestOptionsGet = {
-        method: "POST",
-        headers: { 
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      };
-  
-      fetch(`${apiUrl1}/adding_reducingsonly`, requestOptionsGet)
-        .then((response) => response.json())
-        .then((res) => {
-          console.log(res);
-          if (res.data) {
-            setSuccess(true);
-          } else {
-            setError(true);
-          }
-        });
-  
+        window.location.href ="/adding_reducing/create";});
     
-
   }
 
   return (
@@ -437,8 +387,6 @@ const getAdding_reducingonly = async () => {
                     name: "Coures_ID",
                   }}
                 >
-
-                  
                   {course.map((item: Course) => (
                     <MenuItem value={item.Course_ID} key={item.Course_ID}>
                       {item.Course_Name}
@@ -448,12 +396,6 @@ const getAdding_reducingonly = async () => {
               </Box>
             </Grid>
           </Grid>
-
-         
-
-
-
-
 
           <Grid container sx={{ marginTop: "5px", marginLeft: 5 }}>
             <Grid>
@@ -470,7 +412,7 @@ const getAdding_reducingonly = async () => {
                   id="Subject_ID"
                   variant="outlined"
                   type="string"
-                  value={adding_reducing.Subject_ID}
+                  // value={adding_reducing.Subject_ID}
                   onChange={handleInputChangeSearch}
                 />
               </Box>
@@ -480,6 +422,7 @@ const getAdding_reducingonly = async () => {
                 size="medium"
                 variant="contained"
                 onClick={sendSearchedSubjectID}//เรียกใช้ฟังชั่น
+                
               >
                 ค้นหารายวิชา
                 <SvgIcon
@@ -493,7 +436,7 @@ const getAdding_reducingonly = async () => {
                   sx={{ width: "21ch" }}
                   size="medium"
                   component={RouterLink}
-                  to="/"
+                  to="/adding_reducing"
                   variant="contained"
                   onClick={sendSearchedSubjectID}
                   endIcon={<FactCheckIcon />}
@@ -545,6 +488,7 @@ const getAdding_reducingonly = async () => {
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell align="left">{row.Subject_ID}</TableCell>
+                      <TableCell align="left">{row.Course_ID}</TableCell>
                       <TableCell align="left">{row.Subject_TH_Name}</TableCell>
                       <TableCell align="left">{row.Subject_EN_Name}</TableCell>
                       <TableCell align="left">{row.Day}</TableCell>
@@ -586,11 +530,7 @@ const getAdding_reducingonly = async () => {
                   <TableRow>
                     <TablePagination
                       rowsPerPageOptions={[
-                        5,
-                        10,
-                        15,
-                        20,
-                        25,
+                        5,10,15,20,25,
                         { label: "All", value: -1 },
                       ]}
                       colSpan={subjects.length}
@@ -644,4 +584,4 @@ const getAdding_reducingonly = async () => {
   );
 }
 
-export default Adding_reducingUpdate;
+export default CreateEnroll;

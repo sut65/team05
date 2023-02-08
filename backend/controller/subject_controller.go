@@ -235,6 +235,20 @@ func GetSubjectByCourse(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": subject})
 }
 
+func GetSubjectBySubject_ID(c *gin.Context) {
+	/* Query subject record by subject_id and section */
+
+	var subject []extendedEnrollSubject
+	subject_id := c.Param("subject_id")
+	//* SQL command : SELECT * FROM `subjects` WHERE subject_id = ? AND section = ?;
+	query := entity.DB().Raw("SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id WHERE e.subject_id = ? GROUP BY e.id", subject_id).Scan(&subject)
+	if err := query.Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": subject})
+}
+
 func GetPreviousSubject(c *gin.Context) {
 	var subject entity.Subject
 	if tx := entity.DB().Last(&subject); tx.RowsAffected == 0 {

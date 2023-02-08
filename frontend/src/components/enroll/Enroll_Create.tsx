@@ -96,18 +96,21 @@ function CreateEnroll() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof CreateEnroll;
+        const id = event.target.id as keyof typeof enroll;
+        const searched_subject_id = event.target.value;
+        console.log(event.target.value)
+        setSearchSubjectID(searched_subject_id)
         const { value } = event.target;
         setEnroll({ ...enroll, [id]: value });
         console.log(event.target.value);
     };
 
-    const handleInputChangeSearch = (
-        event: React.ChangeEvent<{ id?: string; value: any }>
-    ) => {
-        const id = event.target.id as keyof typeof CreateEnroll;
-        setSearchSubjectID(event.target.value);
-    };
+    // const handleInputChangeSearch = (
+    //     event: React.ChangeEvent<{ id?: string; value: any }>
+    // ) => {
+    //     const id = event.target.id as keyof typeof CreateEnroll;
+    //     setSearchSubjectID(event.target.value);
+    // };
 
     const handleSelectChange = (event: SelectChangeEvent<string>) => {
         const name = event.target.name as keyof typeof enroll;
@@ -224,31 +227,13 @@ function CreateEnroll() {
         fetch(`${apiUrl}/enrollsub`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
-                console.log(res);
+                //console.log(res.data);
                 if (res.data) {
                     setSubjects(res.data);
-                    console.log(res.data);
+                    //console.log(res.data);
                 }
             });
     };
-
-    // const getSubjectByCourse = async (course_id: any) => {
-    //     const requestOptions = {
-    //         method: "GET",
-    //         headers: {
-    //             Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //             "Content-Type": "application/json"
-    //         }
-    //     };
-    //     fetch(`${apiUrl}/subjectd/${course_id}`, requestOptions)
-    //         .then((response) => response.json())
-    //         .then((res) => {
-    //             if (res.data) {
-    //                 console.log(res.data)
-    //                 setEnroll(res.data);
-    //             }
-    //         });
-    // };
 
     const getSubjectBySubjectID = async (subject_id: any) => {
         const requestOptions = {
@@ -258,12 +243,15 @@ function CreateEnroll() {
                 "Content-Type": "application/json"
             }
         };
-        fetch(`${apiUrl}/enroll/${subject_id}`, requestOptions)
+        console.log(searchSubjectID)
+        fetch(`${apiUrl}/subjectbysubjectid/${searchSubjectID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
+                console.log(res.data)
                 if (res.data) {
-                    setSearchSubjectID(subject_id);
-                    setEnrolls(res.data);
+                    //setSearchSubjectID(subject_id);
+                    setSubjects(res.data);
+                    console.log(res.data)
                 }
             });
     };
@@ -306,6 +294,13 @@ function CreateEnroll() {
         } else {
             //getSubjectBySubjectID(searchSubjectID);
             getSubjectByCourseID(SearchSubjectByCourse);
+        }
+
+        if (searchSubjectID == "") {
+            getSubjects();
+        } else {
+            //getSubjectBySubjectID(searchSubjectID);
+            getSubjectBySubjectID(searchSubjectID);
         }
         console.log(SearchSubjectByCourse);
     }, []);
@@ -439,11 +434,9 @@ function CreateEnroll() {
                                 component="form"
                                 sx={{ '& .MuiTextField-root': { m: 1, width: '30ch' }, marginTop: -1, paddingLeft: 1, }}>
                                 <TextField
-                                    id="Subject_ID"
                                     label="กรอกรหัสวิชา"
                                     variant="outlined"
-                                    // value={enroll.Subject_ID}
-                                    onChange={handleInputChangeSearch}
+                                    onChange={handleInputChange}
                                 />
                             </Box>
                         </Grid>
@@ -459,7 +452,6 @@ function CreateEnroll() {
                                 size="medium"
                                 component={RouterLink} to="/enroll"
                                 variant="contained"
-                                onClick={sendSearchedSubjectID}
                                 endIcon={<FactCheckIcon />}>ผลการลงทะเบียน</Button>
                         </Grid>
                     </Grid>

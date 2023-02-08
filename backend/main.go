@@ -89,7 +89,7 @@ func main() {
 			// ++++++++++++++++++ Class Schedule  Routes ++++++++++++++++++++++++
 			api.GET("/class_schedules", controller.ListClassSchedule)
 			api.GET("/class_schedule/:subject_id", controller.GetClassSchedule)
-			api.GET("/class_schedule/:subject_id/:section", controller.GetClassBySubjectID_and_Section)
+			api.GET("/class_schedule_by_id/:class_schedule_id", controller.GetClassScheduleByID)
 			api.POST("/class_schedules", controller.CreateClassSchedule)
 			api.PATCH("/class_schedules", controller.UpdateClassSchedule)
 			api.DELETE("/class_schedule/:class_schedule_id", controller.DeleteClassSchedule)

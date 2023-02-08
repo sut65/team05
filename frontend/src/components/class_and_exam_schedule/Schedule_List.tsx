@@ -193,7 +193,7 @@ export function Class_Schedules_List() {
                                             variant="contained"
                                             sx={{ borderRadius: 0 }}
                                             onClick={() => {
-                                                class_navigate({ pathname: `/class_schedule/${row.Subject_ID}/${row.Section}` })
+                                                class_navigate({ pathname: `/class_schedule/${row.Class_Schedule_ID}` })
                                             }}> Info </Button>
                                     </TableCell>
                                 </StyledTableRow>

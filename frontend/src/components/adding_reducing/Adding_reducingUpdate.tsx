@@ -46,6 +46,7 @@ import { Course } from "../../models/I_Course";
 import {IconButton,MenuItem,SvgIcon,TableFooter,TablePagination,} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
+import { StudentsInterface } from "../../models/I_Student";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -59,6 +60,7 @@ function Adding_reducingUpdate() {
   // const [adding_reducings, setAdding_reducings] = React.useState<Adding_reducingInterface[]>([]);
   const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
   // const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
+  const [student, setStudent] = React.useState<StudentsInterface[]>([]);
   const [subjects, setSubjects] = React.useState<Subject[]>([]);
   const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
   const [success, setSuccess] = React.useState(false);
@@ -153,12 +155,32 @@ function Adding_reducingUpdate() {
   }));
 
 
+
+
+  const getStudent = async () => {
+    let uid = localStorage.getItem("id");
+    fetch(`${apiUrl}/student/${uid}`, requestOptionsGet)
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.data) {
+                adding_reducing.Student_ID = res.data.Student_ID;
+            }
+            else {
+                console.log("else");
+            }
+        });
+};
+
+
+
 //เรียกใช้เพื่อดึงค่าenroll idมาใช้ในการอัพเดตค่าในตารางenroll
   const getEnrollID = async () => {
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/currentenroll/${params.enroll_id}`, requestOptions)
         .then((response) => response.json())
@@ -178,7 +200,9 @@ const getAdding_reducingonly = async () => {
   const apiUrl = "http://localhost:8080";
   const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
   };
   fetch(`${apiUrl}/adding_reducingsonly`, requestOptions)
       .then((response) => response.json())
@@ -195,7 +219,9 @@ const getAdding_reducingonly = async () => {
   const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json" },
   };
 
   // Fetch income type from API เรียกใช้listcourse เพื่อนำค่ามาใช้ในcombobox โดยใช้ชื่อcourse name
@@ -215,7 +241,9 @@ const getAdding_reducingonly = async () => {
   const getSubjects = async () => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/enrollsub`, requestOptions)
       .then((response) => response.json())
@@ -231,7 +259,9 @@ const getAdding_reducingonly = async () => {
   const getSubjectByCourse = async (course_id: any) => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
     }
     fetch(`${apiUrl}/subjectd/${course_id}`, requestOptions)
       .then((response) => response.json())
@@ -246,7 +276,9 @@ const getAdding_reducingonly = async () => {
   const getSubjectBySubjectID = async (subject_id: any) => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/enroll/${subject_id}`, requestOptions)
       .then((response) => response.json())
@@ -289,6 +321,7 @@ const getAdding_reducingonly = async () => {
 
   useEffect(() => {
     getCourse();
+    getStudent();
     getEnrollID();
     getPrevadding_reducing();
     if (searchSubjectID == "") {
@@ -301,17 +334,17 @@ const getAdding_reducingonly = async () => {
   }, []);
 
   function submit() {
-    adding_reducing.Student_ID = "B620023";
-    adding_reducing.History_Type_ID = "HT3";//fixค่าไว้ว่าเมื่อกดเพิ่มจะให้ค่าในตารางเป้นประวัติเพิ่ม
+    
+    
     let data = {
       Enroll_ID: enroll.Enroll_ID ?? "",
-      Student_ID: adding_reducing.Student_ID,
+      Student_ID: adding_reducing.Student_ID ?? "",
       Subject_ID: enroll.Subject_ID ?? "",
       Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
       Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
       Section: enroll.Section,
       Change_ID: typeof adding_reducing.Change_ID === "string"? parseInt(adding_reducing.Change_ID) : adding_reducing.Change_ID,
-      History_Type_ID: adding_reducing.History_Type_ID,
+      History_Type_ID: adding_reducing.History_Type_ID = "HT3",//fixค่าไว้ว่าเมื่อกดเพิ่มจะให้ค่าในตารางเป้นประวัติเพิ่ม
     };
     console.log(data)
    
@@ -319,7 +352,9 @@ const getAdding_reducingonly = async () => {
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
 
@@ -339,7 +374,9 @@ const getAdding_reducingonly = async () => {
       const apiUrl1 = "http://localhost:8080";
       const requestOptionsGet = {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json" },
         body: JSON.stringify(data),
       };
   
@@ -456,7 +493,7 @@ const getAdding_reducingonly = async () => {
                   sx={{ width: "21ch" }}
                   size="medium"
                   component={RouterLink}
-                  to="/"
+                  to="/adding_reducing"
                   variant="contained"
                   onClick={sendSearchedSubjectID}
                   endIcon={<FactCheckIcon />}

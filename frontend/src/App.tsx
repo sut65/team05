@@ -118,9 +118,9 @@ export default function App() {
                             {/* Class Schedule and Exam Schedule */}
                             <Route path="/schedule" element={<ScheduleList />} />
                             <Route path="/class_schedule" element={<ScheduleList />} />
-                            <Route path="/class_schedule/:subject_id/:section" element={<Class_Schedule_Info />} />
+                            <Route path="/class_schedule/:class_schedule_id" element={<Class_Schedule_Info />} />
                             <Route path="/class_schedule/class_schedule_create" element={<Class_Schedule_Create />} />
-                            <Route path="/class_schedule/update/:subject_id/:section" element={<Class_Schedule_Update />} />
+                            <Route path="/class_schedule/update/:class_schedule_id" element={<Class_Schedule_Update />} />
 
                             <Route path="/exam_schedule" element={<ScheduleList />} />
                             <Route path="/exam_schedule/exam_schedule_create" element={<Exam_Schedule_Create />} />

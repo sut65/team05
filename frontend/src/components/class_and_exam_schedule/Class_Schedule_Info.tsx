@@ -31,18 +31,18 @@ function Class_Schedule_Info() {
     };
 
     const getClassSchedulesBySubjectID = async () => {
-        fetch(`${apiUrl}/class_schedule/${params.subject_id}/${params.section}`, requestOptionsGet)
+        fetch(`${apiUrl}/class_schedule_by_id/${params.class_schedule_id}`, requestOptionsGet)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setClassSchedule(res.data);
-                    console.log(res.data)
+                    getSubject(res.data.Subject_ID, res.data.Section)
                 }
             });
     };
 
-    const getSubject = async () => {
-        fetch(`${apiUrl}/subject/${params.subject_id}/${params.section}`, requestOptionsGet)
+    const getSubject = async (subject_id: any, section: any) => {
+        fetch(`${apiUrl}/subject/${subject_id}/${section}`, requestOptionsGet)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -74,7 +74,7 @@ function Class_Schedule_Info() {
 
     useEffect(() => {
         getClassSchedulesBySubjectID();
-        getSubject();
+        // getSubject();
     }, []);
 
     return (
@@ -211,7 +211,7 @@ function Class_Schedule_Info() {
                     <Button
                         variant="contained"
                         onClick={() => {
-                            navigate({ pathname: `/class_schedule/update/${class_schedule?.Subject_ID}/${class_schedule?.Section}` })
+                            navigate({ pathname: `/class_schedule/update/${class_schedule?.Class_Schedule_ID}` })
                         }}
                         color="warning"
                         sx={{ margin: 0.5, }}

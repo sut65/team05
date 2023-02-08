@@ -28,6 +28,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material/Select";
 import Home_Navbar from "../navbars/Home_navbar";
+import { ApprovalInterface } from "../../models/I_Approval";
 
 function Request() {
   const [request, setRequest] = React.useState<Partial<RequestInterface>>({});
@@ -38,7 +39,7 @@ function Request() {
   >([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+ const [approvals, setApprovals] = React.useState<ApprovalInterface[]>([]);
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
 
@@ -66,27 +67,22 @@ function Request() {
 
   const apiUrl = "http://localhost:8080";
 
-  //update
-  // const toUpdateRequestPage = () => {
-  //   navigate({
-  //     pathname: `/update/${request?.Request_ID}`,
-  //   });
-  //   // window.location.reload()
-  // };
-
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - requests.length) : 0;
-
-  //request
-  const getRequests = async () => {
-    const requestOptions = {
+  const emptyRowsA =
+     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - approvals.length) : 0;
+  //request 
+  const requestOptions = {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
       },
-    };
-    fetch(`${apiUrl}/requests`, requestOptions)
+  };
+  
+  const getRequests = async () => {
+    let uid = localStorage.getItem("id");
+    fetch(`${apiUrl}/requeststudent/${uid}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -95,21 +91,17 @@ function Request() {
         }
       });
   };
-  // const [RequestByRequestID, setRequestByRequestID] = React.useState("");
-  //  const getRequestByRequestID = async (request_id: any) => {
-  //    const requestOptions = {
-  //      method: "GET",
-  //      headers: { "Content-Type": "application/json" },
-  //    };
-  //    fetch(`${apiUrl}/request/${request_id}`, requestOptions)
-  //      .then((response) => response.json())
-  //      .then((res) => {
-  //        if (res.data) {
-  //          setRequestByRequestID(request_id);
-  //          setRequest(res.data);
-  //        }
-  //      });
-  //  };
+
+  const getApprovalStudents = async () => {
+    fetch(`${apiUrl}/approvalstudent/${localStorage.getItem("id")}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setApprovals(res.data);
+          console.log(res.data);
+        }
+      });
+  };
 
   //delete
   const deleteRequest = async (request_id: number) => {
@@ -168,43 +160,8 @@ function Request() {
 
   useEffect(() => {
     getRequests();
+    getApprovalStudents();
   }, []);
-
-  // function submit() {
-  //   let data = {
-  //     Request_ID:
-  //       typeof request.Request_ID === "string"
-  //         ? parseInt(request.Request_ID)
-  //         : request.Request_ID,
-  //     // request.Request_ID ?? "",
-  //     // Student_ID: request.Student_ID ?? "",
-  //     Professor_ID: request.Professor_ID ?? "",
-
-  //     Subject_ID: request.Subject_ID ?? "",
-  //     Section: request.Section ?? "",
-  //     Reason: request.Reason ?? "",
-  //     Request_Type_ID: request.Request_Type_ID ?? "",
-  //   };
-
-  //   const apiUrl = "http://localhost:8080/requests";
-  //   const requestOptionsPatch = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(data),
-  //   };
-  //   console.log(JSON.stringify(data));
-
-  //   fetch(`${apiUrl}/request`, requestOptionsPatch)
-  //     .then((response) => response.json())
-
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setSuccess(true);
-  //       } else {
-  //         setError(true);
-  //       }
-  //     });
-  // }
 
   return (
     <div>
@@ -282,22 +239,10 @@ function Request() {
           elevation={3}
           sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
         >
-          {/* <div style={{ height: 300, width: "100%", marginTop: "20px" }}>
-            <DataGrid
-              rows={request}
-              getRowId={(row) => row.Request_ID}
-              columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
-            />
-          </div> */}
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    ลำดับ
-                  </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
                     รหัสนักศึกษา
                   </StyledTableCell>
@@ -336,9 +281,6 @@ function Request() {
                   : requests
                 ).map((row) => (
                   <StyledTableRow key={row.Request_ID}>
-                    <TableCell component="th" scope="row" align="center">
-                      {row.Request_ID}
-                    </TableCell>
                     <TableCell align="center">{row.Student_ID}</TableCell>
                     <TableCell align="center">{row.Subject_ID}</TableCell>
                     <TableCell align="center">{row.Subject_EN_Name}</TableCell>
@@ -391,6 +333,107 @@ function Request() {
                     ]}
                     colSpan={requests.length}
                     count={requests.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: {
+                        "aria-label": "rows per page",
+                      },
+                      native: true,
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        </Paper>
+
+        <Paper
+          elevation={3}
+          sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
+        >
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    รหัสลงทะเบียน
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    รหัสนักศึกษา
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    รหัสวิชา
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    รายวิชา
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    หน่วยกิต
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    กลุ่ม
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    หลักสูตร
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    อาจารย์
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    เหตุผล
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    ผลการอนุมัติ
+                  </StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {(rowsPerPage > 0
+                  ? approvals.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : approvals
+                ).map((row) => (
+                  <StyledTableRow key={row.Approval_ID}>
+                    <TableCell component="th" scope="row" align="center">
+                      {row.Request_ID}
+                    </TableCell>
+                    <StyledTableCell component="th" scope="row" align="center">
+                      {row.Student_ID}
+                    </StyledTableCell>
+                    <TableCell align="center">{row.Subject_ID}</TableCell>
+                    <TableCell align="center">{row.Subject_EN_Name}</TableCell>
+                    <TableCell align="center">{row.Unit}</TableCell>
+                    <TableCell align="center">{row.Section}</TableCell>
+                    <TableCell align="center">{row.Course_Name}</TableCell>
+                    <TableCell align="center">{row.Professor_Name}</TableCell>
+                    <TableCell align="center">{row.Reason}</TableCell>
+                    <TableCell align="center">
+                      {row.Approval_Type_Name}
+                    </TableCell>
+                  </StyledTableRow>
+                ))}
+                {emptyRowsA > 0 && (
+                  <TableRow style={{ height: 53 * emptyRowsA }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[
+                      5,
+                      10,
+                      25,
+                      { label: "All", value: -1 },
+                    ]}
+                    colSpan={approvals.length}
+                    count={approvals.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     SelectProps={{

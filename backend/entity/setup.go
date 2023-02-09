@@ -124,9 +124,14 @@ func SetupDatabase() {
 		////---------------------------------------------------------------
 
 		engineering := Institute{Institute_ID: "ENG", Institute_Name: "Engineering"}
+
 		medical := Institute{Institute_ID: "MED", Institute_Name: "Medical"}
+
+		science := Institute{Institute_ID: "SCI", Institute_Name: "Science"}
+
 		db.Create(&engineering)
 		db.Create(&medical)
+		db.Create(&science)
 
 		cpe := Major{Major_ID: "CPE", Major_Name: "Computer Engineering", Institute: engineering}
 		ee := Major{Major_ID: "EE", Major_Name: "Electrical Engineering", Institute: engineering}
@@ -134,7 +139,14 @@ func SetupDatabase() {
 		polymer := Major{Major_ID: "PE", Major_Name: "Polymer Engineering", Institute: engineering}
 		civil := Major{Major_ID: "CIVIL", Major_Name: "Civil Engineering", Institute: engineering}
 		mechanical := Major{Major_ID: "ME", Major_Name: "Mechanical Engineering", Institute: engineering}
+		telecom := Major{Major_ID: "TE", Major_Name: "Telecommunication Engineering", Institute: engineering}
+		industrial := Major{Major_ID: "IE", Major_Name: "Industrial Engineering", Institute: engineering}
+
 		ph := Major{Major_ID: "PH", Major_Name: "Public Health", Institute: medical}
+		com_sci := Major{Major_ID: "CS", Major_Name: "Computer Science", Institute: science}
+		physics := Major{Major_ID: "PHYSC", Major_Name: "Physics", Institute: science}
+		biology := Major{Major_ID: "BIO", Major_Name: "Biology", Institute: science}
+		chemical := Major{Major_ID: "CHEM", Major_Name: "Chemistry", Institute: science}
 
 		db.Create(&cpe)
 		db.Create(&ee)
@@ -143,6 +155,12 @@ func SetupDatabase() {
 		db.Create(&polymer)
 		db.Create(&civil)
 		db.Create(&mechanical)
+		db.Create(&telecom)
+		db.Create(&industrial)
+		db.Create(&com_sci)
+		db.Create(&physics)
+		db.Create(&biology)
+		db.Create(&chemical)
 
 		//Qualification
 		qualification1 := Qualification{
@@ -220,7 +238,7 @@ func SetupDatabase() {
 			Student_ID:       "B6310211",
 			Student_Name:     "ปีเตอร์ สงบสุข",
 			Student_Password: string(student1_password),
-			Datetime:         "22/08/2563",
+			Datetime:      time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
 			Dormitory:        dormitory2,
@@ -231,7 +249,7 @@ func SetupDatabase() {
 			Student_ID:       "B6200233",
 			Student_Name:     "สมพงษ์ วิ่งวุฒิ",
 			Student_Password: string(student2_password),
-			Datetime:         "22/09/2563",
+			Datetime:      time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
 			Dormitory:        dormitory2,
@@ -242,7 +260,7 @@ func SetupDatabase() {
 			Student_ID:       "B6201259",
 			Student_Name:     "สมใจ ใยดี",
 			Student_Password: string(student3_password),
-			Datetime:         "22/10/2563",
+			Datetime:      time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
 			Dormitory:        dormitory2,
@@ -844,9 +862,11 @@ func SetupDatabase() {
 		Request1 := Request{
 			Request_ID:   1,
 			Reason:       "อยากเรียน",
-			Student:      student1,
+			Student:      student2,
 			Section:      2,
-			Subject:      operating_system_sec2,
+			Subject:        software_engineering_sec1,
+			Class_Schedule: system_analysis_sec1_class,
+			Exam_Schedule:  system_analysis_midterm,
 			Request_Type: Request_Type1,
 		}
 		db.Create(&Request1)
@@ -856,7 +876,9 @@ func SetupDatabase() {
 			Reason:       "เวลาเรียนชน",
 			Student:      student1,
 			Section:      1,
-			Subject:      problem_solving_sec1,
+			Subject:        operating_system_sec1,
+			Class_Schedule: os_sec1_class,
+			Exam_Schedule:  os_final,
 			Request_Type: Request_Type2,
 		}
 		db.Create(&Request2)

@@ -18,6 +18,12 @@ type extendedRequest struct {
 	Professor_Name string
 	Unit            string
 	Section 		uint
+	Day             string
+	Start_Time      string
+	End_Time        string
+	Exam_Date       string
+	Exam_Start_Time string
+	Exam_End_Time   string
 
 }
 // POST /course
@@ -27,6 +33,8 @@ func CreateRequest(c *gin.Context) {
 	var student entity.Student
 	var subject entity.Subject
 	var request_type entity.Request_Type
+	var class_schedule entity.Class_Schedule
+	var exam_schedule entity.Exam_Schedule
 
 	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -53,6 +61,16 @@ func CreateRequest(c *gin.Context) {
 		return
 	}
 
+	if tx := entity.DB().Where("class_schedule_id = ?", request.Class_Schedule_ID).First(&class_schedule); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "class_schedule_id not found"})
+		return
+	}
+
+	if tx := entity.DB().Where("exam_schedule_id = ?", request.Exam_Schedule_ID).First(&exam_schedule); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "exam_schedule_id not found"})
+		return
+	}
+
 	// Communication Diagram Step
 	// ค้นหา entity request_type ด้วย id ของ request_type ที่รับเข้ามา
 	// SELECT * FROM `request_type` WHERE request_type_id = <request_type.request_type_ID>
@@ -65,6 +83,8 @@ func CreateRequest(c *gin.Context) {
 		Request_ID:   request.Request_ID,
 		Student: student,
 		Subject: subject,
+		Exam_Schedule_ID:  &exam_schedule.Exam_Schedule_ID,
+		Class_Schedule_ID: &class_schedule.Class_Schedule_ID,
 		Section: subject.Section,
 		Reason: request.Reason,
 		Request_Type_ID: request.Request_Type_ID,
@@ -84,7 +104,7 @@ func CreateRequest(c *gin.Context) {
 // List /request
 func ListRequest(c *gin.Context) {
 	var extendedRequest []extendedRequest
-		query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* FROM requests r JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id").Scan(&extendedRequest)
+	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* FROM requests r JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id").Scan(&extendedRequest)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -95,7 +115,7 @@ func ListRequest(c *gin.Context) {
 func ListRequestStudent(c *gin.Context) {
 	var extendedRequest []extendedRequest
 	id := c.Param("request_id")
-	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* ,s.* FROM requests r JOIN students s JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.student_id = s.student_id AND r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id WHERE s.student_id = ?",id).Find(&extendedRequest)
+	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* ,s.* FROM requests r JOIN students s JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.student_id = s.student_id AND r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id WHERE s.student_id = ? GROUP BY r.request_id",id).Find(&extendedRequest)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -163,6 +183,9 @@ func UpdateRequest(c *gin.Context) {
 	var student entity.Student
 	var subject entity.Subject
 	var request_type entity.Request_Type
+	var class_schedule entity.Class_Schedule
+	var exam_schedule entity.Exam_Schedule
+
 
 	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -191,6 +214,17 @@ func UpdateRequest(c *gin.Context) {
 		return
 	}
 
+	
+	if tx := entity.DB().Where("class_schedule_id = ?", request.Class_Schedule_ID).First(&class_schedule); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "class_schedule_id not found"})
+		return
+	}
+
+	if tx := entity.DB().Where("exam_schedule_id = ?", request.Exam_Schedule_ID).First(&exam_schedule); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "exam_schedule_id not found"})
+		return
+	}
+
 	// Communication Diagram Step
 	// ค้นหา entity request_type ด้วย id ของ request_type ที่รับเข้ามา
 	// SELECT * FROM `request_type` WHERE request_type_id = <request_type.request_type_ID>
@@ -203,6 +237,8 @@ func UpdateRequest(c *gin.Context) {
 		Request_ID:   request.Request_ID,
 		Student: student,
 		Subject: subject,
+		Exam_Schedule_ID:  &exam_schedule.Exam_Schedule_ID,
+		Class_Schedule_ID: &class_schedule.Class_Schedule_ID,
 		Section: update_section,
 		Reason: update_reason,
 		Request_Type_ID: request.Request_Type_ID,

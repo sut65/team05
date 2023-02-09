@@ -32,7 +32,7 @@ import TableContainer from "@mui/material/TableContainer";
 import CreateIcon from '@mui/icons-material/Create';
 
 function StudentInfo() {
-    const [students, setStudents] = React.useState<Partial<StudentsInterface>>({});
+    const [students, setStudents] = React.useState<StudentsInterface>();
     const params = useParams();
     const navigate = useNavigate();
    
@@ -45,15 +45,6 @@ function StudentInfo() {
         navigate({ pathname: `/student/update/${students?.Student_ID}` })
         // window.location.reload()
     };
-
-    const handleInputChange = (
-        event: React.ChangeEvent<{ id?: string; value: any }>
-      ) => {
-        const id = event.target.id as keyof typeof StudentInfo;
-        const { value } = event.target;
-        setStudents({ ...students, [id]: value });
-        console.log(event.target.value);
-      };
 
 
 
@@ -161,24 +152,25 @@ function StudentInfo() {
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> รหัสผ่านนักศึกษา </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Student_Password} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> วันที่เพิ่ม </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Datetime.toString()}
+                            </Box>
                         </Grid>
                     
                         <Grid container sx={{}}>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> หลักสูตร </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Course_ID}
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Course_Name}
                             </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> หอพัก </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Dormitory_ID} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Dormitory_Name} </Box>
                         </Grid>
 
-                        <Grid container sx={{}} key={students.Admin_Email}>
+                        <Grid container sx={{}} >
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> แอดมินที่เพิ่มข้อมูล </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Admin_ID} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Admin_Email} </Box>
                         </Grid>
 
                       

@@ -70,6 +70,7 @@ func main() {
 			api.GET("/students", controller.ListStudents)
 			api.GET("/students/:student_id", controller.GetStudentSearch)
 			api.GET("/student/:student_id", controller.GetStudent)
+			api.GET("/studentadmin/:student_id", controller.ListStudentAdmin)
 			api.POST("/students", controller.CreateStudent)
 			api.DELETE("/students/:student_id", controller.DeleteStudents)
 			api.PATCH("/students", controller.UpdateStudents)
@@ -173,7 +174,7 @@ func main() {
 			r.DELETE("/delepayment/:payment_id", controller.DeletePayment)
 			r.GET("/enrolls/:student_id", controller.GetEnrollByStudentID)
 			//Enroll
-			r.GET("/subjectbysubjectid/:subject_id", controller.GetSubjectBySubject_ID)
+			r.GET("/subjectbysubjectid/:course_id/:subject_id", controller.GetSubjectBySubject_ID)
 			r.GET("/subjects/:course_id", controller.GetSubjectByCourse)
 			r.GET("/enrollsub", controller.ListEnrollSubject)
 			r.GET("/enroll", controller.ListEnroll)

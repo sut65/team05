@@ -67,11 +67,6 @@ func CreateClassSchedule(c *gin.Context) {
 		return
 	}
 
-	if _, err := ValidateClassScheduleID(new_class_schedule.Class_Schedule_ID, new_class_schedule); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
 	if _, err := ValidateClassScheduleUnique(new_class_schedule.Day, room, new_class_schedule.Start_Time, new_class_schedule.End_Time, subject); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -196,11 +191,6 @@ func UpdateClassSchedule(c *gin.Context) {
 	}
 
 	if _, err := govalidator.ValidateStruct(updated_class_schedule); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	if _, err := ValidateClassScheduleID(updated_class_schedule.Class_Schedule_ID, updated_class_schedule); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

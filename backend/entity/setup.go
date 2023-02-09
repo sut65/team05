@@ -844,9 +844,11 @@ func SetupDatabase() {
 		Request1 := Request{
 			Request_ID:   1,
 			Reason:       "อยากเรียน",
-			Student:      student1,
+			Student:      student2,
 			Section:      2,
-			Subject:      operating_system_sec2,
+			Subject:        software_engineering_sec1,
+			Class_Schedule: system_analysis_sec1_class,
+			Exam_Schedule:  system_analysis_midterm,
 			Request_Type: Request_Type1,
 		}
 		db.Create(&Request1)
@@ -856,7 +858,9 @@ func SetupDatabase() {
 			Reason:       "เวลาเรียนชน",
 			Student:      student1,
 			Section:      1,
-			Subject:      problem_solving_sec1,
+			Subject:        operating_system_sec1,
+			Class_Schedule: os_sec1_class,
+			Exam_Schedule:  os_final,
 			Request_Type: Request_Type2,
 		}
 		db.Create(&Request2)

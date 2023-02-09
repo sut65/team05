@@ -86,7 +86,7 @@ function RequestUpdate() {
     const id = event.target.id as keyof typeof RequestUpdate;
     const { value } = event.target;
     setRequest({ ...request, [id]: value });
-    console.log(event.target.value);
+    //console.log(event.target.value);
   };
 
   const handleInputChangeSearch = (
@@ -102,7 +102,7 @@ function RequestUpdate() {
       ...request,
       [name]: event.target.value,
     });
-    console.log(event.target.value);
+    //console.log(event.target.value);
   };
 
   //--------------Searched--------------
@@ -163,16 +163,16 @@ function RequestUpdate() {
       .then((res) => {
         if (res.data) {
           setRequest(res.data);
-          getRequestBySubjectID(res.data.Subject_ID);
-          console.log(res.data);
+          getRequestBySubjectID(res.data.Subject_ID, res.data.Request_ID);
+          //console.log(res.data);
         } else {
-          console.log("else");
+          //console.log("else");
         }
       });
   };
   //----------subject----
 
-  const getRequestBySubjectID = async(subject_id : any) => {
+  const getRequestBySubjectID = async (subject_id: any, request_id: any) => {
     const requestOptions = {
       method: "GET",
       headers: {
@@ -180,15 +180,14 @@ function RequestUpdate() {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/subject/${subject_id}`, requestOptions)
+    fetch(`${apiUrl}/enroll/${subject_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         console.log(res.data);
         if (res.data) {
           setSubjects(res.data);
-
-          console.log(request?.Request_ID);
-          request.Request_ID = request?.Request_ID;
+          console.log(request_id);
+          request.Request_ID = request_id;
 
           // console.log(enroll.Enroll_ID)
         }
@@ -208,7 +207,6 @@ function RequestUpdate() {
       });
   };
 
-
   useEffect(() => {
     getRequest_Type();
     getCurrentRequest();
@@ -225,6 +223,8 @@ function RequestUpdate() {
       Subject_ID: request.Subject_ID ?? "",
       Section: request.Section ?? "",
       Reason: request.Reason ?? "",
+      Exam_Schedule_ID: request.Exam_Schedule_ID ?? "",
+      Class_Schedule_ID: request.Class_Schedule_ID ?? "",
       Request_Type_ID: request.Request_Type_ID ?? "",
     };
     console.log(data);
@@ -352,6 +352,24 @@ function RequestUpdate() {
                       รายวิชา
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ border: 1 }}>
+                      วันเรียน
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      เริ่มเรียน
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      เลิกเรียน
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      วันสอบ
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      เริ่มสอบ
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      เลิกสอบ
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
                       หน่วยกิต
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ border: 1 }}>
@@ -384,6 +402,22 @@ function RequestUpdate() {
                       <StyledTableCell align="center">
                         {row.Subject_EN_Name}
                       </StyledTableCell>
+                      <StyledTableCell align="left">{row.Day}</StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Start_Time}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.End_Time}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Exam_Date}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Exam_Start_Time}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Exam_End_Time}
+                      </StyledTableCell>
                       <StyledTableCell align="center">
                         {row.Unit}
                       </StyledTableCell>
@@ -403,8 +437,12 @@ function RequestUpdate() {
                           onClick={() => {
                             request.Subject_ID = row.Subject_ID;
                             request.Section = row.Section;
+                            request.Exam_Schedule_ID = row.Exam_Schedule_ID;
+                            request.Class_Schedule_ID = row.Class_Schedule_ID;
                             console.log(request.Subject_ID);
                             console.log(request.Section);
+                            console.log(request.Exam_Schedule_ID);
+                            console.log(request.Class_Schedule_ID);
                           }}
                         >
                           เพิ่ม

@@ -168,10 +168,19 @@ export default function App() {
                       element={<UpdateEnroll />}
                     />
 
-                   {/* Adding_reducing Path */}
-                   <Route path="/" element={<Adding_reducing/>} /> 
-                    <Route path="/create" element={<Adding_reducingCreate/>} />
-                    <Route path="/updateenroll/:enroll_id" element={<Adding_reducingUpdate/>} /> 
+                    {/* Adding_reducing Path */}
+                    <Route
+                      path="/adding_reducing"
+                      element={<Adding_reducing />}
+                    />
+                    <Route
+                      path="/adding_reducing/create"
+                      element={<Adding_reducingCreate />}
+                    />
+                    <Route
+                      path="/adding_reducing/updateenroll/:enroll_id"
+                      element={<Adding_reducingUpdate />}
+                    />
                   </Routes>
                 </div>
               </Router>

@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
 import { Subject } from "../../models/I_Subject";
-import { Stack, Divider, Grid } from "@mui/material";
+import { Stack, Divider, Grid, Toolbar } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
@@ -29,6 +29,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 import { EnrollInterface } from "../../models/I_Enroll";
 import { StudentsInterface } from "../../models/I_Student";
+import Home_Navbar from "../navbars/Home_navbar";
 
 function Adding_reducingCreate() {
   const [adding_reducing, setAdding_reducing] = React.useState<Partial<Adding_reducingInterface>>({});
@@ -79,7 +80,7 @@ function Adding_reducingCreate() {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/adding_reducings`, requestOptions)
+    fetch(`${apiUrl}/adding_reducings/${localStorage.getItem("id")}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -107,6 +108,7 @@ function Adding_reducingCreate() {
           }
         });
     };
+    
  
 //รับค่าจากget enrollมาใช้โดยจะหาจากid enroll
   const getEnrollByEnrollID = async (enroll_id: any) => {
@@ -219,7 +221,8 @@ function Adding_reducingCreate() {
   return (
     <div>
     <Container maxWidth="xl" sx={{ p: 2 }}>
-
+    <Home_Navbar></Home_Navbar>
+        <Toolbar></Toolbar>
       <Box
 
         display="flex"

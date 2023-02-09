@@ -231,7 +231,7 @@ function ApprovalCreate() {
       });
   };
 
-  // fetch previous ActivityMember
+  // fetch previous Approval
   const getPrevApproval = async () => {
     fetch(`${apiUrl}/previous_approval`, approvalOptionsGet)
       .then((response) => response.json())
@@ -250,7 +250,6 @@ function ApprovalCreate() {
     getApproval_Type();
     getPrevApproval();
     getProfessor();
-
     if (searchSubjectID == "") {
       getRequests();
     } else {
@@ -265,7 +264,7 @@ function ApprovalCreate() {
         typeof approval.Approval_ID === "string"
           ? parseInt(approval.Approval_ID)
           : approval.Approval_ID,
-      Professor_ID: approval.Professor_ID ?? "",
+      Professor_ID: localStorage.getItem("id"),
       Request_ID:
         typeof approval.Request_ID === "string"
           ? parseInt(approval.Request_ID)
@@ -275,7 +274,7 @@ function ApprovalCreate() {
       Approval_Type_ID: approval.Approval_Type_ID ?? "",
 
       //update enroll
-      Enroll_ID: enroll.Enroll_ID ?? "",
+      Enroll_ID: enroll.Enroll_ID ?? `${Math.random().toString().slice(2,11)}`,
       Student_ID: enroll.Student_ID ?? "",
       Subject_ID: enroll.Subject_ID ?? "",
       Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
@@ -289,26 +288,6 @@ function ApprovalCreate() {
     console.log(data);
 
     // const apiUrl = "http://localhost:8080/approvals";
-    const approvalOptions = {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-
-    fetch(`${apiUrl}/approvals`, approvalOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          setSuccess(true);
-        } else {
-          setAlertMessage(res.error);
-          setError(true);
-        }
-      });
 
     if (approval?.Approval_Type_ID == "Y01") {
       const apiUrl1 = "http://localhost:8080";
@@ -321,16 +300,38 @@ function ApprovalCreate() {
         body: JSON.stringify(data),
       };
 
-      fetch(`${apiUrl1}/adding_reducings`, requestOptionsGet)
+      fetch(`${apiUrl1}/approvalandadding`, requestOptionsGet)
         .then((response) => response.json())
         .then((res) => {
           console.log(res);
-          if (res.data) {
-            setSuccess(true);
-          } else {
-            setError(true);
-          }
+           if (res.data) {
+             setSuccess(true);
+           } else {
+             setAlertMessage(res.error);
+             setError(true);
+           }
         });
+    } else {
+          const approvalOptions = {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          };
+
+          fetch(`${apiUrl}/approvals`, approvalOptions)
+            .then((response) => response.json())
+            .then((res) => {
+              console.log(res);
+              if (res.data) {
+                setSuccess(true);
+              } else {
+                setAlertMessage(res.error);
+                setError(true);
+              }
+            });
     }
   }
 

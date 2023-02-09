@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"regexp"
 	"time"
 
 	validator "github.com/asaskevich/govalidator"
@@ -56,6 +57,27 @@ func SetStudentDatetimeValidation() {
 		} else {
 			return true
 		}
+	}))
+
+}
+
+func SetStudentNameValidation() {
+	validator.CustomTypeTagMap.Set("studentnamechecklanguage", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+
+		str := i.(string)
+		match, _ := regexp.MatchString(`([ก-๏0-9])`, str)
+		return match
+
+	}))
+
+}
+func SetStudentPasswordValidation() {
+	validator.CustomTypeTagMap.Set("studentpasswordchecklanguage", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+
+		str := i.(string)
+		match, _ := regexp.MatchString(`([a-zA-z0-9])`, str)
+		return match
+
 	}))
 
 }

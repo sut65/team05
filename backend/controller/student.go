@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/B6025212/team05/entity"
+	"github.com/asaskevich/govalidator"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/gin-gonic/gin"
@@ -47,6 +48,10 @@ func CreateStudent(c *gin.Context) {
 		Course_ID:        student.Course_ID,
 		Dormitory_ID:     student.Dormitory_ID,
 		Admin_ID:         student.Admin_ID,
+	}
+	if _, err := govalidator.ValidateStruct(new_student); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	hidePassword, err := bcrypt.GenerateFromPassword([]byte(student.Student_Password), 14)
@@ -193,6 +198,10 @@ func UpdateStudents(c *gin.Context) {
 		Course_ID:        updated_Course_name,
 		Dormitory_ID:     updated_Dormitory_name,
 		Admin_ID:         updated_Admin_name,
+	}
+	if _, err := govalidator.ValidateStruct(updated_student); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	if !(student.Student_Password[0:7] == "$2a$14$") {

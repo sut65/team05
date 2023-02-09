@@ -41,6 +41,8 @@ function Student_Update() {
 
     const [searchedStudent, setSearchStudent] = React.useState<string>();
     const apiUrl = "http://localhost:8080";
+    const [message, setAlertMessage] = React.useState("");
+
 
     const handleClose = (
         event?: React.SyntheticEvent | Event,
@@ -167,10 +169,11 @@ function Student_Update() {
             .then((res) => {
                 console.log(res)
                 if (res.data) {
-                    setSuccess(true);
-                } else {
-                    setError(true);
-                }
+                  setSuccess(true);
+              } else {
+                  setAlertMessage(res.error);
+                  setError(true);
+              }
             });
 
     }
@@ -210,7 +213,7 @@ function Student_Update() {
    
           <Alert onClose={handleClose} severity="error">
    
-            แก้ไขข้อมูลไม่สำเร็จ
+            {message}
    
           </Alert>
    

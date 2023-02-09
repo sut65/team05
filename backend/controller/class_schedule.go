@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"fmt"
+	"math/rand"
 	"net/http"
 
 	"github.com/B6025212/team05/entity"
@@ -52,7 +54,7 @@ func CreateClassSchedule(c *gin.Context) {
 	}
 
 	new_class_schedule := entity.Class_Schedule{
-		Class_Schedule_ID:          class_schedule.Class_Schedule_ID,
+		Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 		Subject:                    subject,
 		Section:                    class_schedule.Section,
 		Room:                       room,
@@ -140,46 +142,44 @@ func DeleteClassSchedule(c *gin.Context) {
 }
 
 func UpdateClassSchedule(c *gin.Context) {
-	var payload_class_schedule ClassScheduleForUpdate
 	var class_schedule entity.Class_Schedule
 	var subject entity.Subject
 	var room entity.Room
 	var admin entity.Admin
 
-	if err := c.ShouldBindJSON(&payload_class_schedule); err != nil {
+	if err := c.ShouldBindJSON(&class_schedule); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	var old_class_schedule_id = payload_class_schedule.Old_Class_Schedule_ID
-	var updated_section = payload_class_schedule.Section
-	var updated_class_schedule_description = payload_class_schedule.Class_Schedule_Description
-	var updated_day = payload_class_schedule.Day
-	var updated_start_time = payload_class_schedule.Start_Time
-	var updated_end_time = payload_class_schedule.End_Time
+	var updated_section = class_schedule.Section
+	var updated_class_schedule_description = class_schedule.Class_Schedule_Description
+	var updated_day = class_schedule.Day
+	var updated_start_time = class_schedule.Start_Time
+	var updated_end_time = class_schedule.End_Time
 
-	if tx := entity.DB().Where("subject_id = ?", payload_class_schedule.Subject_ID).First(&subject); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("subject_id = ?", class_schedule.Subject_ID).First(&subject); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "subject not found"})
 		return
 	}
 
-	if tx := entity.DB().Where("room_id = ?", payload_class_schedule.Room_ID).First(&room); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("room_id = ?", class_schedule.Room_ID).First(&room); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "room not found"})
 		return
 	}
 
-	if tx := entity.DB().Where("admin_id = ?", payload_class_schedule.Admin_ID).First(&admin); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("admin_id = ?", class_schedule.Admin_ID).First(&admin); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
 		return
 	}
 
-	if tx := entity.DB().Where("class_schedule_id = ?", payload_class_schedule.Old_Class_Schedule_ID).Find(&class_schedule); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("class_schedule_id = ?", class_schedule.Class_Schedule_ID).Find(&class_schedule); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "class_schedule not found"})
 		return
 	}
 
 	updated_class_schedule := entity.Class_Schedule{
-		Class_Schedule_ID:          payload_class_schedule.Class_Schedule_ID,
+		Class_Schedule_ID:          class_schedule.Class_Schedule_ID,
 		Subject:                    subject,
 		Section:                    updated_section,
 		Room:                       room,
@@ -202,12 +202,6 @@ func UpdateClassSchedule(c *gin.Context) {
 
 	if _, err := ValidateClassScheduleTime(updated_class_schedule.Start_Time, updated_class_schedule.End_Time); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	// ใส่คำสั่งลบข้อมูลเดิมทิ้ง แล้วแทนที่ด้วยข้อมูลใหม่
-	if tx := entity.DB().Exec("DELETE FROM class_schedules WHERE class_schedule_id = ?", old_class_schedule_id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "not found class_schedule, cannot delete"})
 		return
 	}
 

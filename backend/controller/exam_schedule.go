@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"fmt"
+	"math/rand"
 	"net/http"
 
 	"github.com/B6025212/team05/entity"
@@ -47,7 +49,7 @@ func CreateExamSchedule(c *gin.Context) {
 	}
 
 	new_exam_schedule := entity.Exam_Schedule{
-		Exam_Schedule_ID: exam_schedule.Exam_Schedule_ID,
+		Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 		Subject:          subject,
 		Room:             room,
 		Exam_Type:        exam_schedule.Exam_Type,

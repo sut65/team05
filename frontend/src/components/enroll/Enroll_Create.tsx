@@ -46,6 +46,7 @@ import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
 import { IconButton, MenuItem, TableFooter, TablePagination } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { set } from "date-fns/esm";
 
 
 
@@ -71,11 +72,11 @@ function CreateEnroll() {
     const [SearchSubjectByCourse, setSubjectByCourse] = React.useState("");
     const [subjects, setSubjects] = React.useState<Subject[]>([]);
     const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
-
+    const [course_id, setCourse_id] = React.useState("");
     const [success, setSuccess] = React.useState(false);
 
     const [course, setCourse] = React.useState<Course[]>([]);
-
+    const [courses, setCourses] = React.useState<Course>();
     const [error, setError] = React.useState(false);
 
     const [page, setPage] = React.useState(0);
@@ -119,11 +120,14 @@ function CreateEnroll() {
         //      setSubjectByCourse(searched_course_id);
         // };
         console.log(searched_course_id)
+        setCourse_id(event.target.value)
         getSubjectByCourseID(searched_course_id)
+
         setEnroll({
             ...enroll,
             [name]: event.target.value,
         });
+
     };
 
     const handleChangePage = (
@@ -146,7 +150,10 @@ function CreateEnroll() {
     const sendSearchedSubjectID = () => {
         //navigate({ pathname: `/subject/${searchSubjectID}` });
         setSearchSubjectID(searchSubjectID);
-        getSubjectBySubjectID(searchSubjectID);
+        getSubjectBySubjectID()
+        
+        //getSubjectBySubjectID(searchSubjectID);
+        //getSubjectByCourseID(searched_course_id)
         //window.location.reload();
         //console.log(searchSubjectID);
     };
@@ -209,10 +216,35 @@ function CreateEnroll() {
                 console.log(res.data);
                 if (res.data) {
                     setSubjects(res.data);
+                    //console.log(course_id);
+                    //getSubjectBySubjectID(course_id);
                 }else {
                     console.log("else");
                 }
                 
+            });
+    };
+    
+   const getSubjectBySubjectID = async () => {
+    console.log(course_id);
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            }
+        };
+        console.log(searchSubjectID)
+        console.log(course_id);
+        fetch(`${apiUrl}/subjectbysubjectid/${course_id}/${searchSubjectID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                console.log(res.data)
+                if (res.data) {
+                    //setSearchSubjectID(subject_id);
+                    setSubjects(res.data);
+                    console.log(res.data)
+                }
             });
     };
 
@@ -235,26 +267,7 @@ function CreateEnroll() {
             });
     };
 
-    const getSubjectBySubjectID = async (subject_id: any) => {
-        const requestOptions = {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json"
-            }
-        };
-        console.log(searchSubjectID)
-        fetch(`${apiUrl}/subjectbysubjectid/${searchSubjectID}`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                console.log(res.data)
-                if (res.data) {
-                    //setSearchSubjectID(subject_id);
-                    setSubjects(res.data);
-                    console.log(res.data)
-                }
-            });
-    };
+ 
 
     const getPrevEnroll = async () => {
         fetch(`${apiUrl}/previousenroll`, requestOptionsGet)
@@ -294,14 +307,15 @@ function CreateEnroll() {
         } else {
             //getSubjectBySubjectID(searchSubjectID);
             getSubjectByCourseID(SearchSubjectByCourse);
+            //getSubjectBySubjectID(searchSubjectID);
         }
 
-        if (searchSubjectID == "") {
-            getSubjects();
-        } else {
-            //getSubjectBySubjectID(searchSubjectID);
-            getSubjectBySubjectID(searchSubjectID);
-        }
+        // if (searchSubjectID == "") {
+        //     getSubjects();
+        // } else {
+        //     //getSubjectBySubjectID(searchSubjectID);
+            
+        // }
         console.log(SearchSubjectByCourse);
     }, []);
 

@@ -173,7 +173,7 @@ func main() {
 			r.DELETE("/delepayment/:payment_id", controller.DeletePayment)
 			r.GET("/enrolls/:student_id", controller.GetEnrollByStudentID)
 			//Enroll
-			r.GET("/subjectbysubjectid/:subject_id", controller.GetSubjectBySubject_ID)
+			r.GET("/subjectbysubjectid/:course_id/:subject_id", controller.GetSubjectBySubject_ID)
 			r.GET("/subjects/:course_id", controller.GetSubjectByCourse)
 			r.GET("/enrollsub", controller.ListEnrollSubject)
 			r.GET("/enroll", controller.ListEnroll)

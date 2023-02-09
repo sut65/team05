@@ -39,9 +39,9 @@ type Major struct {
 type Course struct {
 	Course_ID string `gorm:"primaryKey" valid:"courseidcheckul~Course ID cannot be lowercase !!!,courseidthaiall~Course ID  cannot be Thai Language !!!,required~Course ID cannot be null"`
 
-	Course_Name string `valid:"coursenamechecklanguage~Course Name cannot be English Language,required~Course Name cannot be null,maxstringlength(35)~Course Name can not greater than 10 character"`
+	Course_Name string `valid:"coursenamechecklanguage~Course Name cannot be English Language,required~Course Name cannot be null,maxstringlength(35)~Course Name can not greater than 35 character"`
 
-	Datetime time.Time `valid:"required~Datetime cannot be null,datetimecheckfuture~Datetime cannot be future"`
+	Datetime time.Time `valid:"datetimecheckfuture~Datetime cannot be future"`
 
 	Qualification_ID *string       `valid:"-"`
 	Qualification    Qualification `gorm:"references:Qualification_ID" valid:"-"`

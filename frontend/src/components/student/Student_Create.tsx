@@ -85,6 +85,9 @@ function StudentCreate() {
 
  const [datetime, setDatetime] = React.useState<Dayjs | null>(dayjs);
 
+ const [message, setAlertMessage] = React.useState("");
+
+
 
 
  const handleClose = (
@@ -230,15 +233,12 @@ const requestOptionsGet = {
 
      .then((res) => {
 
-       if (res.data) {
-
-         setSuccess(true);
-
-       } else {
-
-         setError(true);
-
-       }
+      if (res.data) {
+        setSuccess(true);
+    } else {
+        setAlertMessage(res.error);
+        setError(true);
+    }
 
      });
 
@@ -278,7 +278,7 @@ const requestOptionsGet = {
 
        <Alert onClose={handleClose} severity="error">
 
-         บันทึกข้อมูลไม่สำเร็จ
+       {message}
 
        </Alert>
 

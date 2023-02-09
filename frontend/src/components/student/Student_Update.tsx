@@ -141,7 +141,7 @@ function Student_Update() {
         let data = {
           Student_ID: students.Student_ID ?? "",
 
-          Admin_ID: students.Admin_ID ?? "",
+          Admin_ID: students.Admin_ID ?? "$2a$14$",
 
           Student_Name: students.Student_Name ?? "",
 
@@ -281,7 +281,7 @@ function Student_Update() {
 
         </FormControl>
 
-        </Grid>
+        </Grid> 
    
           <Grid item xs={4} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,
@@ -337,7 +337,7 @@ function Student_Update() {
    
             </Grid>
 
-            <Grid item xs={4} color="#115686" 
+            {/* <Grid item xs={4} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,
               fontWeight : 'bold' ,fontSize:27}}>
              <p>รหัสผ่านนักศึกษา</p>
@@ -364,7 +364,7 @@ function Student_Update() {
    
               </FormControl>
    
-            </Grid>
+            </Grid> */}
    
             <Grid item xs={4} color="#115686" 
           sx={{  fontFamily : "LilyUPC" ,

@@ -4,6 +4,8 @@ import (
 	"net/http"
 
 	"github.com/B6025212/team05/entity"
+	. "github.com/B6025212/team05/service"
+	"github.com/asaskevich/govalidator"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,7 +14,7 @@ import (
 func CreateExamSchedule(c *gin.Context) {
 	var subject entity.Subject
 	var room entity.Room
-	// var admin entity.Admin
+	var admin entity.Admin
 	var exam_schedule entity.Exam_Schedule
 
 	if err := c.ShouldBindJSON(&exam_schedule); err != nil {
@@ -39,10 +41,10 @@ func CreateExamSchedule(c *gin.Context) {
 	// Communication Diagram Step
 	// ค้นหา entity Admin ด้วย id ของ Admin ที่รับเข้ามา
 	// SELECT * FROM `admins` WHERE admin_id = <class_schedule.Admin_ID>
-	// if tx := entity.DB().Where("admin_id = ?", class_schedule.Admin_ID).First(&admin); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
-	// 	return
-	// }
+	if tx := entity.DB().Where("admin_id = ?", exam_schedule.Admin_ID).First(&admin); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
+		return
+	}
 
 	new_exam_schedule := entity.Exam_Schedule{
 		Exam_Schedule_ID: exam_schedule.Exam_Schedule_ID,
@@ -52,7 +54,16 @@ func CreateExamSchedule(c *gin.Context) {
 		Exam_Date:        exam_schedule.Exam_Date,
 		Exam_Start_Time:  exam_schedule.Exam_Start_Time,
 		Exam_End_Time:    exam_schedule.Exam_End_Time,
-		// Admin:                      admin,
+		Admin:            admin,
+	}
+	if _, err := govalidator.ValidateStruct(new_exam_schedule); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if _, err := ValidateExamScheduleUnique(new_exam_schedule); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	// บันทึก entity Subject

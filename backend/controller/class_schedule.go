@@ -5,6 +5,7 @@ import (
 
 	"github.com/B6025212/team05/entity"
 	. "github.com/B6025212/team05/service"
+	"github.com/asaskevich/govalidator"
 
 	"github.com/gin-gonic/gin"
 )
@@ -61,12 +62,22 @@ func CreateClassSchedule(c *gin.Context) {
 		Start_Time:                 class_schedule.Start_Time,
 		End_Time:                   class_schedule.End_Time,
 	}
+	if _, err := govalidator.ValidateStruct(new_class_schedule); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	if _, err := ValidateClassScheduleID(new_class_schedule.Class_Schedule_ID, new_class_schedule); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	if _, err := ValidateClassScheduleUnique(new_class_schedule.Day, room, new_class_schedule.Start_Time, new_class_schedule.End_Time, subject); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if _, err := ValidateClassScheduleTime(new_class_schedule.Start_Time, new_class_schedule.End_Time); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -184,12 +195,22 @@ func UpdateClassSchedule(c *gin.Context) {
 		End_Time:                   updated_end_time,
 	}
 
+	if _, err := govalidator.ValidateStruct(updated_class_schedule); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	if _, err := ValidateClassScheduleID(updated_class_schedule.Class_Schedule_ID, updated_class_schedule); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	if _, err := ValidateClassScheduleUnique(updated_class_schedule.Day, room, updated_class_schedule.Start_Time, updated_class_schedule.End_Time, subject); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if _, err := ValidateClassScheduleTime(updated_class_schedule.Start_Time, updated_class_schedule.End_Time); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

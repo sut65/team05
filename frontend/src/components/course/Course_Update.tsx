@@ -17,6 +17,9 @@ import AddIcon from '@mui/icons-material/Add';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Link as RouterLink } from "react-router-dom";
 import { AdminInterface } from "../../models/I_Admin";
+import dayjs, { Dayjs } from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -29,6 +32,7 @@ function Class_Schedule_Update() {
     const [major, setMajor] = React.useState<MajorsInterface[]>([]);
     const [qualification, setQualification] = React.useState<QualificationsInterface[]>([]);
     const [admins, setAdmins] = React.useState<AdminInterface[]>([]);
+    const [datetime, setDatetime] = React.useState<Dayjs | null>(dayjs);
 
 
     const [course_id, setCourseID] = React.useState<string>();
@@ -151,7 +155,7 @@ function Class_Schedule_Update() {
 
             Course_Name: course.Course_Name ?? "",
 
-            Datetime: course.Datetime,
+            Datetime: datetime,
 
             Qualification_ID: course.Qualification_ID ?? "",
 
@@ -339,25 +343,22 @@ function Class_Schedule_Update() {
             <Grid item xs={4} color="#115686" 
           sx={{  fontFamily : "LilyUPC" ,
            fontWeight : 'bold' ,fontSize:27}}>
-          <p>วันที่เพิ่ม</p>
+      
 
-           <FormControl fullWidth variant="outlined">
+      <FormControl fullWidth variant="outlined">
 
-             <TextField
-
-               id="Datetime"
-
-               variant="outlined"
-
-               type="string"
-
-               size="medium"
-
-               value={course.Datetime || ""}
-
-               onChange={handleInputChange}
-             />
-           </FormControl>
+<p>วันเวลาที่จัดการ</p>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+     renderInput={(params) => <TextField {...params} />}
+     value={datetime}
+     onChange={(newValue: Dayjs | null) => {
+       setDatetime(newValue);
+       console.log(newValue)
+     }}
+   />
+               </LocalizationProvider>
+</FormControl>
          </Grid>
    
             <Grid item xs={6} color="#115686" 

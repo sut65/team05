@@ -46,3 +46,16 @@ func SetStudentIDValidation() {
 	}))
 
 }
+
+func SetStudentDatetimeValidation() {
+	validator.CustomTypeTagMap.Set("datetimecheckfuture", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+
+		date := i.(time.Time)
+		if date.After(time.Now()) {
+			return false
+		} else {
+			return true
+		}
+	}))
+
+}

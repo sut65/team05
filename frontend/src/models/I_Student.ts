@@ -12,7 +12,7 @@ export interface StudentsInterface {
     Student_Name: string;
     Student_Password: string;
    
-    Datetime: string;
+    Datetime: Date;
 
     Course_ID: string;
     Course_Name: string;

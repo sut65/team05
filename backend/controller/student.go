@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/B6025212/team05/entity"
+	"golang.org/x/crypto/bcrypt"
 
 	"github.com/gin-gonic/gin"
 
@@ -42,13 +43,22 @@ func CreateStudent(c *gin.Context) {
 		Student_ID:       student.Student_ID,
 		Student_Name:     student.Student_Name,
 		Student_Password: student.Student_Password,
-		Datetime:         student.Datetime,
+		Datetime:         student.Datetime.Local(),
 		Course_ID:        student.Course_ID,
 		Dormitory_ID:     student.Dormitory_ID,
 		Admin_ID:         student.Admin_ID,
 	}
 
-	if err := entity.DB().Create(&student).Error; err != nil {
+	hidePassword, err := bcrypt.GenerateFromPassword([]byte(student.Student_Password), 14)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "error hidePassword"})
+		return
+	}
+
+	// Assign hashpassword to Customers_Password (replace the un-hash)
+	new_student.Student_Password = string(hidePassword)
+
+	if err := entity.DB().Create(&new_student).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -81,11 +91,27 @@ func GetStudentSearch(c *gin.Context) {
 
 func GetStudent(c *gin.Context) {
 
-	var student entity.Student
-
+	var student extendedStudent
 	student_id := c.Param("student_id")
 
 	if err := entity.DB().Raw("SELECT s.* , c.course_name , a.admin_email, d.dormitory_name FROM students s JOIN courses c JOIN dormitories d JOIN admins a ON s.course_id = c.course_id AND s.dormitory_id = d.dormitory_id AND s.admin_id = a.admin_id WHERE student_id = ?", student_id).Find(&student).Error; err != nil {
+
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": student})
+
+}
+
+func ListStudentAdmin(c *gin.Context) {
+
+	var student []extendedStudent
+	id := c.Param("student_id")
+
+	if err := entity.DB().Raw("SELECT s.*, dormitory_name ,admin_email,course_name FROM students s JOIN dormitories d JOIN admins a JOIN courses c ON s.dormitory_id = d.dormitory_id AND s.admin_id = a.admin_id AND s.course_id = c.course_id WHERE a.admin_id = ?", id).Find(&student).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -163,10 +189,21 @@ func UpdateStudents(c *gin.Context) {
 		Student_ID:       student.Student_ID,
 		Student_Name:     updated_Student_name,
 		Student_Password: updated_Student_password,
-		Datetime:         updated_Datetime,
+		Datetime:         updated_Datetime.Local(),
 		Course_ID:        updated_Course_name,
 		Dormitory_ID:     updated_Dormitory_name,
 		Admin_ID:         updated_Admin_name,
+	}
+
+	if !(student.Student_Password[0:7] == "$2a$14$") {
+		hidePassword, err := bcrypt.GenerateFromPassword([]byte(student.Student_Password), 14)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "error hide password"})
+			return
+
+		}
+		// Assign hashpassword
+		updated_student.Student_Password = string(hidePassword)
 	}
 
 	if err := entity.DB().Save(&updated_student).Error; err != nil {
@@ -174,5 +211,5 @@ func UpdateStudents(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": student})
+	c.JSON(http.StatusOK, gin.H{"data": updated_student})
 }

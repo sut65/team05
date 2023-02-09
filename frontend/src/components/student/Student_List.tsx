@@ -101,7 +101,8 @@ function Students_List() {
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - students.length) : 0;
 
     const getStudents = async () => {
-        fetch(`${apiUrl}/students`, requestOptions)
+        let uid = localStorage.getItem("id");
+        fetch(`${apiUrl}/studentadmin/${uid}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -229,7 +230,6 @@ function Students_List() {
                                 <TableRow sx={{ width: "auto" }}>
                                     <StyledTableCell width={100} sx={{ border: 1 }}>รหัสนักศึกษา</StyledTableCell>
                                     <StyledTableCell width={100} sx={{ border: 1 }}>ชื่อนักศึกษา</StyledTableCell>
-                                    <StyledTableCell width={100} sx={{ border: 1 }}>รหัสผ่านนักศึกษา</StyledTableCell>
                                     <StyledTableCell width={100} sx={{ border: 1 }}>วันที่เพิ่ม</StyledTableCell>
                                     <StyledTableCell width={100} sx={{ border: 1 }}>หอพัก</StyledTableCell>
                                     <StyledTableCell width={150} sx={{ border: 1 }}>หลักสูตร</StyledTableCell>
@@ -243,8 +243,7 @@ function Students_List() {
                                     <StyledTableRow key={row.Student_ID}>
                                         <TableCell>{row.Student_ID}</TableCell>
                                         <TableCell>{row.Student_Name}</TableCell>
-                                        <TableCell>{row.Student_Password}</TableCell>
-                                        <TableCell>{row.Datetime}</TableCell>
+                                        <TableCell>{row.Datetime.toString()}</TableCell>
                                         <TableCell>{row.Dormitory_ID}</TableCell>
                                         <TableCell>{row.Course_ID}</TableCell>
                                         <TableCell>{row.Admin_ID}</TableCell>

@@ -70,6 +70,7 @@ func main() {
 			api.GET("/students", controller.ListStudents)
 			api.GET("/students/:student_id", controller.GetStudentSearch)
 			api.GET("/student/:student_id", controller.GetStudent)
+			api.GET("/studentadmin/:student_id", controller.ListStudentAdmin)
 			api.POST("/students", controller.CreateStudent)
 			api.DELETE("/students/:student_id", controller.DeleteStudents)
 			api.PATCH("/students", controller.UpdateStudents)

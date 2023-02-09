@@ -167,21 +167,19 @@ function RequestCreate() {
       "Content-Type": "application/json",
     },
   };
-const getStudent = async () => {
-  let student_id = localStorage.getItem("id");
-  
-  fetch(`${apiUrl}/student/${student_id}`, requestOptions)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        request.Student_ID = res.data.Student_ID
-        
-      }
-      else {
-        console.log("else");
-      }
-    });
-};
+  const getStudent = async () => {
+    let student_id = localStorage.getItem("id");
+
+    fetch(`${apiUrl}/student/${student_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          request.Student_ID = res.data.Student_ID;
+        } else {
+          console.log("else");
+        }
+      });
+  };
 
   //----------subject----
 
@@ -193,9 +191,10 @@ const getStudent = async () => {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/subjects`, requestOptions)
+    fetch(`${apiUrl}/enrollsub`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
+        console.log(res);
         if (res.data) {
           setSubjects(res.data);
           console.log(res.data);
@@ -211,7 +210,7 @@ const getStudent = async () => {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/subject/${subject_id}`, requestOptions)
+    fetch(`${apiUrl}/enroll/${subject_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -278,6 +277,8 @@ const getStudent = async () => {
       Subject_ID: request.Subject_ID ?? "",
       Section: request.Section ?? "",
       Reason: request.Reason ?? "",
+      Exam_Schedule_ID: request.Exam_Schedule_ID ?? "",
+      Class_Schedule_ID: request.Class_Schedule_ID ?? "",
       Request_Type_ID: request.Request_Type_ID ?? "",
     };
     console.log(data);
@@ -442,6 +443,24 @@ const getStudent = async () => {
                       รายวิชา
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ border: 1 }}>
+                      วันเรียน
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      เริ่มเรียน
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      เลิกเรียน
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      วันสอบ
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      เริ่มสอบ
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      เลิกสอบ
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
                       หน่วยกิต
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ border: 1 }}>
@@ -474,6 +493,22 @@ const getStudent = async () => {
                       <StyledTableCell align="center">
                         {row.Subject_EN_Name}
                       </StyledTableCell>
+                      <StyledTableCell align="left">{row.Day}</StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Start_Time}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.End_Time}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Exam_Date}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Exam_Start_Time}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.Exam_End_Time}
+                      </StyledTableCell>
                       <StyledTableCell align="center">
                         {row.Unit}
                       </StyledTableCell>
@@ -493,8 +528,12 @@ const getStudent = async () => {
                           onClick={() => {
                             request.Subject_ID = row.Subject_ID;
                             request.Section = row.Section;
+                            request.Exam_Schedule_ID = row.Exam_Schedule_ID;
+                            request.Class_Schedule_ID = row.Class_Schedule_ID;
                             console.log(request.Subject_ID);
                             console.log(request.Section);
+                            console.log(request.Exam_Schedule_ID);
+                            console.log(request.Class_Schedule_ID);
                           }}
                         >
                           เพิ่ม

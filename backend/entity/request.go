@@ -25,6 +25,12 @@ type Request struct {
 	Subject    Subject `gorm:"references:Subject_ID" valid:"-"`
 	Section    uint
 
+	Exam_Schedule_ID *string `valid:"-"`
+	Exam_Schedule    Exam_Schedule `gorm:"references:Exam_Schedule_ID" valid:"-"`
+
+	Class_Schedule_ID *string `valid:"-"`
+	Class_Schedule    Class_Schedule `gorm:"references:Class_Schedule_ID" valid:"-"`
+
 	Reason string `valid:"required~Reason cannot be blank,reason_valid~Reason cannot be special characters or number,maxstringlength(30)~The reason cannot be more than 30 characters"`
 
 	Request_Type_ID *string

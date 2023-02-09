@@ -22,7 +22,19 @@ export interface RequestInterface {
     // Course: Subject;
     Course_Name: string;
     Course: Course;
+    Day: string;
+   
+    Start_Time: string;
+   
+    End_Time: string;
+   
+    Exam_Schedule_ID: string;
 
+    Exam_Date: string
+    Exam_Start_Time: string
+	Exam_End_Time: string
+    Class_Schedule_ID: string;
+    
     Section: number;
 
     Professor_ID:   string;
@@ -32,6 +44,6 @@ export interface RequestInterface {
     Request_Type: Request_TypeInterface;
     
     Request_Type_Name: string;
-    request_rype_name: Request_TypeInterface;
+    request_type_name: Request_TypeInterface;
 }
 

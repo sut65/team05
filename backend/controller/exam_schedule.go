@@ -26,7 +26,7 @@ func CreateExamSchedule(c *gin.Context) {
 	// ค้นหา entity Subject ด้วย id ของ Subject ที่รับเข้ามา
 	// SELECT * FROM `subjects` WHERE subject_id = <class_schedule.Subject_ID>
 	if tx := entity.DB().Where("subject_id = ?", exam_schedule.Subject_ID).First(&subject); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "subject not found"})
 		return
 	}
 
@@ -34,7 +34,7 @@ func CreateExamSchedule(c *gin.Context) {
 	// ค้นหา entity Room ด้วย id ของ Room ที่รับเข้ามา
 	// SELECT * FROM `rooms` WHERE room_id = <class_schedule.Room_ID>
 	if tx := entity.DB().Where("room_id = ?", exam_schedule.Room_ID).First(&room); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "room not found"})
 		return
 	}
 
@@ -42,7 +42,7 @@ func CreateExamSchedule(c *gin.Context) {
 	// ค้นหา entity Admin ด้วย id ของ Admin ที่รับเข้ามา
 	// SELECT * FROM `admins` WHERE admin_id = <class_schedule.Admin_ID>
 	if tx := entity.DB().Where("admin_id = ?", exam_schedule.Admin_ID).First(&admin); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
 		return
 	}
 

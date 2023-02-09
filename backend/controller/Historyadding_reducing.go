@@ -133,13 +133,14 @@ func CreateAdding_reducing(c *gin.Context) {
 // List /adding_reducing
 func ListAdding_reducing(c *gin.Context) {
 	var extendedAdding_reducing []extendedAdding_reducing
+	id := c.Param("student_id")
 	// if err := entity.DB().Raw("SELECT e.*, c.* FROM requests e JOIN subjects c ON e.subject_id = c.subject_id  AND  e.section = c.section").Scan(&request).Error; err != nil {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	// 	return
 	// }
 
 	//เป้นฟังก์ชั่นที่เรียกใช้ค่าในหน้าadding.tsx จากในdatabase
-	query := entity.DB().Raw("SELECT a.*, s.*, at.*,c.*,sd.*,e.* FROM adding_reducings a JOIN enrolls e JOIN history_types at JOIN courses c JOIN students sd JOIN subjects s ON a.enroll_id = e.enroll_id AND  e.subject_id = s.subject_id AND   s.section = e.section AND   a.history_type_id = at.history_type_id AND s.course_id = c.course_id AND sd.student_id = e.student_id").Scan(&extendedAdding_reducing)
+	query := entity.DB().Raw("SELECT a.*, s.*, at.*,c.*,sd.*,e.* FROM adding_reducings a JOIN enrolls e JOIN history_types at JOIN courses c JOIN students sd JOIN subjects s ON a.enroll_id = e.enroll_id AND  e.subject_id = s.subject_id AND   s.section = e.section AND   a.history_type_id = at.history_type_id AND s.course_id = c.course_id AND sd.student_id = e.student_id  WHERE e.student_id = ?",id).Scan(&extendedAdding_reducing)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

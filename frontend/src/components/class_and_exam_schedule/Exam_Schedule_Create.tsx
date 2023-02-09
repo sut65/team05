@@ -7,9 +7,9 @@ import { Subject } from "../../models/I_Subject";
 import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import { DatePicker } from "@mui/x-date-pickers";
-
+import { DatePicker, TimePicker } from "@mui/x-date-pickers";
+import { formatTime, formatDate } from "../services/FormatDateTime";
+import Swal from 'sweetalert2'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -85,6 +85,8 @@ function Exam_Schedule_Create() {
     const [exam_schedule_id, setExamScheduleID] = React.useState<string>();
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
+    const [exam_start_time, setExamStartTime] = React.useState<Dayjs | null>(null);
+    const [exam_end_time, setExamEndTime] = React.useState<Dayjs | null>(null);
 
     const apiUrl = "http://localhost:8080";
 
@@ -199,12 +201,13 @@ function Exam_Schedule_Create() {
             Exam_Schedule_ID: exam_schedule.Exam_Schedule_ID ?? "",
             Subject_ID: exam_schedule.Subject_ID ?? "",
             Room_ID: exam_schedule.Room_ID ?? "",
-            Admin_ID: exam_schedule.Admin_ID ?? "",
+            Admin_ID: localStorage.getItem("id"),
             Exam_Type: exam_schedule.Exam_Type ?? "",
-            Exam_Date: exam_schedule.Exam_Date ?? "",
-            Exam_Start_Time: exam_schedule.Exam_Start_Time ?? "",
-            Exam_End_Time: exam_schedule.Exam_End_Time ?? "",
+            Exam_Date: formatDate(exam_date),
+            Exam_Start_Time: formatTime(exam_start_time),
+            Exam_End_Time: formatTime(exam_end_time),
         }
+        console.log(data)
 
         const requestOptionsPost = {
             method: "POST",
@@ -213,18 +216,34 @@ function Exam_Schedule_Create() {
                 "Content-Type": "application/json" },
             body: JSON.stringify(data),
         };
-
-        console.log(data)
-        fetch(`${apiUrl}/exam_schedules`, requestOptionsPost)
-            .then((response) => response.json())
-            .then((res) => {
-                console.log(res)
-                if (res.data) {
-                    setSuccess(true);
-                } else {
-                    setError(true);
-                }
-            });
+        
+        Swal.fire({
+            title: 'Do you want to save this exam schedule data?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`${apiUrl}/exam_schedules`, requestOptionsPost)
+                .then((response) => response.json())
+                .then((res) => {
+                    if (res.data) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Saved!',
+                            text: 'Success',
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: res.error,
+                        })
+                    }
+                });
+            } 
+        })
     }
     return (
         <Container
@@ -287,8 +306,7 @@ function Exam_Schedule_Create() {
                         <Box sx={{ padding: 1 }}>
                             <Button
                                 onClick={() => {
-                                    // class_schedule.Class_Schedule_ID = `CLS-${class_schedule.Subject_ID}-${class_schedule.Section}-${class_schedule.Room_ID}-${class_schedule.Day}-${class_schedule.Start_Time}-${class_schedule.End_Time}`
-                                    exam_schedule.Exam_Schedule_ID = `EXAM-${exam_schedule.Subject_ID}-${exam_schedule.Room_ID}-${exam_schedule.Exam_Type}-${exam_schedule.Exam_Date}-${exam_schedule.Exam_Start_Time}-${exam_schedule.Exam_End_Time}`
+                                    exam_schedule.Exam_Schedule_ID = `EXAM${exam_schedule.Subject_ID}-${exam_schedule.Room_ID}-${exam_schedule.Exam_Type}-${formatDate(exam_date)}-${formatTime(exam_start_time)}-${formatTime(exam_end_time)}`
                                     // setClassScheduleID(class_schedule.Class_Schedule_ID)
                                     setExamScheduleID(exam_schedule.Exam_Schedule_ID);
                                 }}
@@ -355,28 +373,32 @@ function Exam_Schedule_Create() {
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
                             <Typography sx={{ fontFamily: 'Mitr-Regular' }}> เวลาเริ่มสอบ </Typography>
                             <FormControl fullWidth>
-                                <TextField
-                                    id="Exam_Start_Time"
-                                    variant="standard"
-                                    type="string"
-                                    value={exam_schedule.Exam_Start_Time}
-                                    onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
-                                />
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <TimePicker
+                                        ampm={false}
+                                        value={exam_start_time}
+                                        onChange={(newValue) => {
+                                            setExamStartTime(newValue)
+                                        }}
+                                        renderInput={(params) => <TextField variant="standard" {...params} />}
+                                    />
+                                </LocalizationProvider>
                             </FormControl>
                         </Box>
 
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
                             <Typography sx={{ fontFamily: 'Mitr-Regular' }}> เวลาสิ้นสุดการสอบ </Typography>
                             <FormControl fullWidth>
-                                <TextField
-                                    id="Exam_End_Time"
-                                    variant="standard"
-                                    type="string"
-                                    value={exam_schedule.Exam_End_Time}
-                                    onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
-                                />
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <TimePicker
+                                        ampm={false}
+                                        value={exam_end_time}
+                                        onChange={(newValue) => {
+                                            setExamEndTime(newValue)
+                                        }}
+                                        renderInput={(params) => <TextField variant="standard" {...params} />}
+                                    />
+                                </LocalizationProvider>
                             </FormControl>
                         </Box>
 

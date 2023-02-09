@@ -28,7 +28,7 @@ func ValidateExamScheduleUnique(new_exam_schedule entity.Exam_Schedule) (bool, e
 	var new_room_id = new_exam_schedule.Room.Room_ID
 	var new_exam_start_time = new_exam_schedule.Exam_Start_Time
 	var new_exam_end_time = new_exam_schedule.Exam_End_Time
-
+	fmt.Println(new_subject_id, new_exam_type, new_exam_date, new_room_id, new_exam_start_time, new_exam_end_time)
 	// ตรวจสอบว่าใน database มีรายวิชาอื่นที่ใช้ห้องสอบ ในช่วงเวลาและวัน/เดือน/ปีและประเภทการสอบดังกล่าวหรือไม่
 	/*
 		SELECT * FROM exam_schedules

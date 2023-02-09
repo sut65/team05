@@ -16,5 +16,21 @@ export function formatTime(date_time : Dayjs | null){
 }
 
 export function formatDate(date_time : Dayjs | null){
-    return `${date_time?.year()}-${date_time?.month()! + 1}-${date_time?.date()}`
+    const day = date_time?.date()
+    const month = date_time?.month()! + 1
+    const year = date_time?.year()
+
+    // if day < 10 and month < 10
+    if (day! < 10 && month! < 10){
+        return `0${day}/0${month}/${year}`
+    }
+    // if day >= 10 and month < 10
+    else if (day! >= 10 && month! < 10){
+        return `${day}/0${month}/${year}`
+    } 
+    else {
+        return `${day}/${month}/${year}`
+    }
+
+    // if day >= 10 and month >= 10
 }

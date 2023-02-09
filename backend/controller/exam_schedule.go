@@ -48,8 +48,9 @@ func CreateExamSchedule(c *gin.Context) {
 		return
 	}
 
+	var new_exam_schedule_id = fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000)
 	new_exam_schedule := entity.Exam_Schedule{
-		Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+		Exam_Schedule_ID: new_exam_schedule_id,
 		Subject:          subject,
 		Room:             room,
 		Exam_Type:        exam_schedule.Exam_Type,

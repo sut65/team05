@@ -53,8 +53,9 @@ func CreateClassSchedule(c *gin.Context) {
 		return
 	}
 
+	var new_class_schedule_id = fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000)
 	new_class_schedule := entity.Class_Schedule{
-		Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+		Class_Schedule_ID:          new_class_schedule_id,
 		Subject:                    subject,
 		Section:                    class_schedule.Section,
 		Room:                       room,
@@ -64,6 +65,9 @@ func CreateClassSchedule(c *gin.Context) {
 		Start_Time:                 class_schedule.Start_Time,
 		End_Time:                   class_schedule.End_Time,
 	}
+
+	fmt.Println(new_class_schedule.Class_Schedule_ID)
+
 	if _, err := govalidator.ValidateStruct(new_class_schedule); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

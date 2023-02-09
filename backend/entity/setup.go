@@ -124,9 +124,14 @@ func SetupDatabase() {
 		////---------------------------------------------------------------
 
 		engineering := Institute{Institute_ID: "ENG", Institute_Name: "Engineering"}
+
 		medical := Institute{Institute_ID: "MED", Institute_Name: "Medical"}
+
+		science := Institute{Institute_ID: "SCI", Institute_Name: "Science"}
+
 		db.Create(&engineering)
 		db.Create(&medical)
+		db.Create(&science)
 
 		cpe := Major{Major_ID: "CPE", Major_Name: "Computer Engineering", Institute: engineering}
 		ee := Major{Major_ID: "EE", Major_Name: "Electrical Engineering", Institute: engineering}
@@ -134,7 +139,14 @@ func SetupDatabase() {
 		polymer := Major{Major_ID: "PE", Major_Name: "Polymer Engineering", Institute: engineering}
 		civil := Major{Major_ID: "CIVIL", Major_Name: "Civil Engineering", Institute: engineering}
 		mechanical := Major{Major_ID: "ME", Major_Name: "Mechanical Engineering", Institute: engineering}
+		telecom := Major{Major_ID: "TE", Major_Name: "Telecommunication Engineering", Institute: engineering}
+		industrial := Major{Major_ID: "IE", Major_Name: "Industrial Engineering", Institute: engineering}
+
 		ph := Major{Major_ID: "PH", Major_Name: "Public Health", Institute: medical}
+		com_sci := Major{Major_ID: "CS", Major_Name: "Computer Science", Institute: science}
+		physics := Major{Major_ID: "PHYSC", Major_Name: "Physics", Institute: science}
+		biology := Major{Major_ID: "BIO", Major_Name: "Biology", Institute: science}
+		chemical := Major{Major_ID: "CHEM", Major_Name: "Chemistry", Institute: science}
 
 		db.Create(&cpe)
 		db.Create(&ee)
@@ -143,6 +155,12 @@ func SetupDatabase() {
 		db.Create(&polymer)
 		db.Create(&civil)
 		db.Create(&mechanical)
+		db.Create(&telecom)
+		db.Create(&industrial)
+		db.Create(&com_sci)
+		db.Create(&physics)
+		db.Create(&biology)
+		db.Create(&chemical)
 
 		//Qualification
 		qualification1 := Qualification{

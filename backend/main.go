@@ -137,6 +137,7 @@ func main() {
 			api.GET("/approvalprofessor/:approval_id", controller.ListApprovalProfessor)
 			api.GET("/approvalupdate/:approval_id", controller.ListApprovalForUpdate)
 			api.GET("/approvalstudent/:student_id", controller.ListApprovalStudent)
+			api.POST("/approvalandadding", controller.CreateApprovalAdding_reducing)
 			// Approval_Type
 			api.GET("/approval_types", controller.ListApproval_Type)
 			api.GET("/approval_type/:approval_type_id", controller.GetApproval_Type)

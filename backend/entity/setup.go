@@ -2,6 +2,7 @@ package entity
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -124,9 +125,14 @@ func SetupDatabase() {
 		////---------------------------------------------------------------
 
 		engineering := Institute{Institute_ID: "ENG", Institute_Name: "Engineering"}
+
 		medical := Institute{Institute_ID: "MED", Institute_Name: "Medical"}
+
+		science := Institute{Institute_ID: "SCI", Institute_Name: "Science"}
+
 		db.Create(&engineering)
 		db.Create(&medical)
+		db.Create(&science)
 
 		cpe := Major{Major_ID: "CPE", Major_Name: "Computer Engineering", Institute: engineering}
 		ee := Major{Major_ID: "EE", Major_Name: "Electrical Engineering", Institute: engineering}
@@ -134,7 +140,14 @@ func SetupDatabase() {
 		polymer := Major{Major_ID: "PE", Major_Name: "Polymer Engineering", Institute: engineering}
 		civil := Major{Major_ID: "CIVIL", Major_Name: "Civil Engineering", Institute: engineering}
 		mechanical := Major{Major_ID: "ME", Major_Name: "Mechanical Engineering", Institute: engineering}
+		telecom := Major{Major_ID: "TE", Major_Name: "Telecommunication Engineering", Institute: engineering}
+		industrial := Major{Major_ID: "IE", Major_Name: "Industrial Engineering", Institute: engineering}
+
 		ph := Major{Major_ID: "PH", Major_Name: "Public Health", Institute: medical}
+		com_sci := Major{Major_ID: "CS", Major_Name: "Computer Science", Institute: science}
+		physics := Major{Major_ID: "PHYSC", Major_Name: "Physics", Institute: science}
+		biology := Major{Major_ID: "BIO", Major_Name: "Biology", Institute: science}
+		chemical := Major{Major_ID: "CHEM", Major_Name: "Chemistry", Institute: science}
 
 		db.Create(&cpe)
 		db.Create(&ee)
@@ -143,6 +156,12 @@ func SetupDatabase() {
 		db.Create(&polymer)
 		db.Create(&civil)
 		db.Create(&mechanical)
+		db.Create(&telecom)
+		db.Create(&industrial)
+		db.Create(&com_sci)
+		db.Create(&physics)
+		db.Create(&biology)
+		db.Create(&chemical)
 
 		//Qualification
 		qualification1 := Qualification{
@@ -220,7 +239,7 @@ func SetupDatabase() {
 			Student_ID:       "B6310211",
 			Student_Name:     "ปีเตอร์ สงบสุข",
 			Student_Password: string(student1_password),
-			Datetime:         "22/08/2563",
+			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
 			Dormitory:        dormitory2,
@@ -231,7 +250,7 @@ func SetupDatabase() {
 			Student_ID:       "B6200233",
 			Student_Name:     "สมพงษ์ วิ่งวุฒิ",
 			Student_Password: string(student2_password),
-			Datetime:         "22/09/2563",
+			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
 			Dormitory:        dormitory2,
@@ -242,7 +261,7 @@ func SetupDatabase() {
 			Student_ID:       "B6201259",
 			Student_Name:     "สมใจ ใยดี",
 			Student_Password: string(student3_password),
-			Datetime:         "22/10/2563",
+			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
 			Dormitory:        dormitory2,
@@ -636,6 +655,45 @@ func SetupDatabase() {
 			Building: building_b6,
 		}
 
+		room_b1214 := Room{
+			Room_ID:  "B1214",
+			Seats:    75,
+			RoomType: lecture_room_type,
+			Admin:    admin2,
+			Building: building_b1,
+		}
+		room_b1209 := Room{
+			Room_ID:  "B1209",
+			Seats:    60,
+			RoomType: lecture_room_type,
+			Admin:    admin2,
+			Building: building_b1,
+		}
+
+		room_b1120 := Room{
+			Room_ID:  "B1120",
+			Seats:    60,
+			RoomType: lecture_room_type,
+			Admin:    admin2,
+			Building: building_b1,
+		}
+
+		room_b1118 := Room{
+			Room_ID:  "B1118",
+			Seats:    60,
+			RoomType: lecture_room_type,
+			Admin:    admin2,
+			Building: building_b1,
+		}
+
+		room_b1134 := Room{
+			Room_ID:  "B1134",
+			Seats:    60,
+			RoomType: lecture_room_type,
+			Admin:    admin2,
+			Building: building_b1,
+		}
+
 		room_F11_software := Room{
 			Room_ID:  "F1142Software",
 			Seats:    60,
@@ -644,12 +702,17 @@ func SetupDatabase() {
 			Admin:    admin3,
 		}
 		db.Create(&room_b2101)
+		db.Create(&room_b1120)
+		db.Create(&room_b1118)
+		db.Create(&room_b1134)
+		db.Create(&room_b1214)
+		db.Create(&room_b1209)
 		db.Create(&room_b4101)
 		db.Create(&room_F11_micro)
 		db.Create(&room_F11_software)
 		db.Create(&room_b6105)
 		pluri_thai_class := Class_Schedule{
-			Class_Schedule_ID:          "CLSIST202502-1-B4101-Wed-13:00-15:00",
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:                    pluri_thai,
 			Section:                    1,
 			Room:                       room_b4101,
@@ -662,7 +725,7 @@ func SetupDatabase() {
 		db.Create(&pluri_thai_class)
 
 		system_analysis_sec1_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523331-1-B2101-Mon-13:00-15:00",
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:                    system_analysis_sec1,
 			Section:                    1,
 			Room:                       room_b2101,
@@ -674,7 +737,7 @@ func SetupDatabase() {
 		}
 
 		system_analysis_sec2_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523331-2-B2101-Mon-13:00-15:00",
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:                    system_analysis_sec2,
 			Section:                    2,
 			Room:                       room_b2101,
@@ -686,7 +749,7 @@ func SetupDatabase() {
 		}
 
 		os_sec1_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523354-1-B2101-Tue-13:00-15:00",
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:                    operating_system_sec1,
 			Section:                    1,
 			Room:                       room_b2101,
@@ -698,7 +761,7 @@ func SetupDatabase() {
 		}
 
 		os_sec2_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523354-2-B2101-Tue-13:00-15:00",
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:                    operating_system_sec2,
 			Section:                    2,
 			Room:                       room_b2101,
@@ -711,7 +774,7 @@ func SetupDatabase() {
 		db.Create(&os_sec2_class)
 
 		ann_sec1_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523414-1-B6105-Mon-09:00-12:00",
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:                    artificial_neural_network,
 			Section:                    1,
 			Room:                       room_b6105,
@@ -723,7 +786,7 @@ func SetupDatabase() {
 		}
 
 		kdd_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523211-1-B6105-Fri-10:00-12:00",
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:                    knowledge_discovery_and_data_mining,
 			Section:                    1,
 			Room:                       room_b6105,
@@ -735,7 +798,7 @@ func SetupDatabase() {
 		}
 		// Class_D : {Day : "Tue", Room_ID: "F-11-MicroP", 	 Start_Time:16:00, End_Time:19:00}
 		os_lab_sec1_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523354-1-F1142Software-Thu-13:00-16:00",
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:                    operating_system_sec1,
 			Section:                    1,
 			Room:                       room_F11_software,
@@ -747,7 +810,7 @@ func SetupDatabase() {
 		}
 
 		os_lab_sec2_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523354-2-F1142Software-Thu-16:00-19:00",
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:                    operating_system_sec2,
 			Section:                    2,
 			Room:                       room_F11_software,
@@ -759,7 +822,7 @@ func SetupDatabase() {
 		}
 
 		problem_solving_sec1_class := Class_Schedule{
-			Class_Schedule_ID:          "CLS523203-1-F1142Software-Mon-13:00-16:00",
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:                    problem_solving_sec1,
 			Section:                    1,
 			Room:                       room_F11_software,
@@ -780,7 +843,7 @@ func SetupDatabase() {
 		db.Create(&kdd_class)
 
 		system_analysis_midterm := Exam_Schedule{
-			Exam_Schedule_ID: "EXAM523331-B2101-Mid-1805-15:00-17:00",
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:          system_analysis_sec1,
 			Room:             room_b2101,
 			Admin:            admin2,
@@ -791,7 +854,7 @@ func SetupDatabase() {
 		}
 
 		system_analysis_final := Exam_Schedule{
-			Exam_Schedule_ID: "EXAM523331-B2101-Fin-2107-09:00-12:00",
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:          system_analysis_sec1,
 			Room:             room_b6105,
 			Admin:            admin2,
@@ -804,7 +867,7 @@ func SetupDatabase() {
 		db.Create(&system_analysis_final)
 
 		os_final := Exam_Schedule{
-			Exam_Schedule_ID: "EXAM523354-B6105-Fin-2207-15:00-17:00",
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:          operating_system_sec1,
 			Room:             room_b6105,
 			Admin:            admin1,
@@ -815,7 +878,7 @@ func SetupDatabase() {
 		}
 
 		ann_midterm := Exam_Schedule{
-			Exam_Schedule_ID: "EXAM523414-B6105-Mid-1905-09:00-12:00",
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:          artificial_neural_network,
 			Room:             room_b6105,
 			Admin:            admin1,
@@ -842,22 +905,26 @@ func SetupDatabase() {
 
 		///------------------------Request------------------------
 		Request1 := Request{
-			Request_ID:   1,
-			Reason:       "อยากเรียน",
-			Student:      student1,
-			Section:      2,
-			Subject:      operating_system_sec2,
-			Request_Type: Request_Type1,
+			Request_ID:     1,
+			Reason:         "อยากเรียน",
+			Student:        student2,
+			Section:        2,
+			Subject:        software_engineering_sec1,
+			Class_Schedule: system_analysis_sec1_class,
+			Exam_Schedule:  system_analysis_midterm,
+			Request_Type:   Request_Type1,
 		}
 		db.Create(&Request1)
 
 		Request2 := Request{
-			Request_ID:   2,
-			Reason:       "เวลาเรียนชน",
-			Student:      student1,
-			Section:      1,
-			Subject:      problem_solving_sec1,
-			Request_Type: Request_Type2,
+			Request_ID:     2,
+			Reason:         "เวลาเรียนชน",
+			Student:        student1,
+			Section:        1,
+			Subject:        operating_system_sec1,
+			Class_Schedule: os_sec1_class,
+			Exam_Schedule:  os_final,
+			Request_Type:   Request_Type2,
 		}
 		db.Create(&Request2)
 		enroll1 := Enroll{

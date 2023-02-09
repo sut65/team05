@@ -19,6 +19,9 @@ import AddIcon from '@mui/icons-material/Add';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Link as RouterLink } from "react-router-dom";
 import { AdminInterface } from "../../models/I_Admin";
+import dayjs, { Dayjs } from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers";
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -34,9 +37,12 @@ function Student_Update() {
     const [student_id, setStudentID] = React.useState<string>();
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
+    const [datetime, setDatetime] = React.useState<Dayjs | null>(dayjs);
 
     const [searchedStudent, setSearchStudent] = React.useState<string>();
     const apiUrl = "http://localhost:8080";
+    const [message, setAlertMessage] = React.useState("");
+
 
     const handleClose = (
         event?: React.SyntheticEvent | Event,
@@ -56,18 +62,20 @@ function Student_Update() {
           "Content-Type": "application/json",
         },
     };
-     const getAdmins = async () => {
-      fetch(`${apiUrl}/admins`, requestOptionsGet)
+    const getAdminID = async () => {
+      let uid = localStorage.getItem("id");
+    
+      fetch(`${apiUrl}/admin/${uid}`, requestOptionsGet)
           .then((response) => response.json())
           .then((res) => {
               if (res.data) {
-                  console.log(res.data)
-                  setAdmins(res.data);
+                  students.Admin_ID = res.data.Admin_ID
+    
               } else {
                   console.log("else");
               }
           });
-        }
+    };
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: unknown }>
     ) => {
@@ -135,12 +143,11 @@ function Student_Update() {
 
           Admin_ID: students.Admin_ID ?? "",
 
-
           Student_Name: students.Student_Name ?? "",
-      
+
           Student_Password: students.Student_Password ?? "",
-      
-          Datetime: students.Datetime,
+            
+          Datetime: datetime,
       
           Course_ID: students.Course_ID ?? "",
       
@@ -161,10 +168,11 @@ function Student_Update() {
             .then((res) => {
                 console.log(res)
                 if (res.data) {
-                    setSuccess(true);
-                } else {
-                    setError(true);
-                }
+                  setSuccess(true);
+              } else {
+                  setAlertMessage(res.error);
+                  setError(true);
+              }
             });
 
     }
@@ -173,7 +181,7 @@ function Student_Update() {
         getStudents();
         getDormitorys();
         getCourse();
-        getAdmins();
+        getAdminID();
         getSendedStudent();
     }, []);
 
@@ -204,7 +212,7 @@ function Student_Update() {
    
           <Alert onClose={handleClose} severity="error">
    
-            แก้ไขข้อมูลไม่สำเร็จ
+            {message}
    
           </Alert>
    
@@ -253,37 +261,27 @@ function Student_Update() {
           <Divider />
    
           <Grid container spacing={3} sx={{ padding: 2 }}>
-<Grid item xs={6} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
-              fontWeight : 'bold' ,fontSize:27}}>
-               <FormControl fullWidth variant="outlined">
-                 
-                 <p>แอดมินที่จัดการข้อมูล</p>
-                 <Select
-                                   variant="standard"
-                                   id="Admin_ID"
-                                   value={students.Admin_ID}
-                                   onChange={handleSelectChange}
-                                   inputProps={{
-                                       name: "Admin_ID",
-                                       style: {
-                                           fontFamily: 'LilyUPC'
-                                       }
-                                   }}
-   
-                               >
-                                   {admins.map((item: AdminInterface) => (
-                                       <MenuItem
-                                           value={item.Admin_ID}
-                                           key={item.Admin_ID}
-                                       >
-                                           {item.Admin_Email}
-                                       </MenuItem>
-                                   ))}
-                               </Select>
-                   
-               </FormControl>
-             </Grid>
+          <Grid item xs={4} color="#FF0606" 
+          sx={{  fontFamily : "LilyUPC" ,
+           fontWeight : 'bold' ,fontSize:27}}>
+          <p>รหัสแอดมิน</p>
+
+        <FormControl fullWidth variant="outlined">
+        <TextField
+                                variant="outlined"
+                                id="Admin_ID"
+                                type="string"
+                                disabled
+                                value={students.Admin_ID }
+                                inputProps={{
+                                  name: "Admin_ID",
+                                }}
+                                onChange={handleInputChange}
+                            />
+
+        </FormControl>
+
+        </Grid>
    
           <Grid item xs={4} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,
@@ -355,6 +353,8 @@ function Student_Update() {
                   type="string"
    
                   size="medium"
+                  
+                  disabled
    
                   value={students.Student_Password || ""}
    
@@ -369,25 +369,20 @@ function Student_Update() {
             <Grid item xs={4} color="#115686" 
           sx={{  fontFamily : "LilyUPC" ,
            fontWeight : 'bold' ,fontSize:27}}>
-          <p>วันที่เพิ่ม</p>
-
            <FormControl fullWidth variant="outlined">
 
-             <TextField
-
-               id="Datetime"
-
-               variant="outlined"
-
-               type="string"
-
-               size="medium"
-
-               value={students.Datetime || ""}
-
-               onChange={handleInputChange}
-             />
-           </FormControl>
+<p>วันเวลาที่จัดการ</p>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+     renderInput={(params) => <TextField {...params} />}
+     value={datetime}
+     onChange={(newValue: Dayjs | null) => {
+       setDatetime(newValue);
+       console.log(newValue)
+     }}
+   />
+               </LocalizationProvider>
+</FormControl>
          </Grid>
    
             <Grid item xs={6} color="#115686" 

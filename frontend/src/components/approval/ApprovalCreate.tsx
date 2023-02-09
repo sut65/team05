@@ -27,9 +27,11 @@ import TablePagination from "@mui/material/TablePagination";
 import TableFooter from "@mui/material/TableFooter";
 import SearchIcon from "@mui/icons-material/Search";
 import { SelectChangeEvent } from "@mui/material/Select";
-import {InputLabel,MenuItem,Select,SvgIcon, Toolbar,} from "@mui/material";
+import { InputLabel, MenuItem, Select, SvgIcon, Toolbar } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { RequestInterface } from "../../models/IRequest";
+import { EnrollInterface } from "../../models/I_Enroll";
+import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -58,7 +60,10 @@ function ApprovalCreate() {
   const [message, setAlertMessage] = React.useState("");
   const navigate = useNavigate();
   const params = useParams();
-
+  const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
+  const [adding_reducing, setAdding_reducing] = React.useState<
+    Partial<Adding_reducingInterface>
+  >({});
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -203,7 +208,7 @@ function ApprovalCreate() {
       },
     };
     console.log(searchSubjectID);
-    fetch(`${apiUrl}/requests/${searchSubjectID}`, approvalOptions)
+    fetch(`${apiUrl}/requests/${subject_id}`, approvalOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -226,7 +231,7 @@ function ApprovalCreate() {
       });
   };
 
-  // fetch previous ActivityMember
+  // fetch previous Approval
   const getPrevApproval = async () => {
     fetch(`${apiUrl}/previous_approval`, approvalOptionsGet)
       .then((response) => response.json())
@@ -245,7 +250,6 @@ function ApprovalCreate() {
     getApproval_Type();
     getPrevApproval();
     getProfessor();
-
     if (searchSubjectID == "") {
       getRequests();
     } else {
@@ -260,7 +264,7 @@ function ApprovalCreate() {
         typeof approval.Approval_ID === "string"
           ? parseInt(approval.Approval_ID)
           : approval.Approval_ID,
-      Professor_ID: approval.Professor_ID ?? "",
+      Professor_ID: localStorage.getItem("id"),
       Request_ID:
         typeof approval.Request_ID === "string"
           ? parseInt(approval.Request_ID)
@@ -268,30 +272,67 @@ function ApprovalCreate() {
       Section: approval.Section ?? "",
       Reason: approval.Reason ?? "",
       Approval_Type_ID: approval.Approval_Type_ID ?? "",
+
+      //update enroll
+      Enroll_ID: enroll.Enroll_ID ?? `${Math.random().toString().slice(2,11)}`,
+      Student_ID: enroll.Student_ID ?? "",
+      Subject_ID: enroll.Subject_ID ?? "",
+      Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
+      Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
+      Change_ID:
+        typeof adding_reducing.Change_ID === "string"
+          ? parseInt(adding_reducing.Change_ID)
+          : adding_reducing.Change_ID,
+      History_Type_ID: (adding_reducing.History_Type_ID = "HT1"),
     };
     console.log(data);
 
     // const apiUrl = "http://localhost:8080/approvals";
-    const approvalOptions = {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
 
-    fetch(`${apiUrl}/approvals`, approvalOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          setSuccess(true);
-        } else {
-          setAlertMessage(res.error);
-          setError(true);
-        }
-      });
+    if (approval?.Approval_Type_ID == "Y01") {
+      const apiUrl1 = "http://localhost:8080";
+      const requestOptionsGet = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      };
+
+      fetch(`${apiUrl1}/approvalandadding`, requestOptionsGet)
+        .then((response) => response.json())
+        .then((res) => {
+          console.log(res);
+           if (res.data) {
+             setSuccess(true);
+           } else {
+             setAlertMessage(res.error);
+             setError(true);
+           }
+        });
+    } else {
+          const approvalOptions = {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          };
+
+          fetch(`${apiUrl}/approvals`, approvalOptions)
+            .then((response) => response.json())
+            .then((res) => {
+              console.log(res);
+              if (res.data) {
+                setSuccess(true);
+              } else {
+                setAlertMessage(res.error);
+                setError(true);
+              }
+            });
+    }
   }
 
   return (
@@ -506,8 +547,16 @@ function ApprovalCreate() {
                           onClick={() => {
                             approval.Request_ID = row.Request_ID;
                             approval.Section = row.Section;
+
+                            enroll.Student_ID = row.Student_ID;
+                            enroll.Subject_ID = row.Subject_ID;
+                            enroll.Section = row.Section;
+                            enroll.Exam_Schedule_ID = row.Exam_Schedule_ID;
+                            enroll.Class_Schedule_ID = row.Class_Schedule_ID;
                             console.log(approval.Request_ID);
                             console.log(approval.Section);
+                            console.log(enroll.Exam_Schedule_ID);
+                            console.log(enroll.Class_Schedule_ID);
                           }}
                         >
                           เพิ่ม

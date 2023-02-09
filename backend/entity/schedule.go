@@ -22,7 +22,7 @@ type Class_Schedule struct {
 }
 
 type Exam_Schedule struct {
-	Exam_Schedule_ID string `gorm:"primaryKey"`
+	Exam_Schedule_ID string `gorm:"primaryKey" valid:"required~Exam Schedule ID Cannot be blank"`
 
 	Subject_ID *string `valid:"-"`
 	Subject    Subject `gorm:"references:Subject_ID" valid:"-"`

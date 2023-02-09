@@ -236,12 +236,6 @@ const getSubjectByCourseID = async (course_id: any) => {
 };
 
 
-
-
-
-
-
-
   //ใช้ค้นหารหัสวิชาจากที่เลือกมาใช้
   const getSubjectBySubjectID = async (subject_id: any) => {
     const requestOptions = {
@@ -306,8 +300,6 @@ const getSubjectByCourseID = async (course_id: any) => {
   }, []);
 
   function submit() {
-    
-    
     let data = {
       Enroll_ID: enroll.Enroll_ID ?? "",
       Student_ID: adding_reducing.Student_ID ?? "",
@@ -341,7 +333,7 @@ const getSubjectByCourseID = async (course_id: any) => {
         } else {
           setError(true);
         }
-        window.location.href ="/adding_reducing/create";});
+        });
     
   }
 
@@ -488,7 +480,7 @@ const getSubjectByCourseID = async (course_id: any) => {
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell align="left">{row.Subject_ID}</TableCell>
-                      <TableCell align="left">{row.Course_ID}</TableCell>
+                      
                       <TableCell align="left">{row.Subject_TH_Name}</TableCell>
                       <TableCell align="left">{row.Subject_EN_Name}</TableCell>
                       <TableCell align="left">{row.Day}</TableCell>

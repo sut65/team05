@@ -192,7 +192,7 @@ func main() {
 			r.GET("/enrollsubs/:subject_id", controller.GetEnrollSubject)
 			r.GET("/subjectd/:coruse_id", controller.GetSubjectByCourse)
 			//---------------------adding_reducings----------------------
-			api.GET("/adding_reducings", controller.ListAdding_reducing)
+			api.GET("/adding_reducings/:student_id", controller.ListAdding_reducing)
 			api.GET("/previous_adding", controller.GetPreviousAdding_reducing)
 			api.POST("/adding_reducings", controller.CreateAdding_reducing)
 			api.PATCH("/adding_reducings", controller.UpdateEnrollforadding)

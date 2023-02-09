@@ -37,6 +37,7 @@ type Request struct {
 	Request_Type    Request_Type `gorm:"references:Request_Type_ID" valid:"-"`
 }
 
+//ห้ามเป็นตัวอักษรพิเศษและตัวเลข
 func SetRequestValidation() {
 	validator.CustomTypeTagMap.Set("reason_valid", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 		str := i.(string)

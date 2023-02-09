@@ -2,6 +2,7 @@ package entity
 
 import (
 	"regexp"
+	"time"
 
 	validator "github.com/asaskevich/govalidator"
 )
@@ -40,7 +41,7 @@ type Course struct {
 
 	Course_Name string `valid:"coursenamechecklanguage~Course Name cannot be English Language,required~Course Name cannot be null,maxstringlength(35)~Course Name can not greater than 10 character"`
 
-	Datetime string `valid:"required~Datetime cannot be null,datetimechecknumber~Datetime cannot be English or thai language,maxstringlength(10)~Datetime cannot greater than 10 character"`
+	Datetime time.Time `valid:"required~Datetime cannot be null,datetimecheckfuture~Datetime cannot be future"`
 
 	Qualification_ID *string       `valid:"-"`
 	Qualification    Qualification `gorm:"references:Qualification_ID" valid:"-"`
@@ -82,14 +83,15 @@ func SetCourseNameValidation() {
 	}))
 
 }
-
 func SetCourseDatetimeValidation() {
-	validator.CustomTypeTagMap.Set("datetimechecknumber", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+	validator.CustomTypeTagMap.Set("datetimecheckfuture", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 
-		str := i.(string)
-		match, _ := regexp.MatchString(`([0-9]|[/])`, str)
-		return match
-
+		date := i.(time.Time)
+		if date.After(time.Now()) {
+			return false
+		} else {
+			return true
+		}
 	}))
 
 }

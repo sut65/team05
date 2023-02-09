@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
@@ -166,7 +167,7 @@ func SetupDatabase() {
 		cpe2560 := Course{
 			Course_ID:     "CPE2560",
 			Course_Name:   "หลักสูตรวิศวกรรมคอมพิวเตอร์ 2560",
-			Datetime:      "22/05/2563",
+			Datetime:      time.Now(),
 			Qualification: qualification1,
 			Admin:         admin1,
 			Major:         cpe,
@@ -175,7 +176,7 @@ func SetupDatabase() {
 		cpe2564 := Course{
 			Course_ID:     "CPE2564",
 			Course_Name:   "หลักสูตรวิศวกรรมคอมพิวเตอร์ 2564",
-			Datetime:      "22/06/2563",
+			Datetime:      time.Now(),
 			Qualification: qualification2,
 			Admin:         admin1,
 			Major:         cpe,
@@ -184,7 +185,7 @@ func SetupDatabase() {
 		ee2560 := Course{
 			Course_ID:     "EE2560",
 			Course_Name:   "หลักสูตรวิศวกรรมไฟฟ้า 2560",
-			Datetime:      "22/07/2563",
+			Datetime:      time.Now(),
 			Qualification: qualification3,
 			Admin:         admin2,
 			Major:         ee,

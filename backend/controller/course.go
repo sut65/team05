@@ -42,7 +42,7 @@ func CreateCourse(c *gin.Context) {
 	new_course := entity.Course{
 		Course_ID:        course.Course_ID,
 		Course_Name:      course.Course_Name,
-		Datetime:         course.Datetime,
+		Datetime:         course.Datetime.Local(),
 		Major_ID:         course.Major_ID,
 		Qualification_ID: course.Qualification_ID,
 		Admin_ID:         course.Admin_ID,
@@ -182,7 +182,7 @@ func UpdateCourses(c *gin.Context) {
 	updated_course := entity.Course{
 		Course_ID:        course.Course_ID,
 		Course_Name:      updated_Course_name,
-		Datetime:         updated_Datetime,
+		Datetime:         updated_Datetime.Local(),
 		Qualification_ID: updated_Qualification_name,
 		Major_ID:         updated_Major_name,
 		Admin_ID:         updated_Admin_name,

@@ -242,9 +242,9 @@ function Course_Lists() {
                                     <StyledTableRow key={row.Course_ID}>
                                         <TableCell>{row.Course_ID}</TableCell>
                                         <TableCell>{row.Course_Name}</TableCell>
-                                        <TableCell>{row.Datetime}</TableCell>
-                                        <TableCell>{row.Qualification_Name}</TableCell>
-                                        <TableCell>{row.Major_Name}</TableCell>
+                                        <TableCell>{row.Datetime.toString()}</TableCell>
+                                        <TableCell>{row.Qualification_ID}</TableCell>
+                                        <TableCell>{row.Major_ID}</TableCell>
                                         <TableCell>{row.Admin_ID}</TableCell>
                                         <TableCell>
                                             <Button

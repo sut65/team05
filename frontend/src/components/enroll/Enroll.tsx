@@ -26,6 +26,7 @@ import TableRow from '@mui/material/TableRow';
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { id } from "date-fns/locale";
 function ListEnroll() {
   const params = useParams();
   const [enrolls, setEnrolls] = React.useState<EnrollInterface>();
@@ -40,23 +41,44 @@ function ListEnroll() {
   const apiUrl = "http://localhost:8080";
 
   
+  // const getEnroll = async () => {
+  //   const apiUrl = "http://localhost:8080/enroll";
+  //   const requestOptions = {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json" },
+  //   };
+
+
+  //   fetch(apiUrl, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       if (res.data) {
+  //         setEnroll(res.data);
+  //       }
+  //     });
+  // };
+
   const getEnroll = async () => {
-    const apiUrl = "http://localhost:8080/enroll";
     const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+        },
     };
+    fetch(`${apiUrl}/enrolls/${localStorage.getItem("id")}`, requestOptions)
+        .then((response) => response.json())
+        .then((res) => {
+            console.log(res.data);
+            if (res.data) {
+              setEnroll(res.data);
+                //console.log(course_id);
+                //getSubjectBySubjectID(course_id);
+            }
+        });
+};
 
-
-    fetch(apiUrl, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res.data);
-        if (res.data) {
-          setEnroll(res.data);
-        }
-      });
-  };
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {

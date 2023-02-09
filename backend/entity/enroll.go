@@ -10,10 +10,10 @@ type Enroll struct {
 	Subject    Subject `gorm:"references:Subject_ID" valid:"-"`
 
 	Exam_Schedule_ID *string `valid:"-"`
-	Exam_Schedule    Exam_Schedule
+	Exam_Schedule    Exam_Schedule `gorm:"references:Exam_Schedule_ID" valid:"-"`
 
 	Class_Schedule_ID *string `valid:"-"`
-	Class_Schedule    Class_Schedule
+	Class_Schedule    Class_Schedule `gorm:"references:Class_Schedule_ID" valid:"-"`
 
 	Section uint
 }

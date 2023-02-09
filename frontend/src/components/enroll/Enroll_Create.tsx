@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
@@ -81,7 +81,7 @@ function CreateEnroll() {
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+    const [message, setAlertMessage] = React.useState("");
     const handleClose = (
         event?: React.SyntheticEvent | Event,
         reason?: string
@@ -151,7 +151,7 @@ function CreateEnroll() {
         //navigate({ pathname: `/subject/${searchSubjectID}` });
         setSearchSubjectID(searchSubjectID);
         getSubjectBySubjectID()
-        
+
         //getSubjectBySubjectID(searchSubjectID);
         //getSubjectByCourseID(searched_course_id)
         //window.location.reload();
@@ -218,15 +218,15 @@ function CreateEnroll() {
                     setSubjects(res.data);
                     //console.log(course_id);
                     //getSubjectBySubjectID(course_id);
-                }else {
+                } else {
                     console.log("else");
                 }
-                
+
             });
     };
-    
-   const getSubjectBySubjectID = async () => {
-    console.log(course_id);
+
+    const getSubjectBySubjectID = async () => {
+        console.log(course_id);
         const requestOptions = {
             method: "GET",
             headers: {
@@ -267,22 +267,6 @@ function CreateEnroll() {
             });
     };
 
- 
-
-    const getPrevEnroll = async () => {
-        fetch(`${apiUrl}/previousenroll`, requestOptionsGet)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    enroll.Enroll_ID = res.data.Enroll_ID + 1;
-                }
-                else {
-                    enroll.Enroll_ID = res.data = "1";
-                    //console.log("else");
-                }
-            });
-    };
-
     const getStudent = async () => {
         let uid = localStorage.getItem("id");
         fetch(`${apiUrl}/student/${uid}`, requestOptionsGet)
@@ -299,35 +283,24 @@ function CreateEnroll() {
 
     useEffect(() => {
         getCourse();
-        getPrevEnroll();
         getStudent();
         console.log(SearchSubjectByCourse)
         if (SearchSubjectByCourse == "") {
             getSubjects();
         } else {
-            //getSubjectBySubjectID(searchSubjectID);
             getSubjectByCourseID(SearchSubjectByCourse);
-            //getSubjectBySubjectID(searchSubjectID);
         }
-
-        // if (searchSubjectID == "") {
-        //     getSubjects();
-        // } else {
-        //     //getSubjectBySubjectID(searchSubjectID);
-            
-        // }
         console.log(SearchSubjectByCourse);
     }, []);
 
     function submit() {
         let data = {
-            Enroll_ID: enroll.Enroll_ID ?? "",
+            Enroll_ID: enroll.Enroll_ID ?? `${Math.random().toString().slice(2, 11)}`,
             Student_ID: enroll.Student_ID ?? "",
             Subject_ID: enroll.Subject_ID ?? "",
             Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
             Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
             Section: enroll.Section
-            //Section: typeof enroll.Section === "string" ? parseInt(enroll.Section) : enroll.Section,
         };
 
         console.log(data)
@@ -345,6 +318,7 @@ function CreateEnroll() {
                 if (res.data) {
                     setSuccess(true);
                 } else {
+                    setAlertMessage(res.error);
                     setError(true);
                 }
             });
@@ -378,7 +352,7 @@ function CreateEnroll() {
 
                 <Alert onClose={handleClose} severity="error">
 
-                    บันทึกข้อมูลไม่สำเร็จ
+                    {message}
 
                 </Alert>
 

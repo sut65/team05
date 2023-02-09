@@ -25,7 +25,7 @@ type extendedEnroll struct {
 	Exam_End_Time   string
 }
 
-type extendedEnrollByStudent struct{
+type extendedEnrollByStudent struct {
 	entity.Enroll
 	Student         string
 	Subject_ID      string
@@ -53,8 +53,6 @@ func CreateEnroll(c *gin.Context) {
 		return
 	}
 
-	
-
 	if tx := entity.DB().Where("subject_id = ?", enroll.Subject_ID).First(&subject); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "subject_id not found"})
 		return
@@ -76,15 +74,18 @@ func CreateEnroll(c *gin.Context) {
 	}
 
 	new_enroll := entity.Enroll{
-		Enroll_ID:         enroll.Enroll_ID,
-		Student_ID:        &student.Student_ID,
-		Subject_ID:        &subject.Subject_ID,
-		Exam_Schedule_ID:  &exam_schedule.Exam_Schedule_ID,
-		Class_Schedule_ID: &class_schedule.Class_Schedule_ID,
-		Section: enroll.Section,
+		Enroll_ID:      enroll.Enroll_ID,
+		Student:        student,
+		Subject:        subject,
+		Exam_Schedule:  exam_schedule,
+		Class_Schedule: class_schedule,
+		Section:        enroll.Section,
 	}
-
 	// บันทึก entity Subject
+	if _, err := ValidateChecksubject(new_enroll); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	if err := entity.DB().Create(&new_enroll).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -105,7 +106,7 @@ func ListEnroll(c *gin.Context) {
 	//SELECT e.* , c.* , s.* , ex.* , sj.* FROM enrolls e JOIN class_schedules c JOIN students s JOIN subjects sj JOIN exam_schedules ex ON e.section = sj.section AND e.student_id = s.student_id AND e.subject_id = sj.subject_id AND c.class_schedule_id = e.class_schedule_id AND s.student_id = e.student_id AND ex.subject_id = c.subject_id
 	//SELECT e.*, s.* ,cs.day,cs.start_time,cs.end_time FROM enrolls e JOIN subjects s JOIN class_schedules cs ON e.subject_id = s.subject_id AND e.section = s.section AND e.class_schedule_id = cs.class_schedule_id;
 	var extendedEnroll []extendedEnroll
-	query := entity.DB().Raw("SELECT e.*, s.* ,cs.day,cs.start_time,cs.end_time ,ex.* FROM enrolls e JOIN subjects s JOIN class_schedules cs JOIN exam_schedules ex ON e.subject_id = s.subject_id AND e.section = s.section AND e.class_schedule_id = cs.class_schedule_id AND e.exam_schedule_id = ex.exam_schedule_id").Scan(&extendedEnroll)
+	query := entity.DB().Raw("SELECT e.*, s.* ,cs.day,cs.start_time,cs.end_time ,ex.* FROM enrolls e JOIN subjects s JOIN class_schedules cs JOIN exam_schedules ex ON e.subject_id = s.subject_id AND e.section = s.section AND e.class_schedule_id = cs.class_schedule_id AND e.exam_schedule_id = ex.exam_schedule_id WHERE student_id = ?").Scan(&extendedEnroll)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -131,15 +132,15 @@ func GetEnroll(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": enroll})
 }
 
-// func GetEnrollByStudentID(c *gin.Context) {
-// 	var enroll entity.Enroll
-// 	enroll_id := c.Param("enroll_id")
-// 	if tx := entity.DB().Where("enroll_id = ?", enroll_id).Find(&enroll); tx.RowsAffected == 0 {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "enroll not found"})
-// 		return
-// 	}
-// 	c.JSON(http.StatusOK, gin.H{"data": enroll})
-// }
+//	func GetEnrollByStudentID(c *gin.Context) {
+//		var enroll entity.Enroll
+//		enroll_id := c.Param("enroll_id")
+//		if tx := entity.DB().Where("enroll_id = ?", enroll_id).Find(&enroll); tx.RowsAffected == 0 {
+//			c.JSON(http.StatusBadRequest, gin.H{"error": "enroll not found"})
+//			return
+//		}
+//		c.JSON(http.StatusOK, gin.H{"data": enroll})
+//	}
 func GetEnrollByStudentID(c *gin.Context) {
 	/* Query subject record by subject_id and section */
 	var enroll []extendedEnrollByStudent
@@ -151,7 +152,7 @@ func GetEnrollByStudentID(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "enroll with this student not found"})
 	// 	return
 	// }
-	query := entity.DB().Raw("SELECT e.*, s.* FROM enrolls e JOIN subjects s ON e.subject_id = s.subject_id AND e.section = s.section WHERE student_id = ?", student,subject).Scan(&enroll)
+	query := entity.DB().Raw("SELECT e.*, s.* ,cs.day,cs.start_time,cs.end_time ,ex.* FROM enrolls e JOIN subjects s JOIN class_schedules cs JOIN exam_schedules ex ON e.subject_id = s.subject_id AND e.section = s.section AND e.class_schedule_id = cs.class_schedule_id AND e.exam_schedule_id = ex.exam_schedule_id WHERE student_id = ?", student, subject).Scan(&enroll)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -213,7 +214,7 @@ func UpdateEnroll(c *gin.Context) {
 
 	updated_enroll := entity.Enroll{
 		Enroll_ID:         enroll.Enroll_ID,
-		Student_ID: update_student_id,
+		Student_ID:        update_student_id,
 		Subject_ID:        update_subject_id,
 		Exam_Schedule_ID:  updated_exam_schedule_id,
 		Class_Schedule_ID: update_class_schedule_id,
@@ -267,12 +268,31 @@ func GetPreviousREnroll(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": enroll})
 }
 
-// func GetSubjectByCourse(c *gin.Context) {
-// 	var subject []entity.Subject
-// 	id := c.Param("course_id")
-// 	if err := entity.DB().Raw("SELECT e.*, c.* ,d.day,st.start_time,en.end_time ,co.course_id FROM `enrolls` e JOIN `subjects` c JOIN `class_schedules` cs JOIN `class_schedules` d JOIN `class_schedules` st JOIN `class_schedules` en JOIN `courses` co ON e.subject_id = c.subject_id AND  e.section = c.section AND e.subject_id = cs.subject_id AND e.subject_id = d.subject_id AND e.subject_id = st.subject_id AND c.subject_id WHERE co.course_id=?", id).Find(&subject).Error; err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
-// 	c.JSON(http.StatusOK, gin.H{"data": subject})
-// }
+//	func GetSubjectByCourse(c *gin.Context) {
+//		var subject []entity.Subject
+//		id := c.Param("course_id")
+//		if err := entity.DB().Raw("SELECT e.*, c.* ,d.day,st.start_time,en.end_time ,co.course_id FROM `enrolls` e JOIN `subjects` c JOIN `class_schedules` cs JOIN `class_schedules` d JOIN `class_schedules` st JOIN `class_schedules` en JOIN `courses` co ON e.subject_id = c.subject_id AND  e.section = c.section AND e.subject_id = cs.subject_id AND e.subject_id = d.subject_id AND e.subject_id = st.subject_id AND c.subject_id WHERE co.course_id=?", id).Find(&subject).Error; err != nil {
+//			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+//			return
+//		}
+//		c.JSON(http.StatusOK, gin.H{"data": subject})
+//	}
+type subjectError struct {
+	msg string
+}
+
+func (e subjectError) Error() string {
+	return e.msg
+}
+
+func ValidateChecksubject(subject entity.Enroll) (bool, error) {
+	var enroll []entity.Enroll
+	database := entity.OpenDatabase()
+	fmt.Println(subject.Student.Student_ID)
+	fmt.Println(subject.Subject.Subject_ID)
+	if tx := database.Where("subject_id = ? AND student_id = ?", subject.Subject.Subject_ID, subject.Student.Student_ID).Find(&enroll); tx.RowsAffected >= 1 {
+		err_message := fmt.Sprintf("Subject cannot be added repeatedly.")
+		return false, subjectError{err_message}
+	}
+	return true, nil
+}

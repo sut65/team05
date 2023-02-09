@@ -143,11 +143,10 @@ function Student_Update() {
 
           Admin_ID: students.Admin_ID ?? "",
 
-
           Student_Name: students.Student_Name ?? "",
-      
+
           Student_Password: students.Student_Password ?? "",
-      
+            
           Datetime: datetime,
       
           Course_ID: students.Course_ID ?? "",
@@ -354,6 +353,8 @@ function Student_Update() {
                   type="string"
    
                   size="medium"
+                  
+                  disabled
    
                   value={students.Student_Password || ""}
    

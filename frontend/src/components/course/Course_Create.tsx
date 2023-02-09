@@ -39,6 +39,7 @@ import { AdminInterface } from "../../models/I_Admin";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
+import Swal from "sweetalert2";
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -209,20 +210,35 @@ const requestOptionsGet = {
    };
 
 
-   fetch(apiUrl, requestOptions)
-
-     .then((response) => response.json())
-
-     .then((res) => {
-
-        if (res.data) {
-                    setSuccess(true);
+   Swal.fire({
+        title: 'คุณต้องการที่จะบันทึกหรือไม่?',
+        icon: 'warning',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'บันทึก',
+        denyButtonText: `ไม่บันทึก`,
+      }).then((data) => {
+        if (data.isConfirmed) {
+            fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                console.log(res)
+                if (res.data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'บันทึกเรียบร้อย !',
+                        text: 'Success',
+                    })
                 } else {
-                    setAlertMessage(res.error);
-                    setError(true);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อมูลผิดพลาด !',
+                        text: res.error,
+                    })
                 }
-
-     });
+            });
+        } 
+    })
 
  }
  useEffect(() => {

@@ -65,7 +65,7 @@ func SetStudentNameValidation() {
 	validator.CustomTypeTagMap.Set("studentnamechecklanguage", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 
 		str := i.(string)
-		match, _ := regexp.MatchString(`([ก-๏0-9])`, str)
+		match, _ := regexp.MatchString(`(^[ก-๏\s]{0,50}[0-9]{0,50})+$`, str)
 		return match
 
 	}))

@@ -126,3 +126,10 @@ func ValidateClassScheduleID(class_schedule_id string, new_class_schedule entity
 
 	return true, nil
 }
+
+func ValidateClassScheduleTime(new_start_time string, new_end_time string) (bool, error) {
+	if new_start_time == new_end_time {
+		return false, ClassScheduleError{"Start time and End time must not equal to each other!"}
+	}
+	return true, nil
+}

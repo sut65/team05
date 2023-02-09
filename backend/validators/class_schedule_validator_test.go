@@ -4,11 +4,33 @@ import (
 	"testing"
 
 	"github.com/B6025212/team05/entity"
+	"github.com/B6025212/team05/service"
 	. "github.com/B6025212/team05/service"
 
 	"github.com/asaskevich/govalidator"
 	. "github.com/onsi/gomega"
 )
+
+func TestClassScheduleTime(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	class_schedule_1 := entity.Class_Schedule{
+		Class_Schedule_ID: "Primary key",
+		Start_Time:        "13:00",
+		End_Time:          "13:00",
+	}
+
+	// ตรวจสอบข้อมูล class_schedule ว่า Class_Schedule_ID เป็นค่าว่างหรือไม่
+	ok, err := service.ValidateClassScheduleTime(class_schedule_1.Start_Time, class_schedule_1.End_Time)
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).NotTo(BeTrue())
+
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).ToNot(BeNil())
+
+	// err.Error ต้องมี error message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+}
 
 func TestBlankClassScheduleID(t *testing.T) {
 	g := NewGomegaWithT(t)

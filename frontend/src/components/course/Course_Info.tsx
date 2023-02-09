@@ -14,6 +14,7 @@ import { Course } from "../../models/I_Course";
 
 import { QualificationsInterface } from "../../models/I_Qualification";
 
+import { DatePicker } from "@mui/x-date-pickers";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 import SendIcon from '@mui/icons-material/Send';
@@ -29,6 +30,7 @@ function CourseInfo() {
     const [course, setCourse] = React.useState<Course>();
     const params = useParams();
     const navigate = useNavigate();
+
 
     const apiUrl = "http://localhost:8080";
     //update
@@ -145,7 +147,7 @@ function CourseInfo() {
 
                         <Grid container sx={{}}>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> วันที่เพิ่ม </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Datetime}
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Datetime.toString()}
                             </Box>
                         </Grid>
                       
@@ -162,7 +164,7 @@ function CourseInfo() {
                         </Grid>
                         
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> รหัสแอดมินที่เพิ่ม </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> อีเมลล์แอดมินที่เพิ่ม </Box>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Admin_Email} </Box>
                         </Grid>
 
@@ -200,6 +202,7 @@ function CourseInfo() {
                 </Box>
                 
             </Grid>
+            
             <Stack
                 direction="row"
                 sx={{ bgcolor: "white", margin: 1, }}>

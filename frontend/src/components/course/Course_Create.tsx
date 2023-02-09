@@ -36,6 +36,9 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
 import { AdminInterface } from "../../models/I_Admin";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers";
+import dayjs, { Dayjs } from "dayjs";
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -64,6 +67,9 @@ function CourseCreate() {
  const [error, setError] = React.useState(false);
 
  const [message, setAlertMessage] = React.useState("");
+
+ const [datetime, setDatetime] = React.useState<Dayjs | null>(dayjs);
+
 
 
 
@@ -178,7 +184,7 @@ const requestOptionsGet = {
     Admin_ID: courses.Admin_ID ?? "",
     Course_Name: courses.Course_Name ?? "",
 
-    Datetime: courses.Datetime,
+    Datetime: datetime,
 
     Qualification_ID: courses.Qualification_ID ?? "",
 
@@ -386,25 +392,21 @@ const requestOptionsGet = {
          <Grid item xs={4} color="#115686" 
           sx={{  fontFamily : "LilyUPC" ,
            fontWeight : 'bold' ,fontSize:27}}>
-          <p>วันที่เพิ่ม</p>
 
-           <FormControl fullWidth variant="outlined">
+<FormControl fullWidth variant="outlined">
 
-             <TextField
-
-               id="Datetime"
-
-               variant="outlined"
-
-               type="string"
-
-               size="medium"
-
-               value={courses.Datetime || ""}
-
-               onChange={handleInputChange}
-             />
-           </FormControl>
+<p>วันเวลาที่จัดการ</p>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+     renderInput={(params) => <TextField {...params} />}
+     value={datetime}
+     onChange={(newValue: Dayjs | null) => {
+       setDatetime(newValue);
+       console.log(newValue)
+     }}
+   />
+               </LocalizationProvider>
+</FormControl>
          </Grid>
 
          <Grid item xs={6} color="#115686" 

@@ -33,7 +33,7 @@ type Subject struct {
 	ID         uint   `gorm:"primaryKey"`
 	Subject_ID string `gorm:"primaryKey" valid:"subject_id_format~Wrong Subject ID Format"`
 
-	Professor_ID *string     `valid:"-"`
+	Professor_ID *string   `valid:"-"`
 	Professor    Professor `gorm:"references:Professor_ID" valid:"-"`
 
 	Course_ID *string `valid:"-"`

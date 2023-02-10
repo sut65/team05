@@ -301,7 +301,7 @@ type subjectError struct {
 func (e subjectError) Error() string {
 	return e.msg
 }
-
+//เชคห้ามลงทะเบียนรายวิชาซ้ำ
 func ValidateChecksubject(subject entity.Enroll) (bool, error) {
 	var enroll []entity.Enroll
 	database := entity.OpenDatabase()

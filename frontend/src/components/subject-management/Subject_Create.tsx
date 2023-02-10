@@ -150,7 +150,7 @@ function CreateSubject() {
         let data = {
             ID: typeof subject.ID === "string" ? parseInt(subject.ID) : subject.ID,
             Subject_ID: subject.Subject_ID ?? "",
-            Professor_ID: typeof subject.Professor_ID === "string" ? parseInt(subject.Professor_ID) : subject.Professor_ID,
+            Professor_ID:subject.Professor_ID ?? "",
             Course_ID: subject.Course_ID ?? "",
             Subject_Status_ID: subject.Subject_Status_ID ?? "",
             Class_Type_ID: subject.Class_Type_ID ?? "",

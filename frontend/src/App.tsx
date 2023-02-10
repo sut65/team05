@@ -59,6 +59,13 @@ import UpdateEnroll from "./components/enroll/Enroll_Edit";
 import Adding_reducing from "./components/adding_reducing/Adding_reducing";
 import Adding_reducingCreate from "./components/adding_reducing/Adding_reducingCreate";
 import Adding_reducingUpdate from "./components/adding_reducing/Adding_reducingUpdate";
+
+
+// adding_point
+import Adding_point from "./components/adding_point/Adding_point";
+import Adding_pointCreate from "./components/adding_point/Adding_pointCreate";
+import Adding_pointUpdate from "./components/adding_point/Adding_pointUpdate";
+
 // Footer
 import Footer from "./components/pages/Home_Footer";
 
@@ -199,6 +206,12 @@ export default function App() {
                             <Route path="/approval" element={<Approval />} />
                             <Route path="/approval/approval_create" element={<ApprovalCreate />} />
                             <Route path="/approval/update/:approval_id" element={<ApprovalUpdate />} />
+
+                             {/* Adding_point Path */}
+                             <Route path="/adding_point" element={<Adding_point/>} />
+                            <Route path="/adding_point/create" element={<Adding_pointCreate/>} /> 
+                            <Route path="/adding_point/update/:adding_point_id" element={<Adding_pointUpdate/>} />
+                     
                         </Routes>
                     </div>
                 </Router>

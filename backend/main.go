@@ -201,10 +201,10 @@ func main() {
 			api.PATCH("/adding_reducings", controller.UpdateEnrollforadding)
 			api.POST("/adding_reducingsonly", controller.CreateAdding_reducingonly)
 			//---------------------Adding_point--------------------------
-			api.GET("/adding_points/:subject_id", controller.GetSubjectByAdding)
+			// api.GET("/adding_points/:subject_id", controller.GetSubjectByAdding)
 			api.GET("/adding_points", controller.ListAdding_point)
 			api.GET("/adding_point", controller.ListAddingByEnroll)
-			api.GET("/adding_point/:adding_point_id", controller.GetAdding_point)
+			// api.GET("/adding_point/:adding_point_id", controller.GetAdding_point)
 			api.GET("/previous_adding_point", controller.GetPreviousAdding_point)
 			api.POST("/adding_points", controller.CreateAdding_point)
 			api.PATCH("/adding_points", controller.UpdateAdding_point)

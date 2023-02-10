@@ -43,7 +43,7 @@ func main() {
 	entity.SetReceipt_numberValidation()
 	entity.SetApprovalValidation()
 	entity.SetReceipt_numberValidation()
-	entity.SetDate_TimeValidation()
+	entity.SetPaymentDatetimeValidation()
 	entity.SetGradeIDValidation()
 	r.POST("/login", controller.Login)
 

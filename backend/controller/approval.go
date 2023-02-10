@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"fmt"
+	"math/rand"
 	"net/http"
 
 	"github.com/B6025212/team05/entity"
@@ -104,7 +106,7 @@ func CreateApprovalAdding_reducing(c *gin.Context) {
 	var class_schedule entity.Class_Schedule
 	var exam_schedule entity.Exam_Schedule
 	var historyType entity.HistoryType
-	
+	//var enroll entity.Enroll
 	//var approval entity.Approval
 	var professor entity.Professor
 	var request entity.Request
@@ -170,9 +172,9 @@ func CreateApprovalAdding_reducing(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "enroll not found"})
 	// 	return
 	// }
-
+	var Enroll_ID = fmt.Sprintf("E%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000)
 	new_enroll := entity.Enroll{
-		Enroll_ID:         receive_adding.Enroll_ID,
+		Enroll_ID:        Enroll_ID,
 		Student:        student,
 		Subject:        subject,
 		Exam_Schedule:  exam_schedule,
@@ -184,7 +186,7 @@ func CreateApprovalAdding_reducing(c *gin.Context) {
 		Change_ID:       receive_adding.Change_ID,
 		Student:         student,
 		History_Type_ID: &receive_adding.History_Type_ID,
-		Enroll_ID:       &receive_adding.Enroll_ID,
+		Enroll:   new_enroll,
 	}
 
 	new_approval := entity.Approval{
@@ -411,13 +413,13 @@ func UpdateApprovalAdding_reducing(c *gin.Context) {
 	// 	return
 	// }
 
-	if tx := entity.DB().Where("subject_id = ?", update_adding.Subject_ID).First(&enroll); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("subject_id = ? AND student_id = ?", update_adding.Subject_ID,update_adding.Student_ID).First(&enroll); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "enroll_id not found"})
 		return
 	}
 
 	update_enroll := entity.Enroll{
-		Enroll_ID:         update_adding.Enroll_ID,
+		Enroll_ID:         enroll.Enroll_ID,
 		Student:        student,
 		Subject:        subject,
 		Exam_Schedule:  exam_schedule,
@@ -429,7 +431,7 @@ func UpdateApprovalAdding_reducing(c *gin.Context) {
 		Change_ID:       update_adding.Change_ID,
 		Student:         student,
 		History_Type_ID: &update_adding.History_Type_ID,
-		Enroll_ID:       &update_adding.Enroll_ID,
+		Enroll_ID:       &enroll.Enroll_ID,
 	}
 
 	update_approval := entity.Approval{

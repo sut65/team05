@@ -285,7 +285,7 @@ function ApprovalCreate() {
       Approval_Type_ID: approval.Approval_Type_ID ?? "",
 
       //update enroll
-      Enroll_ID: enroll.Enroll_ID ?? `${Math.random().toString().slice(2,11)}`,
+      Enroll_ID: enroll.Enroll_ID ?? "",
       Student_ID: enroll.Student_ID ?? "",
       Subject_ID: enroll.Subject_ID ?? "",
       Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",

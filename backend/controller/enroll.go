@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/B6025212/team05/entity"
 
@@ -83,6 +84,10 @@ func CreateEnroll(c *gin.Context) {
 	}
 	// บันทึก entity Subject
 	if _, err := ValidateChecksubject(new_enroll); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if _, err := ValidateCheckExamAndClass(new_enroll); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -277,6 +282,18 @@ func GetPreviousREnroll(c *gin.Context) {
 //		}
 //		c.JSON(http.StatusOK, gin.H{"data": subject})
 //	}
+func inTimeSpan(start, end, check time.Time) bool {
+	_end := end
+	_check := check
+	if end.Before(start) {
+		_end = end.Add(24 * time.Hour)
+		if check.Before(start) {
+			_check = check.Add(24 * time.Hour)
+		}
+	}
+	return _check.After(start) && _check.Before(_end)
+}
+
 type subjectError struct {
 	msg string
 }
@@ -296,3 +313,93 @@ func ValidateChecksubject(subject entity.Enroll) (bool, error) {
 	}
 	return true, nil
 }
+
+func ValidateCheckExamAndClass(enrolls entity.Enroll) (bool, error) {
+	var class_Schedule entity.Class_Schedule
+	var list_enroll []entity.Enroll
+
+	database := entity.OpenDatabase()
+	fmt.Println(enrolls.Class_Schedule.Day)
+	fmt.Println(enrolls.Class_Schedule.Start_Time)
+	fmt.Println(enrolls.Class_Schedule.End_Time)
+	fmt.Println(enrolls.Student.Student_ID)
+
+	// fmt.Println(enrolls.Subject.Subject_ID)
+
+	if tx := database.Where("student_id = ?", enrolls.Student.Student_ID).Find(&list_enroll); tx.RowsAffected >= 1 {
+		// err_message := fmt.Sprintf("Class Day cannot be added repeatedly.")
+		// return false, subjectError{err_message}
+
+		// วนลูป enroll ของนักศึกษาคนหนึ่ง ตาม student_id
+		for _, record := range list_enroll {
+			time_pattern := "15:04"
+
+			// ดึงข้อมูล class schedule
+			database.Where("class_schedule_id = ?", record.Class_Schedule_ID).First(&class_Schedule)
+
+			// เก็บข้อมูล start time, end time และ day ของข้อมูลที่ดึงมาจาก class schedule
+			var start_time = class_Schedule.Start_Time
+			var end_time = class_Schedule.End_Time
+			var day = class_Schedule.Day
+
+			// ถ้า start_time, end_time และ day ตรงกันเป้ะ
+			if start_time == enrolls.Class_Schedule.Start_Time && end_time == enrolls.Class_Schedule.End_Time && day == enrolls.Class_Schedule.Day {
+				err_message := fmt.Sprintf("Class Day cannot be added repeatedly.")
+				return false, subjectError{err_message}
+
+				// กรณีเวลาเริ่มเท่ากัน และเวลาเลิกไม่เท่ากัน
+			} else if start_time == enrolls.Class_Schedule.Start_Time && day == enrolls.Class_Schedule.Day {
+				err_message := fmt.Sprintf("Class Day cannot be added repeatedly, start time is same.")
+				return false, subjectError{err_message}
+
+				// กรณีเวลาเริ่มไม่เท่ากัน และเวลาเลิกเท่ากัน
+			} else if end_time == enrolls.Class_Schedule.End_Time && day == enrolls.Class_Schedule.Day {
+				err_message := fmt.Sprintf("Class Day cannot be added repeatedly, end time is same.")
+				return false, subjectError{err_message}
+
+				// กรณีเวลาซ้ำซ้อนกัน เช่น
+				// ลงวิชา A 13:00 - 15:00
+				// จะลงวิชา B 14:00 - 16:00 ไม่ได้
+			} else {
+
+				// แปลง start time, end time ของข้อมูลที่จะเพิ่ม เป็นค่าเวลา
+				check_start, _ := time.Parse(time_pattern, enrolls.Class_Schedule.Start_Time)
+				check_end, _ := time.Parse(time_pattern, enrolls.Class_Schedule.End_Time)
+
+				// แปลง start time, end time ของข้อมูล class schedule จาก enroll ที่มีอยู่แล้วเป็นค่าเวลา
+				start, _ := time.Parse(time_pattern, start_time)
+				end, _ := time.Parse(time_pattern, end_time)
+
+				// ตรวจสอบว่่า เวลาเริ่มอยู่ในช่วงเวลาเริ่ม - เวลาเลิกหรือไม้
+				// ถ้าใช่ ให้ขึ้น error
+				if inTimeSpan(start, end, check_start) {
+					err_message := fmt.Sprintf("Cannot add class schedule. In start time %s is overlapped with some class schedule ", start_time)
+					return false, subjectError{err_message}
+
+					// ตรวจสอบว่่า เวลาเลิกอยู่ในช่วงเวลาเริ่ม - เวลาเลิกหรือไม้
+					// ถ้าใช่ ให้ขึ้น error
+				} else if inTimeSpan(start, end, check_end) {
+					err_message := fmt.Sprintf("Cannot add class schedule. In end time %s is overlapped with some class schedule ", end_time)
+					return false, subjectError{err_message}
+				}
+			}
+			return true, nil
+
+		}
+
+	}
+	return true, nil
+	// วนลูป enroll ของ นศ สักคน
+	// 		select class_schedule ตาม class_schedule_id ในแตละ enroll
+	// 		เข้าถึงข้อมูล class_schedule ตาม id
+	// 		เก็บค่า day, start_time, end_time
+	// 		ตรวจสอบว่า day, start_time และ end_time ของ class_scheduleตรงกับข้อมูลที่จะเพิ่มหรือไม่ ถ้าใช่
+	//			ลงทะเบียนไม่ได้ ส่งค่า error
+	// จบลูป
+
+}
+
+// if tx := database.Where("day = ? AND start_time = ? AND end_time = ? AND student_id = ?", enrolls.Class_Schedule.Day, enrolls.Class_Schedule.Start_Time,enrolls.Class_Schedule.End_Time,tudent_ID).Find(&class_Schedule); tx.RowsAffected >= 1 {
+// 	err_message := fmt.Sprintf("Class Day cannot be added repeatedly.")
+// 	return false, subjectError{err_message}
+// }

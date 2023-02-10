@@ -1063,8 +1063,19 @@ func SetupDatabase() {
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
 		}
+		A523203 := Exam_Schedule{
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:          problem_solving_sec1,
+			Room:             room_b6105,
+			Admin:            admin1,
+			Exam_Type:        "Final",
+			Exam_Date:        "19/05/2020",
+			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
+			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
+		}
 		db.Create(&os_final)
 		db.Create(&ann_midterm)
+		db.Create(&A523203)
 
 		///------------------------Request_Type------------------------
 		Request_Type1 := Request_Type{

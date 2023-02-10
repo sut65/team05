@@ -270,6 +270,12 @@ function Request() {
                   <StyledTableCell align="center" sx={{ border: 1 }}>
                     ประเภทคำร้อง
                   </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    ลบ
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    แก้ไข
+                  </StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -288,13 +294,16 @@ function Request() {
                     <TableCell align="center">{row.Section}</TableCell>
                     <TableCell align="center">{row.Course_Name}</TableCell>
                     <TableCell align="center">{row.Professor_Name}</TableCell>
-                    <TableCell align="center">{row.Reason}</TableCell>
-                    <TableCell align="center">
+                    <TableCell style={{ color: "#1300FF" }} align="center">
+                      {row.Reason}
+                    </TableCell>
+                    <TableCell style={{ color: "#1300FF" }} align="center">
                       {row.Request_Type_Name}
                     </TableCell>
                     <TableCell>
                       <IconButton
                         aria-label="delete"
+                        style={{ color: "#393838" }}
                         onClick={() => {
                           deleteRequest(row.Request_ID);
                         }}
@@ -305,6 +314,7 @@ function Request() {
                     <TableCell align="center">
                       <IconButton
                         aria-label="edit"
+                        style={{ color: "#393838" }}
                         onClick={() => {
                           navigate({
                             pathname: `/request/update/${row.Request_ID}`,
@@ -359,9 +369,6 @@ function Request() {
               <TableHead>
                 <TableRow>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
-                    รหัสลงทะเบียน
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
                     รหัสนักศึกษา
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
@@ -378,6 +385,9 @@ function Request() {
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
                     หลักสูตร
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    ประเภทคำร้อง
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
                     อาจารย์
@@ -400,19 +410,21 @@ function Request() {
                 ).map((row) => (
                   <StyledTableRow key={row.Approval_ID}>
                     <TableCell component="th" scope="row" align="center">
-                      {row.Request_ID}
-                    </TableCell>
-                    <StyledTableCell component="th" scope="row" align="center">
                       {row.Student_ID}
-                    </StyledTableCell>
+                    </TableCell>
                     <TableCell align="center">{row.Subject_ID}</TableCell>
                     <TableCell align="center">{row.Subject_EN_Name}</TableCell>
                     <TableCell align="center">{row.Unit}</TableCell>
                     <TableCell align="center">{row.Section}</TableCell>
                     <TableCell align="center">{row.Course_Name}</TableCell>
-                    <TableCell align="center">{row.Professor_Name}</TableCell>
-                    <TableCell align="center">{row.Reason}</TableCell>
                     <TableCell align="center">
+                      {row.Request_Type_Name}
+                    </TableCell>
+                    <TableCell align="center">{row.Professor_Name}</TableCell>
+                    <TableCell style={{ color: "#1300FF" }} align="center">
+                      {row.Reason}
+                    </TableCell>
+                    <TableCell style={{ color: "#FF0000" }} align="center">
                       {row.Approval_Type_Name}
                     </TableCell>
                   </StyledTableRow>

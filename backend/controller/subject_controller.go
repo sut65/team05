@@ -66,7 +66,7 @@ func CreateSubject(c *gin.Context) {
 	// Communication Diagram Step
 	// ค้นหา entity Professor ด้วย id ของ Professor ที่รับเข้ามา
 	// SELECT * FROM `professors` WHERE professor_id = <subject.Professor_ID>
-	if tx := entity.DB().Where("id = ?", subject.Professor_ID).First(&professor); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("professor_id = ?", subject.Professor_ID).First(&professor); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
 		return
 	}
@@ -150,7 +150,7 @@ func ListSubjects(c *gin.Context) {
 		JOIN `professors` p
 		ON s.Course_ID = c.course_id AND s.professor_id = p.id;
 	*/
-	query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.id").Scan(&extendedSubjects)
+	query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id").Scan(&extendedSubjects)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -166,7 +166,7 @@ func ListEnrollSubject(c *gin.Context) {
 
 	var extendedEnrollSubject []extendedEnrollSubject
 
-	query := entity.DB().Raw("SELECT e.*,cs.*,ex.*,c.Course_Name, p.professor_name FROM subjects e INNER JOIN class_schedules cs INNER JOIN exam_schedules ex  INNER JOIN courses c INNER JOIN professors p ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id  AND e.professor_id = p.id GROUP BY e.id").Scan(&extendedEnrollSubject)
+	query := entity.DB().Raw("SELECT e.*,cs.*,ex.*,c.Course_Name, p.professor_name FROM subjects e INNER JOIN class_schedules cs INNER JOIN exam_schedules ex  INNER JOIN courses c INNER JOIN professors p ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id  AND e.professor_id = p.professor_id GROUP BY e.id").Scan(&extendedEnrollSubject)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -182,7 +182,7 @@ func GetEnrollSubject(c *gin.Context) {
 
 	subject_id := c.Param("subject_id")
 
-	query := entity.DB().Raw("SELECT e.*,cs.*,ex.*,c.Course_Name, p.professor_name FROM subjects e INNER JOIN class_schedules cs INNER JOIN exam_schedules ex  INNER JOIN courses c INNER JOIN professors p ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id  AND e.professor_id = p.id WHERE e.subject_id = ? GROUP BY e.id", subject_id).Scan(&extendedEnrollSubjects)
+	query := entity.DB().Raw("SELECT e.*,cs.*,ex.*,c.Course_Name, p.professor_name FROM subjects e INNER JOIN class_schedules cs INNER JOIN exam_schedules ex  INNER JOIN courses c INNER JOIN professors p ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id  AND e.professor_id = p.professor_id WHERE e.subject_id = ? GROUP BY e.id", subject_id).Scan(&extendedEnrollSubjects)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -198,7 +198,7 @@ func GetSubject(c *gin.Context) {
 
 	subject_id := c.Param("subject_id")
 
-	query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.id WHERE subject_id = ?", subject_id).Scan(&extendedSubjects)
+	query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE subject_id = ?", subject_id).Scan(&extendedSubjects)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -297,7 +297,7 @@ func UpdateSubjects(c *gin.Context) {
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", subject.Professor_ID).First(&professor); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("professor_id = ?", subject.Professor_ID).First(&professor); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "professor not found"})
 		return
 	}

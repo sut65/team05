@@ -122,6 +122,7 @@ func main() {
 			r.GET("/requests/:subject_id", controller.GetRequestBySubjectID)
 			api.GET("/requeststudent/:request_id", controller.ListRequestStudent)
 			api.GET("/requestupdate/:request_id", controller.ListRequestForUpdate)
+			api.GET("/requests/:subject_id/:professor_id", controller.GetRequestBySubjectID)
 			// Request_Type
 			api.GET("/request_types", controller.ListRequest_Type)
 			api.GET("/request_type/:request_type_id", controller.GetRequest_Type)
@@ -138,6 +139,7 @@ func main() {
 			api.GET("/approvalupdate/:approval_id", controller.ListApprovalForUpdate)
 			api.GET("/approvalstudent/:student_id", controller.ListApprovalStudent)
 			api.POST("/approvalandadding", controller.CreateApprovalAdding_reducing)
+			api.PATCH("/approvalandadding", controller.UpdateApprovalAdding_reducing)
 			// Approval_Type
 			api.GET("/approval_types", controller.ListApproval_Type)
 			api.GET("/approval_type/:approval_type_id", controller.GetApproval_Type)

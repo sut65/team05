@@ -274,7 +274,7 @@ func GetApproval(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": approval})
 }
 
-// DELETE /request
+// DELETE /request //
 func DeleteApproval(c *gin.Context) {
 	id := c.Param("approval_id")
 

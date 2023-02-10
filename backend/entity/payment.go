@@ -2,7 +2,7 @@ package entity
 
 import (
 	"regexp"
-
+	"time"
 	validator "github.com/asaskevich/govalidator"
 )
 
@@ -25,7 +25,7 @@ type Payment struct {
 	Admin    Admin `gorm:"references:Admin_ID" valid:"-"`
 
 	Receipt_number string `valid:"receipt_thai_check~receipt number cannot be thai character,receipt_english_check~receipt number cannot be english character"`
-	Date_Time      string `valid:"datetime~datetime not valid!!"`
+	Date_Time      time.Time `valid:"datetimecheckfutures~Date_Time cannot be future"`
 	Unit           uint   `valid:"required~Unit cannot be blank"`
 	Payable        uint
 	Amounts        uint `valid:"required~Amounts cannot be blank"`
@@ -53,10 +53,21 @@ func SetReceipt_numberValidation() {
 	}))
 }
 
-func SetDate_TimeValidation() {
-	validator.CustomTypeTagMap.Set("datetime", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
-		str := i.(string)
-		match, _ := regexp.MatchString(`[0-9]|[/:.]`, str)
-		return match
+// func SetDate_TimeValidation() {
+// 	validator.CustomTypeTagMap.Set("datetime", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+// 		str := i.(string)
+// 		match, _ := regexp.MatchString(`[0-9]|[/:.]`, str)
+// 		return match
+// 	}))
+// }
+func SetPaymentDatetimeValidation() {
+	validator.CustomTypeTagMap.Set("datetimecheckfutures", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
+
+		date := i.(time.Time)
+		if date.After(time.Now()) {
+			return false
+		} else {
+			return true
+		}
 	}))
 }

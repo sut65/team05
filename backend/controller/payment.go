@@ -59,10 +59,11 @@ func CreatePayment(c *gin.Context) {
 		Student_ID:      payment.Student_ID,
 		Admin_ID:        payment.Admin_ID,
 		Receipt_number:  payment.Receipt_number,
-		Date_Time:       payment.Date_Time,
-		Unit:            payment.Unit,
-		Payable:         payment.Payable,
-		Amounts:         payment.Amounts,
+		Date_Time:       payment.Date_Time.Local(),
+
+		Unit:    payment.Unit,
+		Payable: payment.Payable,
+		Amounts: payment.Amounts,
 	}
 
 	// บันทึก entity Subject
@@ -176,7 +177,7 @@ func UpdatePayment(c *gin.Context) {
 		Student_ID:      update_student,
 		Admin_ID:        update_admin,
 		Receipt_number:  update_Receipt_number,
-		Date_Time:       update_datetime,
+		Date_Time:       update_datetime.Local(),
 		Unit:            update_unit,
 		Payable:         updare_Payable,
 		Amounts:         update_amount,

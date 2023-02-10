@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { EnrollInterface } from "./I_Enroll"
 
 export interface Payment_Type{
@@ -19,7 +20,7 @@ export interface Payment{
 
 	Admin_ID: string,
 	Receipt_number:string,
-	Date_Time: string,
+	Date_Time: Date,
 	Unit:      number,
 	Payable: number
 	Amounts:   number,

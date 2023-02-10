@@ -203,7 +203,7 @@ export function ListPayment() {
                                     <TableCell align="left">{row.Receipt_number}</TableCell>
                                     <TableCell align="left">{row.Payable}</TableCell>
                                     <TableCell align="left">{row.Amounts}</TableCell>
-                                    <TableCell align="left">{row.Date_Time}</TableCell>
+                                    <TableCell align="left">{row.Date_Time.toString()}</TableCell>
                                     <TableCell align="left">{row.Admin_ID}</TableCell>
                                     <TableCell align="center">
                                         <IconButton

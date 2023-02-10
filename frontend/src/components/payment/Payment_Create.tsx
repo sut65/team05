@@ -34,6 +34,10 @@ import { Payment_Type } from "../../models/I_Payment";
 import { bgcolor } from "@mui/system";
 import { amber } from "@mui/material/colors";
 import { StudentsInterface } from "../../models/I_Student";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import dayjs, { Dayjs } from "dayjs";
+import { datePickerToolbarClasses, LocalizationProvider } from "@mui/x-date-pickers";
 
 
 export function CreatePayment() {
@@ -41,7 +45,7 @@ export function CreatePayment() {
     const params = useParams();
     const [date, setDate] = React.useState<Date | null>(null);
 
-
+    const [date_time, setDate_time] = React.useState<Dayjs | null>(dayjs);
 
     //const [subject, setSubject] = React.useState<Subject[]>([]);
 
@@ -288,7 +292,7 @@ export function CreatePayment() {
             Student_ID: payment.Student_ID ?? "",
             Payable: typeof payment.Payable === "string" ? parseInt(payment.Payable) : payment.Payable,
             Amounts: typeof payment.Amounts === "string" ? parseInt(payment.Amounts) : payment.Amounts,
-            Date_Time: payment.Date_Time ?? "",
+            Date_Time: date_time,
             Payment_ID: typeof payment.Payment_ID === "string" ? parseInt(payment.Payment_ID) : payment.Payment_ID,
             Payment_Type_ID: payment.Payment_Type_ID ?? "",
             Receipt_number: payment.Receipt_number ?? "",
@@ -392,76 +396,76 @@ export function CreatePayment() {
                             </Button>
                         </Grid>
                     </Grid>
-                    
-                        <Grid sx={{ marginTop: '20px', display: 'flex', paddingLeft:6,marginLeft: 1 ,width:700}}>
-                            <TableContainer component={Paper}>
-                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell align="left">รหัสวิชา</TableCell>
-                                            <TableCell align="left">ชื่อวิชา</TableCell>
-                                            <TableCell align="left">Subject name</TableCell>
-                                            <TableCell align="left">หน่วยกิต</TableCell>
-                                            <TableCell align="left">กลุ่ม</TableCell>
-                                        </TableRow>
-                                    </TableHead>
 
-                                    <TableBody>
-                                        {(rowsPerPage > 0
-                                            ? enrolls.slice(
-                                                page * rowsPerPage,
-                                                page * rowsPerPage + rowsPerPage)
-                                            : enrolls
-                                        ).map((row) => (
-                                            <TableRow
-                                                key={row.Enroll_ID
-                                                }
-                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                            >
-                                                <TableCell align="left">{row.Subject_ID}</TableCell>
-                                                <TableCell align="left">{row.Subject_TH_Name}</TableCell>
-                                                <TableCell align="left">{row.Subject_EN_Name}</TableCell>
-                                                <TableCell align="left">{row.Unit}</TableCell>
-                                                <TableCell align="left">{row.Section}</TableCell>
-                                                <TableCell align="center">
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                        {emptyRows > 0 && (
-                                            <TableRow style={{ height: 53 * emptyRows }}>
-                                                <TableCell colSpan={1} />
-                                            </TableRow>
-                                        )}
-                                    </TableBody>
-                                    <TableFooter>
-                                        <TableRow>
-                                            <TablePagination
-                                                rowsPerPageOptions={[
-                                                    5,
-                                                    10,
-                                                    15,
-                                                    20,
-                                                    25,
-                                                    { label: "All", value: -1 },
-                                                ]}
-                                                colSpan={enrolls.length}
-                                                count={enrolls.length}
-                                                rowsPerPage={rowsPerPage}
-                                                page={page}
-                                                SelectProps={{
-                                                    inputProps: {
-                                                        "aria-label": "rows per page",
-                                                    },
-                                                    native: true,
-                                                }}
-                                                onPageChange={handleChangePage}
-                                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                            />
+                    <Grid sx={{ marginTop: '20px', display: 'flex', paddingLeft: 6, marginLeft: 1, width: 700 }}>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="left">รหัสวิชา</TableCell>
+                                        <TableCell align="left">ชื่อวิชา</TableCell>
+                                        <TableCell align="left">Subject name</TableCell>
+                                        <TableCell align="left">หน่วยกิต</TableCell>
+                                        <TableCell align="left">กลุ่ม</TableCell>
+                                    </TableRow>
+                                </TableHead>
+
+                                <TableBody>
+                                    {(rowsPerPage > 0
+                                        ? enrolls.slice(
+                                            page * rowsPerPage,
+                                            page * rowsPerPage + rowsPerPage)
+                                        : enrolls
+                                    ).map((row) => (
+                                        <TableRow
+                                            key={row.Enroll_ID
+                                            }
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell align="left">{row.Subject_ID}</TableCell>
+                                            <TableCell align="left">{row.Subject_TH_Name}</TableCell>
+                                            <TableCell align="left">{row.Subject_EN_Name}</TableCell>
+                                            <TableCell align="left">{row.Unit}</TableCell>
+                                            <TableCell align="left">{row.Section}</TableCell>
+                                            <TableCell align="center">
+                                            </TableCell>
                                         </TableRow>
-                                    </TableFooter>
-                                </Table>
-                            </TableContainer>
-                        </Grid>
+                                    ))}
+                                    {emptyRows > 0 && (
+                                        <TableRow style={{ height: 53 * emptyRows }}>
+                                            <TableCell colSpan={1} />
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                                <TableFooter>
+                                    <TableRow>
+                                        <TablePagination
+                                            rowsPerPageOptions={[
+                                                5,
+                                                10,
+                                                15,
+                                                20,
+                                                25,
+                                                { label: "All", value: -1 },
+                                            ]}
+                                            colSpan={enrolls.length}
+                                            count={enrolls.length}
+                                            rowsPerPage={rowsPerPage}
+                                            page={page}
+                                            SelectProps={{
+                                                inputProps: {
+                                                    "aria-label": "rows per page",
+                                                },
+                                                native: true,
+                                            }}
+                                            onPageChange={handleChangePage}
+                                            onRowsPerPageChange={handleChangeRowsPerPage}
+                                        />
+                                    </TableRow>
+                                </TableFooter>
+                            </Table>
+                        </TableContainer>
+                    </Grid>
                     <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
                         <Grid >
                             <p style={{ paddingLeft: 17, }}>หน่วยกิจรวม</p>
@@ -576,14 +580,16 @@ export function CreatePayment() {
                         </Grid>
                         <Grid >
                             <p style={{ paddingLeft: 18, }}>ระบุวัน-เวลาที่ชำระ</p>
-                            <TextField sx={{ width: "270px", pl: 2 }}
-
-                                size="small"
+                            <TextField 
                                 id="Date_Time"
+                                size="small"
                                 value={payment.Date_Time}
-                                onChange={handleInputChange}
-                            >
-                            </TextField>
+                                type="datetime-local"
+                                sx={{ width: 250 ,paddingLeft:2}}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
                         </Grid>
 
                     </Grid>

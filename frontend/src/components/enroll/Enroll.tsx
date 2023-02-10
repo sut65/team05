@@ -35,12 +35,30 @@ function ListEnroll() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   //const [subject, setSubject] = React.useState<SubjectInterface[]>([]);
-  
-  
+
+
 
   const apiUrl = "http://localhost:8080";
 
-  
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#5B98B9",
+      color: theme.palette.common.white,
+      fontSize: 17,
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: "white",
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 1,
+    },
+  }));
+
+
   // const getEnroll = async () => {
   //   const apiUrl = "http://localhost:8080/enroll";
   //   const requestOptions = {
@@ -61,23 +79,23 @@ function ListEnroll() {
 
   const getEnroll = async () => {
     const requestOptions = {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json"
-        },
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      },
     };
     fetch(`${apiUrl}/enrolls/${localStorage.getItem("id")}`, requestOptions)
-        .then((response) => response.json())
-        .then((res) => {
-            console.log(res.data);
-            if (res.data) {
-              setEnroll(res.data);
-                //console.log(course_id);
-                //getSubjectBySubjectID(course_id);
-            }
-        });
-};
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res.data);
+        if (res.data) {
+          setEnroll(res.data);
+          //console.log(course_id);
+          //getSubjectBySubjectID(course_id);
+        }
+      });
+  };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -117,102 +135,119 @@ function ListEnroll() {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - enroll.length) : 0;
 
- 
+
   useEffect(() => {
     getEnroll();
 
   }, []);
- 
+
 
   return (
 
     <div>
 
-      <Container maxWidth="xl" sx={{ p: 2 }}>
+      <Container maxWidth="xl" sx={{ p: 2 ,bgcolor: '#DEB887'}}>
+        <Paper sx={{
+          height: 50,
+          bgcolor: '#FFFAF0',
+        }}>
+          <Box
 
-        <Box
+            display="flex"
 
-          display="flex"
+            sx={{
 
-          sx={{
+              marginTop: 2,
 
-            marginTop: 2,
+            }}
 
-          }}
+          >
 
-        >
+            <Box flexGrow={1}>
 
-          <Box flexGrow={1}>
+              <Typography
 
-            <Typography
+                sx={{ mt: -1, paddingLeft: 2, fontFamily: "LilyUPC", fontSize: 45 }}
 
-              component="h2"
+                component="h2"
 
-              variant="h6"
+                variant="h6"
 
-              color="primary"
+                color="primary"
 
-              gutterBottom
+                gutterBottom
 
-            >
+              >
 
-              รายการที่ลงทะเบียน
+                รายการที่ลงทะเบียน
 
+              </Typography>
+
+            </Box>
+
+
+            <Box sx={{ paddingRight: 2 }}>
+              <Button
+
+                sx={{ mt: 1 }}
+                component={RouterLink}
+
+                to="/enroll/create_enroll"
+
+                variant="contained"
+
+                color="primary"
+
+              >
+                ลงทะเบียน
+              </Button>
+            </Box>
+          </Box>
+        </Paper>
+        <Paper>
+          <Paper sx={{padding:2,mt:2 ,bgcolor: '#FFFAF0'}}>
+            <Typography sx={{fontFamily: "subtitle1",fontSize: 16}} >
+            ระบบย่อยลงทะเบียนรายวิชา
+            จะช่วยให้นักศึกษาสามารถเลือกลงทะเบียนเรียนในรายวิชาที่ตนต้องการเมื่อถึงเวลาที่กําหนด
+            โดยนักศึกษาสามารถเลือกหลักสูตร และกลุ่มที่ตนต้องการจะเรียน นักศึกษาสามารถแก้ไข
+            หรือลบรายวิชาที่ลงทะเบียนผิดพลาดได้ เมื่อลงทะเบียนเสร็จสิ้นระบบสามารถแสดงสรุปรายการที่นักศึกษาลงทะเบียน
+            เพื่อยืนยันว่านักศึกษาลงทะเบียน
             </Typography>
-
-          </Box>
-
-          <Box>
-
-            <Button
-
-              component={RouterLink}
-
-              to="/enroll/create_enroll"
-
-              variant="contained"
-
-              color="primary"
-
-            >
-              ลงทะเบียน
-            </Button>
-          </Box>
-        </Box>
+          </Paper>
+        </Paper>
         <Grid sx={{ mt: 2 }}>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                
-                  <TableCell align="left">รหัสวิชา</TableCell>
-                  <TableCell align="left">ชื่อวิชา</TableCell>
-                  <TableCell align="left">Subject name</TableCell>
-                  <TableCell align="left">วันเรียน</TableCell>
-                  <TableCell align="left">เริ่มเรียน</TableCell>
-                  <TableCell align="left">เลิกเรียน</TableCell>
-                  <TableCell align="left">วันสอบ</TableCell>
-                  <TableCell align="left">เริ่มสอบ</TableCell>
-                  <TableCell align="left">เลิกสอบ</TableCell>
-                  <TableCell align="left">หน่วยกิต</TableCell>
-                  <TableCell align="left">กลุ่ม</TableCell>
-                  <TableCell align="center">ลบ</TableCell>
-                  <TableCell align="center">แก้ไข</TableCell>
+                  <StyledTableCell align="left">รหัสวิชา</StyledTableCell>
+                  <StyledTableCell align="left">ชื่อวิชา</StyledTableCell>
+                  <StyledTableCell align="left">Subject name</StyledTableCell>
+                  <StyledTableCell align="left">วันเรียน</StyledTableCell>
+                  <StyledTableCell align="left">เริ่มเรียน</StyledTableCell>
+                  <StyledTableCell align="left">เลิกเรียน</StyledTableCell>
+                  <StyledTableCell align="left">วันสอบ</StyledTableCell>
+                  <StyledTableCell align="left">เริ่มสอบ</StyledTableCell>
+                  <StyledTableCell align="left">เลิกสอบ</StyledTableCell>
+                  <StyledTableCell align="left">หน่วยกิต</StyledTableCell>
+                  <StyledTableCell align="left">กลุ่ม</StyledTableCell>
+                  <StyledTableCell align="center">ลบ</StyledTableCell>
+                  <StyledTableCell align="center">แก้ไข</StyledTableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
                 {(rowsPerPage > 0
-                  ? enroll.slice(page * rowsPerPage, 
+                  ? enroll.slice(page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage
-                    ): enroll
+                  ) : enroll
 
                 ).map((row) => (
-                  <TableRow
+                  <StyledTableRow
                     key={row.Enroll_ID}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    
+
                     <TableCell align="left">{row.Subject_ID}</TableCell>
                     <TableCell align="left">{row.Subject_TH_Name}</TableCell>
                     <TableCell align="left">{row.Subject_EN_Name}</TableCell>
@@ -220,65 +255,65 @@ function ListEnroll() {
                     <TableCell align="left">{row.Start_Time}</TableCell>
                     <TableCell align="left">{row.End_Time}</TableCell>
                     <TableCell align="left">{row.Exam_Date}</TableCell>
-                
+
                     <TableCell align="left">{row.Exam_Start_Time}</TableCell>
                     <TableCell align="left">{row.Exam_End_Time}</TableCell>
                     <TableCell align="left">{row.Unit}</TableCell>
                     <TableCell align="left">{row.Section}</TableCell>
                     <TableCell align="center">
                       <IconButton
-                       aria-label="delete"
-                       onClick={() => deleteEnroll(row.Enroll_ID)}
+                        aria-label="delete"
+                        onClick={() => deleteEnroll(row.Enroll_ID)}
                       >
-                      <DeleteIcon />
-                    </IconButton>
+                        <DeleteIcon />
+                      </IconButton>
                     </TableCell>
                     <TableCell align="center">
-                    <IconButton
-                    ///${row.Subject_ID}/${row.Section}
-                    onClick={() => {
-                      navigate({ pathname: `/enroll/updateenroll/${row.Enroll_ID}` })
-                }}
-                    >
-                      <ModeEditIcon />
-                    </IconButton>
+                      <IconButton
+                        ///${row.Subject_ID}/${row.Section}
+                        onClick={() => {
+                          navigate({ pathname: `/enroll/updateenroll/${row.Enroll_ID}` })
+                        }}
+                      >
+                        <ModeEditIcon />
+                      </IconButton>
                     </TableCell>
-                  </TableRow>
+                  </StyledTableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
           <TableFooter>
-                  <TableRow>
-                    <TablePagination
-                      rowsPerPageOptions={[
-                        5,
-                        10,
-                        15,
-                        20,
-                        25,
-                        { label: "All", value: -1 },
-                      ]}
-                      colSpan={enroll.length}
-                      count={enroll.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      SelectProps={{
-                        inputProps: {
-                          "aria-label": "rows per page",
-                        },
-                        native: true,
-                      }}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                  </TableRow>
-                </TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[
+                  5,
+                  10,
+                  15,
+                  20,
+                  25,
+                  { label: "All", value: -1 },
+                ]}
+                colSpan={enroll.length}
+                count={enroll.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: {
+                    "aria-label": "rows per page",
+                  },
+                  native: true,
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </TableRow>
+          </TableFooter>
 
         </Grid>
       </Container>
 
-    </div>
+    </div >
 
   );
 

@@ -2,6 +2,7 @@ package entity
 
 import (
 	"testing"
+	"time"
 
 	"github.com/B6025212/team05/entity"
 	"github.com/asaskevich/govalidator"
@@ -15,7 +16,7 @@ func TestAmountsNotBlank(t *testing.T) {
 	Payment1 := entity.Payment{
 		Amounts: 0, // ผิด
 		Unit: 0,
-		Date_Time: "",
+		Date_Time: time.Now(),
 	}
 
 	// ตรวจสอบด้วย govalidator

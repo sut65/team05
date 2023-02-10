@@ -191,6 +191,7 @@ func SetupDatabase() {
 			Admin:         admin1,
 			Major:         cpe,
 		}
+		db.Create(&cpe2560)
 
 		cpe2564 := Course{
 			Course_ID:     "CPE2564",
@@ -200,6 +201,7 @@ func SetupDatabase() {
 			Admin:         admin1,
 			Major:         cpe,
 		}
+		db.Create(&cpe2564)
 
 		ee2560 := Course{
 			Course_ID:     "EE2560",
@@ -209,34 +211,186 @@ func SetupDatabase() {
 			Admin:         admin2,
 			Major:         ee,
 		}
-		db.Create(&cpe2560)
-		db.Create(&cpe2564)
 		db.Create(&ee2560)
+
+		cv2560 := Course{
+			Course_ID:     "CV2560",
+			Course_Name:   "หลักสูตรวิศวกรรมโยธา 2560",
+			Datetime:      time.Now(),
+			Qualification: qualification2,
+			Admin:         admin3,
+			Major:         civil,
+		}
+		db.Create(&cv2560)
+
+		elec2562 := Course{
+			Course_ID:     "ELEC2560",
+			Course_Name:   "หลักสูตรวิศวกรรมอิเล็กทรอนิกส์ 2560",
+			Datetime:      time.Now(),
+			Qualification: qualification3,
+			Admin:         admin2,
+			Major:         elec,
+		}
+		db.Create(&elec2562)
+
+		polymer2564 := Course{
+			Course_ID:     "PM2560",
+			Course_Name:   "หลักสูตรวิศวกรรมพอลิเมอร์ 2564",
+			Datetime:      time.Now(),
+			Qualification: qualification2,
+			Admin:         admin3,
+			Major:         polymer,
+		}
+		db.Create(&polymer2564)
+
+		mechanical2564 := Course{
+			Course_ID:     "MC2560",
+			Course_Name:   "หลักสูตรวิศวกรรมเครื่องกล 2564",
+			Datetime:      time.Now(),
+			Qualification: qualification2,
+			Admin:         admin3,
+			Major:         mechanical,
+		}
+		db.Create(&mechanical2564)
+
+		telecom2560 := Course{
+			Course_ID:     "TLC2560",
+			Course_Name:   "หลักสูตรวิศวกรรมโทรคมนาคม 2560",
+			Datetime:      time.Now(),
+			Qualification: qualification2,
+			Admin:         admin1,
+			Major:         telecom,
+		}
+		db.Create(&telecom2560)
+
+		industrial2560 := Course{
+			Course_ID:     "IS2560",
+			Course_Name:   "หลักสูตรวิศวกรรมอุสาหการ 2560",
+			Datetime:      time.Now(),
+			Qualification: qualification2,
+			Admin:         admin2,
+			Major:         industrial,
+		}
+		db.Create(&industrial2560)
+
+		ph2561 := Course{
+			Course_ID:     "PH2560",
+			Course_Name:   "หลักสูตรสาธารณสุข 2561",
+			Datetime:      time.Now(),
+			Qualification: qualification2,
+			Admin:         admin2,
+			Major:         industrial,
+		}
+		db.Create(&ph2561)
+
+		com_sci2564 := Course{
+			Course_ID:     "CS2560",
+			Course_Name:   "หลักสูตรวิทยาการคอมพิวเตอร์ 2564",
+			Datetime:      time.Now(),
+			Qualification: qualification2,
+			Admin:         admin1,
+			Major:         com_sci,
+		}
+		db.Create(&com_sci2564)
+
+		physics2562 := Course{
+			Course_ID:     "PS2560",
+			Course_Name:   "หลักสูตรฟิสิกส์ 2564",
+			Datetime:      time.Now(),
+			Qualification: qualification2,
+			Admin:         admin3,
+			Major:         physics,
+		}
+		db.Create(&physics2562)
+
+		biology2561 := Course{
+			Course_ID:     "BL2560",
+			Course_Name:   "หลักสูตรชีววิทยา 2561",
+			Datetime:      time.Now(),
+			Qualification: qualification2,
+			Admin:         admin2,
+			Major:         biology,
+		}
+		db.Create(&biology2561)
+
+		chemical2564 := Course{
+			Course_ID:     "CC2560",
+			Course_Name:   "หลักสูตรเคมี 2564",
+			Datetime:      time.Now(),
+			Qualification: qualification2,
+			Admin:         admin2,
+			Major:         chemical,
+		}
+		db.Create(&chemical2564)
 		//Student
 		dormitory1 := Dormitory{
 			Dormitory_ID:   "DT01",
-			Dormitory_Name: "Dormitory8",
+			Dormitory_Name: "Suraniwet Dormitory",
 		}
 		db.Model(&Dormitory{}).Create(&dormitory1)
 
 		dormitory2 := Dormitory{
 			Dormitory_ID:   "DT02",
-			Dormitory_Name: "Dormitory7",
+			Dormitory_Name: "Homesuke Dormitory",
 		}
 		db.Model(&Dormitory{}).Create(&dormitory2)
 
 		dormitory3 := Dormitory{
 			Dormitory_ID:   "DT03",
-			Dormitory_Name: "Dormitory13",
+			Dormitory_Name: "Darkhold Dormitory",
 		}
 		db.Model(&Dormitory{}).Create(&dormitory3)
 
-		student1_password, _ := bcrypt.GenerateFromPassword([]byte("Vuster2572"), 14)
-		student2_password, _ := bcrypt.GenerateFromPassword([]byte("Oop1235"), 14)
-		student3_password, _ := bcrypt.GenerateFromPassword([]byte("Kku5731mn"), 14)
+		dormitory4 := Dormitory{
+			Dormitory_ID:   "DT04",
+			Dormitory_Name: "Sunee Dormitory",
+		}
+		db.Model(&Dormitory{}).Create(&dormitory4)
+
+		dormitory5 := Dormitory{
+			Dormitory_ID:   "DT05",
+			Dormitory_Name: "Phattan Dormitory",
+		}
+		db.Model(&Dormitory{}).Create(&dormitory5)
+
+		dormitory6 := Dormitory{
+			Dormitory_ID:   "DT06",
+			Dormitory_Name: "Burean Dormitory",
+		}
+		db.Model(&Dormitory{}).Create(&dormitory6)
+
+		dormitory7 := Dormitory{
+			Dormitory_ID:   "DT07",
+			Dormitory_Name: "Chalean Dormitory",
+		}
+		db.Model(&Dormitory{}).Create(&dormitory7)
+
+		dormitory8 := Dormitory{
+			Dormitory_ID:   "DT08",
+			Dormitory_Name: "Pennapat Dormitory",
+		}
+		db.Model(&Dormitory{}).Create(&dormitory8)
+
+		dormitory9 := Dormitory{
+			Dormitory_ID:   "DT09",
+			Dormitory_Name: "Lokkaew Dormitory",
+		}
+		db.Model(&Dormitory{}).Create(&dormitory9)
+
+		dormitory10 := Dormitory{
+			Dormitory_ID:   "DT10",
+			Dormitory_Name: "Manee Dormitory",
+		}
+		db.Model(&Dormitory{}).Create(&dormitory10)
+
+		student1_password, _ := bcrypt.GenerateFromPassword([]byte("abcd1234"), 14)
+		student2_password, _ := bcrypt.GenerateFromPassword([]byte("abcd4321"), 14)
+		student3_password, _ := bcrypt.GenerateFromPassword([]byte("suranaree5555"), 14)
+		student4_password, _ := bcrypt.GenerateFromPassword([]byte("zxcv4321"), 14)
+		student5_password, _ := bcrypt.GenerateFromPassword([]byte("qwer5555"), 14)
 
 		student1 := Student{
-			Student_ID:       "B6310211",
+			Student_ID:       "B6311111",
 			Student_Name:     "ปีเตอร์ สงบสุข",
 			Student_Password: string(student1_password),
 			Datetime:         time.Now(),
@@ -247,26 +401,48 @@ func SetupDatabase() {
 		db.Model(&Student{}).Create(&student1)
 
 		student2 := Student{
-			Student_ID:       "B6200233",
+			Student_ID:       "B6200001",
 			Student_Name:     "สมพงษ์ วิ่งวุฒิ",
 			Student_Password: string(student2_password),
 			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
-			Dormitory:        dormitory2,
+			Dormitory:        dormitory5,
 		}
 		db.Model(&Student{}).Create(&student2)
 
 		student3 := Student{
-			Student_ID:       "B6201259",
+			Student_ID:       "B6233333",
 			Student_Name:     "สมใจ ใยดี",
 			Student_Password: string(student3_password),
 			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
-			Dormitory:        dormitory2,
+			Dormitory:        dormitory1,
 		}
 		db.Model(&Student{}).Create(&student3)
+
+		student4 := Student{
+			Student_ID:       "B6312345",
+			Student_Name:     "เทพกิต สมพิช",
+			Student_Password: string(student4_password),
+			Datetime:         time.Now(),
+			Admin:            admin1,
+			Course:           cpe2560,
+			Dormitory:        dormitory4,
+		}
+		db.Model(&Student{}).Create(&student4)
+
+		student5 := Student{
+			Student_ID:       "B6302561",
+			Student_Name:     "วิเดช สุทธิพัฒน์",
+			Student_Password: string(student5_password),
+			Datetime:         time.Now(),
+			Admin:            admin1,
+			Course:           cpe2560,
+			Dormitory:        dormitory8,
+		}
+		db.Model(&Student{}).Create(&student5)
 
 		//status
 		status1 := Status{

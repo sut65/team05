@@ -237,7 +237,7 @@ function Approval() {
                     ลำดับ
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
-                    รหัสลงทะเบียน
+                    รหัสคำร้อง
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
                     รหัสนักศึกษา
@@ -258,6 +258,9 @@ function Approval() {
                     หลักสูตร
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
+                    ประเภทคำร้อง
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
                     อาจารย์
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
@@ -265,6 +268,12 @@ function Approval() {
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
                     ผลการอนุมัติ
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    ลบ
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    แก้ไข
                   </StyledTableCell>
                 </TableRow>
               </TableHead>
@@ -291,14 +300,20 @@ function Approval() {
                     <TableCell align="center">{row.Unit}</TableCell>
                     <TableCell align="center">{row.Section}</TableCell>
                     <TableCell align="center">{row.Course_Name}</TableCell>
-                    <TableCell align="center">{row.Professor_Name}</TableCell>
-                    <TableCell align="center">{row.Reason}</TableCell>
                     <TableCell align="center">
+                      {row.Request_Type_Name}
+                    </TableCell>
+                    <TableCell align="center">{row.Professor_Name}</TableCell>
+                    <TableCell style={{ color: "#1300FF" }} align="center">
+                      {row.Reason}
+                    </TableCell>
+                    <TableCell style={{ color: "#1300FF" }} align="center">
                       {row.Approval_Type_Name}
                     </TableCell>
                     <TableCell>
                       <IconButton
                         aria-label="delete"
+                        style={{ color: "#393838" }}
                         onClick={() => deleteApproval(row.Approval_ID)}
                       >
                         <DeleteIcon />
@@ -307,6 +322,7 @@ function Approval() {
                     <TableCell align="center">
                       <IconButton
                         aria-label="edit"
+                        style={{ color: "#393838" }}
                         onClick={() => {
                           navigate({
                             pathname: `/approval/update/${row.Approval_ID}`,

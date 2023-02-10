@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
 import { Subject } from "../../models/I_Subject";
-import { Stack, Divider, Grid, TextField } from "@mui/material";
+import { Stack, Divider, Grid, TextField, Toolbar } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
@@ -28,6 +28,7 @@ import { useParams } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material/Select";
 
 import { Adding_pointInterface } from "../../models/IAdding_point";
+import Home_Navbar from "../navbars/Home_navbar";
 
 function Adding_reducingCreate() {
   const [addingpoints, setAdding_points] = React.useState<
@@ -80,12 +81,14 @@ function Adding_reducingCreate() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - addingpoints.length) : 0;
 
   //ส่งค่าจากlist ผ่านinterface
-  const getAdding_reducings = async () => {
+  const getAdding_point = async () => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/adding_points`, requestOptions)
+    fetch(`${apiUrl}/adding_points/${localStorage.getItem("id")}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -94,6 +97,8 @@ function Adding_reducingCreate() {
         }
       });
   };
+
+  
   // const [RequestByRequestID, setRequestByRequestID] = React.useState("");
   //  const getRequestByRequestID = async (request_id: any) => {
   //    const requestOptions = {
@@ -116,14 +121,16 @@ function Adding_reducingCreate() {
     console.log("good");
     const requestOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/adding_points/${adding_point_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
           console.log("Data remove");
-          window.location.href = "/";
+          window.location.href = "/adding_point";
         } else {
           console.log("Something was wrong!!");
         }
@@ -164,39 +171,9 @@ function Adding_reducingCreate() {
   };
 
   useEffect(() => {
-    getAdding_reducings();
+    getAdding_point();
+    
   }, []);
-
-  // function submit() {
-  //   let data = {
-  //     Change_ID:
-  //       typeof adding_reducing.Change_ID === "string"
-  //         ? parseInt(adding_reducing.Change_ID)
-  //         : adding_reducing.Change_ID,
-  //     Status: adding_reducing.Status ?? "",
-  //     Subject_ID: adding_reducing.Subject_ID ?? "",
-  //     Enroll_ID: adding_reducing.Enroll_ID ?? "",
-  //   };
-
-  //   const apiUrl = "http://localhost:8080/requests";
-  //   const requestOptionsPatch = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(data),
-  //   };
-  //   console.log(JSON.stringify(data));
-
-  //   fetch(`${apiUrl}/request`, requestOptionsPatch)
-  //     .then((response) => response.json())
-
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setSuccess(true);
-  //       } else {
-  //         setError(true);
-  //       }
-  //     });
-  // }
 
   return (
     <div>
@@ -208,6 +185,8 @@ function Adding_reducingCreate() {
           padding: 2,
         }}
       >
+        <Home_Navbar></Home_Navbar>
+        <Toolbar></Toolbar>
         <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
           <Box
             display="flex"
@@ -246,30 +225,6 @@ function Adding_reducingCreate() {
           elevation={3}
           sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
         >
-          {/* <div style={{ height: 300, width: "100%", marginTop: "20px" }}>
-            <DataGrid
-              rows={request}
-              getRowId={(row) => row.Request_ID}
-              columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
-            />
-          </div> */}
-
-          {/* <TextField
-            disabled
-            id="Subject_ID"
-            variant="outlined"
-            type="number"
-            defaultValue={addingpoint.Subject_ID}
-          />
-          <TextField
-            disabled
-            id="Section"
-            variant="outlined"
-            type="number"
-            defaultValue={addingpoint.Section}
-          /> */}
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -283,8 +238,15 @@ function Adding_reducingCreate() {
                   <StyledTableCell align="center" sx={{ border: 1 }}>
                     เกรด
                   </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    ลบ
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    เเก้ไข
+                  </StyledTableCell>
                 </TableRow>
               </TableHead>
+
               <TableBody>
                 {(rowsPerPage > 0
                   ? addingpoints.slice(
@@ -293,51 +255,58 @@ function Adding_reducingCreate() {
                     )
                   : addingpoints
                 ).map((row) => (
+
                   <StyledTableRow key={row.Adding_point_ID}>
                     <TableCell component="th" scope="row" align="center">
                       {row.Student_ID}{" "}
                     </TableCell>
                     <TableCell align="center">{row.Student_Name}</TableCell>
                     <TableCell align="center">{row.Grade_ID}</TableCell>
+                    
                     <TableCell align="center">
                     <IconButton
                      aria-label="delete"
                      onClick={() => {
                       DeleteAdding_point(row.Adding_point_ID)
                        console.log(row.Adding_point_ID)
-                    }
-                    }
-                    >
-                    <DeleteIcon />
+                    }}>
+                    <DeleteIcon/>
                   </IconButton>
                   </TableCell>
+
                     <TableCell align="center">
                       <IconButton
                         aria-label="edit"             
                         // component={RouterLink}
                         // to="/update"
                         onClick={() => {
-                          navigate({ pathname: `/update/${row.Adding_point_ID}` });
+                          navigate({ 
+                            pathname: `/adding_point/update/${row.Adding_point_ID}` });
                         }}
                       >
                         <ModeEditIcon />
                       </IconButton>
                     </TableCell>
+
                   </StyledTableRow>
                 ))}
+
+
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 53 * emptyRows }}>
                     <TableCell colSpan={6} />
                   </TableRow>
                 )}
+
+
               </TableBody>
+
+
               <TableFooter>
                 <TableRow>
                   <TablePagination
                     rowsPerPageOptions={[
-                      5,
-                      10,
-                      25,
+                      5,10,25,
                       { label: "All", value: -1 },
                     ]}
                     colSpan={addingpoints.length}
@@ -355,18 +324,22 @@ function Adding_reducingCreate() {
                   />
                 </TableRow>
               </TableFooter>
-            </Table>
+
+            </Table> 
           </TableContainer>
+
           <Box sx={{ padding: 2 }} textAlign="right">
             <Button
               component={RouterLink}
-              to="/create"
+              to="/adding_point/create"
               variant="contained"
               color="primary"
             >
               แก้ไข
             </Button>
           </Box>
+
+
         </Paper>
       </Container>
     </div>

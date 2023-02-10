@@ -281,7 +281,7 @@ func SetupDatabase() {
 		professor3_password, _ := bcrypt.GenerateFromPassword([]byte("4924998abca"), 14)
 
 		professor1 := Professor{
-			Model:              gorm.Model{ID: 1},
+			// Model:              gorm.Model{ID: 1},
 			Professor_ID:       "P5302245",
 			Professor_name:     "Thanakorn Punya",
 			Professor_address:  "Nakhonratchasima",
@@ -295,7 +295,7 @@ func SetupDatabase() {
 		}
 
 		professor2 := Professor{
-			Model:              gorm.Model{ID: 2},
+			// Model:              gorm.Model{ID: 2},
 			Professor_ID:       "P3934578",
 			Professor_name:     "Surachet Sukdee",
 			Professor_address:  "Nakhonratchasima",
@@ -309,7 +309,7 @@ func SetupDatabase() {
 		}
 
 		professor3 := Professor{
-			Model:              gorm.Model{ID: 3},
+			// Model:              gorm.Model{ID: 3},
 			Professor_ID:       "P4924998",
 			Professor_name:     "Weerachai Somsuk",
 			Professor_address:  "Chiang Mai",

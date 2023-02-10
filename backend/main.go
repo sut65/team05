@@ -122,6 +122,7 @@ func main() {
 			r.GET("/requests/:subject_id", controller.GetRequestBySubjectID)
 			api.GET("/requeststudent/:request_id", controller.ListRequestStudent)
 			api.GET("/requestupdate/:request_id", controller.ListRequestForUpdate)
+			api.GET("/requests/:subject_id/:professor_id", controller.GetRequestBySubjectID)
 			// Request_Type
 			api.GET("/request_types", controller.ListRequest_Type)
 			api.GET("/request_type/:request_type_id", controller.GetRequest_Type)
@@ -138,6 +139,7 @@ func main() {
 			api.GET("/approvalupdate/:approval_id", controller.ListApprovalForUpdate)
 			api.GET("/approvalstudent/:student_id", controller.ListApprovalStudent)
 			api.POST("/approvalandadding", controller.CreateApprovalAdding_reducing)
+			api.PATCH("/approvalandadding", controller.UpdateApprovalAdding_reducing)
 			// Approval_Type
 			api.GET("/approval_types", controller.ListApproval_Type)
 			api.GET("/approval_type/:approval_type_id", controller.GetApproval_Type)
@@ -199,10 +201,10 @@ func main() {
 			api.PATCH("/adding_reducings", controller.UpdateEnrollforadding)
 			api.POST("/adding_reducingsonly", controller.CreateAdding_reducingonly)
 			//---------------------Adding_point--------------------------
-			api.GET("/adding_points/:subject_id", controller.GetSubjectByAdding)
+			// api.GET("/adding_points/:subject_id", controller.GetSubjectByAdding)
 			api.GET("/adding_points", controller.ListAdding_point)
 			api.GET("/adding_point", controller.ListAddingByEnroll)
-			api.GET("/adding_point/:adding_point_id", controller.GetAdding_point)
+			// api.GET("/adding_point/:adding_point_id", controller.GetAdding_point)
 			api.GET("/previous_adding_point", controller.GetPreviousAdding_point)
 			api.POST("/adding_points", controller.CreateAdding_point)
 			api.PATCH("/adding_points", controller.UpdateAdding_point)

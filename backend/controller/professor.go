@@ -2,7 +2,6 @@ package controller
 
 import (
 	"github.com/B6025212/team05/entity"
-	"gorm.io/gorm"
 
 	"github.com/gin-gonic/gin"
 
@@ -44,7 +43,7 @@ func CreateProfessor(c *gin.Context) {
 	}
 
 	new_professor := entity.Professor{
-		Model:              gorm.Model{ID: professor.ID},
+		// Model:              gorm.Model{ID: professor.ID},
 		Professor_ID:       professor.Professor_ID,
 		Professor_name:     professor.Professor_name,
 		Professor_address:  professor.Professor_address,

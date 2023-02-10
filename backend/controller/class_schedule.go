@@ -66,8 +66,6 @@ func CreateClassSchedule(c *gin.Context) {
 		End_Time:                   class_schedule.End_Time,
 	}
 
-	fmt.Println(new_class_schedule.Class_Schedule_ID)
-
 	if _, err := govalidator.ValidateStruct(new_class_schedule); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

@@ -1,7 +1,5 @@
 package entity
 
-import "gorm.io/gorm"
-
 type Status struct {
 	// gorm.Model
 	Status_ID   string `gorm:"primaryKey"`
@@ -9,7 +7,7 @@ type Status struct {
 	Professors  []Professor `gorm:"foreignKey:StatusID"`
 }
 type Professor struct {
-	gorm.Model
+	// gorm.Model
 	Professor_ID       string `gorm:"primaryKey"`
 	Professor_name     string
 	Professor_address  string
@@ -21,12 +19,12 @@ type Professor struct {
 	// AdminID          *uint
 	// Admin           Admin `gorm:"references:id"`
 	StatusID *string `valid:"-"`
-	Status   Status `gorm:"references:Status_ID" valid:"-"`
+	Status   Status  `gorm:"references:Status_ID" valid:"-"`
 
 	AdminID *string `valid:"-"`
-	Admin   Admin `gorm:"references:Admin_ID" valid:"-"`
+	Admin   Admin   `gorm:"references:Admin_ID" valid:"-"`
 
-	Qualification_ID *string `valid:"-"`
+	Qualification_ID *string       `valid:"-"`
 	Qualification    Qualification `gorm:"references:Qualification_ID" valid:"-"`
 
 	// Field implemented by B6025121

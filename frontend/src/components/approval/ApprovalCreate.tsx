@@ -27,12 +27,12 @@ import TablePagination from "@mui/material/TablePagination";
 import TableFooter from "@mui/material/TableFooter";
 import SearchIcon from "@mui/icons-material/Search";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { InputLabel, MenuItem, Select, SvgIcon, Toolbar } from "@mui/material";
+import { IconButton, InputLabel, MenuItem, Select, SvgIcon, Toolbar } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { RequestInterface } from "../../models/IRequest";
 import { EnrollInterface } from "../../models/I_Enroll";
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
-
+import AddBoxIcon from "@mui/icons-material/AddBox";
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
 
@@ -52,9 +52,10 @@ function ApprovalCreate() {
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [subjects, setSubjects] = React.useState<Subject[]>([]);
+  const [request, setRequest] = React.useState<Partial<RequestInterface>>({});
   const [requests, setRequests] = React.useState<RequestInterface[]>([]);
   const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
-
+  
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [message, setAlertMessage] = React.useState("");
@@ -208,10 +209,14 @@ function ApprovalCreate() {
       },
     };
     console.log(searchSubjectID);
-    fetch(`${apiUrl}/requests/${subject_id}`, approvalOptions)
+    
+    fetch(
+      `${apiUrl}/requests/${subject_id}/${localStorage.getItem("id")}`,
+      approvalOptions
+    )
       .then((response) => response.json())
       .then((res) => {
-        if (res.data) {
+        if (res.data) {console.log(res.data);
           setSubjects(res.data);
           setRequests(res.data);
         }
@@ -259,6 +264,12 @@ function ApprovalCreate() {
   }, []);
 
   function submit() {
+    if (request.Request_Type_ID == "R01") {
+      adding_reducing.History_Type_ID = "HT1";
+    }
+     if (request.Request_Type_ID == "R02") {
+       adding_reducing.History_Type_ID = "HT3";
+     }
     let data = {
       Approval_ID:
         typeof approval.Approval_ID === "string"
@@ -283,55 +294,101 @@ function ApprovalCreate() {
         typeof adding_reducing.Change_ID === "string"
           ? parseInt(adding_reducing.Change_ID)
           : adding_reducing.Change_ID,
-      History_Type_ID: (adding_reducing.History_Type_ID = "HT1"),
+      // History_Type_ID: (adding_reducing.History_Type_ID = "HT1"),
+      History_Type_ID: adding_reducing.History_Type_ID ?? "",
     };
     console.log(data);
 
     // const apiUrl = "http://localhost:8080/approvals";
+    if (request?.Request_Type_ID == "R01") {
+      if (approval?.Approval_Type_ID == "Y01") {
+        const apiUrl1 = "http://localhost:8080";
+        const requestOptionsGet = {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        };
 
-    if (approval?.Approval_Type_ID == "Y01") {
-      const apiUrl1 = "http://localhost:8080";
-      const requestOptionsGet = {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      };
+        fetch(`${apiUrl1}/approvalandadding`, requestOptionsGet)
+          .then((response) => response.json())
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              setSuccess(true);
+            } else {
+              setAlertMessage(res.error);
+              setError(true);
+            }
+          });
+      } else {
+        const approvalOptions = {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        };
 
-      fetch(`${apiUrl1}/approvalandadding`, requestOptionsGet)
-        .then((response) => response.json())
-        .then((res) => {
-          console.log(res);
-           if (res.data) {
-             setSuccess(true);
-           } else {
-             setAlertMessage(res.error);
-             setError(true);
-           }
-        });
+        fetch(`${apiUrl}/approvals`, approvalOptions)
+          .then((response) => response.json())
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              setSuccess(true);
+            } else {
+              setAlertMessage(res.error);
+              setError(true);
+            }
+          });
+      }
     } else {
-          const approvalOptions = {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          };
+      if (approval?.Approval_Type_ID == "Y01") {
+        const apiUrl = "http://localhost:8080";
+        const requestOptions = {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        };
+        fetch(`${apiUrl}/approvalandadding`, requestOptions)
+          .then((response) => response.json())
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              setSuccess(true);
+            } else {
+              setAlertMessage(res.error);
+              setError(true);
+            }
+          });
+      } else {
+        const approvalOptions = {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        };
 
-          fetch(`${apiUrl}/approvals`, approvalOptions)
-            .then((response) => response.json())
-            .then((res) => {
-              console.log(res);
-              if (res.data) {
-                setSuccess(true);
-              } else {
-                setAlertMessage(res.error);
-                setError(true);
-              }
-            });
+        fetch(`${apiUrl}/approvals`, approvalOptions)
+          .then((response) => response.json())
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              setSuccess(true);
+            } else {
+              setAlertMessage(res.error);
+              setError(true);
+            }
+          });
+      }
     }
   }
 
@@ -463,7 +520,7 @@ function ApprovalCreate() {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell align="center" sx={{ border: 1 }}>
-                      รหัสลงทะเบียน
+                      รหัสคำร้อง
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ border: 1 }}>
                       รหัสนักศึกษา
@@ -491,6 +548,9 @@ function ApprovalCreate() {
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ border: 1 }}>
                       ประเภทคำร้อง
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      เลือก
                     </StyledTableCell>
                   </TableRow>
                 </TableHead>
@@ -540,13 +600,12 @@ function ApprovalCreate() {
                         {row.Request_Type_Name}
                       </TableCell>
                       <StyledTableCell>
-                        <Button
-                          variant="contained"
-                          aria-label="AddIcon"
-                          sx={{ borderRadius: 0 }}
+                        <IconButton
+                          style={{ color: "#393838" }}
                           onClick={() => {
                             approval.Request_ID = row.Request_ID;
                             approval.Section = row.Section;
+                            request.Request_Type_ID = row.Request_Type_ID;
 
                             enroll.Student_ID = row.Student_ID;
                             enroll.Subject_ID = row.Subject_ID;
@@ -559,8 +618,8 @@ function ApprovalCreate() {
                             console.log(enroll.Class_Schedule_ID);
                           }}
                         >
-                          เพิ่ม
-                        </Button>
+                          <AddBoxIcon />
+                        </IconButton>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}

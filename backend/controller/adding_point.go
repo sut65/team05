@@ -97,20 +97,20 @@ func CreateAdding_point(c *gin.Context) {
 	}
 	c.JSON(http.StatusCreated, gin.H{"data": new_adding_point})
 }
-func GetSubjectByAdding(c *gin.Context) {
-	/* Query subject record(s) by subject_id */
+// func GetSubjectByAdding(c *gin.Context) {
+// 	/* Query subject record(s) by subject_id */
 
-	var extendedAdding_point []extendedAdding_point
+// 	var extendedAdding_point []extendedAdding_point
 
-	subject_id := c.Param("subject_id")
+// 	subject_id := c.Param("subject_id")
 
-	query := entity.DB().Raw("SELECT e.*, s.* ,cs.day,cs.start_time,cs.end_time ,ex.* ,p.* FROM enrolls e JOIN subjects s JOIN class_schedules cs JOIN exam_schedules ex JOIN professors p ON e.subject_id = s.subject_id AND e.section = s.section AND e.class_schedule_id = cs.class_schedule_id AND e.exam_schedule_id = ex.exam_schedule_id AND s.professor_id = p.id WHERE subject_id = ?", subject_id).Scan(&extendedAdding_point)
-	if err := query.Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": extendedAdding_point})
-}
+// 	query := entity.DB().Raw("SELECT e.*, s.* ,cs.day,cs.start_time,cs.end_time ,ex.* ,p.* FROM enrolls e JOIN subjects s JOIN class_schedules cs JOIN exam_schedules ex JOIN professors p ON e.subject_id = s.subject_id AND e.section = s.section AND e.class_schedule_id = cs.class_schedule_id AND e.exam_schedule_id = ex.exam_schedule_id AND s.professor_id = p.id WHERE subject_id = ?", subject_id).Scan(&extendedAdding_point)
+// 	if err := query.Error; err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, gin.H{"data": extendedAdding_point})
+// }
 func ListAddingByEnroll(c *gin.Context) {
 	/*	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		Function for list all records from `subject` table.
@@ -144,16 +144,16 @@ func ListAdding_point(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": extendedAdding_point})
 }
 
-// Get /request
-func GetAdding_point(c *gin.Context) {
-	var adding_point entity.Adding_point
-	id := c.Param("adding_point_id")
-	if err := entity.DB().Where("adding_point_id = ?", id).First(&adding_point).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": adding_point})
-}
+// // Get /request
+// func GetAdding_point(c *gin.Context) {
+// 	var adding_point entity.Adding_point
+// 	id := c.Param("adding_point_id")
+// 	if err := entity.DB().Where("adding_point_id = ?", id).First(&adding_point).Error; err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, gin.H{"data": adding_point})
+// }
 
 // // DELETE /request
 func DeleteAdding_point(c *gin.Context) {
@@ -225,28 +225,28 @@ func GetPreviousAdding_point(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": adding_point})
 }
 
-// //รับค่าprofessorมากรองรหัสวิชาและกลุ่ม
-func GetStudenByEnroll(c *gin.Context) {
-	var  enroll []entity.Enroll
-	section := c.Param("section")
-	subject_id := c.Param("subject_id")
-	query := entity.DB().Where("subject_id = ? AND section = ?",subject_id,section).First(&enroll)
-	if err := query.Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": enroll})
-	// if err := entity.DB().Raw("SELECT g.*, a.*,e.*,s.*,sn.* FROM adding_points a  JOIN grades g  JOIN enrolls e JOIN subjects s JOIN students sn ON g.grade_id = a.grade_id AND a.enroll_id = e.enroll_id AND e.subject_id = s.subject_id AND e.section = s.section AND e.student_id =sn.student_id", subject_id,section).Find(&enroll).Error; err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
-	// c.JSON(http.StatusOK, gin.H{"data": enroll})
-}
+//รับค่าprofessorมากรองรหัสวิชาและกลุ่ม
+// func GetStudenByEnroll(c *gin.Context) {
+// 	var  enroll []entity.Enroll
+// 	section := c.Param("section")
+// 	subject_id := c.Param("subject_id")
+// 	query := entity.DB().Where("subject_id = ? AND section = ?",subject_id,section).First(&enroll)
+// 	if err := query.Error; err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, gin.H{"data": enroll})
+// 	// if err := entity.DB().Raw("SELECT g.*, a.*,e.*,s.*,sn.* FROM adding_points a  JOIN grades g  JOIN enrolls e JOIN subjects s JOIN students sn ON g.grade_id = a.grade_id AND a.enroll_id = e.enroll_id AND e.subject_id = s.subject_id AND e.section = s.section AND e.student_id =sn.student_id", subject_id,section).Find(&enroll).Error; err != nil {
+// 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 	// 	return
+// 	// }
+// 	// c.JSON(http.StatusOK, gin.H{"data": enroll})
+// }
 
 
 
 
-// //เอาค่ากลุ่มกับรหัสมากรองชื่อทั้งหมด
+//เอาค่ากลุ่มกับรหัสมากรองชื่อทั้งหมด
 // func GetSubjectByProfessor(c *gin.Context) {
 // 	var  subject []entity.Subject
 // 	professor_id := c.Param("professor_id")

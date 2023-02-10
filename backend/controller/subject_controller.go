@@ -2,9 +2,9 @@ package controller
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/B6025212/team05/entity"
+	"github.com/B6025212/team05/service"
 	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
@@ -111,14 +111,13 @@ func CreateSubject(c *gin.Context) {
 
 	_, err := govalidator.ValidateStruct(new_subject)
 	if err != nil {
-		splitErrors := strings.Split(err.Error(), ";")
-		if len(splitErrors) == 1 {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		} else {
-			c.JSON(http.StatusBadRequest, gin.H{"error": splitErrors[0]})
-			return
-		}
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if _, err := service.ValidateDuplicateSubject(new_subject); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	// บันทึก entity Subject
@@ -161,7 +160,7 @@ func ListSubjects(c *gin.Context) {
 }
 
 // SELECT e.*,cs.*,ex.* FROM `subjects` e JOIN `class_schedules` cs JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id
-//SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id GROUP BY e.id
+// SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id GROUP BY e.id
 func ListEnrollSubject(c *gin.Context) {
 
 	var extendedEnrollSubject []extendedEnrollSubject
@@ -244,7 +243,7 @@ func GetSubjectBySubject_ID(c *gin.Context) {
 	subject_id := c.Param("subject_id")
 	course := c.Param("course_id")
 	//* SQL command : SELECT * FROM `subjects` WHERE subject_id = ? AND section = ?;
-	query := entity.DB().Raw("SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id WHERE e.course_id = ? AND e.subject_id = ? GROUP BY e.id",course ,subject_id).Scan(&subject)
+	query := entity.DB().Raw("SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id WHERE e.course_id = ? AND e.subject_id = ? GROUP BY e.id", course, subject_id).Scan(&subject)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

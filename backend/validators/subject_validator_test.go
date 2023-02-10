@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/B6025212/team05/entity"
+	"github.com/B6025212/team05/service"
 	"github.com/asaskevich/govalidator"
 	. "github.com/onsi/gomega"
 )
@@ -61,6 +62,27 @@ func TestSubjectID(t *testing.T) {
 	} else {
 		g.Expect(splitErrors[0]).To(Equal("Error!"))
 	}
+}
+
+func TestDuplicateSubject(t *testing.T) {
+	g := NewGomegaWithT(t)
+	entity.SetSubjectValidation()
+
+	// Correct Format
+	subject1 := entity.Subject{
+		Subject_ID: "523331",
+		Section:    1,
+		Unit:       1,
+	}
+
+	ok, err := service.ValidateDuplicateSubject(subject1)
+
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).NotTo(BeTrue())
+
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(Equal("Error!"))
 }
 
 func TestSubjectName(t *testing.T) {

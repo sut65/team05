@@ -370,7 +370,7 @@ function Class_Schedule_Update() {
                  <Select
                                    variant="standard"
                                    id="Qualification_ID"
-                                   value={course.Qualification_ID}
+                                   value={course.Qualification_ID+""}
                                    onChange={handleSelectChange}
                                    inputProps={{
                                        name: "Qualification_ID",
@@ -402,7 +402,7 @@ function Class_Schedule_Update() {
                  <Select
                                    variant="standard"
                                    id="Major_ID"
-                                   value={course.Major_ID}
+                                   value={course.Major_ID+""}
                                    onChange={handleSelectChange}
                                    inputProps={{
                                        name: "Major_ID",

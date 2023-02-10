@@ -168,10 +168,6 @@ function CourseInfo() {
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Admin_Email} </Box>
                         </Grid>
 
-                        <p></p>
-
-                        <Divider />
-
                     </Stack>
                 </Stack>
 

@@ -142,7 +142,10 @@ function Adding_pointCreate() {
   const getAdding_points = async (adding_point_id: string) => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/adding_point/${adding_point_id}`, requestOptions)
       .then((response) => response.json())
@@ -178,13 +181,16 @@ function Adding_pointCreate() {
   const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json" },
   };
 //ดึง id enrollมาใช้เพื่อเช้คว่าใครลงรหัสรายวิชานี้บ้าง
   const getEnrolls = async () => {
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {  Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/enroll`, requestOptions)
       .then((response) => response.json())
@@ -202,15 +208,17 @@ function Adding_pointCreate() {
     let id = localStorage.getItem("id")
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {  Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json" },
     };
     fetch(`${apiUrl}/professor/${id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         console.log(res);
         if (res.data) {
-          setAdding_points(res.data);
-          console.log(res.data);
+          addingpoint.Professor_ID = res.data.Professor_ID;
+        } else {
+          console.log("else");
         }
       });
   };
@@ -245,6 +253,7 @@ function Adding_pointCreate() {
 
   useEffect(() => {
     getPrevAdd();
+    getProfessor_ID();
     if (searchEnrollID == "") {
       getEnrolls();
     } 
@@ -271,14 +280,16 @@ function Adding_pointCreate() {
     console.log(data);
 
     //const apiUrl = "http://localhost:8080/adding_points";
-    const requestOptionsPatch = {
+    const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
     console.log(JSON.stringify(data));
 
-    fetch(`${apiUrl}/adding_points`, requestOptionsPatch)
+    fetch(`${apiUrl}/adding_points`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         console.log(res);
@@ -394,7 +405,7 @@ function Adding_pointCreate() {
               onChange={handleInputChange}
             />
             <TextField
-              label="รหัสอาจารย์"
+              disabled
               id="Professor_ID"
               type="string"
               variant="outlined"
@@ -536,7 +547,7 @@ function Adding_pointCreate() {
               padding: 1,
             }}
           >
-            <Button component={RouterLink} to="/" variant="contained">
+            <Button component={RouterLink} to="/adding_point" variant="contained">
               ย้อนกลับ
             </Button>
 

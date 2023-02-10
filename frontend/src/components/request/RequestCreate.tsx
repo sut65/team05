@@ -26,11 +26,12 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import TableFooter from "@mui/material/TableFooter";
 import SearchIcon from "@mui/icons-material/Search";
-
+import AddBoxIcon from "@mui/icons-material/AddBox";
 import { SelectChangeEvent } from "@mui/material/Select";
 import {
   Autocomplete,
   FormHelperText,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -472,6 +473,9 @@ function RequestCreate() {
                     <StyledTableCell align="center" sx={{ border: 1 }}>
                       อาจารย์
                     </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ border: 1 }}>
+                      เลือก
+                    </StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -522,9 +526,8 @@ function RequestCreate() {
                         {row.Professor_Name}
                       </StyledTableCell>
                       <StyledTableCell>
-                        <Button
-                          variant="contained"
-                          sx={{ borderRadius: 0 }}
+                        <IconButton
+                          style={{ color: "#393838" }}
                           onClick={() => {
                             request.Subject_ID = row.Subject_ID;
                             request.Section = row.Section;
@@ -536,8 +539,8 @@ function RequestCreate() {
                             console.log(request.Class_Schedule_ID);
                           }}
                         >
-                          เพิ่ม
-                        </Button>
+                          <AddBoxIcon />
+                        </IconButton>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}

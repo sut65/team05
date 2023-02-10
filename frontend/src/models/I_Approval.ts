@@ -11,6 +11,8 @@ export interface ApprovalInterface {
     Request_ID: number;
     Request: RequestInterface;
 
+    Request_Type_Name: string;
+
     Student_ID: string;
  //Student: StudentInterface
     

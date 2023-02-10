@@ -1,12 +1,13 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/B6025212/team05/entity"
 
-	"github.com/gin-gonic/gin"
 	"github.com/asaskevich/govalidator"
+	"github.com/gin-gonic/gin"
 )
 type extendedRequest struct {
 	entity.Request
@@ -83,13 +84,17 @@ func CreateRequest(c *gin.Context) {
 		Request_ID:   request.Request_ID,
 		Student: student,
 		Subject: subject,
-		Exam_Schedule_ID:  &exam_schedule.Exam_Schedule_ID,
-		Class_Schedule_ID: &class_schedule.Class_Schedule_ID,
-		Section: subject.Section,
+		Exam_Schedule_ID:  request.Exam_Schedule_ID,
+		Class_Schedule_ID: request.Class_Schedule_ID,
+		Section: request.Section,
 		Reason: request.Reason,
 		Request_Type_ID: request.Request_Type_ID,
 	}
 	if _, err := govalidator.ValidateStruct(new_request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if _, err := Validatechecksubject(new_request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -104,7 +109,7 @@ func CreateRequest(c *gin.Context) {
 // List /request
 func ListRequest(c *gin.Context) {
 	var extendedRequest []extendedRequest
-	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* FROM requests r JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id").Scan(&extendedRequest)
+	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* FROM requests r JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.professor_id = sb.professor_id").Scan(&extendedRequest)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -115,7 +120,7 @@ func ListRequest(c *gin.Context) {
 func ListRequestStudent(c *gin.Context) {
 	var extendedRequest []extendedRequest
 	id := c.Param("request_id")
-	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* ,s.* FROM requests r JOIN students s JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.student_id = s.student_id AND r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id WHERE s.student_id = ? GROUP BY r.request_id",id).Find(&extendedRequest)
+	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* ,s.* FROM requests r JOIN students s JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.student_id = s.student_id AND r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.professor_id = sb.professor_id WHERE s.student_id = ? GROUP BY r.request_id",id).Find(&extendedRequest)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -126,7 +131,7 @@ func ListRequestStudent(c *gin.Context) {
 func ListRequestForUpdate(c *gin.Context) {
 	var extendedRequest []extendedRequest
 	id := c.Param("request_id")
-	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* ,s.* FROM requests r JOIN students s JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.student_id = s.student_id AND r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id WHERE r.request_id = ?",id).Scan(&extendedRequest)
+	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* ,s.* FROM requests r JOIN students s JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.student_id = s.student_id AND r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.professor_id = sb.professor_id WHERE r.request_id = ?",id).Scan(&extendedRequest)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -149,7 +154,7 @@ func GetRequest(c *gin.Context) {
 func GetRequestBySubjectID(c *gin.Context) {
 	/* Query subject record by subject_id and section */
 	var request []extendedRequest
-	student := c.Param("student_id")
+	professor := c.Param("professor_id")
 	subject := c.Param("subject_id")
 
 	//* SQL command : SELECT * FROM `subjects` WHERE subject_id = ? AND section = ?;
@@ -157,7 +162,7 @@ func GetRequestBySubjectID(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "enroll with this student not found"})
 	// 	return
 	// }
-	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* ,s.* FROM requests r JOIN students s JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.student_id = s.student_id AND r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.id = sb.professor_id WHERE sb.subject_id = ?", subject,student).Scan(&request)
+	query := entity.DB().Raw("SELECT r.*, sb.*, rt.*,c.*, p.* ,s.* FROM requests r JOIN students s JOIN subjects sb JOIN request_types rt JOIN courses c JOIN professors p ON r.student_id = s.student_id AND r.subject_id = sb.subject_id AND  r.section = sb.section AND  r.request_type_id = rt.request_type_id AND sb.course_id = c.course_id AND p.professor_id = sb.professor_id WHERE sb.professor_id = ? AND sb.subject_id = ? GROUP BY r.request_id", professor,subject).Scan(&request)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -262,4 +267,16 @@ func GetPreviousRequest(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": request})
+}
+
+func Validatechecksubject(subject entity.Request) (bool, error) {
+	var request []entity.Request
+	database := entity.OpenDatabase()
+	fmt.Println(subject.Student.Student_ID)
+	fmt.Println(subject.Subject.Subject_ID)
+	if tx := database.Where("subject_id = ? AND student_id = ?", subject.Subject.Subject_ID, subject.Student.Student_ID).Find(&request); tx.RowsAffected >= 1 {
+		err_message := fmt.Sprintf("Subject cannot be added repeatedly.")
+		return false, subjectError{err_message}
+	}
+	return true, nil
 }

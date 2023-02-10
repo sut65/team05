@@ -22,7 +22,7 @@ type Approval struct {
 	Professor    Professor `gorm:"references:Professor_ID" valid:"-"`
 	Section      uint
 
-	Request_ID *uint   `valid:"-"`
+	Request_ID *uint   `gorm:"UniqueIndex" valid:"-"`
 	Request    Request `gorm:"references:Request_ID" valid:"-"`
 
 	Reason string `valid:"required~Reason cannot be blank,approval_check~Reason cannot be special characters or number,maxstringlength(30)~The reason cannot be more than 30 characters"`

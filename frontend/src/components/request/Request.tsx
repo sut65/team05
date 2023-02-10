@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 import { RequestInterface } from "../../models/IRequest";
 import { Request_TypeInterface } from "../../models/IRequest_Type";
 import { Subject } from "../../models/I_Subject";
-import { Stack, Divider, Grid, Toolbar } from "@mui/material";
+import { Stack, Divider, Grid, Toolbar, Snackbar, Alert } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
@@ -42,7 +42,7 @@ function Request() {
  const [approvals, setApprovals] = React.useState<ApprovalInterface[]>([]);
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
-
+ const [message, setAlertMessage] = React.useState("");
   const navigate = useNavigate();
   const params = useParams();
   // const getRequest = async () => {
@@ -116,11 +116,13 @@ function Request() {
     fetch(`${apiUrl}/request/${request_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
+        console.log(res);
         if (res.data) {
           console.log("Data remove");
           window.location.href = "/request";
         } else {
-          console.log("Something was wrong!!");
+          setAlertMessage(res.error);
+          setError(true);
         }
       });
   };
@@ -180,6 +182,11 @@ function Request() {
           elevation={3}
           sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
         >
+          <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="error">
+              {message}
+            </Alert>
+          </Snackbar>
           <Box
             display="flex"
             sx={{

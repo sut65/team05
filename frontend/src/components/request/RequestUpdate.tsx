@@ -66,7 +66,7 @@ function RequestUpdate() {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+const [message, setAlertMessage] = React.useState("");
   const navigate = useNavigate();
   const params = useParams();
 
@@ -245,11 +245,12 @@ function RequestUpdate() {
       .then((response) => response.json())
       .then((res) => {
         console.log(res);
-        if (res.data) {
-          setSuccess(true);
-        } else {
-          setError(true);
-        }
+      if (res.data) {
+        setSuccess(true);
+      } else {
+        setAlertMessage(res.error);
+        setError(true);
+      }
       });
   }
 
@@ -277,7 +278,7 @@ function RequestUpdate() {
 
         <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลไม่สำเร็จ
+            {message}
           </Alert>
         </Snackbar>
 

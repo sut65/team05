@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { Subject } from "../../models/I_Subject";
-import { Paper } from "@mui/material";
+import { Paper, Toolbar } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -87,9 +87,10 @@ function SubjectList() {
     const getSubjects = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { 
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json" },
+                "Content-Type": "application/json"
+            },
         };
         fetch(`${apiUrl}/subjects`, requestOptions)
             .then((response) => response.json())
@@ -105,9 +106,10 @@ function SubjectList() {
     const getSubjectBySubjectID = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { 
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json" },
+                "Content-Type": "application/json"
+            },
         };
         fetch(`${apiUrl}/subject/${searchSubjectID}`, requestOptions)
             .then((response) => response.json())
@@ -135,7 +137,8 @@ function SubjectList() {
                     height: "auto",
                     padding: 2
                 }}>
-
+                <Home_Navbar />
+                <Toolbar />
                 {/* Header components */}
                 <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
                     <Typography variant="h4"> ระบบจัดการรายวิชา </Typography>

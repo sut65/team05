@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/B6025212/team05/entity"
 
@@ -11,6 +12,7 @@ import (
 )
 type extendedRequest struct {
 	entity.Request
+	Request_ID uint
 	Subject_ID      string
 	Course_Name     string
 	Subject_TH_Name string
@@ -25,6 +27,7 @@ type extendedRequest struct {
 	Exam_Date       string
 	Exam_Start_Time string
 	Exam_End_Time   string
+	Approval_ID uint
 
 }
 // POST /course
@@ -174,6 +177,11 @@ func GetRequestBySubjectID(c *gin.Context) {
 func DeleteRequest(c *gin.Context) {
 	id := c.Param("request_id")
 
+	if _, err := Validatecheckapproval(id); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	if tx := entity.DB().Exec("DELETE FROM requests WHERE request_id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "request id not found"})
 		return
@@ -190,7 +198,6 @@ func UpdateRequest(c *gin.Context) {
 	var request_type entity.Request_Type
 	var class_schedule entity.Class_Schedule
 	var exam_schedule entity.Exam_Schedule
-
 
 	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -249,6 +256,11 @@ func UpdateRequest(c *gin.Context) {
 		Request_Type_ID: request.Request_Type_ID,
 	}
 
+	if _, err := Validatecheckapproval(strconv.FormatUint(uint64(update_request.Request_ID), 10)); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	// บันทึก entity request
 	if err := entity.DB().Save(&update_request).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -275,8 +287,20 @@ func Validatechecksubject(subject entity.Request) (bool, error) {
 	fmt.Println(subject.Student.Student_ID)
 	fmt.Println(subject.Subject.Subject_ID)
 	if tx := database.Where("subject_id = ? AND student_id = ?", subject.Subject.Subject_ID, subject.Student.Student_ID).Find(&request); tx.RowsAffected >= 1 {
-		err_message := fmt.Sprintf("Subject cannot be added repeatedly.")
-		return false, subjectError{err_message}
+		return false, subjectError{"Subject cannot be added repeatedly"}
 	}
 	return true, nil
 }
+
+
+func Validatecheckapproval(id string) (bool, error) {
+	var approval entity.Approval
+	database := entity.OpenDatabase()
+	//fmt.Println(subject.Student.Student_ID)
+	//fmt.Println(request.Request.Request_ID)
+	if tx := database.Where("request_id = ?", id).Find(&approval); tx.RowsAffected >= 1 {
+		return false, subjectError{"The request cannot be resubmitted because the professor has already responded"}
+	}
+	return true, nil
+}
+

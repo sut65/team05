@@ -3,6 +3,7 @@ package entity
 import (
 	"testing"
 
+	"github.com/B6025212/team05/controller"
 	"github.com/B6025212/team05/entity"
 	"github.com/asaskevich/govalidator"
 	. "github.com/onsi/gomega"
@@ -58,6 +59,24 @@ func TestRequestMaxcharectorReason(t *testing.T) {
 
 	// ตรวจสอบด้วย govalidator
 	ok, err := govalidator.ValidateStruct(reason)
+
+	// ok ต้องไม่เป็น true แปลว่าต้องจับ error ได้
+	g.Expect(ok).NotTo(BeTrue())
+
+	// err ต้องไม่เป็น nil แปลว่าต้องจับ error ได้
+	g.Expect(err).NotTo(BeNil())
+
+	// err.Error() ต้องมี message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("The reason cannot be more than 30 characters"))
+}
+
+func TestRequestCannotApprove(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	id := "1"
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := controller.Validatecheckapproval(id)
 
 	// ok ต้องไม่เป็น true แปลว่าต้องจับ error ได้
 	g.Expect(ok).NotTo(BeTrue())

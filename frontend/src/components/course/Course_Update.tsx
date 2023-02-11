@@ -251,7 +251,7 @@ function Class_Schedule_Update() {
              sx={{  fontFamily : "LilyUPC" ,
               fontWeight : 'bold' ,fontSize:35}}>
    
-               <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2}}/> สร้างข้อมูลหลักสูตร
+               <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2}}/> แก้ไขข้อมูลหลักสูตร
                 </Grid>
    
               </Typography>

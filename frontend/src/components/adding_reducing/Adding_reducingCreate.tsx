@@ -374,20 +374,20 @@ const getSubjectByCourseID = async (course_id: any) => {
             <Grid>
              
               <Box component="form" sx={{ m: -4, width: "40ch", marginTop: -2 }}>
-                <Select
+                <Select native
                   sx={{ ml: 10, mt: 1, width: "50ch" }}
                   id="Course_ID"
                   value={enroll.Course_ID}
-                  label="เลือกหลักสูตร"
+                  
                   onChange={handleSelectChange}
                   inputProps={{
                     name: "Coures_ID",
                   }}
-                >
+                ><option aria-label="Noun" value="">  กรุณาเลือกหลักสูตร</option>
                   {course.map((item: Course) => (
-                    <MenuItem value={item.Course_ID} key={item.Course_ID}>
+                    <option value={item.Course_ID} key={item.Course_ID}>
                       {item.Course_Name}
-                    </MenuItem>
+                    </option>
                   ))}
                 </Select>
               </Box>

@@ -88,12 +88,13 @@ func TestRequestCannotApprove(t *testing.T) {
 	g.Expect(err).NotTo(BeNil())
 
 	// err.Error() ต้องมี message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("The reason cannot be more than 30 characters"))
+	g.Expect(err.Error()).To(Equal("The request cannot be resubmitted because the professor has already responded"))
 }
 
 // ตรวจสอบนักศึกษาลงรายวิชาซ้ำแล้วต้องเจอ Error
 func TestRequestSubjectNotrepeatedly(t *testing.T) {
 	g := NewGomegaWithT(t)
+
 	subject1 := entity.Subject{
 		Subject_ID: "523354",
 	}
@@ -115,7 +116,7 @@ func TestRequestSubjectNotrepeatedly(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Subject cannot be duplicate"))
+	g.Expect(err.Error()).To(Equal("Subject cannot be added repeatedly"))
 }
 
 // ตรวจสอบตรวจสอบว่า day, start_time และ end_time ของ class_scheduleตรงกับข้อมูลแล้วต้องเจอ Error
@@ -144,5 +145,5 @@ func TestRequestClassDayNotrepeatedly(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Class Day cannot be duplicate"))
+	g.Expect(err.Error()).To(Equal("Cannot add class schedule. In start time 13:00 is overlapped with some class schedule"))
 }

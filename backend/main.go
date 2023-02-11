@@ -170,8 +170,8 @@ func main() {
 			api.GET("/statuses", controller.ListStatuses)
 			api.GET("/status/:id", controller.GetStatus)
 			api.POST("/statuses", controller.CreateStatus)
-
 			//Payment
+			r.GET("/paymentdata/:paymentdata_student_id", controller.GetPaymentByStudent_ID)
 			r.GET("/payment/:payment_id", controller.GetPayment)
 			api.GET("/payment", controller.ListPayment)
 			api.POST("/payment", controller.CreatePayment)

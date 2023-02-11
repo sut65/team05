@@ -274,8 +274,6 @@ export function CreatePayment() {
         getPayment_type();
         getPrevEnroll();
         getAdmin();
-
-
         if (SearchStudentID == "") {
             getEnroll();
         } else {
@@ -380,6 +378,7 @@ export function CreatePayment() {
                             <p>กรุณาระบุรหัสนักศึกษา</p>
                             <Box>
                                 <TextField
+                                    id="Student_ID"
                                     label="ระบุรหัสนักศึกษา"
                                     variant="outlined"
                                     onChange={handleInputChange}
@@ -391,6 +390,7 @@ export function CreatePayment() {
                             <Button
                                 variant="contained"
                                 onClick={sendSearchedStudentID}
+                                
                             >
                                 ค้นหารหัสนักศึกษา
                             </Button>

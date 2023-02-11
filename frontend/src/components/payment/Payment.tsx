@@ -16,7 +16,7 @@ import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
 //import { StudentInterface } from "../models/studentInterface";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { CssBaseline, Grid, Paper, SelectChangeEvent, TableFooter, TablePagination } from "@mui/material";
+import { CssBaseline, Grid, Paper, SelectChangeEvent, TableFooter, TablePagination, TextField } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -35,9 +35,11 @@ export function ListPayment() {
     const params = useParams();
     const [payment, setPayment] = React.useState<Partial<Payment>>({});
     const [payments, setPayments] = React.useState<Payment[]>([]);
-
+    const [SearchStudentID, setSearchStudentID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+   
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -56,6 +58,22 @@ export function ListPayment() {
             border: 1,
         },
     }));
+    const handleInputChange = (
+        event: React.ChangeEvent<{ id?: string; value: any }>
+    ) => {
+        const id = event.target.id as keyof typeof payment;
+        const searched_student_id = event.target.value;
+        setSearchStudentID(searched_student_id)
+        setPayment({
+            ...payment,
+            [id]: event.target.value
+        });
+    }; 
+    const sendSearchedStudentID = () => {
+        setSearchStudentID(SearchStudentID);
+        getPaymentByStudentID(SearchStudentID);
+    };
+    
 
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
@@ -94,6 +112,27 @@ export function ListPayment() {
                 }
             });
     };
+    const apiUrl = "http://localhost:8080";
+    const getPaymentByStudentID = async (student_id: any) => {
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+        };
+        console.log(SearchStudentID)
+        fetch(`${apiUrl}/paymentdata/${SearchStudentID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                console.log(res.data);
+                if (res.data) {
+                    setPayments(res.data);
+                    //setSubjects(res.data);
+                }
+            });
+    };
+
 
     const deletePayment = async (payment_id: number) => {
         console.log("good");
@@ -121,6 +160,11 @@ export function ListPayment() {
 
     useEffect(() => {
         getPayment();
+        if (SearchStudentID == "") {
+            getPayment();
+        } else {
+            getPaymentByStudentID(SearchStudentID);
+        }
     }, []);
     return (
         <Container maxWidth="xl" sx={{ mt: 10 }}
@@ -153,21 +197,44 @@ export function ListPayment() {
                     </Box>
                 </Box>
             </Paper>
-            <Paper sx={{mt:2}}>
+            <Paper sx={{ mt: 2 }}>
                 <Typography
-                    sx={{padding:2}}
+                    sx={{ padding: 2 }}
                     variant="subtitle2"
                     color="back"
                     gutterBottom
                 >
-                    ระบบบันทึกรายจ่ายเป็นระบบที่ให้เจ้าหน้าที่ของมหาลัย 
-                    หรือแอดมินใช้ เพื่อยืนยันการชําระเงินค่าลงทะเบียนเรียนของนักศึกษา 
-                    โดยเมื่อนักศึกษาทําการจ่ายเงินตามจํานวนครบแล้ว 
-                    จะต้องยื่นหลักฐานเพื่อให้เจ้าหน้าที่ของมหาลัย หรือแอดมิน 
-                    ทําการบันทึกลงในระบบ โดยสิงที่ต้องบันทึกประกอบไปด้วยจํานวนเงินที่ชําระเลขที่ใบเสร็จ 
-                    ในกรณีที่นักศึกษาใช้ประเภทการชําระเป็นการชําระด้วยการโอน และกรอกวันเวลาที่จ่าย 
+                    ระบบบันทึกรายจ่ายเป็นระบบที่ให้เจ้าหน้าที่ของมหาลัย
+                    หรือแอดมินใช้ เพื่อยืนยันการชําระเงินค่าลงทะเบียนเรียนของนักศึกษา
+                    โดยเมื่อนักศึกษาทําการจ่ายเงินตามจํานวนครบแล้ว
+                    จะต้องยื่นหลักฐานเพื่อให้เจ้าหน้าที่ของมหาลัย หรือแอดมิน
+                    ทําการบันทึกลงในระบบ โดยสิงที่ต้องบันทึกประกอบไปด้วยจํานวนเงินที่ชําระเลขที่ใบเสร็จ
+                    ในกรณีที่นักศึกษาใช้ประเภทการชําระเป็นการชําระด้วยการโอน และกรอกวันเวลาที่จ่าย
                     นักศึกษาสามารถผ่อนจ่ายได้ ไม่จําเป็นต้องชําระเต็มจํานวนในครั้งเดียว แอดมินสามารถแก้ไขรายจ่ายให้นักศึกษาได้
                 </Typography>
+            </Paper>
+            <Paper>
+                <Grid container sx={{ marginTop: '5px', marginLeft: 1, }}>
+                    <Grid >
+                        <p>ระบุรหัสนักศึกษา</p>
+                        <Box>
+                            <TextField
+                                id="Student_ID"
+                                label="ระบุรหัสนักศึกษา"
+                                variant="outlined"
+                                onChange={handleInputChange}
+                            >
+                            </TextField>
+                        </Box>
+                    </Grid>
+                    <Grid sx={{ marginTop: '63px', marginLeft: 1, }}>
+                        <Button
+                            variant="contained"
+                            onClick={sendSearchedStudentID}
+                        >
+                            ค้นหารหัสนักศึกษา
+                        </Button>
+                    </Grid></Grid>
             </Paper>
             <Grid sx={{ mt: 5 }}>
                 <TableContainer component={Paper}>

@@ -224,7 +224,7 @@ func SetupDatabase() {
 		db.Create(&cv2560)
 
 		elec2562 := Course{
-			Course_ID:     "ELEC2560",
+			Course_ID:     "ELEC2562",
 			Course_Name:   "หลักสูตรวิศวกรรมอิเล็กทรอนิกส์ 2562",
 			Datetime:      time.Now(),
 			Qualification: qualification3,
@@ -234,7 +234,7 @@ func SetupDatabase() {
 		db.Create(&elec2562)
 
 		polymer2564 := Course{
-			Course_ID:     "PM2560",
+			Course_ID:     "PM2564",
 			Course_Name:   "หลักสูตรวิศวกรรมพอลิเมอร์ 2564",
 			Datetime:      time.Now(),
 			Qualification: qualification2,
@@ -244,7 +244,7 @@ func SetupDatabase() {
 		db.Create(&polymer2564)
 
 		mechanical2564 := Course{
-			Course_ID:     "MC2560",
+			Course_ID:     "MC2564",
 			Course_Name:   "หลักสูตรวิศวกรรมเครื่องกล 2564",
 			Datetime:      time.Now(),
 			Qualification: qualification2,
@@ -274,7 +274,7 @@ func SetupDatabase() {
 		db.Create(&industrial2560)
 
 		ph2561 := Course{
-			Course_ID:     "PH2560",
+			Course_ID:     "PH2561",
 			Course_Name:   "หลักสูตรสาธารณสุข 2561",
 			Datetime:      time.Now(),
 			Qualification: qualification2,
@@ -284,7 +284,7 @@ func SetupDatabase() {
 		db.Create(&ph2561)
 
 		com_sci2564 := Course{
-			Course_ID:     "CS2560",
+			Course_ID:     "CS2564",
 			Course_Name:   "หลักสูตรวิทยาการคอมพิวเตอร์ 2564",
 			Datetime:      time.Now(),
 			Qualification: qualification2,
@@ -294,7 +294,7 @@ func SetupDatabase() {
 		db.Create(&com_sci2564)
 
 		physics2562 := Course{
-			Course_ID:     "PS2560",
+			Course_ID:     "PS2562",
 			Course_Name:   "หลักสูตรฟิสิกส์ 2562",
 			Datetime:      time.Now(),
 			Qualification: qualification2,
@@ -304,7 +304,7 @@ func SetupDatabase() {
 		db.Create(&physics2562)
 
 		biology2561 := Course{
-			Course_ID:     "BL2560",
+			Course_ID:     "BL2561",
 			Course_Name:   "หลักสูตรชีววิทยา 2561",
 			Datetime:      time.Now(),
 			Qualification: qualification2,
@@ -314,7 +314,7 @@ func SetupDatabase() {
 		db.Create(&biology2561)
 
 		chemical2564 := Course{
-			Course_ID:     "CC2560",
+			Course_ID:     "CC2564",
 			Course_Name:   "หลักสูตรเคมี 2564",
 			Datetime:      time.Now(),
 			Qualification: qualification2,

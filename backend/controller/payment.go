@@ -129,9 +129,9 @@ func GetPayment(c *gin.Context) {
 
 type extendedPaymentByStudent struct {
 	entity.Payment
-	Receipt_number string 
-	Date_Time   time.Time 
-	Student string
+	Receipt_number string
+	Date_Time      time.Time
+	Student        string
 	Unit           uint
 	Payable        uint
 	entity.Payment_Type
@@ -141,7 +141,7 @@ type extendedPaymentByStudent struct {
 func GetPaymentByStudent_ID(c *gin.Context) {
 	var payment []extendedPaymentByStudent
 	student := c.Param("paymentdata_student_id")
-	query := entity.DB().Raw("SELECT * FROM payments WHERE student_id = ?",student).Scan(&payment)
+	query := entity.DB().Raw("SELECT * FROM payments WHERE student_id = ?", student).Scan(&payment)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -206,7 +206,10 @@ func UpdatePayment(c *gin.Context) {
 		Amounts:         update_amount,
 		//Student:        student,
 	}
-
+	if _, err := govalidator.ValidateStruct(update_payment); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	// บันทึก entity Subject
 	if err := entity.DB().Save(&update_payment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

@@ -24,7 +24,7 @@ type Payment struct {
 	Admin_ID *string `valid:"-"`
 	Admin    Admin `gorm:"references:Admin_ID" valid:"-"`
 
-	Receipt_number string `valid:"receipt_thai_check~receipt number cannot be thai character,receipt_english_check~receipt number cannot be english character"`
+	Receipt_number string `valid:"receipt_thai_check~receipt number cannot be thai character,receipt_english_check~receipt number cannot be special character"`
 	Date_Time      time.Time `valid:"datetimecheckfutures~Date_Time cannot be future"`
 	Unit           uint   `valid:"required~Unit cannot be blank"`
 	Payable        uint
@@ -48,7 +48,7 @@ func SetReceipt_numberValidation() {
 
 	validator.CustomTypeTagMap.Set("receipt_thai_check", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 		str := i.(string)
-		match, _ := regexp.MatchString(`[0-9]`, str)
+		match, _ := regexp.MatchString(`[0-9#$@!*]`, str)
 		return match
 	}))
 }

@@ -408,7 +408,7 @@ function CreateEnroll() {
                                 <Box
                                     component="form"
                                     sx={{ m: 1, width: '40ch', marginTop: -4, }}>
-                                    <Select sx={{ ml: 1, mt: 2, width: '35ch' }}
+                                    <Select native sx={{ ml: 1, mt: 2, width: '35ch' }}
                                         label="เลือกหลักสูตร"
                                         id="Course_ID"
                                         color="warning"
@@ -418,14 +418,14 @@ function CreateEnroll() {
                                             name: "Coures_ID",
                                         }}
 
-                                    >
+                                    >   <option aria-label="None" value=""> กรุณาเลือกหลักสูตร </option>
                                         {course.map((item: Course) => (
-                                            <MenuItem
+                                            <option
                                                 value={item.Course_ID}
                                                 key={item.Course_ID}
                                             >
                                                 {item.Course_Name}
-                                            </MenuItem>
+                                            </option>
                                         ))}
                                     </Select>
                                 </Box>

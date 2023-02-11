@@ -15,7 +15,7 @@ import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
 //import { StudentInterface } from "../models/studentInterface";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Alert, CssBaseline, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, TableFooter, TablePagination } from "@mui/material";
+import { Alert, CssBaseline, FormControl, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, TableFooter, TablePagination } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -32,20 +32,21 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Payment } from "../../models/I_Payment";
 import { Payment_Type } from "../../models/I_Payment";
 import { bgcolor } from "@mui/system";
-
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import dayjs, { Dayjs } from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export function UpdatePayment() {
     const navigate = useNavigate();
     const params = useParams();
     const [date, setDate] = React.useState<Date | null>(null);
-
-
+    const [date_time, setDate_time] = React.useState<Dayjs | null>(dayjs);
 
     //const [subject, setSubject] = React.useState<Subject[]>([]);
 
     const [subjects, setSubjects] = React.useState<Subject[]>([]);
     const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
-
+    const [message, setAlertMessage] = React.useState("");
     const [success, setSuccess] = React.useState(false);
     const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
     const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
@@ -297,11 +298,10 @@ export function UpdatePayment() {
             Admin_ID: payment.Admin_ID ?? "",
             Payable: typeof payment.Payable === "string" ? parseInt(payment.Payable) : payment.Payable,
             Amounts: typeof payment.Amounts === "string" ? parseInt(payment.Amounts) : payment.Amounts,
-            Date_Time: payment.Date_Time ?? "",
+            Date_Time: date_time,
             Payment_ID: typeof payment.Payment_ID === "string" ? parseInt(payment.Payment_ID) : payment.Payment_ID,
             Payment_Type_ID: payment.Payment_Type_ID,
-            Receipt_number: payment.Receipt_number
-             ?? "",
+            Receipt_number: payment.Receipt_number ?? "",
             Student_ID: payment.Student_ID ?? "",
             Unit: typeof payment.Unit === "string" ? parseInt(payment.Unit) : payment.Unit,
             // Student_ID:
@@ -326,6 +326,7 @@ export function UpdatePayment() {
                 if (res.data) {
                     setSuccess(true);
                 } else {
+                    setAlertMessage(res.error);
                     setError(true);
                 }
             });
@@ -354,7 +355,7 @@ export function UpdatePayment() {
 
             <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
-                    แก้ไชข้อมูลไม่สำเร็จ
+                    {message}
                 </Alert>
             </Snackbar>
             <Paper sx={{ pt: -1, pl: 1, pr: 1, mt: 1 }}>
@@ -541,9 +542,8 @@ export function UpdatePayment() {
                         <Grid >
                             <p style={{ paddingLeft: 17, }}>วิธีการชำระเงิน</p>
                             <Box
-
                                 sx={{ m: 1, marginTop: -2, }}>
-                                <Select sx={{ ml: 1, mt: 2, width: '25ch' }}
+                                <Select native sx={{ ml: 1, mt: 2, width: '25ch' }}
                                     id="Payment_Type_ID"
                                     size="small"
                                     value={payment.Payment_Type_ID}
@@ -552,14 +552,14 @@ export function UpdatePayment() {
                                         name: "Payment_Type_ID",
                                     }}
 
-                                >
+                                >   <option aria-label="None" value=""> กรุณาเลือกวิธีการชำระเงิน </option>
                                     {payment_type.map((item: Payment_Type) => (
-                                        <MenuItem
+                                        <option
                                             value={item.Payment_Type_ID}
                                             key={item.Payment_Type_ID}
                                         >
                                             {item.Payment_Type_Name}
-                                        </MenuItem>
+                                        </option>
                                     ))}
                                 </Select>
                             </Box>
@@ -581,14 +581,26 @@ export function UpdatePayment() {
                         </Grid>
                         <Grid >
                             <p style={{ paddingLeft: 18, }}>ระบุวัน-เวลาที่ชำระ</p>
-                            <TextField sx={{ width: "270px", pl: 2 }}
+                            {/* <TextField sx={{ width: "270px", pl: 2 }}
 
                                 size="small"
                                 id="Date_Time"
                                 value={payment.Date_Time}
                                 onChange={handleInputChange}
                             >
-                            </TextField>
+                            </TextField> */}
+                            <FormControl fullWidth variant="outlined" size="small">
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DateTimePicker
+                                        renderInput={(params) => <TextField {...params} />}
+                                        value={date_time}
+                                        onChange={(newValue: Dayjs | null) => {
+                                            setDate_time(newValue);
+                                            console.log(newValue)
+                                        }}
+                                    />
+                                </LocalizationProvider>
+                            </FormControl>
                         </Grid>
 
                     </Grid>

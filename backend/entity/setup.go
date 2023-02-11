@@ -919,7 +919,7 @@ func SetupDatabase() {
 			Room:                       room_b2101,
 			Admin:                      admin1,
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 17, 00),
 			Class_Schedule_Description: "System Analysis sec2",
 			Day:                        "Mon",
 		}
@@ -942,7 +942,7 @@ func SetupDatabase() {
 			Section:                    2,
 			Room:                       room_b2101,
 			Admin:                      admin1,
-			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 14, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
 			Class_Schedule_Description: "Operating System sec2",
 			Day:                        "Tue",
@@ -955,8 +955,8 @@ func SetupDatabase() {
 			Section:                    1,
 			Room:                       room_b6105,
 			Admin:                      admin2,
-			Start_Time:                 fmt.Sprintf("%02d:%02d", 9, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 14, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
 			Class_Schedule_Description: "Artificial Neural Network class",
 			Day:                        "Mon",
 		}
@@ -991,8 +991,8 @@ func SetupDatabase() {
 			Section:                    2,
 			Room:                       room_F11_software,
 			Admin:                      admin2,
-			Start_Time:                 fmt.Sprintf("%02d:%02d", 16, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 19, 00),
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 14, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
 			Class_Schedule_Description: "Operating System Lab Class Sec2",
 			Day:                        "Thu",
 		}
@@ -1004,7 +1004,7 @@ func SetupDatabase() {
 			Room:                       room_F11_software,
 			Admin:                      admin2,
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
 			Class_Schedule_Description: "Problem Solving Sec 1 Class",
 			Day:                        "Mon",
 		}

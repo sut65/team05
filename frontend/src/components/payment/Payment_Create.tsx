@@ -15,7 +15,7 @@ import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
 //import { StudentInterface } from "../models/studentInterface";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Alert, CssBaseline, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, TableFooter, TablePagination } from "@mui/material";
+import { Alert, CssBaseline, FormControl, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, TableFooter, TablePagination } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -390,7 +390,7 @@ export function CreatePayment() {
                             <Button
                                 variant="contained"
                                 onClick={sendSearchedStudentID}
-                                
+
                             >
                                 ค้นหารหัสนักศึกษา
                             </Button>
@@ -483,7 +483,7 @@ export function CreatePayment() {
                         </Grid>
                         <Grid >
                             <p style={{ paddingLeft: 18, }}>จำนวนเงินที่ต้องชำระ</p>
-                            <TextField sx={{ width: "250px", pl: 2 }}
+                            <TextField sx={{ width: "250px", pl: 2, paddingRight: 2 }}
                                 size="small"
                                 id="Payable"
                                 value={add(payment.Unit)}
@@ -494,8 +494,9 @@ export function CreatePayment() {
                         </Grid>
                         <Grid sx={{ marginLeft: 3, }}>
                             <p style={{ paddingLeft: 18, }}>จำนวนเงินที่นักศึกษาชำระ</p>
-                            <TextField sx={{ width: "250px", pl: 2 }}
+                            <TextField sx={{ width: "250px", pl: 2, paddingLeft: 0 }}
                                 size="small"
+                                label="กรุณากรอกจำนวนเงิน"
                                 id="Amounts"
                                 value={payment.Amounts}
                                 onChange={handleInputChange}
@@ -509,7 +510,7 @@ export function CreatePayment() {
                             <p style={{ paddingLeft: 17, }}>แอดมินผู้ทำรายการ</p>
                             <Box
                                 component="form"
-                                sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -1, paddingLeft: 1, }}>
+                                sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -1, paddingLeft: 1, paddingRight: 2 }}>
                                 <TextField sx={{ width: "200px" }}
                                     type="string"
                                     size="small"
@@ -526,7 +527,7 @@ export function CreatePayment() {
                         </Grid>
                         <Grid >
                             <p style={{ paddingLeft: 18, }}>รหัสนักศึกษา</p>
-                            <TextField sx={{ width: "250px", pl: 2 }}
+                            <TextField sx={{ width: "250px", pl: 2, paddingLeft: 0 }}
                                 size="small"
                                 id="Student_ID"
                                 value={payment.Student_ID}
@@ -542,23 +543,25 @@ export function CreatePayment() {
                             <Box
 
                                 sx={{ m: 1, marginTop: -2, }}>
-                                <Select sx={{ ml: 1, mt: 2, width: '25ch' }}
+                                <Select native sx={{ ml: 1, mt: 2, width: '25ch' }}
+                                    required
                                     id="Payment_Type_ID"
                                     size="small"
-                                    value={payment.Payment_Type_ID}
+                                    value={payment.Payment_Type_ID + ""}
                                     onChange={handleSelectChange}
                                     inputProps={{
                                         name: "Payment_Type_ID",
                                     }}
 
-                                >
+                                > <option aria-label="None" value=""> กรุณาเลือกวิธีการชำระเงิน </option>
                                     {payment_type.map((item: Payment_Type) => (
-                                        <MenuItem
+                                        <option
+                                            defaultValue={item.Payment_Type_ID}
                                             value={item.Payment_Type_ID}
                                             key={item.Payment_Type_ID}
                                         >
                                             {item.Payment_Type_Name}
-                                        </MenuItem>
+                                        </option>
                                     ))}
                                 </Select>
                             </Box>
@@ -578,9 +581,9 @@ export function CreatePayment() {
                                 </TextField>
                             </Box>
                         </Grid>
-                        <Grid >
+                        <Grid sx={{paddingLeft:2}}>
                             <p style={{ paddingLeft: 18, }}>ระบุวัน-เวลาที่ชำระ</p>
-                            <TextField 
+                            {/* <TextField 
                                 id="Date_Time"
                                 size="small"
                                 value={payment.Date_Time}
@@ -589,7 +592,19 @@ export function CreatePayment() {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                            />
+                            /> */}
+                            <FormControl fullWidth variant="outlined" size="small">
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DateTimePicker
+                                        renderInput={(params) => <TextField {...params} />}
+                                        value={date_time}
+                                        onChange={(newValue: Dayjs | null) => {
+                                            setDate_time(newValue);
+                                            console.log(newValue)
+                                        }}
+                                    />
+                                </LocalizationProvider>
+                            </FormControl>
                         </Grid>
 
                     </Grid>

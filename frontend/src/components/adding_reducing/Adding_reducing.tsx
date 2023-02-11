@@ -223,7 +223,8 @@ function Adding_reducingCreate() {
 
   return (
     <div>
-    <Container maxWidth="xl" sx={{ p: 2 }}>
+    <Container maxWidth="xl" sx={{ p: 2 }}
+    >
     <Home_Navbar></Home_Navbar>
         <Toolbar></Toolbar>
       <Box

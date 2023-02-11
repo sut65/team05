@@ -20,7 +20,7 @@ type extendedAdding_reducing struct {
 	Subject_ID      string
 }
 
-// รับค่าจากsubmit
+// รับค่าจากsubmitที่ส่งมาจากfrontend
 type createaddingandenroll struct {
 	Change_ID         uint
 	History_Type_ID   string

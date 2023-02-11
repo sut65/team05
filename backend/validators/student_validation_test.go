@@ -2,6 +2,7 @@ package entity
 
 import (
 	"testing"
+	"time"
 
 	"github.com/B6025212/team05/entity"
 	"github.com/asaskevich/govalidator"
@@ -210,4 +211,31 @@ func TestStudentPasswordMinString(t *testing.T) {
 
 	// err.Error ต้องมี error message แสดงออกมา
 	g.Expect(err.Error()).To(Equal("Student Password can not less than 8 character"))
+}
+
+func TestDateTimeNotFuture(t *testing.T) {
+	g := NewGomegaWithT(t)
+	entity.SetStudentIDValidation()
+	entity.SetStudentNameValidation()
+	entity.SetStudentPasswordValidation()
+	entity.SetStudentDatetimeValidation()
+
+	student := entity.Student{
+		Student_ID:       "B6200001",                         //ถูก
+		Student_Name:     "สมพงษ์ วิ่งวุฒิ",                  // ถูก
+		Student_Password: "abcd1234",                         //ถูก
+		Datetime:         time.Now().Add(time.Second * 1000), // ผิด
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(student)
+
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).ToNot(BeTrue())
+
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).ToNot(BeNil())
+
+	// err.Error ต้องมี error message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("Datetime cannot be future"))
 }

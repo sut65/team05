@@ -355,7 +355,7 @@ const requestOptionsGet = {
                                 id="Admin_ID"
                                 type="string"
                                 disabled
-                                value={students.Admin_ID }
+                                value={students.Admin_ID}
                                 inputProps={{
                                   name: "Admin_ID",
                                 }}
@@ -477,7 +477,7 @@ const requestOptionsGet = {
               <Select
                                 variant="outlined"
                                 id="Course_ID"
-                                value={students.Course_ID}
+                                value={students.Course_ID+""}
                                 onChange={handleSelectChange}
                                 inputProps={{
                                     name: "Course_ID",
@@ -509,7 +509,7 @@ const requestOptionsGet = {
               <Select
                                 variant="outlined"
                                 id="Dormitory_ID"
-                                value={students.Dormitory_ID}
+                                value={students.Dormitory_ID+""}
                                 onChange={handleSelectChange}
                                 inputProps={{
                                     name: "Dormitory_ID",

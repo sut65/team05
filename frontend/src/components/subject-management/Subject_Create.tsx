@@ -31,8 +31,8 @@ function CreateSubject() {
     const [subject_status, setSubjectStatus] = React.useState<Subject_Status[]>([]);
     const [subject_category, setSubjectCategory] = React.useState<Subject_Category[]>([]);
     const [class_types, setClassTypes] = React.useState<Class_Type[]>([]);
-    // const [success, setSuccess] = React.useState(false);
-    // const [error, setError] = React.useState(false);
+    const [success, setSuccess] = React.useState(false);
+    const [error, setError] = React.useState(false);
 
     const apiUrl = "http://localhost:8080";
 
@@ -191,14 +191,14 @@ function CreateSubject() {
                             title: 'Saved!',
                             text: 'Success',
                         })
-                        // setSuccess(true);
+                        setSuccess(true);
                     } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error!',
                             text: res.error,
                         })
-                        // setError(true);
+                        setError(true);
                     }
                 });
             } 
@@ -285,7 +285,7 @@ function CreateSubject() {
                             <Select
                                 id="Subject_Status_ID"
                                 variant="standard"
-                                value={subject.Subject_Status_ID}
+                                value={subject.Subject_Status_ID + ""}
                                 inputProps={{ name: "Subject_Status_ID", }}
                                 onChange={handleSelectChange}
                                 sx={{fontFamily:'Mitr-Regular'}}
@@ -309,7 +309,7 @@ function CreateSubject() {
                             <Select
                                 id="Class_Type_ID"
                                 variant="standard"
-                                value={subject.Class_Type_ID}
+                                value={subject.Class_Type_ID + ""}
                                 inputProps={{ name: "Class_Type_ID", }}
                                 onChange={handleSelectChange}
                                 sx={{fontFamily:'Mitr-Regular'}}
@@ -366,7 +366,7 @@ function CreateSubject() {
                                 <Select
                                     id="Course_ID"
                                     variant="standard"
-                                    value={subject.Course_ID}
+                                    value={subject.Course_ID+""}
                                     inputProps={{ name: "Course_ID", }}
                                     onChange={handleSelectChange}
                                     sx={{fontFamily:'Mitr-Regular'}}
@@ -451,7 +451,7 @@ function CreateSubject() {
                                 <Select
                                     id="Subject_Categories_ID"
                                     variant="standard"
-                                    value={subject.Subject_Category_ID}
+                                    value={subject.Subject_Category_ID + ""}
                                     inputProps={{ name: "Subject_Category_ID", }}
                                     onChange={handleSelectChange}
                                     sx={{fontFamily:'Mitr-Regular'}}

@@ -20,6 +20,7 @@ import { AdminInterface } from "../../models/I_Admin";
 import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
+import NativeSelect from '@mui/material/NativeSelect';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -364,29 +365,27 @@ function Class_Schedule_Update() {
             <Grid item xs={6} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,
               fontWeight : 'bold' ,fontSize:27}}>
-               <FormControl fullWidth variant="outlined">
+               <FormControl fullWidth variant="outlined" sx={{mt:-0.5}}>
                  
                  <p>คุณวุฒิ</p>
-                 <Select
+                 <Select native 
                                    variant="standard"
                                    id="Qualification_ID"
                                    value={course.Qualification_ID+""}
                                    onChange={handleSelectChange}
                                    inputProps={{
                                        name: "Qualification_ID",
-                                       style: {
-                                           fontFamily: 'LilyUPC'
-                                       }
+                                      
                                    }}
    
                                >
                                    {qualification.map((item: QualificationsInterface) => (
-                                       <MenuItem
+                                       <option
                                            value={item.Qualification_ID}
                                            key={item.Qualification_ID}
                                        >
                                            {item.Qualification_Name}
-                                       </MenuItem>
+                                       </option>
                                    ))}
                                </Select>
                    
@@ -396,29 +395,27 @@ function Class_Schedule_Update() {
              <Grid item xs={6} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,
               fontWeight : 'bold' ,fontSize:27}}>
-               <FormControl fullWidth variant="outlined">
+               <FormControl fullWidth variant="outlined" sx={{mt:-0.5}}>
                  
-                 <p>ชื่อสาขา</p>
-                 <Select
+                 <p>ชื่อสาขา</p> 
+                 <Select native 
                                    variant="standard"
                                    id="Major_ID"
                                    value={course.Major_ID+""}
                                    onChange={handleSelectChange}
                                    inputProps={{
                                        name: "Major_ID",
-                                       style: {
-                                           fontFamily: 'LilyUPC'
-                                       }
+                                       
                                    }}
    
                                >
                                    {major.map((item: MajorsInterface) => (
-                                       <MenuItem
+                                       <option
                                            value={item.Major_ID}
                                            key={item.Major_ID}
                                        >
                                            {item.Major_Name}
-                                       </MenuItem>
+                                       </option>
                                    ))}
                                </Select>
                    

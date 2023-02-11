@@ -66,7 +66,7 @@ function CreateEnroll() {
   const [student, setStudent] = React.useState<StudentsInterface[]>([]);
   const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
   
-
+  const [message, setAlertMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [course, setCourse] = React.useState<Course[]>([]);
   const [error, setError] = React.useState(false);
@@ -331,8 +331,8 @@ const getSubjectByCourseID = async (course_id: any) => {
         console.log(res);
         if (res.data) {
           setSuccess(true);
-         
         } else {
+          setAlertMessage(res.error);
           setError(true);
         }
         });
@@ -356,7 +356,7 @@ const getSubjectByCourseID = async (course_id: any) => {
 
       <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
+        {message}
         </Alert>
       </Snackbar>
       <div>
@@ -374,20 +374,20 @@ const getSubjectByCourseID = async (course_id: any) => {
             <Grid>
              
               <Box component="form" sx={{ m: -4, width: "40ch", marginTop: -2 }}>
-                <Select
+                <Select native
                   sx={{ ml: 10, mt: 1, width: "50ch" }}
                   id="Course_ID"
                   value={enroll.Course_ID}
-                  label="เลือกหลักสูตร"
+                  
                   onChange={handleSelectChange}
                   inputProps={{
                     name: "Coures_ID",
                   }}
-                >
+                ><option aria-label="Noun" value="">  กรุณาเลือกหลักสูตร</option>
                   {course.map((item: Course) => (
-                    <MenuItem value={item.Course_ID} key={item.Course_ID}>
+                    <option value={item.Course_ID} key={item.Course_ID}>
                       {item.Course_Name}
-                    </MenuItem>
+                    </option>
                   ))}
                 </Select>
               </Box>
@@ -498,7 +498,6 @@ const getSubjectByCourseID = async (course_id: any) => {
                       <TableCell align="left">{row.Section}</TableCell>
                       <TableCell align="center">
                         <IconButton
-                          // id="Subject_ID"
                           onClick={() => {
                             enroll.Subject_ID = row.Subject_ID;
                             enroll.Exam_Schedule_ID = row.Exam_Schedule_ID;
@@ -548,33 +547,7 @@ const getSubjectByCourseID = async (course_id: any) => {
               </Table>
             </TableContainer>
           </Grid>
-          {/* <Box
-        component="form"
-        sx={{'& .MuiTextField-root': { m: 1, width: '30ch' },
-        }}>  
-      <div><Box sx={{paddingLeft:1,}}>
-        กรอกรหัสวิชา
-    </Box>
-        </div>
-    </Box> 
-        <div>
-            <Box 
-            display={"flex"}
-        sx={{
-            marginTop: 5,
-            width: 1000,
-            height: 70,
-            }}>
-            <Box
-            component="form"
-            sx={{'& .MuiTextField-root': { m: 1, width: '30ch' },
-            }}>
-            <div> 
-            <TextField id="outlined-basic" label="รหัสวิชา" variant="outlined" />
-            </div>
-            </Box>
-            </Box>
-        </div> */}
+       
         </Paper>
       </div>
     </Container>

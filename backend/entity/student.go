@@ -14,11 +14,11 @@ type Dormitory struct {
 	Dormitory_Name string
 	Students       []Student `gorm:"foreignKey:Dormitory_ID"`
 }
-
+//Student
 type Student struct {
 	Student_ID string `gorm:"primaryKey" valid:"studentchecklenght~Student ID Should be 8 characters,required~Student ID cannot be null"`
 
-	Student_Name string `valid:"studentnamechecklanguage~Student Name cannot be English Language,required~Student Name cannot be null,maxstringlength(25)~Student Name can not greater than 25 character"`
+	Student_Name string `valid:"studentnamechecklanguage~Student Name cannot be English Language,required~Student Name cannot be null,minstringlength(10)~Student Name cannot be less than 10 characters"`
 
 	Student_Password string `valid:"required~Student Password cannot be null,studentpasswordchecklanguage~Student Password cannot be Thai Language,minstringlength(8)~Student Password can not less than 8 character"`
 

@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { Subject } from "../../models/I_Subject";
-import { Paper, Toolbar } from "@mui/material";
+import { Dialog, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Paper, Stack, Toolbar } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -16,14 +16,87 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from '@mui/material/TablePagination';
 import TableFooter from '@mui/material/TableFooter';
 import TextField from "@mui/material/TextField";
-import { useParams } from "react-router-dom";
+import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import Home_Navbar from "../navbars/Home_navbar";
+import { useTheme } from '@mui/material/styles';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import AutoStoriesSharpIcon from '@mui/icons-material/AutoStoriesSharp';
 // Add button to each row for getting certain data from selected row
 // Source: https://smartdevpreneur.com/add-buttons-links-and-other-custom-cells-in-material-ui-datagrid/
 
 // MUI Table 
 // Source : https://mui.com/material-ui/react-table/
+
+interface TablePaginationActionsProps {
+    count: number;
+    page: number;
+    rowsPerPage: number;
+    onPageChange: (
+        event: React.MouseEvent<HTMLButtonElement>,
+        newPage: number,
+    ) => void;
+}
+
+function TablePaginationActions(props: TablePaginationActionsProps) {
+    const theme = useTheme();
+    const { count, page, rowsPerPage, onPageChange } = props;
+
+    const handleFirstPageButtonClick = (
+        event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
+        onPageChange(event, 0);
+    };
+
+    const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        onPageChange(event, page - 1);
+    };
+
+    const handleNextButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        onPageChange(event, page + 1);
+    };
+
+    const handleLastPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    };
+
+    return (
+        <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+            <IconButton
+                onClick={handleFirstPageButtonClick}
+                disabled={page === 0}
+                aria-label="first page"
+            >
+                {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+            </IconButton>
+            <IconButton
+                onClick={handleBackButtonClick}
+                disabled={page === 0}
+                aria-label="previous page"
+            >
+                {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+            </IconButton>
+            <IconButton
+                onClick={handleNextButtonClick}
+                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                aria-label="next page"
+            >
+                {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+            </IconButton>
+            <IconButton
+                onClick={handleLastPageButtonClick}
+                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                aria-label="last page"
+            >
+                {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+            </IconButton>
+        </Box>
+    );
+}
+
 function SubjectList() {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -53,7 +126,6 @@ function SubjectList() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-
     const handleInputChange = (
         event: React.ChangeEvent<{ value: string }>
     ) => {
@@ -61,6 +133,9 @@ function SubjectList() {
         setSearchSubjectID(searched_subject_id);
 
     };
+
+    const emptyRows =
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
 
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
@@ -81,7 +156,6 @@ function SubjectList() {
         setPage(0);
     };
 
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
 
 
     const getSubjects = async () => {
@@ -139,10 +213,62 @@ function SubjectList() {
                 }}>
                 <Home_Navbar />
                 <Toolbar />
+
                 {/* Header components */}
                 <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
-                    <Typography variant="h4"> ระบบจัดการรายวิชา </Typography>
-                    <Typography> รายการรายวิชาทั้งหมด </Typography>
+                    <Stack direction="row">
+                        <Box sx={{ padding: 2, border: 0 }}>
+                            <AutoStoriesSharpIcon fontSize="large" />
+                        </Box>
+                        <Box sx={{ padding: 1, border: 0 }}>
+                            <Typography variant="h4" sx={{ fontFamily: "Verdana", fontWeight: "bold", paddingBottom: 1.5 }}> ระบบจัดการรายวิชา </Typography>
+
+                        </Box>
+                    </Stack>
+                    <Stack flexGrow={1} direction="row" sx={{ border: 1, }}>
+                        <Box flex={1} sx={{ border: 1, padding:2 }}>
+                            <Typography variant="h5" sx={{fontFamily:"Vendana", fontWeight:"bold", fontSize:24}}> Requirement </Typography>
+                            <Divider/>
+                            <Typography sx={{padding:1, fontSize:18}}>
+                                ระบบจัดการข้อมูลรายวิชา เป็นระบบที่แอดมินสามารถเพิ่ม, แก้ไข หรือลบข้อมูลรายวิชาได้โดยข้อมูล
+                                รายวิชานั้นจะประกอบไปด้วย รหัสวิชา, ชื่อรายวิชาภาษาไทยและภาษาอังกฤษ, อาจารย์ผู้สอน, สาขาวิชาที่
+                                รับผิดชอบรายวิชา, จำนวนหน่วยกิจ, หลักสูตร, สถานะรายวิชา, เวลาในการสอน กลุ่มเรียน และจำนวนที่เปิดรับ
+                            </Typography>
+                        </Box>
+                        <Box flex={1} sx={{ border: 1, padding: 1 }}>
+                            <Stack  direction="row" sx={{ padding: 0 }}>
+                                <Box sx={{ padding: 0.5 }}>
+                                    <SearchIcon />
+                                </Box>
+                                <Typography variant="h5" sx={{ fontWeight: "bold" }}> การค้นหารายวิชา </Typography>
+                            </Stack>
+                            <Box sx={{ padding: 1, bgcolor: "#e1e1e1" }}>
+                                <Typography sx={{ fontSize: 18 }}>
+                                    1. ค้นหาวิชาที่มีรหัสขึ้นต้นด้วย 102 ป้อน 102* ลงในช่องรหัสวิชา
+                                </Typography>
+
+                                <Typography sx={{ fontSize: 18 }}>
+                                    2. ค้นหาวิชาที่มีคำว่า world เป็นส่วนหนึ่งของชื่อวิชา ป้อน *world* ลงในช่องชื่อวิชา
+                                </Typography>
+
+                                <Typography sx={{ fontSize: 18 }}>
+                                    3. ค้นหาวิชาที่มีชื่อวิชาลงท้ายด้วย finance ป้อน *finance ลงในช่องชื่อวิชา
+                                </Typography>
+
+                                <Typography sx={{ fontSize: 18 }}>
+                                    4. แสดงรายวิชาของสำนักวิชาวิศวกรรมศาสตร์
+                                    เลือกหน่วยงานสำนักวิชาวิศวกรรมศาสตร์
+                                </Typography>
+
+                                <Typography sx={{ fontSize: 18 }}>
+                                    5. ค้นหาวิชาที่มีรหัสขึ้นต้นด้วย102 และมีชื่อวิชาลงท้ายด้วย เบื้องต้น
+                                    ป้อน 102* ลงในช่องรหัสวิชา และป้อน *เบื้องต้น ลงในช่องชื่อวิชา
+                                </Typography>
+
+                            </Box>
+                        </Box>
+                    </Stack>
+
                 </Paper>
 
                 <Paper elevation={3} sx={{ bgcolor: "white", padding: 2 }}>
@@ -155,6 +281,7 @@ function SubjectList() {
                                 size="small"
                                 label="ค้นหารายวิชา"
                                 onChange={handleInputChange}
+                                sx={{ fontFamily: "Verdana" }}
                             ></TextField>
 
                             <Button
@@ -168,29 +295,32 @@ function SubjectList() {
                             component={RouterLink}
                             to="/subject/subject_create"
                             variant="contained"
+                            startIcon={<AddIcon />}
                             sx={{ borderRadius: 0, margin: 1.25, marginTop: 1.5 }}
-                        > Add </Button>
+                        > ADD
+                        </Button>
                     </Box>
 
                     <TableContainer sx={{ width: "auto" }}>
                         <Table>
                             <TableHead sx={{ bgcolor: "#5B98B9" }}>
                                 <TableRow sx={{ width: "auto" }}>
-                                    <StyledTableCell width={100} sx={{ border: 1 }}>รหัสวิชา</StyledTableCell>
-                                    <StyledTableCell width={"auto"} sx={{ border: 1 }}>ชื่อรายวิชา</StyledTableCell>
-                                    <StyledTableCell width={100} sx={{ border: 1 }}>อาจารย์</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1 }}>หน่วยกิจ</StyledTableCell>
-                                    <StyledTableCell width={225} sx={{ border: 1 }}>หลักสูตร</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1 }}>เปิด</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1 }}>ลง</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1 }}>เหลือ</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1 }}>สถานะ</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1 }}>Info</StyledTableCell>
+                                    <StyledTableCell width={100} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>รหัสวิชา</StyledTableCell>
+                                    <StyledTableCell width={250} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>ชื่อรายวิชา</StyledTableCell>
+                                    <StyledTableCell width={100} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>อาจารย์</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>หน่วยกิจ</StyledTableCell>
+                                    <StyledTableCell width={225} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>หลักสูตร</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>เปิด</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>ลง</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>เหลือ</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>สถานะ</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>Info</StyledTableCell>
                                 </TableRow>
                             </TableHead>
 
                             <TableBody>
                                 {(rowsPerPage > 0
+                                    // slice (0*5, 0*5 + 5) 
                                     ? subjects.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     : subjects
                                 ).map((row) => (
@@ -224,7 +354,7 @@ function SubjectList() {
                                 <TableRow>
                                     <TablePagination
                                         rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                        colSpan={subjects.length}
+                                        colSpan={10}
                                         count={subjects.length}
                                         rowsPerPage={rowsPerPage}
                                         page={page}
@@ -236,6 +366,7 @@ function SubjectList() {
                                         }}
                                         onPageChange={handleChangePage}
                                         onRowsPerPageChange={handleChangeRowsPerPage}
+                                        ActionsComponent={TablePaginationActions}
                                     />
                                 </TableRow>
                             </TableFooter>

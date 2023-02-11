@@ -40,6 +40,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import Swal from "sweetalert2";
+import NativeSelect from '@mui/material/NativeSelect';
+
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -440,29 +442,29 @@ function CourseCreate() {
               fontFamily: "LilyUPC",
               fontWeight: 'bold', fontSize: 27
             }}>
-            <FormControl fullWidth variant="outlined">
+            <FormControl fullWidth variant="outlined" sx={{ mt: -0.5 }}>
 
               <p>คุณวุฒิ</p>
-              <Select
+              <Select native
                 variant="outlined"
                 id="Qualification_ID"
-                value={courses.Qualification_ID+""}
+                value={courses.Qualification_ID + ""}
                 onChange={handleSelectChange}
                 inputProps={{
                   name: "Qualification_ID",
-                  style: {
-                    fontFamily: 'LilyUPC'
-                  }
+
                 }}
 
               >
+                <option aria-label="Noun" value="">  กรุณาเลือกคุณวุฒิ</option>
+
                 {qualifications.map((item: QualificationsInterface) => (
-                  <MenuItem
+                  <option
                     value={item.Qualification_ID}
                     key={item.Qualification_ID}
                   >
                     {item.Qualification_Name}
-                  </MenuItem>
+                  </ option>
                 ))}
               </Select>
 
@@ -477,26 +479,27 @@ function CourseCreate() {
             <FormControl fullWidth variant="outlined">
 
               <p>ชื่อสาขา</p>
-              <Select
+              <Select native
                 variant="outlined"
                 id="Major_ID"
-                value={courses.Major_ID+""}
+                value={courses.Major_ID + ""}
                 onChange={handleSelectChange}
                 inputProps={{
                   name: "Major_ID",
-                  style: {
-                    fontFamily: 'LilyUPC'
-                  }
+
                 }}
 
               >
+                <option aria-label="Noun" value="">  กรุณาเลือกสาขา</option>
+
                 {majors.map((item: MajorsInterface) => (
-                  <MenuItem
+
+                  <option
                     value={item.Major_ID}
                     key={item.Major_ID}
                   >
                     {item.Major_Name}
-                  </MenuItem>
+                  </option>
                 ))}
               </Select>
 

@@ -329,6 +329,17 @@ func UpdateSubjects(c *gin.Context) {
 		Section:          subject.Section,
 	}
 
+	_, err := govalidator.ValidateStruct(updated_subject)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if _, err := service.ValidateDuplicateSubject(updated_subject); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	if err := entity.DB().Save(&updated_subject).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

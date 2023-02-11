@@ -163,7 +163,7 @@ function Students_List() {
                                 <Paper
                                     elevation={0}
                                     sx={{
-                                        bgcolor: "#87B1F0",
+                                        bgcolor: "#F7BA6E",
                                         marginBottom: 2,
                                         textAlign: "center",
                                     }}
@@ -215,7 +215,7 @@ function Students_List() {
                         }}>
                         <Paper elevation={3} sx={{ bgcolor: "white", padding: 2 }}>
                             <Typography variant="h4" color="#F1E262">
-                                <Paper elevation={2} sx={{ bgcolor: "#87B1F0", padding: 1 }}>
+                                <Paper elevation={2} sx={{ bgcolor: "#F7BA6E", padding: 1 }}>
                                     <ImportContactsIcon
                                         sx={{ fontSize: "50px", border: 0, mb: -1.7, mr: 2 }}
                                     />

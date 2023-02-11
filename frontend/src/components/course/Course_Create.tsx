@@ -446,7 +446,7 @@ function CourseCreate() {
               <Select
                 variant="outlined"
                 id="Qualification_ID"
-                value={courses.Qualification_ID}
+                value={courses.Qualification_ID+""}
                 onChange={handleSelectChange}
                 inputProps={{
                   name: "Qualification_ID",
@@ -480,7 +480,7 @@ function CourseCreate() {
               <Select
                 variant="outlined"
                 id="Major_ID"
-                value={courses.Major_ID}
+                value={courses.Major_ID+""}
                 onChange={handleSelectChange}
                 inputProps={{
                   name: "Major_ID",

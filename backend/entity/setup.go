@@ -225,7 +225,7 @@ func SetupDatabase() {
 
 		elec2562 := Course{
 			Course_ID:     "ELEC2560",
-			Course_Name:   "หลักสูตรวิศวกรรมอิเล็กทรอนิกส์ 2560",
+			Course_Name:   "หลักสูตรวิศวกรรมอิเล็กทรอนิกส์ 2562",
 			Datetime:      time.Now(),
 			Qualification: qualification3,
 			Admin:         admin2,
@@ -295,7 +295,7 @@ func SetupDatabase() {
 
 		physics2562 := Course{
 			Course_ID:     "PS2560",
-			Course_Name:   "หลักสูตรฟิสิกส์ 2564",
+			Course_Name:   "หลักสูตรฟิสิกส์ 2562",
 			Datetime:      time.Now(),
 			Qualification: qualification2,
 			Admin:         admin3,

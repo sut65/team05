@@ -12,6 +12,7 @@ import (
 func TestStudentIDNotBlank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
+	entity.SetStudentIDValidation()
 	entity.SetStudentNameValidation()
 	entity.SetStudentPasswordValidation()
 
@@ -118,9 +119,9 @@ func TestStudentNameMaxString(t *testing.T) {
 	entity.SetStudentPasswordValidation()
 
 	student := entity.Student{
-		Student_ID:       "B6200001",                                                          //ถูก
-		Student_Name:     "ทดสอบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบ", // ผิด
-		Student_Password: "abcd4321",                                                          //ถูก
+		Student_ID:       "B6200001",                                                                    //ถูก
+		Student_Name:     "เอ็มมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมม", // ผิด
+		Student_Password: "abcd4321",                                                                    //ถูก
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -141,6 +142,7 @@ func TestStudentPasswordNotBlank(t *testing.T) {
 
 	entity.SetStudentIDValidation()
 	entity.SetStudentNameValidation()
+	entity.SetStudentPasswordValidation()
 
 	student := entity.Student{
 		Student_ID:       "B6200001",        //ถูก

@@ -49,7 +49,6 @@ import { styled } from "@mui/material/styles";
 import { set } from "date-fns/esm";
 
 
-
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref
@@ -82,6 +81,7 @@ function CreateEnroll() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [message, setAlertMessage] = React.useState("");
+   
     const handleClose = (
         event?: React.SyntheticEvent | Event,
         reason?: string
@@ -92,7 +92,6 @@ function CreateEnroll() {
         setSuccess(false);
         setError(false);
     };
-
 
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
@@ -325,108 +324,126 @@ function CreateEnroll() {
     }
 
     return (
+        <Container maxWidth={false}
+            sx={{
+                width: "auto",
+                height: "auto",
+                p: 2,
+                bgcolor: '#93BFCF'
+            }}>
+            <Container maxWidth="lg"
+                sx={{
+                    width: "auto",
+                    height: "auto",
+                    p: 2,
+                    bgcolor: '#BEF0CB'
+                }}>
 
-        <Container maxWidth="lg" >
+                <Snackbar
 
-            <Snackbar
+                    open={success}
 
-                open={success}
+                    autoHideDuration={6000}
 
-                autoHideDuration={6000}
+                    onClose={handleClose}
 
-                onClose={handleClose}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
 
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                >
 
-            >
+                    <Alert onClose={handleClose} severity="success">
 
-                <Alert onClose={handleClose} severity="success">
+                        บันทึกข้อมูลสำเร็จ
 
-                    บันทึกข้อมูลสำเร็จ
+                    </Alert>
 
-                </Alert>
+                </Snackbar>
 
-            </Snackbar>
+                <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
 
-            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="error">
 
-                <Alert onClose={handleClose} severity="error">
+                        {message}
 
-                    {message}
+                    </Alert>
 
-                </Alert>
-
-            </Snackbar>
-            <div>
-                <Paper sx={{backgroundColor: '#FFFAF0'}}>
-                    <Box display={"flex"}
-                        sx={{ marginTop: 0, }}>
-                        <Box sx={{ paddingX: 2, paddingY: 1 }}>
-                            <Typography
-                                sx={{fontFamily:"LilyUPC",fontSize:35,fontWeight : 'bold',mt:1}}
-                                gutterBottom>
-                                ลงทะเบียนรายวิชา
-                            </Typography>
-                        </Box>
-                        <Box flexGrow={1} >
-                        </Box>
-                        <Box
-                            component="form"
-                            sx={{ paddingRight: 2 ,mt:2}}>
-                            <TextField
-                                disabled
-                                size="small"
-                                id="Student_ID"
-                                variant="outlined"
-                                value={enroll.Student_ID}
-                                onChange={handleInputChange}
-                            />
-                        </Box>
-                    </Box>
-                </Paper>
-                {/* -------------------------------------------------------------------------------------- */}
-                <Paper sx={{ mt: 2 ,backgroundColor: '#FFFAF0'}}>
-                    <Grid container sx={{ marginTop: '3px', marginLeft: 5, }}>
-                        <Grid >
-                            <p style={{ paddingLeft: 15, fontFamily:"LilyUPC",fontSize:25,fontWeight : 'bold'}}>กรุณาเลือกหลักสูตร</p>
-                            <Box
-                                component="form"
-                                sx={{ m: 1, width: '40ch', marginTop: -4, }}>
-                                <Select sx={{ ml: 1, mt: 2, width: '35ch' }}
-                                    id="Course_ID"
-                                    value={enroll.Course_ID}
-                                    label="เลือกหลักสูตร"
-                                    onChange={handleSelectChange}
-                                    inputProps={{
-                                        name: "Coures_ID",
-                                    }}
-
-                                >
-                                    {course.map((item: Course) => (
-                                        <MenuItem
-                                            value={item.Course_ID}
-                                            key={item.Course_ID}
-                                        >
-                                            {item.Course_Name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
+                </Snackbar>
+                <div>
+                    <Paper sx={{ backgroundColor: '#FFFAF0' }}>
+                        <Box display={"flex"}
+                            sx={{ marginTop: 0, }}>
+                            <Box sx={{ paddingX: 2, paddingY: 1 }}>
+                                <Typography
+                                    sx={{ fontFamily: "LilyUPC", fontSize: 35, fontWeight: 'bold', mt: 1 }}
+                                    gutterBottom>
+                                    ลงทะเบียนรายวิชา
+                                </Typography>
                             </Box>
+                            <Box flexGrow={1} >
+                            </Box>
+                            <Grid>
+                                <Typography sx={{ mt: 1, fontSize: 16 }}>
+                                    รหัสนักศึกษาที่ล็อคอิน
+                                </Typography>
+                                <Box
+                                    component="form"
+                                    sx={{ paddingRight: 2, mt: 0 }}>
+                                    <TextField
+                                        disabled
+                                        size="small"
+                                        id="Student_ID"
+                                        variant="outlined"
+                                        value={enroll.Student_ID}
+                                        onChange={handleInputChange}
+                                    />
+                                </Box>
+                            </Grid>
+                        </Box>
+                    </Paper>
+                    {/* -------------------------------------------------------------------------------------- */}
+                    <Paper sx={{ mt: 2, backgroundColor: '#FFFAF0' }}>
+                        <Grid container sx={{ marginTop: '3px', marginLeft: 5, paddingBlockEnd:2}}>
+                            <Grid >
+                                <p style={{ paddingLeft: 15, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold' }}>กรุณาเลือกหลักสูตร</p>
+                                <Box
+                                    component="form"
+                                    sx={{ m: 1, width: '40ch', marginTop: -4, }}>
+                                    <Select sx={{ ml: 1, mt: 2, width: '35ch' }}
+                                        label="เลือกหลักสูตร"
+                                        id="Course_ID"
+                                        color="warning"
+                                        value={enroll.Course_ID}
+                                        onChange={handleSelectChange}
+                                        inputProps={{
+                                            name: "Coures_ID",
+                                        }}
 
-                        </Grid>
-                        <Paper sx={{
-                            mt:2,
-                            padding:0.5,
-                            height: 140,
-                            backgroundColor: '#696969',
-                        }}>
-                            <Box
-                                sx={{
-                                    width: 300,
-                                    height: 140,
-                                    backgroundColor: '#FFFAF0',
-                                }}><Typography sx={{ paddingLeft: 11 ,fontFamily:"LilyUPC",fontSize:25,fontWeight : 'bold'}}>
-                                    วิธีการลงทะเบียน
+                                    >
+                                        {course.map((item: Course) => (
+                                            <MenuItem
+                                                value={item.Course_ID}
+                                                key={item.Course_ID}
+                                            >
+                                                {item.Course_Name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </Box>
+
+                            </Grid>
+                            <Paper sx={{
+                                mt: 2,
+                                padding: 0.5,
+                                height: 140,
+                                backgroundColor: '#FFFAF0',
+                            }}>
+                                <Box
+                                    sx={{
+                                        width: 300,
+                                        height: 140,
+                                        backgroundColor: '#FFFAF0',
+                                    }}><Typography sx={{ paddingLeft: 11, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold' }}>
+                                        วิธีการลงทะเบียน
                                     </Typography>
                                     <Typography sx={{ paddingLeft: 2 }}>
                                         1:เลือกหลักสูตรที่ต้องการลงทะเบียน
@@ -440,140 +457,172 @@ function CreateEnroll() {
                                     <Typography sx={{ paddingLeft: 2 }}>
                                         4:เลือกลงทะเบียนตามกลุ่มที่ต้องการ
                                     </Typography>
-                            </Box>
-                        </Paper>
-                    </Grid>
+                                </Box>
+                            </Paper>
+                            <Grid sx={{ paddingLeft: 10 }}> </Grid>
+                            <Paper sx={{
+                                mt: 2,
+                                padding: 0.5,
+                                height: 210,
+                                backgroundColor: '#f57c00',
+                            }}>
+                                <Box
+                                    sx={{
+                                        width: 280,
+                                        height: 210,
+                                        backgroundColor: '#FFFAF0',
+                                    }}><Typography sx={{ paddingLeft: 8, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', color: "red" }}>
+                                        คำเตือนการลงทะเบียน
+                                    </Typography>
+                                    <Typography sx={{ paddingLeft: 1, color: "#f57c00" }}>
+                                        1:ไม่สามารถลงทะเบียนรหัสวิชาเดิมได้
+                                    </Typography>
+                                    <Typography sx={{ paddingLeft: 1, color: "#f57c00" }}>
+                                        2:ไม่สามารถลงทะเบียนรายวิชาที่มีวันเรียนซ้ำกันได้
+                                    </Typography>
+                                    <Typography sx={{ paddingLeft: 1, color: "#f57c00" }}>
+                                        3:ไม่สามารถลงทะเบียนในรายวิชาที่กลุ่มเต็มได้
+                                    </Typography>
+                                    <Typography sx={{ paddingLeft: 1, color: "#f57c00" }}>
+                                        4:กดเชคผลการลงทะเบียนเพื่อยืนยันว่าการลงทะเบียนได้รับการอนุมัติแล้ว
+                                    </Typography>
+                                </Box>
+                            </Paper>
+                        </Grid>
 
-                    <Grid container sx={{ marginTop: '-35px', marginLeft: 5, }}>
-                        <Grid >
-                            <p style={{ paddingLeft: 17,fontFamily:"LilyUPC",fontSize:25,fontWeight : 'bold' }}>กรอกรหัสวิชา</p>
-                            <Box
-                                component="form"
-                                sx={{ '& .MuiTextField-root': { m: 1, width: '36ch' }, marginTop: -3, paddingLeft: 1, }}>
-                                <TextField
-                                    label="กรอกรหัสวิชา"
-                                    variant="outlined"
-                                    onChange={handleInputChange}
-                                />
-                            </Box>
+                        <Grid container sx={{ marginTop: '-120px', marginLeft: 5, }}>
+                            <Grid >
+                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold' }}>กรอกรหัสวิชา</p>
+                                <Box
+                                    component="form"
+                                    sx={{ '& .MuiTextField-root': { m: 1, width: '36ch' }, marginTop: -3, paddingLeft: 1}}>
+                                    <TextField
+                                        color="warning"
+                                        label="กรอกรหัสวิชา"
+                                        variant="outlined"
+                                        onChange={handleInputChange}
+                                    />
+                                </Box>
+                            </Grid>
+                            <Grid sx={{ marginTop: '69px', marginLeft: 3.3, }}>
+                                <Button
+                                    size="medium"
+                                    variant="contained"
+                                    onClick={sendSearchedSubjectID}
+                                    endIcon={<SearchIcon />}>ค้นหารายวิชา</Button>
+                            </Grid>
+                            <Grid sx={{ marginTop: '69px', marginLeft: 3, }}>
+                                <Button sx={{ width: '21ch' }}
+                                    size="medium"
+                                    component={RouterLink} to="/enroll"
+                                    variant="contained"
+                                    endIcon={<FactCheckIcon />}>ผลการลงทะเบียน</Button>
+                            </Grid>
                         </Grid>
-                        <Grid sx={{ marginTop: '69px', marginLeft: 1, }}>
-                            <Button
-                                size="medium"
-                                variant="contained"
-                                onClick={sendSearchedSubjectID}
-                                endIcon={<SearchIcon />}>ค้นหารายวิชา</Button>
-                        </Grid>
-                        <Grid sx={{ marginTop: '69px', marginLeft: 3, }}>
-                            <Button sx={{ width: '21ch' }}
-                                size="medium"
-                                component={RouterLink} to="/enroll"
-                                variant="contained"
-                                endIcon={<FactCheckIcon />}>ผลการลงทะเบียน</Button>
-                        </Grid>
-                    </Grid>
-                </Paper>
-                {/* -------------------------------------------------------------------------------------- */}
-                <Paper sx={{ mt: 1 ,backgroundColor: '#FFFAF0'}}>
-                    <Grid sx={{ marginTop: '30px', display: 'flex', marginLeft: 1, marginRight: 1, paddingBlockEnd: 6 ,paddingTop:2}}>
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <StyledTableCell align="left">รหัสวิชา</StyledTableCell>
-                                        <StyledTableCell align="left">ชื่อวิชา</StyledTableCell>
-                                        <StyledTableCell align="left">Subject name</StyledTableCell>
-                                        <StyledTableCell align="left">วันเรียน</StyledTableCell>
-                                        <StyledTableCell align="left">เริ่มเรียน</StyledTableCell>
-                                        <StyledTableCell align="left">เลิกเรียน</StyledTableCell>
-                                        <StyledTableCell align="left">วันสอบ</StyledTableCell>
-                                        <StyledTableCell align="left">เริ่มสอบ</StyledTableCell>
-                                        <StyledTableCell align="left">เลิกสอบ</StyledTableCell>
-                                        <StyledTableCell align="left">หน่วยกิต</StyledTableCell>
-                                        <StyledTableCell align="left">กลุ่ม</StyledTableCell>
-                                        <StyledTableCell align="center">เลือก</StyledTableCell>
-                                    </TableRow>
-                                </TableHead>
-
-                                <TableBody>
-                                    {(rowsPerPage > 0
-                                        ? subjects.slice(
-                                            page * rowsPerPage,
-                                            page * rowsPerPage + rowsPerPage)
-                                        : subjects
-                                    ).map((row) => (
-                                        <TableRow
-                                            key={row.ID}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell align="left">{row.Subject_ID}</TableCell>
-                                            <TableCell align="left">{row.Subject_TH_Name}</TableCell>
-                                            <TableCell align="left">{row.Subject_EN_Name}</TableCell>
-                                            <TableCell align="left">{row.Day}</TableCell>
-                                            <TableCell align="left">{row.Start_Time}</TableCell>
-                                            <TableCell align="left">{row.End_Time}</TableCell>
-                                            <TableCell align="left">{row.Exam_Date}</TableCell>
-                                            <TableCell align="left">{row.Exam_Start_Time}</TableCell>
-                                            <TableCell align="left">{row.Exam_End_Time}</TableCell>
-                                            <TableCell align="left">{row.Unit}</TableCell>
-                                            <TableCell align="left">{row.Section}</TableCell>
-                                            <TableCell align="center">
-                                                <IconButton
-                                                    // id="Subject_ID"
-                                                    onClick={() => {
-                                                        enroll.Subject_ID = row.Subject_ID;
-                                                        enroll.Exam_Schedule_ID = row.Exam_Schedule_ID;
-                                                        enroll.Class_Schedule_ID = row.Class_Schedule_ID;
-                                                        enroll.Section = row.Section;
-                                                        console.log(enroll.Subject_ID);
-                                                        console.log(enroll.Section);
-                                                        console.log(enroll.Exam_Schedule_ID);
-                                                        console.log(enroll.Class_Schedule_ID);
-                                                        submit();
-                                                    }}>
-                                                    <CheckCircleIcon />
-                                                </IconButton>
-                                            </TableCell>
+                    </Paper>
+                    {/* -------------------------------------------------------------------------------------- */}
+                    <Paper sx={{ mt: -2, backgroundColor: '#FFFAF0' }}>
+                        <Grid sx={{ marginTop: '30px', display: 'flex', marginLeft: 1, marginRight: 1, paddingTop: 2, paddingBlockEnd: 2 }}>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell align="left">รหัสวิชา</StyledTableCell>
+                                            <StyledTableCell align="left">ชื่อวิชา</StyledTableCell>
+                                            <StyledTableCell align="left">Subject name</StyledTableCell>
+                                            <StyledTableCell align="left">วันเรียน</StyledTableCell>
+                                            <StyledTableCell align="left">เริ่มเรียน</StyledTableCell>
+                                            <StyledTableCell align="left">เลิกเรียน</StyledTableCell>
+                                            <StyledTableCell align="left">วันสอบ</StyledTableCell>
+                                            <StyledTableCell align="left">เริ่มสอบ</StyledTableCell>
+                                            <StyledTableCell align="left">เลิกสอบ</StyledTableCell>
+                                            <StyledTableCell align="left">หน่วยกิต</StyledTableCell>
+                                            <StyledTableCell align="left">กลุ่ม</StyledTableCell>
+                                            <StyledTableCell align="center">เลือก</StyledTableCell>
                                         </TableRow>
-                                    ))}
-                                    {emptyRows > 0 && (
-                                        <TableRow style={{ height: 53 * emptyRows }}>
-                                            <TableCell colSpan={1} />
-                                        </TableRow>
-                                    )}
-                                </TableBody>
-                                <TableFooter>
-                                    <TableRow>
-                                        <TablePagination
-                                            rowsPerPageOptions={[
-                                                5,
-                                                10,
-                                                15,
-                                                20,
-                                                25,
-                                                { label: "All", value: -1 },
-                                            ]}
-                                            colSpan={subjects.length}
-                                            count={subjects.length}
-                                            rowsPerPage={rowsPerPage}
-                                            page={page}
-                                            SelectProps={{
-                                                inputProps: {
-                                                    "aria-label": "rows per page",
-                                                },
-                                                native: true,
-                                            }}
-                                            onPageChange={handleChangePage}
-                                            onRowsPerPageChange={handleChangeRowsPerPage}
-                                        />
-                                    </TableRow>
-                                </TableFooter>
-                            </Table>
-                        </TableContainer>
-                    </Grid>
-                </Paper>
+                                    </TableHead>
 
-            </div>
+                                    <TableBody>
+                                        {(rowsPerPage > 0
+                                            ? subjects.slice(
+                                                page * rowsPerPage,
+                                                page * rowsPerPage + rowsPerPage)
+                                            : subjects
+                                        ).map((row) => (
+                                            <TableRow
+                                                key={row.ID}
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <TableCell align="left">{row.Subject_ID}</TableCell>
+                                                <TableCell align="left">{row.Subject_TH_Name}</TableCell>
+                                                <TableCell align="left">{row.Subject_EN_Name}</TableCell>
+                                                <TableCell align="left">{row.Day}</TableCell>
+                                                <TableCell align="left">{row.Start_Time}</TableCell>
+                                                <TableCell align="left">{row.End_Time}</TableCell>
+                                                <TableCell align="left">{row.Exam_Date}</TableCell>
+                                                <TableCell align="left">{row.Exam_Start_Time}</TableCell>
+                                                <TableCell align="left">{row.Exam_End_Time}</TableCell>
+                                                <TableCell align="left">{row.Unit}</TableCell>
+                                                <TableCell align="left">{row.Section}</TableCell>
+                                                <TableCell align="center">
+                                                    <IconButton
+                                                        // id="Subject_ID"
+                                                        onClick={() => {
+                                                            enroll.Subject_ID = row.Subject_ID;
+                                                            enroll.Exam_Schedule_ID = row.Exam_Schedule_ID;
+                                                            enroll.Class_Schedule_ID = row.Class_Schedule_ID;
+                                                            enroll.Section = row.Section;
+                                                            console.log(enroll.Subject_ID);
+                                                            console.log(enroll.Section);
+                                                            console.log(enroll.Exam_Schedule_ID);
+                                                            console.log(enroll.Class_Schedule_ID);
+                                                            submit();
+                                                        }}>
+                                                        <CheckCircleIcon />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                        {emptyRows > 0 && (
+                                            <TableRow style={{ height: 53 * emptyRows }}>
+                                                <TableCell colSpan={1} />
+                                            </TableRow>
+                                        )}
+                                    </TableBody>
+                                    <TableFooter>
+                                        <TableRow>
+                                            <TablePagination
+                                                rowsPerPageOptions={[
+                                                    5,
+                                                    10,
+                                                    15,
+                                                    20,
+                                                    25,
+                                                    { label: "All", value: -1 },
+                                                ]}
+                                                colSpan={subjects.length}
+                                                count={subjects.length}
+                                                rowsPerPage={rowsPerPage}
+                                                page={page}
+                                                SelectProps={{
+                                                    inputProps: {
+                                                        "aria-label": "rows per page",
+                                                    },
+                                                    native: true,
+                                                }}
+                                                onPageChange={handleChangePage}
+                                                onRowsPerPageChange={handleChangeRowsPerPage}
+                                            />
+                                        </TableRow>
+                                    </TableFooter>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                    </Paper>
+
+                </div>
+
+            </Container>
 
         </Container>
 

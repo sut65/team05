@@ -83,14 +83,15 @@ func CreateEnroll(c *gin.Context) {
 		Section:        enroll.Section,
 	}
 	// บันทึก entity Subject
-	if _, err := ValidateChecksubject(new_enroll); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 	if _, err := ValidateCheckExamAndClass(new_enroll); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	if _, err := ValidateChecksubject(new_enroll); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	
 	if err := entity.DB().Create(&new_enroll).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -225,7 +226,10 @@ func UpdateEnroll(c *gin.Context) {
 		Class_Schedule_ID: update_class_schedule_id,
 		Section:           update_Section,
 	}
-
+	if _, err := ValidateCheckExamAndClass(updated_enroll); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	if err := entity.DB().Save(&updated_enroll).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

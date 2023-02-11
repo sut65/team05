@@ -66,7 +66,7 @@ function CreateEnroll() {
   const [student, setStudent] = React.useState<StudentsInterface[]>([]);
   const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
   
-
+  const [message, setAlertMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [course, setCourse] = React.useState<Course[]>([]);
   const [error, setError] = React.useState(false);
@@ -331,8 +331,8 @@ const getSubjectByCourseID = async (course_id: any) => {
         console.log(res);
         if (res.data) {
           setSuccess(true);
-         
         } else {
+          setAlertMessage(res.error);
           setError(true);
         }
         });
@@ -356,7 +356,7 @@ const getSubjectByCourseID = async (course_id: any) => {
 
       <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
+        {message}
         </Alert>
       </Snackbar>
       <div>

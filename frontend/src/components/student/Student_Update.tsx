@@ -388,29 +388,27 @@ function Student_Update() {
             <Grid item xs={6} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,
               fontWeight : 'bold' ,fontSize:27}}>
-               <FormControl fullWidth variant="outlined">
+               <FormControl fullWidth variant="outlined" sx={{mt:-0.5}}>
                  
                  <p>หลักสูตร</p>
-                 <Select
+                 <Select native 
                                    variant="outlined"
                                    id="Course_ID"
                                    value={students.Course_ID+""}
                                    onChange={handleSelectChange}
                                    inputProps={{
                                        name: "Course_ID",
-                                       style: {
-                                           fontFamily: 'LilyUPC'
-                                       }
+                                       
                                    }}
    
                                >
                                    {courses.map((item: Course) => (
-                                       <MenuItem
+                                       <option
                                            value={item.Course_ID}
                                            key={item.Course_ID}
                                        >
                                            {item.Course_Name}
-                                       </MenuItem>
+                                       </option>
                                    ))}
                                </Select>
                    
@@ -420,29 +418,27 @@ function Student_Update() {
              <Grid item xs={6} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,
               fontWeight : 'bold' ,fontSize:27}}>
-               <FormControl fullWidth variant="outlined">
+               <FormControl fullWidth variant="outlined" sx={{mt:-0.5}}>
                  
                  <p>หอพัก</p>
-                 <Select
+                 <Select native 
                                    variant="outlined"
                                    id="Dormitory_ID"
                                    value={students.Dormitory_ID+""}
                                    onChange={handleSelectChange}
                                    inputProps={{
                                        name: "Dormitory_ID",
-                                       style: {
-                                           fontFamily: 'LilyUPC'
-                                       }
+                                       
                                    }}
    
                                >
                                    {dormitorys.map((item: DormitorysInterface) => (
-                                       <MenuItem
+                                       <option
                                            value={item.Dormitory_ID}
                                            key={item.Dormitory_ID}
                                        >
                                            {item.Dormitory_Name}
-                                       </MenuItem>
+                                       </option>
                                    ))}
                                </Select>
                    

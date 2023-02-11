@@ -42,13 +42,13 @@ type Payment struct {
 func SetReceipt_numberValidation() {
 	validator.CustomTypeTagMap.Set("receipt_english_check", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 		str := i.(string)
-		match, _ := regexp.MatchString(`[0-9ก-๏]`, str)
+		match, _ := regexp.MatchString(`[a-zก-๏0-9]`, str)
 		return match
 	}))
 
 	validator.CustomTypeTagMap.Set("receipt_thai_check", validator.CustomTypeValidator(func(i interface{}, context interface{}) bool {
 		str := i.(string)
-		match, _ := regexp.MatchString(`[a-zA-Z0-9]`, str)
+		match, _ := regexp.MatchString(`[0-9]`, str)
 		return match
 	}))
 }

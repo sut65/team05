@@ -135,7 +135,7 @@ function UpdateEnroll() {
                 console.log(res.data);
                 if (res.data) {
                     setEnrolls(res.data);
-                    getSubjectsBySubjectID(res.data.Subject_ID , res.data.Enroll_ID);
+                    getSubjectsBySubjectID(res.data.Subject_ID, res.data.Enroll_ID);
                     // console.log(res.data);
                 }
 
@@ -163,7 +163,7 @@ function UpdateEnroll() {
             });
     };
 
-    const getSubjectsBySubjectID = async (subject_id : any ,enroll_id : any) => {
+    const getSubjectsBySubjectID = async (subject_id: any, enroll_id: any) => {
         const apiUrl = "http://localhost:8080";
         const requestOptions = {
             method: "GET",
@@ -228,6 +228,12 @@ function UpdateEnroll() {
 
 
     return (
+        <Container maxWidth={false}
+        sx={{ 
+            width: "auto",
+            height:"auto",
+            p: 2 ,
+            bgcolor: '#BEF0CB'}}>
         <Container maxWidth="xl"
             sx={{
                 bgcolor: "#e1e1e1",
@@ -266,74 +272,44 @@ function UpdateEnroll() {
                                 ลงทะเบียนรายวิชา
                             </Typography>
                         </Box>
-                        
-                            <Box flexGrow={1}>
-                            </Box>
-                            <Box
-                                component="form"
-                                sx={{ '& .MuiTextField-root': { m: 1, width: '15ch' }, marginTop: 0.1, paddingLeft: 45, }}>
-                                <TextField
-                                    disabled
-                                    size="small"
-                                    id="Student_ID"
-                                    variant="outlined"
-                                    value={enroll.Student_ID}
-                                    onChange={handleInputChange}
-                                />
-                            </Box>
-                        
 
+                        
                     </Box>
                 </Grid>
             </Paper>
             <Paper>
-                <Grid container sx={{ marginTop: '20px', marginLeft: 1, }} >
-                    <Grid>
-                        <Box sx={{ paddingLeft: 2, mt: 2 }}>
 
-                            <Box sx={{
-                                marginTop: 1,
-
-                                height: 50,
-                            }}>
-                                <p style={{ paddingLeft: 2, paddingTop: 5 }}>แก้ไขรายการลงทะเบียน </p>
-                            </Box>
-
+                <Box display={"flex"}
+                    sx={{ marginTop: 1, }}>
+                    <Box sx={{ paddingLeft: 2 }}>
+                        <Box sx={{
+                            height: 50,
+                        }}>
+                            <p style={{ paddingLeft: 2, paddingTop: 1 }}>แก้ไขรายการลงทะเบียน </p>
                         </Box>
-                    </Grid>
-
-                    <Grid sx={{ ml: 120, mt: 1.7 }}>
-
-                        <TextField sx={{ width: '13ch' }}
-                            disabled
-                            size="small"
-                            value={enrolls?.Subject_ID}
-                        />
-                    </Grid>
-                    <Grid sx={{ ml: 1, mt: 2 }}>
-                        <Button
-
-                            component={RouterLink}
-                            variant="outlined"
-                            to="/enroll"
-                        >
-                            {<ReplyIcon />}
-                            กลับ
-                        </Button>
-                    </Grid>
-
-
-                </Grid>
-
-
-
+                    </Box>
+                    <Box flexGrow={1}>
+                        </Box>
+                    <Box
+                            component="form"
+                            sx={{ '& .MuiTextField-root': { m: 1, width: '15ch' }, marginTop: 0.1, paddingLeft: 45, }}>
+                            <TextField
+                                disabled
+                                size="small"
+                                id="Student_ID"
+                                variant="outlined"
+                                value={enroll.Student_ID}
+                                onChange={handleInputChange}
+                            />
+                        </Box>
+                </Box>
             </Paper>
 
             <Paper sx={{ mt: -1 }}>
                 <Grid>
 
                 </Grid>
-                <Grid sx={{ marginTop: '40px', display: 'flex', marginLeft: 1, paddingBlockEnd: 10 }}>
+                <Grid sx={{ marginTop: '40px', display: 'flex', marginLeft: 1, paddingBlockEnd: 4 }}>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650, mt: 2, ml: -1 }} aria-label="simple table">
                             <TableHead>
@@ -433,8 +409,22 @@ function UpdateEnroll() {
 
                     </TableContainer>
                 </Grid>
+                <Box flexGrow={1}>
+                    </Box>
+                    <Grid sx={{padding:2}}>
+                        <Button
+                            component={RouterLink}
+                            variant="outlined"
+                            to="/enroll"
+                        >
+                            {<ReplyIcon />}
+                            กลับ
+                        </Button>
+                    </Grid>
+                    
             </Paper>
 
+        </Container>
         </Container>
 
     );

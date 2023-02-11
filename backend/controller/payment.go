@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/B6025212/team05/entity"
 
@@ -121,6 +122,28 @@ func GetPayment(c *gin.Context) {
 	payment_id := c.Param("payment_id")
 	if tx := entity.DB().Where("payment_id = ?", payment_id).Find(&payment); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "payment not found"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": payment})
+}
+
+type extendedPaymentByStudent struct {
+	entity.Payment
+	Receipt_number string 
+	Date_Time   time.Time 
+	Student string
+	Unit           uint
+	Payable        uint
+	entity.Payment_Type
+	Payment_Type_Name string
+}
+
+func GetPaymentByStudent_ID(c *gin.Context) {
+	var payment []extendedPaymentByStudent
+	student := c.Param("paymentdata_student_id")
+	query := entity.DB().Raw("SELECT * FROM payments WHERE student_id = ?",student).Scan(&payment)
+	if err := query.Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": payment})

@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 
 import Box from "@mui/material/Box";
-
+import Home_Navbar from "../navbars/Home_navbar";
 import { EnrollInterface } from "../../models/I_Enroll";
 import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
@@ -145,19 +145,24 @@ function ListEnroll() {
   return (
 
     <div>
-
-      <Container maxWidth="xl" sx={{ p: 2 ,bgcolor: '#DEB887'}}>
+<Home_Navbar></Home_Navbar>
+<Container maxWidth={false}
+        sx={{ 
+            width: "auto",
+            height:"auto",
+            p: 2 ,
+            bgcolor: '#93BFCF'}}>
+      <Container maxWidth="lg" style = {{height:"100vh"}} sx={{ p: 2 ,bgcolor: '#BEF0CB',mt:6}}>
         <Paper sx={{
           height: 50,
           bgcolor: '#FFFAF0',
         }}>
+          
           <Box
 
             display="flex"
 
             sx={{
-
-              marginTop: 2,
 
             }}
 
@@ -206,7 +211,7 @@ function ListEnroll() {
         </Paper>
         <Paper>
           <Paper sx={{padding:2,mt:2 ,bgcolor: '#FFFAF0'}}>
-            <Typography sx={{fontFamily: "subtitle1",fontSize: 16}} >
+            <Typography  sx={{fontFamily: "LilyUPC",fontSize: 22, fontWeight: 'bold', color: "#282A3A"}} >
             ระบบย่อยลงทะเบียนรายวิชา
             จะช่วยให้นักศึกษาสามารถเลือกลงทะเบียนเรียนในรายวิชาที่ตนต้องการเมื่อถึงเวลาที่กําหนด
             โดยนักศึกษาสามารถเลือกหลักสูตร และกลุ่มที่ตนต้องการจะเรียน นักศึกษาสามารถแก้ไข
@@ -311,6 +316,7 @@ function ListEnroll() {
           </TableFooter>
 
         </Grid>
+      </Container>
       </Container>
 
     </div >

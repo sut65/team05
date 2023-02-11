@@ -111,7 +111,7 @@ func ListAddingByEnroll(c *gin.Context) {
 func ListAdding_point(c *gin.Context) {
 	var  extendedAdding_point []extendedAdding_point
 	id := c.Param("professor_id")
-	if err := entity.DB().Raw("SELECT a.*, s.*, at.*,c.*,sd.* FROM adding_points a JOIN grades at JOIN enrolls c JOIN students sd JOIN subjects s ON a.enroll_id = c.enroll_id AND  sd.student_id = c.student_id AND c.subject_id = s.subject_id AND   s.section = c.section AND   a.grade_id = at.grade_id  where a.professor_id=?",id).Scan(&extendedAdding_point).Error; err != nil {
+	if err := entity.DB().Raw("SELECT a.*, s.*, at.*,c.*,sd.* FROM adding_points a JOIN grades at JOIN enrolls c JOIN students sd JOIN subjects s ON  c.subject_id = s.subject_id  AND   a.grade_id = at.grade_id  where a.professor_id=? group by a.adding_point_id",id).Scan(&extendedAdding_point).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

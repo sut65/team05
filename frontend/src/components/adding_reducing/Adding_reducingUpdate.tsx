@@ -195,7 +195,7 @@ function Adding_reducingUpdate() {
 };
 
 
-//เรียกใช้หังชั่นCreateAdding_reducingonly
+//เรียกใช้หังชั่นCreateAdding_reducingonlyเพราะเปลี่ยนกลุ่มในenrollแต่ต้องเก็บประวัติลงในตารางตัวเอง
 const getAdding_reducingonly = async () => {
   const apiUrl = "http://localhost:8080";
   const requestOptions = {

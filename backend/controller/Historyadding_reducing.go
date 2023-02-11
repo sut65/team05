@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/B6025212/team05/entity"
 
@@ -88,17 +89,25 @@ func CreateAdding_reducing(c *gin.Context) {
 		return
 	}
 
-	
-
 	new_enroll := entity.Enroll{
-		Enroll_ID:         receive_enroll.Enroll_ID,
-		Student:           student,
-		Subject:           subject,
-		Exam_Schedule:     exam_schedule,
-		Class_Schedule_ID: &class_schedule.Class_Schedule_ID,
-		Section:           receive_enroll.Section,
+		Enroll_ID:      receive_enroll.Enroll_ID,
+		Student:        student,
+		Subject:        subject,
+		Exam_Schedule:  exam_schedule,
+		Class_Schedule: class_schedule,
+		Section:        receive_enroll.Section,
 	}
+	// fmt.Printf(new_enroll.Subject.Subject_ID)
+	// fmt.Printf(new_enroll.Student.Student_ID)
 
+	if _, err := ValidateAdding_reducingChecksubject(new_enroll); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if _, err := ValidateAdding_reducingExamAndClass(new_enroll); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	new_adding_reducing := entity.Adding_reducing{
 		Change_ID:       receive_enroll.Change_ID,
 		Student:         student,
@@ -107,6 +116,14 @@ func CreateAdding_reducing(c *gin.Context) {
 	}
 
 	entity.DB().Create(&new_enroll) //สร้างตารางenroll
+	// if _, err := ValidateAdding_reducingChecksubject(new_adding_reducing); err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
+	// if _, err := ValidateAdding_reducingExamAndClass(new_enroll); err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
 
 	//สร้างตารางadding
 	if err := entity.DB().Create(&new_adding_reducing).Error; err != nil {
@@ -115,7 +132,6 @@ func CreateAdding_reducing(c *gin.Context) {
 	}
 	c.JSON(http.StatusCreated, gin.H{"data": new_enroll}) //ขึ้นสเตตัสว่าสร้างenrollเรียบร้อย
 
-	
 }
 
 //
@@ -130,7 +146,7 @@ func ListAdding_reducing(c *gin.Context) {
 	// }
 
 	//เป้นฟังก์ชั่นที่เรียกใช้ค่าในหน้าadding.tsx จากในdatabase
-	query := entity.DB().Raw("SELECT a.*, s.*, at.*,c.*,sd.*,e.* FROM adding_reducings a JOIN enrolls e JOIN history_types at JOIN courses c JOIN students sd JOIN subjects s ON a.enroll_id = e.enroll_id AND  e.subject_id = s.subject_id AND   s.section = e.section AND   a.history_type_id = at.history_type_id AND s.course_id = c.course_id AND sd.student_id = e.student_id  WHERE e.student_id = ?",id).Scan(&extendedAdding_reducing)
+	query := entity.DB().Raw("SELECT a.*, s.*, at.*,c.*,sd.*,e.* FROM adding_reducings a JOIN enrolls e JOIN history_types at JOIN courses c JOIN students sd JOIN subjects s ON a.enroll_id = e.enroll_id AND  e.subject_id = s.subject_id AND   s.section = e.section AND   a.history_type_id = at.history_type_id AND s.course_id = c.course_id AND sd.student_id = e.student_id  WHERE e.student_id = ?", id).Scan(&extendedAdding_reducing)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -177,7 +193,6 @@ func CreateAdding_reducingonly(c *gin.Context) {
 		return
 	}
 
-	
 	// Communication Diagram Step
 	// ค้นหา entity request_type ด้วย id ของ request_type ที่รับเข้ามา
 	// SELECT * FROM `request_type` WHERE request_type_id = <request_type.request_type_ID>
@@ -241,14 +256,13 @@ func UpdateEnrollforadding(c *gin.Context) {
 	var update_subject_id = update_enrolls.Subject_ID
 	var update_Section = update_enrolls.Section
 
-
 	if tx := entity.DB().Where("enroll_id = ?", update_enrolls.Enroll_ID).First(&enroll); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "enroll_id not found"})
 		return
 	}
 
 	updated_enroll := entity.Enroll{
-		Enroll_ID: update_enrolls.Enroll_ID,
+		Enroll_ID:         update_enrolls.Enroll_ID,
 		Student_ID:        update_student_id,
 		Subject_ID:        update_subject_id,
 		Exam_Schedule_ID:  updated_exam_schedule_id,
@@ -264,8 +278,6 @@ func UpdateEnrollforadding(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": updated_enroll})
 }
 
-
-
 // DELETE /adding
 func DeleteAdding_reducing(c *gin.Context) {
 	Enroll_ID := c.Param("enroll_id")
@@ -277,4 +289,108 @@ func DeleteAdding_reducing(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": Enroll_ID})
 }
 
+// เชคห้ามลงทะเบียนรายวิชาซ้ำ
+func ValidateAdding_reducingChecksubject(subject entity.Enroll) (bool, error) {
+	var enroll []entity.Enroll
+	database := entity.OpenDatabase()
 
+	fmt.Println(subject.Student.Student_ID)
+	fmt.Println(subject.Subject.Subject_ID)
+	
+
+	if tx := database.Where("subject_id = ? AND student_id = ?", subject.Subject.Subject_ID, subject.Student.Student_ID).Find(&enroll); tx.RowsAffected >= 1 {
+		err_message := fmt.Sprintf("Subject cannot be added repeatedly.")
+		return false, subjectError{err_message}
+	}
+	return true, nil
+}
+
+func ValidateAdding_reducingExamAndClass(enrolls entity.Enroll) (bool, error) {
+	var class_Schedule entity.Class_Schedule
+	var list_enroll []entity.Enroll
+
+	database := entity.OpenDatabase()
+	fmt.Println(enrolls.Class_Schedule.Day)
+	fmt.Println(enrolls.Class_Schedule.Start_Time)
+	fmt.Println(enrolls.Class_Schedule.End_Time)
+	fmt.Println(enrolls.Student.Student_ID)
+
+	// fmt.Println(enrolls.Subject.Subject_ID)
+
+	if tx := database.Where("student_id = ?", enrolls.Student.Student_ID).Find(&list_enroll); tx.RowsAffected >= 1 {
+		// err_message := fmt.Sprintf("Class Day cannot be added repeatedly.")
+		// return false, subjectError{err_message}
+
+		// วนลูป enroll ของนักศึกษาคนหนึ่ง ตาม student_id
+		for _, record := range list_enroll {
+			time_pattern := "15:04"
+
+			// ดึงข้อมูล class schedule
+			database.Where("class_schedule_id = ?", record.Class_Schedule_ID).First(&class_Schedule)
+
+			// เก็บข้อมูล start time, end time และ day ของข้อมูลที่ดึงมาจาก class schedule
+			var start_time = class_Schedule.Start_Time
+			var end_time = class_Schedule.End_Time
+			var day = class_Schedule.Day
+
+			// ถ้า start_time, end_time และ day ตรงกันเป้ะ
+			if start_time == enrolls.Class_Schedule.Start_Time && end_time == enrolls.Class_Schedule.End_Time && day == enrolls.Class_Schedule.Day {
+				err_message := fmt.Sprintf("Class Day cannot be added repeatedly.")
+				return false, subjectError{err_message}
+
+				// กรณีเวลาเริ่มเท่ากัน และเวลาเลิกไม่เท่ากัน
+			} else if start_time == enrolls.Class_Schedule.Start_Time && day == enrolls.Class_Schedule.Day {
+				err_message := fmt.Sprintf("Class Day cannot be added repeatedly, start time is same.")
+				return false, subjectError{err_message}
+
+				// กรณีเวลาเริ่มไม่เท่ากัน และเวลาเลิกเท่ากัน
+			} else if end_time == enrolls.Class_Schedule.End_Time && day == enrolls.Class_Schedule.Day {
+				err_message := fmt.Sprintf("Class Day cannot be added repeatedly, end time is same.")
+				return false, subjectError{err_message}
+
+				// กรณีเวลาซ้ำซ้อนกัน เช่น
+				// ลงวิชา A 13:00 - 15:00
+				// จะลงวิชา B 14:00 - 16:00 ไม่ได้
+			} else {
+
+				// แปลง start time, end time ของข้อมูลที่จะเพิ่ม เป็นค่าเวลา
+				check_start, _ := time.Parse(time_pattern, enrolls.Class_Schedule.Start_Time)
+				check_end, _ := time.Parse(time_pattern, enrolls.Class_Schedule.End_Time)
+
+				// แปลง start time, end time ของข้อมูล class schedule จาก enroll ที่มีอยู่แล้วเป็นค่าเวลา
+				start, _ := time.Parse(time_pattern, start_time)
+				end, _ := time.Parse(time_pattern, end_time)
+
+				// ตรวจสอบว่่า เวลาเริ่มอยู่ในช่วงเวลาเริ่ม - เวลาเลิกหรือไม้
+				// ถ้าใช่ ให้ขึ้น error
+				if inTimeSpan(start, end, check_start) {
+					err_message := fmt.Sprintf("Cannot add class schedule. In start time %s is overlapped with some class schedule ", start_time)
+					return false, subjectError{err_message}
+
+					// ตรวจสอบว่่า เวลาเลิกอยู่ในช่วงเวลาเริ่ม - เวลาเลิกหรือไม้
+					// ถ้าใช่ ให้ขึ้น error
+				} else if inTimeSpan(start, end, check_end) {
+					err_message := fmt.Sprintf("Cannot add class schedule. In end time %s is overlapped with some class schedule ", end_time)
+					return false, subjectError{err_message}
+				}
+			}
+			return true, nil
+
+		}
+
+	}
+	return true, nil
+	// วนลูป enroll ของ นศ สักคน
+	// 		select class_schedule ตาม class_schedule_id ในแตละ enroll
+	// 		เข้าถึงข้อมูล class_schedule ตาม id
+	// 		เก็บค่า day, start_time, end_time
+	// 		ตรวจสอบว่า day, start_time และ end_time ของ class_scheduleตรงกับข้อมูลที่จะเพิ่มหรือไม่ ถ้าใช่
+	//			ลงทะเบียนไม่ได้ ส่งค่า error
+	// จบลูป
+
+}
+
+// if tx := database.Where("day = ? AND start_time = ? AND end_time = ? AND student_id = ?", enrolls.Class_Schedule.Day, enrolls.Class_Schedule.Start_Time,enrolls.Class_Schedule.End_Time,tudent_ID).Find(&class_Schedule); tx.RowsAffected >= 1 {
+// 	err_message := fmt.Sprintf("Class Day cannot be added repeatedly.")
+// 	return false, subjectError{err_message}
+// }

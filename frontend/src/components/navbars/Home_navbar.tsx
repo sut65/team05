@@ -144,6 +144,16 @@ function Home_Navbar() {
                                     </ListItem>
                                     <Divider />
 
+
+                                    <ListItem disablePadding>
+                                        <ListItemButton   
+                                            component={RouterLink} 
+                                            to="/adding_point">
+                                        <ListItemText primary="บันทึกผลการเรียน" />
+                                    </ListItemButton>
+                                    </ListItem>
+
+
                                     <ListItem disablePadding>
                                         <ListItemButton
                                             component={RouterLink}
@@ -337,6 +347,16 @@ function Home_Navbar() {
                                             <ListItemText primary="หลักสูตรที่เปิดสอน" />
                                         </ListItemButton>
                                     </ListItem>
+                                   
+                                   
+                                    <ListItem disablePadding>
+                                        <ListItemButton component={RouterLink} to="/adding_point">
+                                            <ListItemText primary="บันทึกผลการเรียน" />
+                                         </ListItemButton>
+                                    </ListItem>
+
+
+
 
                                     <ListItem disablePadding>
                                         <ListItemButton

@@ -249,7 +249,7 @@ function Student_Update() {
              sx={{  fontFamily : "LilyUPC" ,
               fontWeight : 'bold' ,fontSize:35}}>
    
-               <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2}}/> สร้างข้อมูลนักศึกษา
+               <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2}}/> แก้ไขข้อมูลนักศึกษา
                 </Grid>
    
               </Typography>
@@ -394,7 +394,7 @@ function Student_Update() {
                  <Select
                                    variant="outlined"
                                    id="Course_ID"
-                                   value={students.Course_ID}
+                                   value={students.Course_ID+""}
                                    onChange={handleSelectChange}
                                    inputProps={{
                                        name: "Course_ID",
@@ -426,7 +426,7 @@ function Student_Update() {
                  <Select
                                    variant="outlined"
                                    id="Dormitory_ID"
-                                   value={students.Dormitory_ID}
+                                   value={students.Dormitory_ID+""}
                                    onChange={handleSelectChange}
                                    inputProps={{
                                        name: "Dormitory_ID",

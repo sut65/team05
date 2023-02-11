@@ -59,23 +59,8 @@ function Adding_reducingCreate() {
     setError(false);
   };
 
-  // const handleInputChange = (
-  //   event: React.ChangeEvent<{ id?: string; value: any }>
-  // ) => {
-  //   const id = event.target.id as keyof typeof Request;
-  //   const { value } = event.target;
-  //   setAdding_reducing({ ...adding_reducing, [id]: value });
-  // };
-
+ 
   const apiUrl = "http://localhost:8080";
-
-  //update
-  // const toUpdateRequestPage = () => {
-  //   navigate({
-  //     pathname: `/adding_reducings_update/${adding_reducing?.Change_ID}`
-  //   });
-  //   // window.location.reload()
-  // };
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - addingpoints.length) : 0;
@@ -97,23 +82,6 @@ function Adding_reducingCreate() {
         }
       });
   };
-
-  
-  // const [RequestByRequestID, setRequestByRequestID] = React.useState("");
-  //  const getRequestByRequestID = async (request_id: any) => {
-  //    const requestOptions = {
-  //      method: "GET",
-  //      headers: { "Content-Type": "application/json" },
-  //    };
-  //    fetch(`${apiUrl}/request/${request_id}`, requestOptions)
-  //      .then((response) => response.json())
-  //      .then((res) => {
-  //        if (res.data) {
-  //          setRequestByRequestID(request_id);
-  //          setRequest(res.data);
-  //        }
-  //      });
-  //  };
 
   //delete ตารางadding
 
@@ -229,6 +197,12 @@ function Adding_reducingCreate() {
             <Table>
               <TableHead>
                 <TableRow>
+                <StyledTableCell align="center" sx={{ border: 1 }}>
+                    รหัสวิชา
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    ชื่อวิชา
+                  </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
                     รหัสนักศึกษา
                   </StyledTableCell>
@@ -258,7 +232,13 @@ function Adding_reducingCreate() {
 
                   <StyledTableRow key={row.Adding_point_ID}>
                     <TableCell component="th" scope="row" align="center">
-                      {row.Student_ID}{" "}
+                      {row.Subject_ID}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="center">
+                    {row.Subject_EN_Name}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="center">
+                      {row.Student_ID}
                     </TableCell>
                     <TableCell align="center">{row.Student_Name}</TableCell>
                     <TableCell align="center">{row.Grade_ID}</TableCell>

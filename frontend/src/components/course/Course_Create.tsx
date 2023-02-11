@@ -31,7 +31,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { SelectChangeEvent } from "@mui/material";
-import { FormHelperText, MenuItem, Select,} from "@mui/material";
+import { FormHelperText, MenuItem, Select, } from "@mui/material";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
@@ -44,490 +44,504 @@ import Swal from "sweetalert2";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
- props,
+  props,
 
- ref
+  ref
 
 ) {
 
- return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 
 });
 
 
 function CourseCreate() {
 
- const [courses, setCourse] = React.useState<Partial<Course>>({});
+  const [courses, setCourse] = React.useState<Partial<Course>>({});
 
- const [qualifications, setQualifications] = React.useState<QualificationsInterface[]>([]);
+  const [qualifications, setQualifications] = React.useState<QualificationsInterface[]>([]);
 
- const [majors, setMajors] = React.useState<MajorsInterface[]>([]);
+  const [majors, setMajors] = React.useState<MajorsInterface[]>([]);
 
- const [success, setSuccess] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
 
- const [error, setError] = React.useState(false);
+  const [error, setError] = React.useState(false);
 
- const [message, setAlertMessage] = React.useState("");
+  const [message, setAlertMessage] = React.useState("");
 
- const [datetime, setDatetime] = React.useState<Dayjs | null>(dayjs);
-
-
+  const [datetime, setDatetime] = React.useState<Dayjs | null>(dayjs);
 
 
 
- const handleClose = (
-
-   event?: React.SyntheticEvent | Event,
-
-   reason?: string
-
- ) => {
-
-   if (reason === "clickaway") {
-
-     return;
-
-   }
-
-   setSuccess(false);
-
-   setError(false);
-
- };
 
 
- const handleInputChange = (
+  const handleClose = (
 
-   event: React.ChangeEvent<{ id?: string; value: any }>
+    event?: React.SyntheticEvent | Event,
 
- ) => {
+    reason?: string
 
-   const id = event.target.id as keyof typeof CourseCreate;
+  ) => {
 
-   const { value } = event.target;
+    if (reason === "clickaway") {
 
-   setCourse({ ...courses, [id]: value });
+      return;
 
- };
+    }
 
- const handleSelectChange = (event: SelectChangeEvent<string>) => {
-  const name = event.target.name as keyof typeof courses;
-  setCourse({
-    ...courses,
-    [name]: event.target.value,
-  });
-};
+    setSuccess(false);
 
-const getAdminID = async () => {
-  let uid = localStorage.getItem("id");
+    setError(false);
 
-  fetch(`${apiUrl}/admin/${uid}`, requestOptionsGet)
+  };
+
+
+  const handleInputChange = (
+
+    event: React.ChangeEvent<{ id?: string; value: any }>
+
+  ) => {
+
+    const id = event.target.id as keyof typeof CourseCreate;
+
+    const { value } = event.target;
+
+    setCourse({ ...courses, [id]: value });
+
+  };
+
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    const name = event.target.name as keyof typeof courses;
+    setCourse({
+      ...courses,
+      [name]: event.target.value,
+    });
+  };
+
+  const getAdminID = async () => {
+    let uid = localStorage.getItem("id");
+
+    fetch(`${apiUrl}/admin/${uid}`, requestOptionsGet)
       .then((response) => response.json())
       .then((res) => {
-          if (res.data) {
-              courses.Admin_ID = res.data.Admin_ID
+        if (res.data) {
+          courses.Admin_ID = res.data.Admin_ID
 
-          } else {
-              console.log("else");
-          }
+        } else {
+          console.log("else");
+        }
       });
-};
+  };
 
-const apiUrl = "http://localhost:8080";
-const requestOptionsGet = {
-  method: "GET",
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-    "Content-Type": "application/json",
-  },
-};
+  const apiUrl = "http://localhost:8080";
+  const requestOptionsGet = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
 
 
 
 
   const getQualifications = async () => {
     fetch(`${apiUrl}/qualifications`, requestOptionsGet)
-        .then((response) => response.json())
-        .then((res) => {
-            if (res.data) {
-                console.log(res.data)
-                setQualifications(res.data);
-            } else {
-                console.log("else");
-            }
-        });
-      }
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          console.log(res.data)
+          setQualifications(res.data);
+        } else {
+          console.log("else");
+        }
+      });
+  }
 
-   
+
   const getMajors = async () => {
     fetch(`${apiUrl}/majors`, requestOptionsGet)
-        .then((response) => response.json())
-        .then((res) => {
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          console.log(res.data)
+          setMajors(res.data);
+        } else {
+          console.log("else");
+        }
+      });
+  }
+
+
+
+
+
+  function submit() {
+
+    let data = {
+
+      Course_ID: courses.Course_ID ?? "",
+
+      Admin_ID: courses.Admin_ID ?? "",
+      Course_Name: courses.Course_Name ?? "",
+
+      Datetime: datetime,
+
+      Qualification_ID: courses.Qualification_ID ?? "",
+
+      Major_ID: courses.Major_ID ?? "",
+
+    };
+
+
+    const apiUrl = "http://localhost:8080/courses";
+
+    const requestOptions = {
+
+      method: "POST",
+
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(data),
+
+    };
+
+
+    Swal.fire({
+      title: 'คุณต้องการที่จะบันทึกหรือไม่?',
+      icon: 'warning',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'บันทึก',
+      denyButtonText: `ไม่บันทึก`,
+    }).then((data) => {
+      if (data.isConfirmed) {
+        fetch(apiUrl, requestOptions)
+          .then((response) => response.json())
+          .then((res) => {
+            console.log(res)
             if (res.data) {
-                console.log(res.data)
-                setMajors(res.data);
+              Swal.fire({
+                icon: 'success',
+                title: 'บันทึกเรียบร้อย !',
+                text: 'Success',
+              })
             } else {
-                console.log("else");
+              Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อมูลผิดพลาด !',
+                text: res.error,
+              })
             }
-        });
+          });
       }
-
-     
-
-
-
- function submit() {
-
-   let data = {
-
-    Course_ID: courses.Course_ID ?? "",
-
-    Admin_ID: courses.Admin_ID ?? "",
-    Course_Name: courses.Course_Name ?? "",
-
-    Datetime: datetime,
-
-    Qualification_ID: courses.Qualification_ID ?? "",
-
-    Major_ID: courses.Major_ID ?? "",
-    
-   };
-
-
-   const apiUrl = "http://localhost:8080/courses";
-
-   const requestOptions = {
-
-     method: "POST",
-
-     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-
-     body: JSON.stringify(data),
-
-   };
-
-
-   Swal.fire({
-        title: 'คุณต้องการที่จะบันทึกหรือไม่?',
-        icon: 'warning',
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: 'บันทึก',
-        denyButtonText: `ไม่บันทึก`,
-      }).then((data) => {
-        if (data.isConfirmed) {
-            fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                console.log(res)
-                if (res.data) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'บันทึกเรียบร้อย !',
-                        text: 'Success',
-                    })
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'เกิดข้อมูลผิดพลาด !',
-                        text: res.error,
-                    })
-                }
-            });
-        } 
     })
 
- }
- useEffect(() => {
-  getQualifications();
-  getMajors();
-  getAdminID();
-      }, []);
+  }
+  useEffect(() => {
+    getQualifications();
+    getMajors();
+    getAdminID();
+  }, []);
 
 
- return (
+  return (
 
-   <Container maxWidth="md">
+    <Container maxWidth="md">
 
-     <Snackbar
+      <Snackbar
 
-       open={success}
+        open={success}
 
-       autoHideDuration={6000}
+        autoHideDuration={6000}
 
-       onClose={handleClose}
+        onClose={handleClose}
 
-       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
 
-     >
+      >
 
-       <Alert onClose={handleClose} severity="success">
+        <Alert onClose={handleClose} severity="success">
 
-         บันทึกข้อมูลสำเร็จ
+          บันทึกข้อมูลสำเร็จ
 
-       </Alert>
+        </Alert>
 
-     </Snackbar>
+      </Snackbar>
 
-     <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
 
-       <Alert onClose={handleClose} severity="error">
+        <Alert onClose={handleClose} severity="error">
 
-       {message}
+          {message}
 
-       </Alert>
+        </Alert>
 
-     </Snackbar>
+      </Snackbar>
 
-     <Paper>
+      <Paper>
 
-       <Box
+        <Box
 
-         display="flex"
+          display="flex"
 
-         sx={{
+          sx={{
 
-           marginTop: 2,
+            marginTop: 2,
 
-         }}
+          }}
 
-       >
+        >
 
-         <Box sx={{ paddingX: 2, paddingY: 1 }}>
+          <Box sx={{ paddingX: 2, paddingY: 1 }}>
 
-           <Typography
+            <Typography
 
-             component="h2"
+              component="h2"
 
-             variant="h6"
+              variant="h6"
 
-             color="primary"
+              color="primary"
 
-             gutterBottom
+              gutterBottom
 
-           >
-            <Grid item xs={10} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
-           fontWeight : 'bold' ,fontSize:35}}>
+            >
+              <Grid item xs={10} color="#115686"
+                sx={{
+                  fontFamily: "LilyUPC",
+                  fontWeight: 'bold', fontSize: 35
+                }}>
 
-            <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2 }}/> สร้างข้อมูลหลักสูตร
-                          
-                            </Grid>
-           </Typography>
+                <LibraryAddIcon sx={{ fontFamily: "LilyUPC", fontSize: 45, mb: -2 }} /> สร้างข้อมูลหลักสูตร
 
-         
-         </Box>
+              </Grid>
+            </Typography>
 
-       </Box>
 
-       <Divider />
+          </Box>
 
-       <Grid container spacing={3} sx={{ padding: 2 }}>
+        </Box>
 
-<Grid item xs={4} color="#FF0606" 
-          sx={{  fontFamily : "LilyUPC" ,
-           fontWeight : 'bold' ,fontSize:27}}>
-          <p>รหัสแอดมิน</p>
+        <Divider />
 
-        <FormControl fullWidth variant="outlined">
-        <TextField
-                                variant="outlined"
-                                id="Admin_ID"
-                                type="string"
-                                disabled
-                                value={courses.Admin_ID }
-                                inputProps={{
-                                  name: "Admin_ID",
-                                }}
-                                onChange={handleInputChange}
-                            />
+        <Grid container spacing={3} sx={{ padding: 2 }}>
 
-        </FormControl>
+          <Grid item xs={4} color="#FF0606"
+            sx={{
+              fontFamily: "LilyUPC",
+              fontWeight: 'bold', fontSize: 27
+            }}>
+            <p>รหัสแอดมิน</p>
 
-        </Grid>
-   
-
-       <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
-           fontWeight : 'bold' ,fontSize:27}}>
-          <p>รหัสหลักสูตร</p>
-
-        <FormControl fullWidth variant="outlined">
-
-          <TextField
-
-            id="Course_ID"
-
-            variant="outlined"
-
-            type="string"
-
-            size="medium"
-
-            value={courses.Course_ID || ""}
-
-            onChange={handleInputChange}
-
-          />
-
-        </FormControl>
-
-        </Grid>
-
-
-         <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
-           fontWeight : 'bold' ,fontSize:27}}>
-          <p>ชื่อหลักสูตร</p>
-
-           <FormControl fullWidth variant="outlined">
-
-             <TextField
-
-               id="Course_Name"
-
-               variant="outlined"
-
-               type="string"
-
-               size="medium"
-
-               value={courses.Course_Name || ""}
-
-               onChange={handleInputChange}
-
-             />
-
-           </FormControl>
-
-         </Grid>
-
-         <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
-           fontWeight : 'bold' ,fontSize:27}}>
-
-<FormControl fullWidth variant="outlined">
-
-<p>วันเวลาที่จัดการ</p>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-     renderInput={(params) => <TextField {...params} />}
-     value={datetime}
-     onChange={(newValue: Dayjs | null) => {
-       setDatetime(newValue);
-       console.log(newValue)
-     }}
-   />
-               </LocalizationProvider>
-</FormControl>
-         </Grid>
-
-         <Grid item xs={6} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
-           fontWeight : 'bold' ,fontSize:27}}>
             <FormControl fullWidth variant="outlined">
-              
+              <TextField
+                variant="outlined"
+                id="Admin_ID"
+                type="string"
+                disabled
+                value={courses.Admin_ID}
+                inputProps={{
+                  name: "Admin_ID",
+                }}
+                onChange={handleInputChange}
+              />
+
+            </FormControl>
+
+          </Grid>
+
+
+          <Grid item xs={4} color="#115686"
+            sx={{
+              fontFamily: "LilyUPC",
+              fontWeight: 'bold', fontSize: 27
+            }}>
+            <p>รหัสหลักสูตร</p>
+
+            <FormControl fullWidth variant="outlined">
+
+              <TextField
+
+                id="Course_ID"
+
+                variant="outlined"
+
+                type="string"
+
+                size="medium"
+
+                value={courses.Course_ID || ""}
+
+                onChange={handleInputChange}
+
+              />
+
+            </FormControl>
+
+          </Grid>
+
+
+          <Grid item xs={4} color="#115686"
+            sx={{
+              fontFamily: "LilyUPC",
+              fontWeight: 'bold', fontSize: 27
+            }}>
+            <p>ชื่อหลักสูตร</p>
+
+            <FormControl fullWidth variant="outlined">
+
+              <TextField
+
+                id="Course_Name"
+
+                variant="outlined"
+
+                type="string"
+
+                size="medium"
+
+                value={courses.Course_Name || ""}
+
+                onChange={handleInputChange}
+
+              />
+
+            </FormControl>
+
+          </Grid>
+
+          <Grid item xs={4} color="#115686"
+            sx={{
+              fontFamily: "LilyUPC",
+              fontWeight: 'bold', fontSize: 27
+            }}>
+
+            <FormControl fullWidth variant="outlined">
+
+              <p>วันเวลาที่จัดการ</p>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  renderInput={(params) => <TextField {...params} />}
+                  value={datetime}
+                  onChange={(newValue: Dayjs | null) => {
+                    setDatetime(newValue);
+                    console.log(newValue)
+                  }}
+                />
+              </LocalizationProvider>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6} color="#115686"
+            sx={{
+              fontFamily: "LilyUPC",
+              fontWeight: 'bold', fontSize: 27
+            }}>
+            <FormControl fullWidth variant="outlined">
+
               <p>คุณวุฒิ</p>
               <Select
-                                variant="outlined"
-                                id="Qualification_ID"
-                                value={courses.Qualification_ID}
-                                onChange={handleSelectChange}
-                                inputProps={{
-                                    name: "Qualification_ID",
-                                    style: {
-                                        fontFamily: 'LilyUPC'
-                                    }
-                                }}
+                variant="outlined"
+                id="Qualification_ID"
+                value={courses.Qualification_ID+""}
+                onChange={handleSelectChange}
+                inputProps={{
+                  name: "Qualification_ID",
+                  style: {
+                    fontFamily: 'LilyUPC'
+                  }
+                }}
 
-                            >
-                                {qualifications.map((item: QualificationsInterface) => (
-                                    <MenuItem
-                                        value={item.Qualification_ID}
-                                        key={item.Qualification_ID}
-                                    >
-                                        {item.Qualification_Name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                
+              >
+                {qualifications.map((item: QualificationsInterface) => (
+                  <MenuItem
+                    value={item.Qualification_ID}
+                    key={item.Qualification_ID}
+                  >
+                    {item.Qualification_Name}
+                  </MenuItem>
+                ))}
+              </Select>
+
             </FormControl>
           </Grid>
 
-          <Grid item xs={6} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
-           fontWeight : 'bold' ,fontSize:27}}>
+          <Grid item xs={6} color="#115686"
+            sx={{
+              fontFamily: "LilyUPC",
+              fontWeight: 'bold', fontSize: 27
+            }}>
             <FormControl fullWidth variant="outlined">
-              
+
               <p>ชื่อสาขา</p>
               <Select
-                                variant="outlined"
-                                id="Major_ID"
-                                value={courses.Major_ID}
-                                onChange={handleSelectChange}
-                                inputProps={{
-                                    name: "Major_ID",
-                                    style: {
-                                        fontFamily: 'LilyUPC'
-                                    }
-                                }}
+                variant="outlined"
+                id="Major_ID"
+                value={courses.Major_ID+""}
+                onChange={handleSelectChange}
+                inputProps={{
+                  name: "Major_ID",
+                  style: {
+                    fontFamily: 'LilyUPC'
+                  }
+                }}
 
-                            >
-                                {majors.map((item: MajorsInterface) => (
-                                    <MenuItem
-                                        value={item.Major_ID}
-                                        key={item.Major_ID}
-                                    >
-                                        {item.Major_Name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                
+              >
+                {majors.map((item: MajorsInterface) => (
+                  <MenuItem
+                    value={item.Major_ID}
+                    key={item.Major_ID}
+                  >
+                    {item.Major_Name}
+                  </MenuItem>
+                ))}
+              </Select>
+
             </FormControl>
           </Grid>
 
-        
 
-         <Grid item xs={12}>
 
-           <Button component={RouterLink} to="/course" variant="contained" color="warning">
+          <Grid item xs={12}>
 
-           <ArrowBackIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
+            <Button component={RouterLink} to="/course" variant="contained" color="warning">
 
-             ย้อนกลับ
+              <ArrowBackIcon sx={{ fontFamily: "LilyUPC", fontSize: 30, }} />
 
-           </Button>
+              ย้อนกลับ
 
-           <Button
+            </Button>
 
-             style={{ float: "right" }}
+            <Button
 
-             onClick={submit}
+              style={{ float: "right" }}
 
-             variant="contained"
+              onClick={submit}
 
-             color="success"
+              variant="contained"
 
-           >
+              color="success"
 
-            <AddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
+            >
 
-             เพิ่มข้อมูล
+              <AddIcon sx={{ fontFamily: "LilyUPC", fontSize: 30, }} />
 
-           </Button>
+              เพิ่มข้อมูล
 
-         </Grid>
+            </Button>
 
-       </Grid>
+          </Grid>
 
-     </Paper>
+        </Grid>
 
-   </Container>
+      </Paper>
 
- );
+    </Container>
+
+  );
 
 }
 

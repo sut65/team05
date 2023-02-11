@@ -7,15 +7,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
 import { Subject } from "../../models/I_Subject";
-import {
-  Stack,
-  Divider,
-  Grid,
-  TextField,
-  SvgIcon,
-  Alert,
-  Snackbar,
-} from "@mui/material";
+import {Grid,TextField,Alert,Snackbar,} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
@@ -39,16 +31,8 @@ import { Adding_pointInterface } from "../../models/IAdding_point";
 import { GradeInterface } from "../../models/IGrade";
 
 function Adding_pointUpdate() {
-  const [addingpoint, setAdding_point] = React.useState<
-    Partial<Adding_pointInterface>
-  >({});
-  const [addingpoints, setAdding_points] = React.useState<
-    Adding_pointInterface[]
-  >([]);
-  const [grade, setGreade] = React.useState<GradeInterface[]>([]);
-  //   const [professor, setProfessor] = React.useState<Professor[]>([]);
-  const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
-  const [subject, setSubject] = React.useState<Subject[]>([]);
+  const [addingpoint, setAdding_point] = React.useState<Partial<Adding_pointInterface>>({});
+  const [addingpoints, setAdding_points] = React.useState<Adding_pointInterface[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [message, setAlertMessage] = React.useState("");
@@ -78,21 +62,28 @@ function Adding_pointUpdate() {
     console.log(event.target.value);
   };
 
-//   const handleSelectChange = (event: SelectChangeEvent<string>) => {
-//     const name = event.target.name as keyof typeof addingpoint;
-//     setAdding_point({
-//       ...addingpoint,
-//       [name]: event.target.value,
-//     });
-//     console.log(event.target.value);
-//   };
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
 
   const apiUrl = "http://localhost:8080";
 
   const requestOptionsGet = {
     method: "GET",
     headers: { 
-      // Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json" },
   };
 
@@ -111,23 +102,28 @@ function Adding_pointUpdate() {
           }
         });
     };
-  //รับค่าส่งไปbackend
-//   const getAdding_points = async (adding_point_id: string) => {
-//     const requestOptions = {
-//       method: "GET",
-//       headers: { "Content-Type": "application/json" },
-//     };
-//     fetch(`${apiUrl}/adding_point/${adding_point_id}`, requestOptions)
-//       .then((response) => response.json())
-//       .then((res) => {
-//         if (res.data) {
-//           setAdding_points(res.data);
-//           console.log(res.data);
-//         }
-//       });
-//   };
 
-  //รับค่าจากfrontendไปกรองรายวิชา และกลุ่มจากprofessor
+    //เรียกใช้ฟังก์ชั่นเพื่อรับค่าprofessor ที่loginเข้ามา
+    const getProfessor_ID = async () => {
+      let id = localStorage.getItem("id")
+      const requestOptions = {
+        method: "GET",
+        headers: {  Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
+      };
+      fetch(`${apiUrl}/professor/${id}`, requestOptions)
+        .then((response) => response.json())
+        .then((res) => {
+          console.log(res);
+          if (res.data) {
+            addingpoint.Professor_ID = res.data.Professor_ID;
+          } else {
+            console.log("else");
+          }
+        });
+    };
+  
+
 
   //table
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -148,27 +144,9 @@ function Adding_pointUpdate() {
     },
   }));
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   useEffect(() => {
-    /* เพิ่มข้อมูลเกรดของ นศ ในรายวิชานั้น กลุ่มนั้น
-        GetEnrollDataBySubjectID()
-      */
-    /* Get Adding_Point data
-      GetAddingPointBySubjectID()
-      */
+     getProfessor_ID();
      getCurrentAdd();
   }, []);
 
@@ -188,11 +166,11 @@ function Adding_pointUpdate() {
     };
     console.log(data);
 
-    //const apiUrl = "http://localhost:8080/adding_points";
+
     const requestOptionsPatch = {
       method: "PATCH",
       headers: { 
-        // Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
@@ -262,41 +240,27 @@ function Adding_pointUpdate() {
           elevation={3}
           sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
         >
-          {/* <div style={{ height: 300, width: "100%", marginTop: "20px" }}>
-            <DataGrid
-              rows={request}
-              getRowId={(row) => row.Request_ID}
-              columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
-            />
-          </div> */}
+        
           <p>ลำดับ</p>
           <TextField
-            disabled
-            id="Adding_point_ID"
-            variant="outlined"
-            type="number"
-            defaultValue={addingpoint.Adding_point_ID}
-            value={addingpoint.Adding_point_ID}
-            onChange={handleInputChange}
-          />
+              disabled
+              id="Adding_point_ID"
+              variant="outlined"
+              type="number"
+              
+              value={addingpoint.Adding_point_ID}
+              onChange={handleInputChange}
+            />
           <p>รหัสอาจารย์</p>
           <TextField
-            id="Professor_ID"
-            type="number"
-            variant="outlined"
-            value={addingpoint.Professor_ID}
-            onChange={handleInputChange}
-          />
-          <p>รหัสลงทะเบียน</p>
-          <TextField
-            id="Enroll_ID"
-            type="string"
-            variant="outlined"
-            value={addingpoint.Enroll_ID}
-            onChange={handleInputChange}
-          />
+              disabled
+              id="Professor_ID"
+              type="string"
+              variant="outlined"
+              value={addingpoint.Professor_ID}
+              onChange={handleInputChange}
+            />
+          
           <p>grade</p>
           <TextField
             id="Grade_ID"
@@ -305,117 +269,7 @@ function Adding_pointUpdate() {
             value={addingpoint.Grade_ID}
             onChange={handleInputChange}
           />
-          {/* <TextField
-            label="รายวิชา"
-            id="Subject_ID"
-            type="string"
-            variant="outlined"
-            value={addingpoint.Subject_ID}
-            onChange={handleInputChange}
-          /> */}
-          {/* <TextField
-            label="กลุ่ม"
-            id="Section"
-            variant="outlined"
-            defaultValue={addingpoint.Section}
-          /> */}
-          {/* <Grid sx={{ marginTop: "10px" }}>
-            <Button
-              size="medium"
-              variant="contained"
-              //onClick={sendSearchedSubjectID}
-            >
-              ค้นหา
-              <SvgIcon
-                sx={{ marginLeft: "5px" }}
-                component={SearchIcon}
-                inheritViewBox
-              />
-            </Button>
-          </Grid> */}
-          {/* <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    รหัสนักศึกษา
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    ชื่อ-นามสกุล
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
-                    เกรด
-                  </StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {(rowsPerPage > 0
-                  ? addingpoints.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : addingpoints
-                ).map((row) => (
-                  <StyledTableRow key={row.Adding_point_ID}>
-                    <TableCell component="th" scope="row" align="center">
-                      {row.Enroll_ID}{" "}
-                    </TableCell>
-                    <TableCell align="center">
-                      <TextField
-                        id="Grade_ID"
-                        variant="outlined"
-                        type="number"
-                        defaultValue={addingpoint.Grade_ID}
-                      />
-                    </TableCell>
-                    {/* <TableCell align="center">{row.Subject_EN_Name}</TableCell> */}
-          {/* <TableCell align="center">{row.Course_Name}</TableCell> */}
-          {/* <TableCell align="center">{row.Section}</TableCell> */}
-
-          {/* <TableCell align="center">
-                      <IconButton
-                        aria-label="edit"
-                        onClick={toUpdateRequestPage}
-                        component={RouterLink}
-                        to="/update"
-                      >
-                        <ModeEditIcon />
-                      </IconButton>
-                    </TableCell> */}
-          {/* </StyledTableRow> */}
-          {/* ))}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: 53 * emptyRows }}>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )} */}
-          {/* </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[
-                      5,
-                      10,
-                      25,
-                      { label: "All", value: -1 },
-                    ]}
-                    colSpan={addingpoints.length}
-                    count={addingpoints.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    SelectProps={{
-                      inputProps: {
-                        "aria-label": "rows per page",
-                      },
-                      native: true,
-                    }}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-                </TableRow>
-              </TableFooter>
-            </Table>
-          </TableContainer> */}
+          
           <Grid
             item
             xs={12}
@@ -427,7 +281,7 @@ function Adding_pointUpdate() {
               padding: 1,
             }}
           >
-            <Button component={RouterLink} to="/" variant="contained">
+            <Button component={RouterLink} to="/adding_point" variant="contained">
               ย้อนกลับ
             </Button>
 

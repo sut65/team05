@@ -18,10 +18,11 @@ type Dormitory struct {
 type Student struct {
 	Student_ID string `gorm:"primaryKey" valid:"studentchecklenght~Student ID Should be 8 characters,required~Student ID cannot be null"`
 
-	Student_Name string `valid:"studentnamechecklanguage~Student Name cannot be English Language,required~Student Name cannot be null,maxstringlength(30)~Student Name can not greater than 30 character"`
+	Student_Name string `valid:"studentnamechecklanguage~Student Name cannot be English Language,required~Student Name cannot be null,maxstringlength(25)~Student Name can not greater than 25 character"`
 
-	Student_Password string    `valid:"required~Student Password cannot be null,studentpasswordchecklanguage~Student Password cannot be Thai Language"`
-	Datetime         time.Time `valid:"datetimecheckfuture~Datetime cannot be future"`
+	Student_Password string `valid:"required~Student Password cannot be null,studentpasswordchecklanguage~Student Password cannot be Thai Language,minstringlength(8)~Student Password can not less than 8 character"`
+
+	Datetime time.Time `valid:"datetimecheckfuture~Datetime cannot be future"`
 
 	Admin_ID *string `valid:"-"`
 	Admin    Admin   `gorm:"references:Admin_ID" valid:"-"`

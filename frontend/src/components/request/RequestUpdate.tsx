@@ -513,7 +513,7 @@ const [message, setAlertMessage] = React.useState("");
                   <InputLabel id="Request_Type_ID">ประเภทคำร้อง</InputLabel>
                   <Select
                     id="Request_Type_ID"
-                    value={request.Request_Type_ID}
+                    value={request.Request_Type_ID+""}
                     onChange={handleSelectChange}
                     autoWidth
                     inputProps={{

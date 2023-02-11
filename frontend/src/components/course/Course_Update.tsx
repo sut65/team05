@@ -251,7 +251,7 @@ function Class_Schedule_Update() {
              sx={{  fontFamily : "LilyUPC" ,
               fontWeight : 'bold' ,fontSize:35}}>
    
-               <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2}}/> สร้างข้อมูลหลักสูตร
+               <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2}}/> แก้ไขข้อมูลหลักสูตร
                 </Grid>
    
               </Typography>
@@ -370,7 +370,7 @@ function Class_Schedule_Update() {
                  <Select
                                    variant="standard"
                                    id="Qualification_ID"
-                                   value={course.Qualification_ID}
+                                   value={course.Qualification_ID+""}
                                    onChange={handleSelectChange}
                                    inputProps={{
                                        name: "Qualification_ID",
@@ -402,7 +402,7 @@ function Class_Schedule_Update() {
                  <Select
                                    variant="standard"
                                    id="Major_ID"
-                                   value={course.Major_ID}
+                                   value={course.Major_ID+""}
                                    onChange={handleSelectChange}
                                    inputProps={{
                                        name: "Major_ID",

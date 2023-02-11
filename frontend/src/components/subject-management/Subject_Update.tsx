@@ -14,6 +14,7 @@ import { Subject, Subject_Category, Subject_Status, Class_Type, } from "../../mo
 import { Course } from "../../models/I_Course";
 import { useEffect } from "react";
 import { FormHelperText, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import Swal from 'sweetalert2'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -149,7 +150,7 @@ function UpdateSubject() {
         let data = {
             ID: typeof subject.ID === "string" ? parseInt(subject.ID) : subject.ID,
             Subject_ID: subject.Subject_ID ?? "",
-            Professor_ID: typeof subject.Professor_ID === "string" ? parseInt(subject.Professor_ID) : subject.Professor_ID,
+            Professor_ID: subject.Professor_ID ?? "",
             Course_ID: subject.Course_ID ?? "",
             Subject_Status_ID: subject.Subject_Status_ID ?? "",
             Class_Type_ID: subject.Class_Type_ID ?? "",
@@ -175,18 +176,40 @@ function UpdateSubject() {
             },
             body: JSON.stringify(data)
         };
-        console.log(JSON.stringify(data));
+        // console.log(JSON.stringify(data));
 
-        fetch(`${apiUrl}/subjects`, requestOptionsPatch)
-            .then((response) => response.json())
-            .then((res) => {
-                console.log(res)
-                if (res.data) {
-                    setSuccess(true);
-                } else {
-                    setError(true);
-                }
-            });
+        Swal.fire({
+            title: 'Do you want to update the changes?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`${apiUrl}/subjects`, requestOptionsPatch)
+                .then((response) => response.json())
+                .then((res) => {
+                    console.log(res)
+                    if (res.data) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Saved!',
+                            text: 'Success',
+                        })
+                        setSuccess(true);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: res.error,
+                        })
+                        setError(true);
+                    }
+                });
+            } 
+        })
+
+        
     }
 
     return (
@@ -199,23 +222,6 @@ function UpdateSubject() {
                 height: "auto",
             }}
         >
-            <Snackbar
-                open={success}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            >
-
-                <Alert onClose={handleClose} severity="success">
-                    บันทึกข้อมูลสำเร็จ
-                </Alert>
-            </Snackbar>
-
-            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="error">
-                    บันทึกข้อมูลไม่สำเร็จ
-                </Alert>
-            </Snackbar>
            {/* Header */}
            <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
                 <Typography variant="h4" sx={{fontFamily:'Mitr-Regular'}}> ระบบจัดการรายวิชา </Typography>

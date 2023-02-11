@@ -236,7 +236,7 @@ function CreateSubject() {
 
             {/* Header */}
             <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
-                <Typography variant="h4" sx={{fontFamily:'Mitr-Regular'}}> ระบบจัดการรายวิชา </Typography>
+                <Typography variant="h4" sx={{fontFamily:'Arial'}}> ระบบจัดการรายวิชา </Typography>
                 <Typography sx={{fontFamily:'Mitr-Regular'}}> เพิ่มข้อมูลรายวิชา </Typography>
             </Paper>
 

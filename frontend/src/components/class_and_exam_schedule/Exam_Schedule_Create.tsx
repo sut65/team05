@@ -7,7 +7,7 @@ import { Subject } from "../../models/I_Subject";
 import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker, TimePicker } from "@mui/x-date-pickers";
+import { DatePicker, DateTimePicker, TimePicker } from "@mui/x-date-pickers";
 import { formatTime, formatDate } from "../services/FormatDateTime";
 import Swal from 'sweetalert2'
 
@@ -345,9 +345,9 @@ function Exam_Schedule_Create() {
                             <Typography sx={{ fontFamily: 'Mitr-Regular' }}> วัน/เดือน/ปี ที่จัดสอบ </Typography>
                             <FormControl fullWidth>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker
+                                    <DateTimePicker
                                         value={exam_date}
-                                        onChange={(newValue) => {
+                                        onChange={(newValue : Dayjs | null) => {
                                             setExamDate(newValue);
                                             // exam_schedule.Exam_Date = `${newValue?.year()}-${newValue?.month() + 1}-${newValue?.date()}`
                                             // console.log(exam_schedule.Exam_Date)
@@ -410,10 +410,10 @@ function Exam_Schedule_Create() {
                                 <Select
                                     id="Exam_Date"
                                     variant="standard"
-                                    value={exam_schedule.Exam_Type}
+                                    value={exam_schedule.Exam_Type+""}
                                     inputProps={{ name: "Exam_Type", }}
                                     onChange={handleSelectChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                    sx={{ fontFamily: 'Mitr-Regular'}}
                                 >
                                     {exam_types.map((item) => (
                                         <MenuItem value={item.exam_type} key={item.exam_type}>

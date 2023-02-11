@@ -119,7 +119,7 @@ func TestRequestSubjectNotrepeatedly(t *testing.T) {
 	g.Expect(err.Error()).To(Equal("Subject cannot be added repeatedly"))
 }
 
-// ตรวจสอบตรวจสอบว่า day, start_time และ end_time ของ class_scheduleตรงกับข้อมูลแล้วต้องเจอ Error
+// ตรวจสอบตรวจสอบว่า day, start_time และ end_time ของ class_schedule ตรงกับข้อมูลแล้วต้องเจอ Error
 func TestRequestClassDayNotrepeatedly(t *testing.T) {
 	g := NewGomegaWithT(t)
 	class_schedule1 := entity.Class_Schedule{

@@ -683,24 +683,27 @@ function ApprovalCreate() {
                     marginLeft: "20px",
                   }}
                 >
-                  <InputLabel id="Approval_Type_ID">ผลการอนุมัติ</InputLabel>
+                  {/* <InputLabel id="Approval_Type_ID">ผลการอนุมัติ</InputLabel> */}
                   <Select
-                    labelId="Approval_Type_ID"
+                    native
                     id="Approval_Type_ID"
-                    value={approval.Approval_Type_ID}
+                    value={approval.Approval_Type_ID + ""}
                     onChange={handleSelectChange}
-                    autoWidth
+                    //autoWidth
                     inputProps={{
                       name: "Approval_Type_ID",
                     }}
                   >
+                    <option aria-label="Noun" value="">
+                      กรุณาเลือกผลการอนุมัติ
+                    </option>
                     {approval_type.map((item: Approval_TypeInterface) => (
-                      <MenuItem
+                      <option
                         value={item.Approval_Type_ID}
                         key={item.Approval_Type_ID}
                       >
                         {item.Approval_Type_Name}
-                      </MenuItem>
+                      </option>
                     ))}
                   </Select>
                 </FormControl>

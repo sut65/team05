@@ -510,23 +510,28 @@ const [message, setAlertMessage] = React.useState("");
                     marginLeft: "20px",
                   }}
                 >
-                  <InputLabel id="Request_Type_ID">ประเภทคำร้อง</InputLabel>
+                  {/* <InputLabel id="Request_Type_ID">ประเภทคำร้อง</InputLabel> */}
                   <Select
+                    native
+                    //labelId="Request_Type_ID"
                     id="Request_Type_ID"
-                    value={request.Request_Type_ID+""}
+                    value={request.Request_Type_ID + ""}
                     onChange={handleSelectChange}
-                    autoWidth
+                    //autoWidth
                     inputProps={{
                       name: "Request_Type_ID",
                     }}
                   >
+                    <option aria-label="Noun" value="">
+                      กรุณาเลือกประเภทคำร้อง
+                    </option>
                     {request_type.map((item: Request_TypeInterface) => (
-                      <MenuItem
+                      <option
                         value={item.Request_Type_ID}
                         key={item.Request_Type_ID}
                       >
                         {item.Request_Type_Name}
-                      </MenuItem>
+                      </option>
                     ))}
                   </Select>
                 </FormControl>

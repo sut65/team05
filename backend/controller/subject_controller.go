@@ -228,7 +228,7 @@ func GetSubjectByCourse(c *gin.Context) {
 	var subject []extendedEnrollSubject
 	course := c.Param("course_id")
 	//* SQL command : SELECT * FROM `subjects` WHERE subject_id = ? AND section = ?;
-	query := entity.DB().Raw("SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id WHERE e.course_id = ? GROUP BY e.id", course).Scan(&subject)
+	query := entity.DB().Raw("SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id AND e.section = cs.section WHERE e.course_id = ? GROUP BY e.id", course).Scan(&subject)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -243,7 +243,7 @@ func GetSubjectBySubject_ID(c *gin.Context) {
 	subject_id := c.Param("subject_id")
 	course := c.Param("course_id")
 	//* SQL command : SELECT * FROM `subjects` WHERE subject_id = ? AND section = ?;
-	query := entity.DB().Raw("SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id WHERE e.course_id = ? AND e.subject_id = ? GROUP BY e.id", course, subject_id).Scan(&subject)
+	query := entity.DB().Raw("SELECT e.*,cs.*,ex.* FROM `subjects` e INNER JOIN `class_schedules` cs INNER JOIN `exam_schedules` ex ON e.subject_id = cs.subject_id AND e.subject_id = ex.subject_id AND e.section = cs.section WHERE e.course_id = ? AND e.subject_id = ? GROUP BY e.id", course, subject_id).Scan(&subject)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

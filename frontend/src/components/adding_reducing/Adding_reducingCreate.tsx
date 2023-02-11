@@ -498,7 +498,6 @@ const getSubjectByCourseID = async (course_id: any) => {
                       <TableCell align="left">{row.Section}</TableCell>
                       <TableCell align="center">
                         <IconButton
-                          // id="Subject_ID"
                           onClick={() => {
                             enroll.Subject_ID = row.Subject_ID;
                             enroll.Exam_Schedule_ID = row.Exam_Schedule_ID;
@@ -548,33 +547,7 @@ const getSubjectByCourseID = async (course_id: any) => {
               </Table>
             </TableContainer>
           </Grid>
-          {/* <Box
-        component="form"
-        sx={{'& .MuiTextField-root': { m: 1, width: '30ch' },
-        }}>  
-      <div><Box sx={{paddingLeft:1,}}>
-        กรอกรหัสวิชา
-    </Box>
-        </div>
-    </Box> 
-        <div>
-            <Box 
-            display={"flex"}
-        sx={{
-            marginTop: 5,
-            width: 1000,
-            height: 70,
-            }}>
-            <Box
-            component="form"
-            sx={{'& .MuiTextField-root': { m: 1, width: '30ch' },
-            }}>
-            <div> 
-            <TextField id="outlined-basic" label="รหัสวิชา" variant="outlined" />
-            </div>
-            </Box>
-            </Box>
-        </div> */}
+       
         </Paper>
       </div>
     </Container>

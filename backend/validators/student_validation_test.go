@@ -119,9 +119,9 @@ func TestStudentNameMaxString(t *testing.T) {
 	entity.SetStudentPasswordValidation()
 
 	student := entity.Student{
-		Student_ID:       "B6200001",                                                                    //ถูก
-		Student_Name:     "เอ็มมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมมม", // ผิด
-		Student_Password: "abcd4321",                                                                    //ถูก
+		Student_ID:       "B6200001", //ถูก
+		Student_Name:     "ทดสอบ",    // ผิด
+		Student_Password: "abcd4321", //ถูก
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -134,7 +134,7 @@ func TestStudentNameMaxString(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Student Name can not greater than 25 character"))
+	g.Expect(err.Error()).To(Equal("Student Name cannot be less than 10 characters"))
 }
 
 func TestStudentPasswordNotBlank(t *testing.T) {

@@ -282,14 +282,6 @@ func UpdateRequest(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if _, err := Validatechecksubject(update_request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if _, err := ValidateRequestCheckExamAndClass(update_request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 
 	// บันทึก entity request
 	if err := entity.DB().Save(&update_request).Error; err != nil {

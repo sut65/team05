@@ -15,12 +15,9 @@ import {
   SvgIcon,
   Alert,
   Snackbar,
+  MenuItem,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CreateIcon from "@mui/icons-material/Create";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -33,7 +30,7 @@ import TableFooter from "@mui/material/TableFooter";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { SelectChangeEvent } from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Adding_pointInterface } from "../../models/IAdding_point";
 import { GradeInterface } from "../../models/IGrade";
@@ -46,11 +43,12 @@ function Adding_pointCreate() {
   const [addingpoints, setAdding_points] = React.useState<
     Adding_pointInterface[]
   >([]);
-  const [grade, setGreade] = React.useState<GradeInterface[]>([]);
-  //   const [professor, setProfessor] = React.useState<Professor[]>([]);
-  const [subjects, setSubjects] = React.useState<Subject[]>([]);
-  const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
-  const [searchEnrollID, setSearchEnrollID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
+ 
+  const [subject, setSubject] = React.useState<Subject[]>([]);
+  const [enroll, setEnroll] = React.useState<EnrollInterface[]>([]);
+  const [searchID, setSearchID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
+
+ 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -97,20 +95,14 @@ function Adding_pointCreate() {
     console.log(event.target.value);
   };
 
-  const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    const name = event.target.name as keyof typeof addingpoint;
-    setAdding_point({
-      ...addingpoint,
-      [name]: event.target.value,
-    });
-    console.log(event.target.value);
-  };
+ 
 
   const handleInputChangeSearch = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
     const id = event.target.id as keyof typeof Adding_pointCreate;
-    setSearchEnrollID(event.target.value);
+    setSearchID(event.target.value);
+
   };
 
   const handleChangePage = (
@@ -130,24 +122,29 @@ function Adding_pointCreate() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - addingpoints.length) : 0;
 
-  // const sendSearchedSubjectID = () => {
-  //   //navigate({ pathname: `/subject/${searchSubjectID}` });
-  //   setSearchEnrollID(searchEnrollID);
-  //   getSubjectByEnrollID(searchEnrollID);
-  //   //window.location.reload();
-  //   //console.log(searchSubjectID);
-  // };
+  
 
-  //รับค่าส่งไปbackend
-  const getAdding_points = async (adding_point_id: string) => {
+ 
+
+
+    const sendSearchedID = () => {
+      //navigate({ pathname: `/subject/${searchSubjectID}` });
+      // setSearchID(searchID);
+      // setSearchIDs(searchIDs);//เซ้ตค่าตัวแปรsearchID
+      getSubjectByProfessorandStudenByEnroll(searchID);//เรียกใช้ฟังชั่นโดยนำค่าจากตัวแปรมาใช้
+      //window.location.reload();
+      //console.log(searchSubjectID);
+    };
+  
+
+  const getSubjectByProfessorandStudenByEnroll = async (subject_id: any) => {
     const requestOptions = {
       method: "GET",
       headers: { 
-        
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json" },
     };
-    fetch(`${apiUrl}/adding_point/${adding_point_id}`, requestOptions)
+    fetch(`${apiUrl}/addingsearch/${subject_id}/${localStorage.getItem("id")}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -155,28 +152,12 @@ function Adding_pointCreate() {
           console.log(res.data);
         }
       });
+      
   };
 
-  //รับค่าจากfrontendไปกรองรายวิชา และกลุ่มจากprofessor
 
-  //table
-  // const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  //   [`&.${tableCellClasses.head}`]: {
-  //     backgroundColor: "#5B98B9",
-  //     color: theme.palette.common.white,
-  //     fontSize: 17,
-  //   },
-  // }));
 
-  // const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  //   "&:nth-of-type(odd)": {
-  //     backgroundColor: "white",
-  //   },
-  //   // hide last border
-  //   "&:last-child td, &:last-child th": {
-  //     border: 1,
-  //   },
-  // }));
+  
 
   const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
@@ -185,25 +166,28 @@ function Adding_pointCreate() {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json" },
   };
-//ดึง id enrollมาใช้เพื่อเช้คว่าใครลงรหัสรายวิชานี้บ้าง
-  const getEnrolls = async () => {
-    const requestOptions = {
+// //ดึง id enrollมาใช้เพื่อเช้คว่าใครลงรหัสรายวิชานี้บ้าง
+const getEnroll = async () => {
+  const requestOptions = {
       method: "GET",
-      headers: {  Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json" },
-    };
-    fetch(`${apiUrl}/enroll`, requestOptions)
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+      },
+  };
+  fetch(`${apiUrl}/enrolls/${localStorage.getItem("id")}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
-        console.log(res);
-        if (res.data) {
-          setAdding_points(res.data);
           console.log(res.data);
-        }
+          if (res.data) {
+            setEnroll(res.data);
+              //console.log(course_id);
+              //getSubjectBySubjectID(course_id);
+          }
       });
-  };
+};
 
-//ดึง id professorมาใช้ในfrontent เพื่อให้ทราบว่าอาจารคนไหนแก้ไข
+//ดึง id professorมาใช้ในfrontent เพื่อให้ทราบว่าอาจารคนไหนlogin เข้ามา
   const getProfessor_ID = async () => {
     let id = localStorage.getItem("id")
     const requestOptions = {
@@ -222,20 +206,7 @@ function Adding_pointCreate() {
         }
       });
   };
-  // const getSubjectByEnrollID = async (subject_id: any) => {
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   };
-  //   fetch(`${apiUrl}/enroll/${subject_id}`, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setSearchEnrollID(subject_id);
-  //         setEnrolls(res.data);
-  //       }console.log(res.data);
-  //     });
-  // };
+
 //เพิ่มค่าid addทีละ1
   const getPrevAdd = async () => {
     fetch(`${apiUrl}/previous_adding_point`, requestOptionsGet)
@@ -251,16 +222,14 @@ function Adding_pointCreate() {
       });
   };
 
+
+
+  
+
   useEffect(() => {
     getPrevAdd();
     getProfessor_ID();
-    if (searchEnrollID == "") {
-      getEnrolls();
-    } 
-    //else {
-    //   getSubjectByEnrollID(searchEnrollID);
-    // }
-    // console.log(searchEnrollID);
+    getEnroll();
   }, []);
 
   function submit() {
@@ -269,7 +238,6 @@ function Adding_pointCreate() {
         typeof addingpoint.Adding_point_ID === "string"
           ? parseInt(addingpoint.Adding_point_ID)
           : addingpoint.Adding_point_ID,
-      // Adding_point_ID: addingpoint.Adding_point_ID ?? "",
       Professor_ID:
         addingpoint.Professor_ID === "string"
           ? parseInt(addingpoint.Professor_ID)
@@ -279,7 +247,7 @@ function Adding_pointCreate() {
     };
     console.log(data);
 
-    //const apiUrl = "http://localhost:8080/adding_points";
+   
     const requestOptions = {
       method: "POST",
       headers: { 
@@ -367,24 +335,25 @@ function Adding_pointCreate() {
           sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
         >
           <Grid container sx={{ padding: 2, marginLeft: "15px" }}>
-            {/* <Grid>
-              <p>รหัสวิชา</p>
-            </Grid>
-            <Grid sx={{ marginLeft: "20px" }}>
-              <Box sx={{ width: "250px" }}>
-                <TextField
-                  id="Subject_ID"
-                  variant="outlined"
-                  type="string"
-                  onChange={handleInputChangeSearch}
-                />
-              </Box>
-            </Grid>
-            <Grid sx={{ marginTop: "10px" }}>
-              <Button
+           
+            <Grid>
+            <TextField
+            label="รหัสวิชา"
+              sx={{ marginLeft: "300px" }}
+              
+              id="Subject_ID"
+              variant="outlined"
+              type="any"
+              
+              value={addingpoint.Subject_ID}
+              onChange={handleInputChangeSearch}
+            />
+           
+            <Button
                 size="medium"
                 variant="contained"
-                onClick={sendSearchedSubjectID}
+                onClick={sendSearchedID}//เรียกใช้ฟังชั่น
+                
               >
                 ค้นหารายวิชา
                 <SvgIcon
@@ -393,7 +362,7 @@ function Adding_pointCreate() {
                   inheritViewBox
                 />
               </Button>
-            </Grid> */}
+            </Grid>
             <TextField
               sx={{ marginLeft: "300px" }}
               disabled
@@ -453,7 +422,7 @@ function Adding_pointCreate() {
                     : addingpoints
                   ).map((row) => (
                     <StyledTableRow
-                      key={row.Enroll_ID}
+                      key={row.Adding_point_ID}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <StyledTableCell align="left">
@@ -467,19 +436,7 @@ function Adding_pointCreate() {
                       </StyledTableCell>
                       <StyledTableCell align="left">
                         {row.Subject_EN_Name}
-                      </StyledTableCell>
-                      {/* <StyledTableCell align="left">{row.Day}</StyledTableCell>
-                      <StyledTableCell align="left">
-                        {row.Start_Time}
-                      </StyledTableCell>
-                      <StyledTableCell align="left">
-                        {row.End_Time}
-                      </StyledTableCell>
-                      <StyledTableCell align="left">
-                        {row.Exam_Schedule_ID}
-                      </StyledTableCell> */}
-                      {/* <TableCell align="left">{row.Exa}</TableCell>
-                    <TableCell align="left">{row.Exam_End_Time}</TableCell> */}
+                        </StyledTableCell>
                       <StyledTableCell align="left">{row.Unit}</StyledTableCell>
                       <StyledTableCell align="left">
                         {row.Section}
@@ -518,8 +475,8 @@ function Adding_pointCreate() {
                         25,
                         { label: "All", value: -1 },
                       ]}
-                      colSpan={enrolls.length}
-                      count={enrolls.length}
+                      colSpan={enroll.length}
+                      count={enroll.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       SelectProps={{

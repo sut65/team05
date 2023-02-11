@@ -263,7 +263,7 @@ function Course_Lists() {
                             <Stack>
                                 <TableContainer sx={{ width: "100" }}>
                                     <Table>
-                                        <TableHead sx={{ bgcolor: "#5B98B9" }}>
+                                        <TableHead sx={{ bgcolor: "6A61D8" }}>
                                             <TableRow sx={{ width: "auto" }}>
                                                 <StyledTableCell width={100} sx={{ border: 1 }}>
                                                     รหัสหลักสูตร
@@ -305,7 +305,7 @@ function Course_Lists() {
                                                     <TableCell>
                                                         <Button
                                                             variant="contained"
-                                                            sx={{ borderRadius: 0 }}
+                                                            sx={{ borderRadius: 0, bgcolor:"#F9CB6E"}}
                                                             onClick={() => {
                                                                 navigate({ pathname: `/course/${row.Course_ID}` });
                                                             }}
@@ -369,7 +369,14 @@ function Course_Lists() {
                             </Stack>
                         </Box>
                         <Paper>
-                            <Stack sx={{ margin: 3, }} flexGrow={5}>
+                        <Box flexGrow={5} className="Status_Component"
+                            sx={{
+                                bgcolor: "#E6E4E3",
+                                margin: 1,
+                                fontSize: 20,
+                                maxWidth: "false",
+                            }}>
+                            <Stack sx={{ margin: 3, }}>
                                 <Typography sx={{ mb: 1 }}>CPE - Computer Engineering </Typography>
                                 <Typography sx={{ mb: 1 }}>EE - Electrical Engineering</Typography>
                                 <Typography sx={{ mb: 1 }}>ELEC - Electronic Engineering</Typography>
@@ -385,6 +392,7 @@ function Course_Lists() {
                                 <Typography sx={{ mb: 1 }}>CHEM - Chemistry</Typography>
 
                             </Stack>
+                            </Box>
                         </Paper>
                         <Paper >
                             <Stack sx={{ margin: 3, fontSize:16 , bgcolor:"#F59392"}} color="#9A4600" >

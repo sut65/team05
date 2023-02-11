@@ -1009,6 +1009,18 @@ func SetupDatabase() {
 			Day:                        "Mon",
 		}
 
+		se_sec1_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    software_engineering_sec1,
+			Section:                    1,
+			Room:                       room_F11_software,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 14, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
+			Class_Schedule_Description: "Software Engineering Sec 1 Class",
+			Day:                        "Mon",
+		}
+
 		db.Create(&system_analysis_sec1_class)
 		db.Create(&system_analysis_sec2_class)
 		db.Create(&problem_solving_sec1_class)
@@ -1017,6 +1029,7 @@ func SetupDatabase() {
 		db.Create(&os_lab_sec2_class)
 		db.Create(&ann_sec1_class)
 		db.Create(&kdd_class)
+		db.Create(&se_sec1_class)
 
 		system_analysis_midterm := Exam_Schedule{
 			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),

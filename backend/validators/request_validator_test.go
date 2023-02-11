@@ -14,7 +14,7 @@ func TestReasonNotBlank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	request := entity.Request{
-		Reason:     "", // ผิด
+		Reason: "", // ผิด
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -35,7 +35,7 @@ func TestReasonNotSpecialCharacters(t *testing.T) {
 	g := NewGomegaWithT(t)
 	entity.SetRequestValidation()
 	reason := entity.Request{
-		Reason:     "1234?$#@", // ผิด
+		Reason: "1234?$#@", // ผิด
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -146,4 +146,32 @@ func TestRequestClassDayNotrepeatedly(t *testing.T) {
 
 	// err.Error ต้องมี error message แสดงออกมา
 	g.Expect(err.Error()).To(Equal("Cannot add class schedule. In start time 13:00 is overlapped with some class schedule"))
+}
+
+func TestClassDayNotrepeatedlyEnroll(t *testing.T) {
+	g := NewGomegaWithT(t)
+	class_schedule1 := entity.Class_Schedule{
+		Day:        "Mon",
+		Start_Time: "14:00",
+		End_Time:   "15:00",
+	}
+	student1 := entity.Student{
+		Student_ID: "B6200001",
+	}
+	Request := entity.Request{
+		Student:        student1,
+		Class_Schedule: class_schedule1,
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := controller.ValidateCheckExamAndClassEnroll(Request)
+
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).ToNot(BeTrue())
+
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).ToNot(BeNil())
+
+	// err.Error ต้องมี error message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("Cannot add class schedule. In start time 13:00 is overlapped with some class schedule "))
 }

@@ -263,6 +263,8 @@ function Students_List() {
                                                 <StyledTableCell width={100} sx={{ border: 1 }}>หอพัก</StyledTableCell>
                                                 <StyledTableCell width={150} sx={{ border: 1 }}>หลักสูตร</StyledTableCell>
                                                 <StyledTableCell width={150} sx={{ border: 1 }}>แอดมิน</StyledTableCell>
+                                                <StyledTableCell width={90} sx={{ border: 1 }}>
+                                                </StyledTableCell>
 
                                             </TableRow>
                                         </TableHead>

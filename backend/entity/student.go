@@ -20,7 +20,7 @@ type Student struct {
 
 	Student_Name string `valid:"studentnamechecklanguage~Student Name cannot be English Language,required~Student Name cannot be null,maxstringlength(25)~Student Name can not greater than 25 character"`
 
-	Student_Password string `valid:"required~Student Password cannot be null,studentpasswordchecklanguage~Student Password cannot be Thai Language,minstringlength(10)~Student Password can not less than 10 character"`
+	Student_Password string `valid:"required~Student Password cannot be null,studentpasswordchecklanguage~Student Password cannot be Thai Language,minstringlength(8)~Student Password can not less than 8 character"`
 
 	Datetime time.Time `valid:"datetimecheckfuture~Datetime cannot be future"`
 

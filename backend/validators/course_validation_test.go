@@ -128,7 +128,7 @@ func TestCourseNameMaxString(t *testing.T) {
 	entity.SetCourseIDValidation()
 
 	course := entity.Course{
-		Course_ID: "CPE2565", //ถูก
+		Course_ID:   "CPE2565",                                                                                       //ถูก
 		Course_Name: "ทดสอบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบ", // ผิด
 	}
 

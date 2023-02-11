@@ -12,6 +12,7 @@ import (
 func TestCourseIDNotBlank(t *testing.T) {
 	g := NewGomegaWithT(t)
 	entity.SetCourseNameValidation()
+	entity.SetCourseIDValidation()
 
 	course := entity.Course{
 		Course_ID:   "",                // ผิด
@@ -80,10 +81,11 @@ func TestCourseIDCheckThaiLanguage(t *testing.T) {
 func TestCourseNameNotBlank(t *testing.T) {
 	g := NewGomegaWithT(t)
 	entity.SetCourseIDValidation()
+	entity.SetCourseNameValidation()
 
 	course := entity.Course{
 		Course_ID:   "CPE2565", //ถูก
-		Course_Name: "",        // ผิด
+		Course_Name: "",     // ผิด
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -156,7 +158,7 @@ func TestCourseDatetimeNotFuture(t *testing.T) {
 	course := entity.Course{
 		Course_ID:   "CPE2565",  //ถูก
 		Course_Name: "ทดสอบบบบ", // ถูก
-		Datetime:  time.Now().Add(time.Second * 1000),
+		Datetime:    time.Now().Add(time.Second * 1000),
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -169,5 +171,5 @@ func TestCourseDatetimeNotFuture(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Course Name can not greater than 35 character"))
+	g.Expect(err.Error()).To(Equal("Datetime cannot be future"))
 }

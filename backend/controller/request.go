@@ -84,6 +84,14 @@ func CreateRequest(c *gin.Context) {
 		return
 	}
 
+	var enroll entity.Enroll
+	if request_type.Request_Type_ID == "R02" {
+		if tx := entity.DB().Where("subject_id = ? AND student_id = ?", request.Subject_ID,request.Student_ID).First(&enroll); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Can't change groups because you haven't registered"})
+		return
+		}
+	}
+
 	new_request := entity.Request{
 		Request_ID:   request.Request_ID,
 		Student: student,

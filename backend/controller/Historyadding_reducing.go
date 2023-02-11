@@ -270,6 +270,14 @@ func UpdateEnrollforadding(c *gin.Context) {
 		Section:           update_Section,
 	}
 
+	if _, err := ValidateAdding_reducingChecksubject(updated_enroll); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if _, err := ValidateAdding_reducingExamAndClass(updated_enroll); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	if err := entity.DB().Save(&updated_enroll).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

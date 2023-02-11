@@ -68,7 +68,7 @@ function Adding_reducingUpdate() {
   const [error, setError] = React.useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [message, setAlertMessage] = React.useState("");
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -256,22 +256,26 @@ const getAdding_reducingonly = async () => {
       });
   };
 //รับค่าเพื่อแสดงในตารางเวลาsearchด้วยsubjectID
-  const getSubjectByCourse = async (course_id: any) => {
-    const requestOptions = {
+const getSubjectByCourseID = async (course_id: any) => {
+  const requestOptions = {
       method: "GET",
-      headers: { 
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json" },
-    }
-    fetch(`${apiUrl}/subjectd/${course_id}`, requestOptions)
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+      },
+  };
+  fetch(`${apiUrl}/subjects/${course_id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
-        if (res.data) {
           console.log(res.data);
-          setSubjects(res.data);
-        }
+          if (res.data) {
+              setSubjects(res.data);
+          }else {
+              console.log("else");
+          }
+          
       });
-  };  
+};  
   //ใช้ค้นหารหัสวิชาจากที่เลือกมาใช้
   const getSubjectBySubjectID = async (subject_id: any) => {
     const requestOptions = {
@@ -290,19 +294,7 @@ const getAdding_reducingonly = async () => {
         }
       });
   };
-///เพิ่มค่าid enrollทีละ1
-  // const getPrevEnroll = async () => {
-  //   fetch(`${apiUrl}/previousenroll`, requestOptionsGet)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         enroll.Enroll_ID = res.data.Enroll_ID + 1;
-  //       } else {
-  //         enroll.Enroll_ID = res.data = "1";
-  //         //console.log("else");
-  //       }
-  //     });
-  // };
+
 
 
   //เพิ่มค่าid addingทีละ1
@@ -387,6 +379,7 @@ const getAdding_reducingonly = async () => {
           if (res.data) {
             setSuccess(true);
           } else {
+            setAlertMessage(res.error);
             setError(true);
           }
         });
@@ -410,7 +403,8 @@ const getAdding_reducingonly = async () => {
 
       <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
+          
+        
         </Alert>
       </Snackbar>
       <div>
@@ -424,11 +418,12 @@ const getAdding_reducingonly = async () => {
           </Box>
           {/* -------------------------------------------------------------------------------------- */}
           <Grid container sx={{ marginTop: "3px", marginLeft: 5 }}>
+          <p style={{ paddingLeft: 15 }}>กรุณาเลือกหลักสูตร</p>
             <Grid>
-              <p style={{ paddingLeft: 15 }}>กรุณาเลือกหลักสูตร</p>
-              <Box component="form" sx={{ m: 1, width: "45ch", marginTop: -2 }}>
+             
+              <Box component="form" sx={{ m: -4, width: "40ch", marginTop: -2 }}>
                 <Select
-                  sx={{ ml: 1, mt: 2, width: "50ch" }}
+                  sx={{ ml: 10, mt: 1, width: "50ch" }}
                   id="Course_ID"
                   value={enroll.Course_ID}
                   label="เลือกหลักสูตร"
@@ -437,8 +432,6 @@ const getAdding_reducingonly = async () => {
                     name: "Coures_ID",
                   }}
                 >
-
-                  
                   {course.map((item: Course) => (
                     <MenuItem value={item.Course_ID} key={item.Course_ID}>
                       {item.Course_Name}
@@ -449,49 +442,44 @@ const getAdding_reducingonly = async () => {
             </Grid>
           </Grid>
 
-         
-
-
-
-
-
           <Grid container sx={{ marginTop: "5px", marginLeft: 5 }}>
-            <Grid>
+           
               <p style={{ paddingLeft: 17 }}>รหัสวิชา</p>
               <Box
                 component="form"
                 sx={{
                   "& .MuiTextField-root": { m: 1, width: "30ch" },
                   marginTop: -1,
-                  paddingLeft: 1,
+                  paddingLeft: 14,
                 }}
               >
                 <TextField
                   id="Subject_ID"
                   variant="outlined"
                   type="string"
-                  value={adding_reducing.Subject_ID}
+                  // value={adding_reducing.Subject_ID}
                   onChange={handleInputChangeSearch}
                 />
               </Box>
-            </Grid>
-            <Grid sx={{ marginTop: "10px" }}>
+           
               <Button
-                size="medium"
+                sx={{ marginBottom: "20px",marginLeft: "10px",width: "21ch" }}
+                size="small"
                 variant="contained"
                 onClick={sendSearchedSubjectID}//เรียกใช้ฟังชั่น
+                
               >
                 ค้นหารายวิชา
                 <SvgIcon
-                  sx={{ marginLeft: "5px" }}
+                  sx={{ marginLeft: "5px", }}
                   component={SearchIcon}
                   inheritViewBox
                 />
               </Button>
-              <Grid sx={{ marginTop: "63px", marginLeft: 3 }}>
+              {/* <Grid sx={{ marginTop: "63px", marginLeft: 3 }}> */}
                 <Button
-                  sx={{ width: "21ch" }}
-                  size="medium"
+                  sx={{ marginBottom: "20px",marginLeft: "10px",width: "21ch" }}
+                  size="small"
                   component={RouterLink}
                   to="/adding_reducing"
                   variant="contained"
@@ -501,9 +489,6 @@ const getAdding_reducingonly = async () => {
                   ผลการลงทะเบียน
                 </Button>
               </Grid>
-            </Grid>
-          </Grid>
-
           {/* -------------------------------------------------------------------------------------- */}
           <Grid
             sx={{
@@ -557,7 +542,6 @@ const getAdding_reducingonly = async () => {
                       <TableCell align="left">{row.Section}</TableCell>
                       <TableCell align="center">
                         <IconButton
-                          // id="Subject_ID"
                           onClick={() => {
                             enroll.Subject_ID = row.Subject_ID;
                             enroll.Exam_Schedule_ID = row.Exam_Schedule_ID;
@@ -611,33 +595,7 @@ const getAdding_reducingonly = async () => {
               </Table>
             </TableContainer>
           </Grid>
-          {/* <Box
-        component="form"
-        sx={{'& .MuiTextField-root': { m: 1, width: '30ch' },
-        }}>  
-      <div><Box sx={{paddingLeft:1,}}>
-        กรอกรหัสวิชา
-    </Box>
-        </div>
-    </Box> 
-        <div>
-            <Box 
-            display={"flex"}
-        sx={{
-            marginTop: 5,
-            width: 1000,
-            height: 70,
-            }}>
-            <Box
-            component="form"
-            sx={{'& .MuiTextField-root': { m: 1, width: '30ch' },
-            }}>
-            <div> 
-            <TextField id="outlined-basic" label="รหัสวิชา" variant="outlined" />
-            </div>
-            </Box>
-            </Box>
-        </div> */}
+          
         </Paper>
       </div>
     </Container>

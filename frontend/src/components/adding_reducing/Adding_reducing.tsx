@@ -92,42 +92,25 @@ function Adding_reducingCreate() {
 
 //จากdb
     //listenroll เพื่อแสดงตาราง
-    // const getEnroll = async () => {
-    //   const requestOptions = {
-    //     method: "GET",
-    //     headers: { 
-    //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //       "Content-Type": "application/json" },
-    //   };
-    //   fetch(`${apiUrl}/enroll`, requestOptions)
-    //     .then((response) => response.json())
-    //     .then((res) => {
-    //       if (res.data) {
-    //         setEnroll(res.data);
-    //         console.log(res.data);
-    //       }
-    //     });
-    // };
-    
-      const getEnroll = async () => {
-        const requestOptions = {
+    const getEnroll = async () => {
+      const requestOptions = {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "application/json"
           },
-        };
-        fetch(`${apiUrl}/enrolls/${localStorage.getItem("id")}`, requestOptions)
+      };
+      fetch(`${apiUrl}/enrolls/${localStorage.getItem("id")}`, requestOptions)
           .then((response) => response.json())
           .then((res) => {
-            console.log(res.data);
-            if (res.data) {
-              setEnroll(res.data);
-              //console.log(course_id);
-              //getSubjectBySubjectID(course_id);
-            }
+              console.log(res.data);
+              if (res.data) {
+                setEnroll(res.data);
+                  //console.log(course_id);
+                  //getSubjectBySubjectID(course_id);
+              }
           });
-      };
+  };
     
  
 //รับค่าจากget enrollมาใช้โดยจะหาจากid enroll

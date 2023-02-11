@@ -88,13 +88,7 @@ func CreateAdding_reducing(c *gin.Context) {
 		return
 	}
 
-	// Communication Diagram Step
-	// ค้นหา entity request_type ด้วย id ของ request_type ที่รับเข้ามา
-	// SELECT * FROM `request_type` WHERE request_type_id = <request_type.request_type_ID>
-	// if tx := entity.DB().Where("enroll_id = ?", adding_reducing.Enroll_ID).First(&enroll); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "enroll not found"})
-	// 	return
-	// }
+	
 
 	new_enroll := entity.Enroll{
 		Enroll_ID:         receive_enroll.Enroll_ID,
@@ -121,11 +115,7 @@ func CreateAdding_reducing(c *gin.Context) {
 	}
 	c.JSON(http.StatusCreated, gin.H{"data": new_enroll}) //ขึ้นสเตตัสว่าสร้างenrollเรียบร้อย
 
-	// if err := entity.DB().Create(&new_adding_reducing).Error; err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
-	// c.JSON(http.StatusOK, gin.H{"data": new_adding_reducing})
+	
 }
 
 //
@@ -173,12 +163,8 @@ func CreateAdding_reducingonly(c *gin.Context) {
 	}
 
 	// Communication Diagram Step
-	// ค้นหา entity request ด้วย id ของ request ที่รับเข้ามา
-	// SELECT * FROM requests` WHERE request_id = <request.Request_ID>
-	// if tx := entity.DB().Where("adding_point_id = ?", adding_point.Adding_point_ID).First(&adding_point); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Adding_point not found"})
-	// 	return
-	// }
+	// ค้นหา entity student ด้วย id ของ student ที่รับเข้ามา
+	// SELECT * FROM `student` WHERE student_id = <student.Student_ID>
 	if tx := entity.DB().Where("History_Type_ID = ?", adding_reducing.History_Type_ID).First(&historytypes); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "History_Type_ID not found"})
 		return
@@ -191,10 +177,7 @@ func CreateAdding_reducingonly(c *gin.Context) {
 		return
 	}
 
-	// Communication Diagram Step
-	// ค้นหา entity subject ด้วย id ของ subject ที่รับเข้ามา
-	// SELECT * FROM `subject` WHERE subject_id = <subject.subject_id>
-
+	
 	// Communication Diagram Step
 	// ค้นหา entity request_type ด้วย id ของ request_type ที่รับเข้ามา
 	// SELECT * FROM `request_type` WHERE request_type_id = <request_type.request_type_ID>
@@ -258,13 +241,7 @@ func UpdateEnrollforadding(c *gin.Context) {
 	var update_subject_id = update_enrolls.Subject_ID
 	var update_Section = update_enrolls.Section
 
-	// fmt.Println(update_Section)
-	//var section = entity.Subject_ID
-	//var updated_capacity = enroll.Capacity
-	//var updated_enroll = enroll.Enroll
-	//var updated_reserved = enroll.Reserved
-	//var updated_reserved_enroll = subject.Reserved_Enroll
-	//var updated_unit = subject.Unit
+
 	if tx := entity.DB().Where("enroll_id = ?", update_enrolls.Enroll_ID).First(&enroll); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "enroll_id not found"})
 		return
@@ -287,18 +264,7 @@ func UpdateEnrollforadding(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": updated_enroll})
 }
 
-// Get /adding_reducing เรียกใช้เพื่อ
-// func GetAdding_reducing(c *gin.Context) {
-// 	var adding_reducing entity.Adding_reducing
 
-// 	id := c.Param("change_id")
-// 	query := entity.DB().Where("change_id = ?",id).First(&adding_reducing )
-// 	if err := query.Error; err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
-// 	c.JSON(http.StatusOK, gin.H{"data": adding_reducing })
-// }
 
 // DELETE /adding
 func DeleteAdding_reducing(c *gin.Context) {
@@ -310,3 +276,5 @@ func DeleteAdding_reducing(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Enroll_ID})
 }
+
+

@@ -64,7 +64,7 @@ function ApprovalUpdate() {
 
   const [approvals, setApprovals] = React.useState<ApprovalInterface[]>([]);
   const [searchApprovalID, setSearchApprovalID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
-
+  const [message, setAlertMessage] = React.useState("");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -232,6 +232,7 @@ function ApprovalUpdate() {
         if (res.data) {
           setSuccess(true);
         } else {
+          setAlertMessage(res.error);
           setError(true);
         }
       });
@@ -261,7 +262,7 @@ function ApprovalUpdate() {
 
         <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลไม่สำเร็จ
+            {message}
           </Alert>
         </Snackbar>
 
@@ -451,7 +452,7 @@ function ApprovalUpdate() {
                   <InputLabel id="Approval_Type_ID">ผลการอนุมัติ</InputLabel>
                   <Select
                     id="Approval_Type_ID"
-                    value={approval.Approval_Type_ID+""}
+                    value={approval.Approval_Type_ID + ""}
                     onChange={handleSelectChange}
                     autoWidth
                     inputProps={{

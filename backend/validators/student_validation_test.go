@@ -114,12 +114,12 @@ func TestStudentNameMaxString(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	entity.SetStudentIDValidation()
-	entity.SetStudentNameValidation()
+	entity.SetStudentPasswordValidation()
 
 	student := entity.Student{
 		Student_ID:       "B6200001",                                                          //ถูก
 		Student_Name:     "ทดสอบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบบ", // ผิด
-		Student_Password: "",                                                                  //ถูก
+		Student_Password: "abcd4321",                                                          //ถูก
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -209,5 +209,5 @@ func TestStudentPasswordMinString(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Student Password can not less than 10 character"))
+	g.Expect(err.Error()).To(Equal("Student Password can not less than 8 character"))
 }

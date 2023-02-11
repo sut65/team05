@@ -47,6 +47,8 @@ import {IconButton,MenuItem,SvgIcon,TableFooter,TablePagination,} from "@mui/mat
 import { styled } from "@mui/material/styles";
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 import { StudentsInterface } from "../../models/I_Student";
+import { blue, pink } from "@mui/material/colors";
+import Home_Navbar from "../navbars/Home_navbar";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -338,7 +340,9 @@ const getSubjectByCourseID = async (course_id: any) => {
   }
 
   return (
-    <Container maxWidth="lg">
+    
+    <Container maxWidth="xl"
+    sx ={{bgcolor:"black"}}>
       <Snackbar
         open={success}
         autoHideDuration={6000}
@@ -356,7 +360,7 @@ const getSubjectByCourseID = async (course_id: any) => {
         </Alert>
       </Snackbar>
       <div>
-        <Paper>
+        <Paper >
           <Box display={"flex"} sx={{ marginTop: 1 }}>
             <Box sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="h6" color="parmary" gutterBottom>
@@ -366,11 +370,12 @@ const getSubjectByCourseID = async (course_id: any) => {
           </Box>
           {/* -------------------------------------------------------------------------------------- */}
           <Grid container sx={{ marginTop: "3px", marginLeft: 5 }}>
+          <p style={{ paddingLeft: 15 }}>กรุณาเลือกหลักสูตร</p>
             <Grid>
-              <p style={{ paddingLeft: 15 }}>กรุณาเลือกหลักสูตร</p>
-              <Box component="form" sx={{ m: 1, width: "45ch", marginTop: -2 }}>
+             
+              <Box component="form" sx={{ m: -4, width: "40ch", marginTop: -2 }}>
                 <Select
-                  sx={{ ml: 1, mt: 2, width: "50ch" }}
+                  sx={{ ml: 10, mt: 1, width: "50ch" }}
                   id="Course_ID"
                   value={enroll.Course_ID}
                   label="เลือกหลักสูตร"
@@ -390,14 +395,14 @@ const getSubjectByCourseID = async (course_id: any) => {
           </Grid>
 
           <Grid container sx={{ marginTop: "5px", marginLeft: 5 }}>
-            <Grid>
+           
               <p style={{ paddingLeft: 17 }}>รหัสวิชา</p>
               <Box
                 component="form"
                 sx={{
                   "& .MuiTextField-root": { m: 1, width: "30ch" },
                   marginTop: -1,
-                  paddingLeft: 1,
+                  paddingLeft: 14,
                 }}
               >
                 <TextField
@@ -408,25 +413,25 @@ const getSubjectByCourseID = async (course_id: any) => {
                   onChange={handleInputChangeSearch}
                 />
               </Box>
-            </Grid>
-            <Grid sx={{ marginTop: "10px" }}>
+           
               <Button
-                size="medium"
+                sx={{ marginBottom: "20px",marginLeft: "10px",width: "21ch" }}
+                size="small"
                 variant="contained"
                 onClick={sendSearchedSubjectID}//เรียกใช้ฟังชั่น
                 
               >
                 ค้นหารายวิชา
                 <SvgIcon
-                  sx={{ marginLeft: "5px" }}
+                  sx={{ marginLeft: "5px", }}
                   component={SearchIcon}
                   inheritViewBox
                 />
               </Button>
-              <Grid sx={{ marginTop: "63px", marginLeft: 3 }}>
+              {/* <Grid sx={{ marginTop: "63px", marginLeft: 3 }}> */}
                 <Button
-                  sx={{ width: "21ch" }}
-                  size="medium"
+                  sx={{ marginBottom: "20px",marginLeft: "10px",width: "21ch" }}
+                  size="small"
                   component={RouterLink}
                   to="/adding_reducing"
                   variant="contained"
@@ -436,8 +441,7 @@ const getSubjectByCourseID = async (course_id: any) => {
                   ผลการลงทะเบียน
                 </Button>
               </Grid>
-            </Grid>
-          </Grid>
+           
 
           {/* -------------------------------------------------------------------------------------- */}
           <Grid
@@ -446,10 +450,11 @@ const getSubjectByCourseID = async (course_id: any) => {
               display: "flex",
               marginLeft: 1,
               paddingBlockEnd: 10,
+              
             }}
           >
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <Table sx={{ minWidth: 650}} aria-label="simple table">
                 <TableHead>
                   <TableRow>
                     <TableCell align="left">รหัสวิชา</TableCell>

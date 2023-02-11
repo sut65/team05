@@ -451,7 +451,7 @@ function ApprovalUpdate() {
                   <InputLabel id="Approval_Type_ID">ผลการอนุมัติ</InputLabel>
                   <Select
                     id="Approval_Type_ID"
-                    value={approval.Approval_Type_ID}
+                    value={approval.Approval_Type_ID+""}
                     onChange={handleSelectChange}
                     autoWidth
                     inputProps={{

@@ -283,6 +283,8 @@ function Course_Lists() {
                                                 <StyledTableCell width={150} sx={{ border: 1 }}>
                                                     แอดมินที่จัดการข้อมูล
                                                 </StyledTableCell>
+                                                <StyledTableCell width={90} sx={{ border: 1 }}>
+                                                </StyledTableCell>
                                             </TableRow>
                                         </TableHead>
 

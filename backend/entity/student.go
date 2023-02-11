@@ -14,7 +14,7 @@ type Dormitory struct {
 	Dormitory_Name string
 	Students       []Student `gorm:"foreignKey:Dormitory_ID"`
 }
-
+//Student
 type Student struct {
 	Student_ID string `gorm:"primaryKey" valid:"studentchecklenght~Student ID Should be 8 characters,required~Student ID cannot be null"`
 

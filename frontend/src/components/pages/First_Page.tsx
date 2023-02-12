@@ -38,7 +38,7 @@ function First_Page() {
 
 
             </Stack>
-            <Box sx={{ border: 2, padding: 5, bgcolor: 'white' }}>
+            <Box sx={{ border: 0, padding: 5, bgcolor: 'white' }}>
                 <Grid container>
                     <Box sx={{ border: 0 }}>
                         <Typography variant='h4' sx={{ fontFamily: "Tahoma", }}> Overview </Typography>
@@ -111,24 +111,57 @@ function First_Page() {
                             </Box>
                         </Box>
                     </Card>
-                    {/* <Box sx={{ paddingLeft: 2, paddingRight: 2 }}>
-                        <p>
-                           
-                            ขอความร่วมมือนักศึกษาทุกท่านในการเข้าทำการประเมินการสอนประจำภาคการศึกษาที่ 2/2565 ได้ทาง http://reg.sut.ac.th ตั้งแต่วันนี้ - 9 มีนาคม 2566
-                            ทั้งนี้ผลจากการประเมินการสอนจักนำมาใช้ประโยชน์ในการพัฒนาคุณภาพการเรียนการสอน และข้อมูลของนักศึกษาที่ทำการประเมินการสอนจักถือเป็น ความลับ
-                            หากพบปัญหาในการเข้าประเมิน สามารถแจ้งได้ทาง E-mail. sumintra@sut.ac.th หรือ โทร. 4659
-                            ประกาศโดย   สถานพัฒนาคณาจารย์ โทร. 044-224659   วันที่ประกาศ   26 มกราคม 2566
-                        </p>
-                    </Box>
-                    <Divider />
-                    <Box sx={{ paddingLeft: 2, paddingRight: 2 }}>
-                        - โดยเลือกที่เมนู "คะแนนเก็บ"
-                        - เลือกปีภาคการศึกษา ที่ต้องการดูข้อมูล
-                        *** นักศึกษาจะสามารถตรวจสอบได้เฉพาะรายวิชาที่อาจารย์ผู้สอนตั้งค่าให้ SHOW คะแนนเท่านั้น*** [ดูข้อมูลเพิ่มเติม]
-                        ประกาศโดย   ฝ่ายวิเคราะห์และพัฒนาระบบ โทร. 044-223020 หรือ 044-223018   วันที่ประกาศ   27 ธันวาคม 2565
-                    </Box> */}
 
+                    <Card variant="outlined" sx={{ border: 1, boxShadow: 2 }}>
 
+                        <Box sx={{ paddingLeft: 2, paddingRight: 2 }}>
+                            <Box sx={{ padding: 1 }}>
+                                <Typography variant="h5">
+                                    นักศึกษาทุกท่านโปรดตรวจสอบรายวิชาที่เปลี่ยนแปลงรหัสใหม่ ภาคการศึกษาที่ 2/2565
+                                </Typography>
+                                <Divider />
+                                <p>
+                                    ในการลงทะเบียนภาคการศึกษาที่ 2/2565 โปรดตรวจสอบรายวิชา เนื่องจากมีการเปลี่ยนแปลงรหัสวิชาใหม่ (เทียบเท่ารายวิชาเดิม) ตามตารางที่แนบมาพร้อมนี้
+                                </p>
+                                <Link to="http://www2.sut.ac.th/ces/pr/2564-3/timetable/changeEng364.pdf">สำนักวิชาวิศวกรรมศาสตร์ </Link>
+                                <p></p>
+                                <Link to="http://www2.sut.ac.th/ces/pr/2564-2/timetable/change1and2_2.pdf"> สำนักวิชาวิทยาศาสตร์ สำนักวิชาเทคโนโลยีสังคม และสำนักวิชาสาธารณสุขศาสตร์ </Link>
+                                <p></p>
+                                <Typography> ประกาศโดย  </Typography>
+                                <Typography sx={{ color: "red" }}>
+                                    ฝ่ายตารางสอนตารางสอบ วันที่ประกาศ 10 กุมภาพันธ์ 2566
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Card>
+
+                    <Card variant="outlined" sx={{ border: 1, boxShadow: 2 }}>
+
+                        <Box sx={{ paddingLeft: 2, paddingRight: 2 }}>
+                            <Box sx={{ padding: 1 }}>
+                                <Typography variant="h5">
+                                    สมาชิก
+                                </Typography>
+                                <Divider />
+                                <p> B6000000 นาย A </p>
+                                <p> B6000000 นาย A </p>
+                                <p> B6000000 นาย A </p>
+                                <p> B6000000 นาย A </p>
+                                <p> B6000000 นาย A </p>
+                                <p> B6000000 นาย A </p>
+                                <Stack direction="row" spacing={1} sx={{ padding: 1 }}>
+                                    <Typography variant="h6"> Sponsor  </Typography>
+                                    <Box sx={{padding:0.5}}>
+                                        <Typography> อาจารย์ </Typography>
+                                        <Typography> พรี่ TA </Typography>
+                                        <Typography> Stackoverflow  </Typography>
+                                        <Typography> ChatGPT  </Typography>
+                                        <Typography> Material UI  </Typography>
+                                    </Box>
+                                </Stack>
+                            </Box>
+                        </Box>
+                    </Card>
                 </Stack>
             </Box>
         </Box>

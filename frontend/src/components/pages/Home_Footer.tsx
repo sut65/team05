@@ -4,16 +4,47 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Stack } from "@mui/system";
+import { FormControl } from "@mui/material";
 
 function Footer() {
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar sx={{ bgcolor: "#646464", position: "static" , padding:3}}>
+        <AppBar sx={{ bgcolor: "#646464", position: "static", padding: 3 }}>
+            <Stack direction="row" spacing={2}>
+                <Box flexGrow={1} sx={{ border: 0, padding: 1 }}>
+                    <Typography variant="h5" sx={{color:"#78B1C8"}}> ติดต่อมหาวิทยาลัย</Typography>
+                    <Typography variant="h6"> มหาวิทยาลัยเทคโนโลยีสุรนารี ถ.มหาวิทยาลัย ต.สุรนารี  </Typography>
+                    <Typography variant="h6"> อ.เมือง จ.นครราชสีมา 30000 </Typography>
+                    <p></p>
+                    <Typography variant="h6"> โทรศัพท์ 0-4422-3000 </Typography>
+                    <Typography variant="h6"> โทรสาร 0-4422-4070  </Typography>
+
+                </Box>
+                <Box flexGrow={1} sx={{ border: 0, padding: 1 }}>
+                    <Typography variant="h5" sx={{color:"#78B1C8"}}> ติดต่อ หน่วยประสานงาน มทส. กทม.</Typography>
+                    <Typography variant="h6"> 128/237 อาคารพญาไท พลาซ่า ชั้น 22 ถนนพญาไท เขต </Typography>
+                    <Typography variant="h6"> ราชเทวี จังหวัดกรุงเทพมหานคร 10400 </Typography>
+                    <p></p>
+                    <Typography variant="h6"> โทรศัพท์ 0-2216-5410, 0-2216-5493-4</Typography>
+                    <Typography variant="h6"> โทรสาร 0-2216-5411</Typography>
+                </Box>
+                <Box flexGrow={1} sx={{ border: 0, padding:1}}>
+                    <Typography variant="h6"> 523332 Software Engineering </Typography>
+                    <Typography variant="h6"> Computer Engineering </Typography>
+
+                </Box>
+            </Stack>
+            <FormControl fullWidth>
+                <Stack justifyItems="center" alignItems="center" direction="column">
+                    <Typography> Copyright 2018 beta.sut.ac.th All Right Reserved. </Typography>
+                </Stack>
+            </FormControl>
+            {/* <AppBar sx={{ bgcolor: "#646464", position: "static" , padding:3}}>
                 <Typography component="div" > ท่านเข้าสู่ระบบในชื่อ ABCDERF </Typography>
                 <Typography component="div" > หน้าหลัก </Typography>
                 <Typography component="div" > Tel. 099-999-9999 </Typography>
-            </AppBar>
-        </Box>
+            </AppBar> */}
+        </AppBar>
     );
 }
 

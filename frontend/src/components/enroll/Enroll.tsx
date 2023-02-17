@@ -143,7 +143,6 @@ function ListEnroll() {
 
 
   return (
-
     <div>
 <Home_Navbar></Home_Navbar>
 <Container maxWidth={false}

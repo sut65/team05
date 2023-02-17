@@ -435,7 +435,8 @@ function CreateEnroll() {
                                 mt: 2,
                                 padding: 0.5,
                                 height: 140,
-                                backgroundColor: '#FFFAF0',
+                                
+                                
                             }}>
                                 <Box
                                     sx={{

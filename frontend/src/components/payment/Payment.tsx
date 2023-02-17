@@ -9,8 +9,8 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 
 import Box from "@mui/material/Box";
-
-
+import Navbar from "./Payment_Navbar";
+import Home_Navbar from "../navbars/Home_navbar";
 import { EnrollInterface } from "../../models/I_Enroll";
 import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
@@ -28,8 +28,9 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { Payment } from "../../models/I_Payment";
-
-
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import SearchIcon from '@mui/icons-material/Search';
+import { pink } from "@mui/material/colors";
 export function ListPayment() {
     const navigate = useNavigate();
     const params = useParams();
@@ -39,7 +40,7 @@ export function ListPayment() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-   
+
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -68,12 +69,12 @@ export function ListPayment() {
             ...payment,
             [id]: event.target.value
         });
-    }; 
+    };
     const sendSearchedStudentID = () => {
         setSearchStudentID(SearchStudentID);
         getPaymentByStudentID(SearchStudentID);
     };
-    
+
 
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
@@ -167,163 +168,194 @@ export function ListPayment() {
         }
     }, []);
     return (
-        <Container maxWidth="xl" sx={{ mt: 10 }}
-        >
-            <Paper sx={{ padding: 1 }}>
-                <Box
-                    display="flex"
-                    sx={{
-                        marginTop: 2,
-                    }}
-                >
-                    <Box flexGrow={1}>
+        <div>
+            <Home_Navbar></Home_Navbar>
+            <Container maxWidth={false}
+                sx={{
+                    mt: -1,
+                    width: "auto",
+                    height: "auto",
+                    p: 1,
+                    bgcolor: '#93BFCF'
+                }}>
+                <Container maxWidth="xl" style={{ height: "auto" }} sx={{ p: 2, bgcolor: '#BEF0CB', mt: 6 }}>
+                    <Paper sx={{
+                        height: 50,
+                        bgcolor: '#FFFAF0',
+                        mt: 3
+                    }}>
+                        <Box
+                            display="flex"
+                            sx={{
+                                marginTop: 2,
+                            }}
+                        >
+                            <Box flexGrow={1}>
+                                <Typography
+                                    sx={{ paddingLeft: 1, mt: 1 }}
+                                    variant="h5"
+                                    color="primary"
+                                    gutterBottom
+                                >
+                                    ประวัติรายการจ่าย
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Paper>
+
+                    <Paper sx={{ mt: 2 }}>
                         <Typography
-                            variant="h5"
-                            color="primary"
+                            sx={{ padding: 2 }}
+                            variant="subtitle2"
+                            color="back"
                             gutterBottom
                         >
-                            ประวัติรายการจ่าย
+                            ระบบบันทึกรายจ่ายเป็นระบบที่ให้เจ้าหน้าที่ของมหาลัย
+                            หรือแอดมินใช้ เพื่อยืนยันการชําระเงินค่าลงทะเบียนเรียนของนักศึกษา
+                            โดยเมื่อนักศึกษาทําการจ่ายเงินตามจํานวนครบแล้ว
+                            จะต้องยื่นหลักฐานเพื่อให้เจ้าหน้าที่ของมหาลัย หรือแอดมิน
+                            ทําการบันทึกลงในระบบ โดยสิงที่ต้องบันทึกประกอบไปด้วยจํานวนเงินที่ชําระเลขที่ใบเสร็จ
+                            ในกรณีที่นักศึกษาใช้ประเภทการชําระเป็นการชําระด้วยการโอน และกรอกวันเวลาที่จ่าย
+                            นักศึกษาสามารถผ่อนจ่ายได้ ไม่จําเป็นต้องชําระเต็มจํานวนในครั้งเดียว แอดมินสามารถแก้ไขรายจ่ายให้นักศึกษาได้
                         </Typography>
-                    </Box>
-                    <Box>
-                        <Button
-                            component={RouterLink}
-                            to="/payment/payment_create"
-                            variant="contained"
-                            color="primary"
-                        >
-                            บันทึกรายจ่าย
-                        </Button>
-                    </Box>
-                </Box>
-            </Paper>
-            <Paper sx={{ mt: 2 }}>
-                <Typography
-                    sx={{ padding: 2 }}
-                    variant="subtitle2"
-                    color="back"
-                    gutterBottom
-                >
-                    ระบบบันทึกรายจ่ายเป็นระบบที่ให้เจ้าหน้าที่ของมหาลัย
-                    หรือแอดมินใช้ เพื่อยืนยันการชําระเงินค่าลงทะเบียนเรียนของนักศึกษา
-                    โดยเมื่อนักศึกษาทําการจ่ายเงินตามจํานวนครบแล้ว
-                    จะต้องยื่นหลักฐานเพื่อให้เจ้าหน้าที่ของมหาลัย หรือแอดมิน
-                    ทําการบันทึกลงในระบบ โดยสิงที่ต้องบันทึกประกอบไปด้วยจํานวนเงินที่ชําระเลขที่ใบเสร็จ
-                    ในกรณีที่นักศึกษาใช้ประเภทการชําระเป็นการชําระด้วยการโอน และกรอกวันเวลาที่จ่าย
-                    นักศึกษาสามารถผ่อนจ่ายได้ ไม่จําเป็นต้องชําระเต็มจํานวนในครั้งเดียว แอดมินสามารถแก้ไขรายจ่ายให้นักศึกษาได้
-                </Typography>
-            </Paper>
-            <Paper>
-                <Grid container sx={{ marginTop: '5px', marginLeft: 1, }}>
-                    <Grid >
-                        <p>ระบุรหัสนักศึกษา</p>
-                        <Box>
-                            <TextField
-                                id="Student_ID"
-                                label="ระบุรหัสนักศึกษา"
-                                variant="outlined"
-                                onChange={handleInputChange}
-                            >
-                            </TextField>
-                        </Box>
-                    </Grid>
-                    <Grid sx={{ marginTop: '63px', marginLeft: 1, }}>
-                        <Button
-                            variant="contained"
-                            onClick={sendSearchedStudentID}
-                        >
-                            ค้นหารหัสนักศึกษา
-                        </Button>
-                    </Grid></Grid>
-            </Paper>
-            <Grid sx={{ mt: 5 }}>
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell align="left">เลขที่รายการ</StyledTableCell>
-                                <StyledTableCell align="left">รหัสนักศึกษา</StyledTableCell>
-                                <StyledTableCell align="left">หน่วยกิจรวม</StyledTableCell>
-                                <StyledTableCell align="left">วิธีการชำระเงิน</StyledTableCell>
-                                <StyledTableCell align="left">เลขที่ใบเสร็จ</StyledTableCell>
-                                <StyledTableCell align="left">จำนวนเงินที่ต้องชำระ</StyledTableCell>
-                                <StyledTableCell align="left">จำนวนเงินที่ชำระ</StyledTableCell>
-                                <StyledTableCell align="left">วันเวลาที่ชำระ</StyledTableCell>
-                                <StyledTableCell align="left">ไอดีผู้ทำรายการ</StyledTableCell>
-                                <StyledTableCell align="left">ลบรายการ</StyledTableCell>
-                                <StyledTableCell align="left">แก้ไขรายจ่าย</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {(rowsPerPage > 0
-                                ? payments.slice(
-                                    page * rowsPerPage,
-                                    page * rowsPerPage + rowsPerPage
-                                )
-                                : payments
-                            ).map((row) => (
-                                <TableRow key={row.Payment_ID}>
-                                    <TableCell align="left">{row.Payment_ID}</TableCell>
-                                    <TableCell align="left">{row.Student_ID}</TableCell>
-                                    <TableCell align="left">{row.Unit}</TableCell>
-                                    <TableCell align="left">{row.Payment_Type_ID}</TableCell>
-                                    <TableCell align="left">{row.Receipt_number}</TableCell>
-                                    <TableCell align="left">{row.Payable}</TableCell>
-                                    <TableCell align="left">{row.Amounts}</TableCell>
-                                    <TableCell align="left">{row.Date_Time.toString()}</TableCell>
-                                    <TableCell align="left">{row.Admin_ID}</TableCell>
-                                    <TableCell align="center">
-                                        <IconButton
-                                            aria-label="delete"
-                                            onClick={() => deletePayment(row.Payment_ID)}
-                                        >
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <IconButton
-                                            // ${row.Payment_ID}/${row.Section}
-                                            onClick={() => {
-                                                navigate({ pathname: `/payment/updatepayment/${row?.Payment_ID}` })
-                                            }}
-                                        >
-                                            <ModeEditIcon />
-                                        </IconButton>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                        <TableFooter>
-                            <TableRow>
-                                <TablePagination
-                                    rowsPerPageOptions={[
-                                        5,
-                                        10,
-                                        15,
-                                        20,
-                                        25,
-                                        { label: "All", value: -1 },
-                                    ]}
-                                    colSpan={payments.length}
-                                    count={payments.length}
-                                    rowsPerPage={rowsPerPage}
-                                    page={page}
-                                    SelectProps={{
-                                        inputProps: {
-                                            "aria-label": "rows per page",
-                                        },
-                                        native: true,
-                                    }}
-                                    onPageChange={handleChangePage}
-                                    onRowsPerPageChange={handleChangeRowsPerPage}
-                                />
-                            </TableRow>
-                        </TableFooter>
-                    </Table>
-                </TableContainer>
+                    </Paper>
+                    <Paper sx={{ padding: 2, mt: 2 }}>
+                        <Grid container sx={{ marginTop: -1, marginLeft: 0, height: 70, }}>
+                            <Grid >
+                                <Typography sx={{ mt: 0 }}>
+                                    ระบุรหัสนักศึกษา
+                                </Typography>
 
-            </Grid>
+                                <Box>
+                                    <TextField
+                                        sx={{ mt: 1 }}
+                                        size="small"
+                                        id="Student_ID"
+                                        label="ระบุรหัสนักศึกษา"
+                                        variant="outlined"
+                                        onChange={handleInputChange}
+                                    >
+                                    </TextField>
+                                </Box>
+                            </Grid>
+                            <Grid sx={{ marginTop: 4.3, marginLeft: 2, }}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    startIcon={<SearchIcon sx={{ color: "#84ffff" ,}}/>}
+                                    onClick={sendSearchedStudentID}
+                                >
+                                    ค้นหาประวัติรายจ่าย
+                                </Button>
+                            </Grid>
+                            <Grid sx={{paddingLeft:3,mt:3.3}}>
+                                <Box sx={{ paddingRight: 2 }}>
+                                    <Button
+                                        sx={{ mt: 1, paddingRight: 2 }}
+                                        color="success"
+                                        component={RouterLink}
+                                        to="/payment/payment_create"
+                                        variant="contained"
+                                        
+                                        startIcon={<AddCircleOutlineIcon sx={{ color: "#b2ff59" ,}}/>}
+                                    >
+                                        เพิ่มบันทึกรายจ่าย
+                                    </Button>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                    <Paper sx={{ padding: 2, marginTop: 2 }}>
+                        <Grid sx={{ mt: 0 }}>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell align="left">เลขที่รายการ</StyledTableCell>
+                                            <StyledTableCell align="left">รหัสนักศึกษา</StyledTableCell>
+                                            <StyledTableCell align="left">หน่วยกิจรวม</StyledTableCell>
+                                            <StyledTableCell align="left">วิธีการชำระเงิน</StyledTableCell>
+                                            <StyledTableCell align="left">เลขที่ใบเสร็จ</StyledTableCell>
+                                            <StyledTableCell align="left">จำนวนเงินที่ต้องชำระ</StyledTableCell>
+                                            <StyledTableCell align="left">จำนวนเงินที่ชำระ</StyledTableCell>
+                                            <StyledTableCell align="left">วันเวลาที่ชำระ</StyledTableCell>
+                                            <StyledTableCell align="left">ไอดีผู้ทำรายการ</StyledTableCell>
+                                            <StyledTableCell align="left">ลบรายการ</StyledTableCell>
+                                            <StyledTableCell align="left">แก้ไขรายจ่าย</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {(rowsPerPage > 0
+                                            ? payments.slice(
+                                                page * rowsPerPage,
+                                                page * rowsPerPage + rowsPerPage
+                                            )
+                                            : payments
+                                        ).map((row) => (
+                                            <StyledTableRow key={row.Payment_ID}>
+                                                <TableCell align="left">{row.Payment_ID}</TableCell>
+                                                <TableCell align="left">{row.Student_ID}</TableCell>
+                                                <TableCell align="left">{row.Unit}</TableCell>
+                                                <TableCell align="left">{row.Payment_Type_ID}</TableCell>
+                                                <TableCell align="left">{row.Receipt_number}</TableCell>
+                                                <TableCell align="left">{row.Payable}</TableCell>
+                                                <TableCell align="left">{row.Amounts}</TableCell>
+                                                <TableCell align="left">{row.Date_Time.toString()}</TableCell>
+                                                <TableCell align="left">{row.Admin_ID}</TableCell>
+                                                <TableCell align="center">
+                                                    <IconButton
+                                                        aria-label="delete"
+                                                        onClick={() => deletePayment(row.Payment_ID)}
+                                                    >
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <IconButton
+                                                        // ${row.Payment_ID}/${row.Section}
+                                                        onClick={() => {
+                                                            navigate({ pathname: `/payment/updatepayment/${row?.Payment_ID}` })
+                                                        }}
+                                                    >
+                                                        <ModeEditIcon />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </StyledTableRow>
+                                        ))}
+                                    </TableBody>
+                                    <TableFooter>
+                                        <TableRow>
+                                            <TablePagination
+                                                rowsPerPageOptions={[
+                                                    5,
+                                                    10,
+                                                    15,
+                                                    20,
+                                                    25,
+                                                    { label: "All", value: -1 },
+                                                ]}
+                                                colSpan={payments.length}
+                                                count={payments.length}
+                                                rowsPerPage={rowsPerPage}
+                                                page={page}
+                                                SelectProps={{
+                                                    inputProps: {
+                                                        "aria-label": "rows per page",
+                                                    },
+                                                    native: true,
+                                                }}
+                                                onPageChange={handleChangePage}
+                                                onRowsPerPageChange={handleChangeRowsPerPage}
+                                            />
+                                        </TableRow>
+                                    </TableFooter>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                    </Paper>
+                </Container >
 
-        </Container >
+            </Container>
+        </div>
     );
 } export default ListPayment;

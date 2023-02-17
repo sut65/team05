@@ -612,8 +612,8 @@ func SetupDatabase() {
 		operating_system_sec1 := Subject{
 			ID:               3,
 			Subject_ID:       "523354",
-			Professor:        professor1,
-			Course:           cpe2564,
+			Professor:        professor2,
+			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
 			Subject_Category: category1,
@@ -630,7 +630,7 @@ func SetupDatabase() {
 		operating_system_sec2 := Subject{
 			ID:               4,
 			Subject_ID:       "523354",
-			Professor:        professor1,
+			Professor:        professor2,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
@@ -779,6 +779,121 @@ func SetupDatabase() {
 		}
 		db.Create(&knowledge_discovery_and_data_mining)
 
+		data_structure_and_algorithms := Subject{
+			ID:               12,
+			Subject_ID:       "523231",
+			Professor:        professor3,
+			Course:           cpe2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "โครงสร้างข้อมูลและขั้นตอนวิธี",
+			Subject_EN_Name:  "Data Structure and Algorithms",
+			Capacity:         120,
+			Enroll_Amount:    0,
+			Reserved:         10,
+			Reserved_Enroll:  0,
+			Unit:             4,
+			Section:          1,
+		}
+		db.Create(&data_structure_and_algorithms)
+
+		oot_sec1 := Subject{
+			ID:               13,
+			Subject_ID:       "523232",
+			Professor:        professor1,
+			Course:           cpe2560,
+			Subject_Status:   subject_open,
+			Class_Type:       labs,
+			Subject_Category: category1,
+			Subject_TH_Name:  "เทคโนโลยีเชิงวัตถุ",
+			Subject_EN_Name:  "Object-Oriented Technology",
+			Capacity:         45,
+			Enroll_Amount:    0,
+			Reserved:         10,
+			Reserved_Enroll:  0,
+			Unit:             4,
+			Section:          1,
+		}
+
+		oot_sec2 := Subject{
+			ID:               14,
+			Subject_ID:       "523232",
+			Professor:        professor1,
+			Course:           cpe2560,
+			Subject_Status:   subject_open,
+			Class_Type:       labs,
+			Subject_Category: category1,
+			Subject_TH_Name:  "เทคโนโลยีเชิงวัตถุ",
+			Subject_EN_Name:  "Object-Oriented Technology",
+			Capacity:         45,
+			Enroll_Amount:    0,
+			Reserved:         10,
+			Reserved_Enroll:  0,
+			Unit:             4,
+			Section:          2,
+		}
+
+		db.Create(&oot_sec1)
+		db.Create(&oot_sec2)
+
+		digital_system_design_sec1 := Subject{
+			ID:               15,
+			Subject_ID:       "523273",
+			Professor:        professor3,
+			Course:           cpe2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "การออกแบบระบบดิจิทัล",
+			Subject_EN_Name:  "Digital System Design",
+			Capacity:         50,
+			Enroll_Amount:    0,
+			Reserved:         5,
+			Reserved_Enroll:  0,
+			Unit:             4,
+			Section:          1,
+		}
+
+		digital_system_design_sec2 := Subject{
+			ID:               16,
+			Subject_ID:       "523273",
+			Professor:        professor3,
+			Course:           cpe2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "การออกแบบระบบดิจิทัล",
+			Subject_EN_Name:  "Digital System Design",
+			Capacity:         50,
+			Enroll_Amount:    0,
+			Reserved:         5,
+			Reserved_Enroll:  0,
+			Unit:             4,
+			Section:          2,
+		}
+		db.Create(&digital_system_design_sec1)
+		db.Create(&digital_system_design_sec2)
+
+		computer_vision := Subject{
+			ID:               17,
+			Subject_ID:       "523453",
+			Professor:        professor2,
+			Course:           cpe2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category2,
+			Subject_TH_Name:  "การมองเห็นด้วยคอมพิวเตอร์",
+			Subject_EN_Name:  "Computer Vision",
+			Capacity:         40,
+			Enroll_Amount:    0,
+			Reserved:         5,
+			Reserved_Enroll:  0,
+			Unit:             4,
+			Section:          1,
+		}
+		db.Create(&computer_vision)
+
 		lab_room_type := RoomType{
 			RoomType_ID:   "RT01",
 			RoomType_name: "Labs",
@@ -887,6 +1002,7 @@ func SetupDatabase() {
 		db.Create(&room_F11_micro)
 		db.Create(&room_F11_software)
 		db.Create(&room_b6105)
+
 		pluri_thai_class := Class_Schedule{
 			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:                    pluri_thai,
@@ -919,7 +1035,7 @@ func SetupDatabase() {
 			Room:                       room_b1118,
 			Admin:                      admin1,
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 17, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
 			Class_Schedule_Description: "System Analysis sec2",
 			Day:                        "Mon",
 		}
@@ -932,7 +1048,7 @@ func SetupDatabase() {
 			Admin:                      admin1,
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
-			Class_Schedule_Description: "Operating System sec2",
+			Class_Schedule_Description: "Operating System sec1 class",
 			Day:                        "Tue",
 		}
 
@@ -942,8 +1058,8 @@ func SetupDatabase() {
 			Section:                    2,
 			Room:                       room_b2101,
 			Admin:                      admin1,
-			Start_Time:                 fmt.Sprintf("%02d:%02d", 14, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 15, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 17, 00),
 			Class_Schedule_Description: "Operating System sec2",
 			Day:                        "Tue",
 		}
@@ -956,7 +1072,7 @@ func SetupDatabase() {
 			Room:                       room_b6105,
 			Admin:                      admin2,
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 14, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
 			Class_Schedule_Description: "Artificial Neural Network class",
 			Day:                        "Mon",
 		}
@@ -982,7 +1098,7 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
 			Class_Schedule_Description: "Operating System Lab Class Sec1",
-			Day:                        "Thu",
+			Day:                        "Fri",
 		}
 
 		os_lab_sec2_class := Class_Schedule{
@@ -991,10 +1107,10 @@ func SetupDatabase() {
 			Section:                    2,
 			Room:                       room_F11_software,
 			Admin:                      admin2,
-			Start_Time:                 fmt.Sprintf("%02d:%02d", 14, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 16, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 19, 00),
 			Class_Schedule_Description: "Operating System Lab Class Sec2",
-			Day:                        "Thu",
+			Day:                        "Fri",
 		}
 
 		problem_solving_sec1_class := Class_Schedule{
@@ -1004,7 +1120,7 @@ func SetupDatabase() {
 			Room:                       room_F11_software,
 			Admin:                      admin2,
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
 			Class_Schedule_Description: "Problem Solving Sec 1 Class",
 			Day:                        "Mon",
 		}
@@ -1013,15 +1129,89 @@ func SetupDatabase() {
 			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:                    software_engineering_sec1,
 			Section:                    1,
-			Room:                       room_F11_software,
+			Room:                       room_F11_micro,
 			Admin:                      admin1,
-			Start_Time:                 fmt.Sprintf("%02d:%02d", 14, 00),
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
 			Class_Schedule_Description: "Software Engineering Sec 1 Class",
 			Day:                        "Mon",
 		}
 
+		data_structure_and_algorithms_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    data_structure_and_algorithms,
+			Section:                    1,
+			Room:                       room_b1209,
+			Admin:                      admin2,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 10, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
+			Class_Schedule_Description: "Class Scheduel of Data Structure and Algorithms",
+			Day:                        "Wed",
+		}
+
+		oot_sec1_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    oot_sec1,
+			Section:                    1,
+			Room:                       room_F11_software,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 9, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
+			Class_Schedule_Description: "OOT Lab Sec1 class",
+			Day:                        "Thu",
+		}
+
+		oot_sec2_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    oot_sec2,
+			Section:                    2,
+			Room:                       room_F11_software,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
+			Class_Schedule_Description: "OOT Lab Sec1 class",
+			Day:                        "Thu",
+		}
+
+		computer_vision_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    computer_vision,
+			Section:                    1,
+			Room:                       room_b1214,
+			Admin:                      admin2,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 10, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
+			Class_Schedule_Description: "ComVision sec1 class in room b1214",
+			Day:                        "Thu",
+		}
+
+		digital_system_sec1_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    digital_system_design_sec1,
+			Section:                    1,
+			Room:                       room_b1120,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 10, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
+			Class_Schedule_Description: "Digital sec1 class in room b1120",
+			Day:                        "Tue",
+		}
+
+		digital_system_sec2_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    digital_system_design_sec2,
+			Section:                    2,
+			Room:                       room_b1120,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+			Class_Schedule_Description: "Digital sec2 class in room b1120",
+			Day:                        "Tue",
+		}
+
 		db.Create(&system_analysis_sec1_class)
+		db.Create(&digital_system_sec1_class)
+		db.Create(&digital_system_sec2_class)
 		db.Create(&system_analysis_sec2_class)
 		db.Create(&problem_solving_sec1_class)
 		db.Create(&os_sec1_class)
@@ -1030,6 +1220,10 @@ func SetupDatabase() {
 		db.Create(&ann_sec1_class)
 		db.Create(&kdd_class)
 		db.Create(&se_sec1_class)
+		db.Create(&data_structure_and_algorithms_class)
+		db.Create(&oot_sec1_class)
+		db.Create(&oot_sec2_class)
+		db.Create(&computer_vision_class)
 
 		system_analysis_midterm := Exam_Schedule{
 			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
@@ -1076,7 +1270,7 @@ func SetupDatabase() {
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
 		}
-		A523203 := Exam_Schedule{
+		ps_final := Exam_Schedule{
 			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:          problem_solving_sec1,
 			Room:             room_b6105,
@@ -1086,9 +1280,33 @@ func SetupDatabase() {
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
 		}
+
+		oot_test := Exam_Schedule{
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:          oot_sec1,
+			Room:             room_b1209,
+			Admin:            admin1,
+			Exam_Type:        "Midterm",
+			Exam_Date:        "19/05/2020",
+			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 15, 00),
+			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 18, 00),
+		}
+
+		computer_vision_test := Exam_Schedule{
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:          computer_vision,
+			Room:             room_b1209,
+			Admin:            admin1,
+			Exam_Type:        "Midterm",
+			Exam_Date:        "19/05/2020",
+			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 13, 00),
+			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 15, 00),
+		}
 		db.Create(&os_final)
 		db.Create(&ann_midterm)
-		db.Create(&A523203)
+		db.Create(&ps_final)
+		db.Create(&oot_test)
+		db.Create(&computer_vision_test)
 
 		///------------------------Request_Type------------------------
 		Request_Type1 := Request_Type{

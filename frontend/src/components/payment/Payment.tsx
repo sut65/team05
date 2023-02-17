@@ -31,6 +31,8 @@ import { Payment } from "../../models/I_Payment";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import { pink } from "@mui/material/colors";
+import FactCheckIcon from '@mui/icons-material/FactCheck';
+import CreditScoreIcon from '@mui/icons-material/CreditScore';
 export function ListPayment() {
     const navigate = useNavigate();
     const params = useParams();
@@ -189,15 +191,15 @@ export function ListPayment() {
                             sx={{
                                 marginTop: 2,
                             }}
-                        >
+                        ><CreditScoreIcon sx={{ fontSize: 40, mt: 0.6, paddingRight: 1,paddingLeft:1, color: "#388e3c" }} />
                             <Box flexGrow={1}>
                                 <Typography
-                                    sx={{ paddingLeft: 1, mt: 1 }}
+                                    sx={{ fontFamily: "LilyUPC", fontSize: 35, fontWeight: 'bold',mt:0.5 }}
                                     variant="h5"
                                     color="primary"
                                     gutterBottom
                                 >
-                                    ประวัติรายการจ่าย
+                                    ประวัติรายจ่าย
                                 </Typography>
                             </Box>
                         </Box>
@@ -222,13 +224,14 @@ export function ListPayment() {
                     <Paper sx={{ padding: 2, mt: 2 }}>
                         <Grid container sx={{ marginTop: -1, marginLeft: 0, height: 70, }}>
                             <Grid >
-                                <Typography sx={{ mt: 0 }}>
-                                    ระบุรหัสนักศึกษา
+                                <Typography sx={{ fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold' }}>
+                                    ค้นหารหัสนักศึกษา
                                 </Typography>
 
                                 <Box>
                                     <TextField
-                                        sx={{ mt: 1 }}
+
+                                        sx={{ mt: 0 }}
                                         size="small"
                                         id="Student_ID"
                                         label="ระบุรหัสนักศึกษา"
@@ -238,7 +241,7 @@ export function ListPayment() {
                                     </TextField>
                                 </Box>
                             </Grid>
-                            <Grid sx={{ marginTop: 4.3, marginLeft: 2, }}>
+                            <Grid sx={{ marginTop: 4.7, marginLeft: 2, }}>
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -248,7 +251,7 @@ export function ListPayment() {
                                     ค้นหาประวัติรายจ่าย
                                 </Button>
                             </Grid>
-                            <Grid sx={{paddingLeft:3,mt:3.3}}>
+                            <Grid sx={{paddingLeft:3,mt:3.7}}>
                                 <Box sx={{ paddingRight: 2 }}>
                                     <Button
                                         sx={{ mt: 1, paddingRight: 2 }}

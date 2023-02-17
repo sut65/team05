@@ -215,8 +215,6 @@ function CreateEnroll() {
                 console.log(res.data);
                 if (res.data) {
                     setSubjects(res.data);
-                    //console.log(course_id);
-                    //getSubjectBySubjectID(course_id);
                 } else {
                     console.log("else");
                 }
@@ -258,10 +256,8 @@ function CreateEnroll() {
         fetch(`${apiUrl}/enrollsub`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
-                //console.log(res.data);
                 if (res.data) {
                     setSubjects(res.data);
-                    //console.log(res.data);
                 }
             });
     };

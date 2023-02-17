@@ -174,12 +174,8 @@ function UpdateEnroll() {
             .then((res) => {
                 if (res.data) {
                     setSubjects(res.data);
-                    // console.log(res.data);
-                    // console.log(enrolls?.Enroll_ID)
-                    // enroll.Enroll_ID = enrolls?.Enroll_ID
                     console.log(enroll_id)
                     enroll.Enroll_ID = enroll_id
-                    // console.log(enroll.Enroll_ID)
                 }
             });
     };

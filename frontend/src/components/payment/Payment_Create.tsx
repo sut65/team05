@@ -40,6 +40,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { datePickerToolbarClasses, LocalizationProvider } from "@mui/x-date-pickers";
 import Home_Navbar from "../navbars/Home_navbar";
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
+import AddCardIcon from '@mui/icons-material/AddCard';
 
 
 export function CreatePayment() {

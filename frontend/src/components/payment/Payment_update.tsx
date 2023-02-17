@@ -35,6 +35,7 @@ import { bgcolor } from "@mui/system";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import CreditScoreIcon from '@mui/icons-material/CreditScore';
 
 export function UpdatePayment() {
     const navigate = useNavigate();
@@ -112,16 +113,6 @@ export function UpdatePayment() {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
 
-    const sendSearchedSubjectID = () => {
-        //navigate({ pathname: `/subject/${searchSubjectID}` });
-        setSearchSubjectID(searchSubjectID);
-        getSubjectBySubjectID(searchSubjectID);
-        //window.location.reload();
-        //console.log(searchSubjectID);
-    };
-
-    // Declaring a HTTP request for requesting GET method
-
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -158,12 +149,13 @@ export function UpdatePayment() {
                 if (res.data) {
                     console.log(res.data)
                     setPayment_Type(res.data);
+                    console.log(res.data.Student_ID)
+                    
                 } else {
                     console.log("else");
                 }
             });
     };
-
 
 
     const getCurrentPaymemt = async () => {
@@ -173,6 +165,7 @@ export function UpdatePayment() {
                 if (res.data) {
                     setPayment(res.data);
                     console.log(res.data);
+                    getEnrollByStudentID(res.data.Student_ID)
                 } else {
                     console.log("else");
                 }
@@ -180,8 +173,7 @@ export function UpdatePayment() {
     };
 
 
-
-    const getEnroll = async () => {
+    const getEnrollByStudentID = async (Student_ID: any) => {
         const requestOptions = {
             method: "GET",
             headers: {
@@ -189,110 +181,24 @@ export function UpdatePayment() {
                 "Content-Type": "application/json"
             },
         };
-        fetch(`${apiUrl}/enroll`, requestOptions)
+        fetch(`${apiUrl}/enrolls/${Student_ID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
-                console.log(res);
+                console.log(res.data);
                 if (res.data) {
                     setEnrolls(res.data);
-                    console.log(res.data);
-                }
-            });
-    };
-
-    const getSubjectByCourse = async (course_id: any) => {
-        const requestOptions = {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json"
-            },
-        };
-        fetch(`${apiUrl}/subjectd/${course_id}`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
                     setSubjects(res.data);
                 }
             });
     };
-    const getSubjectBySubjectID = async (subject_id: any) => {
-        const requestOptions = {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json"
-            },
-        };
-        fetch(`${apiUrl}/subljects/${subject_id}`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    setSearchSubjectID(subject_id);
-                    setSubjects(res.data);
-                }
-            });
-    };
-
-    // const getPrevEnroll = async () => {
-    //     fetch(`${apiUrl}/previousenroll`, requestOptionsGet)
-    //         .then((response) => response.json())
-    //         .then((res) => {
-    //             if (res.data) {
-    //                 enroll.Enroll_ID = res.data.Enroll_ID + 1;
-    //             }
-    //             else {
-    //                 enroll.Enroll_ID = res.data = "1";
-    //                 //console.log("else");
-    //             }
-    //         });
-    // };
-
-    const getPrevPayment = async () => {
-        fetch(`${apiUrl}/previousenpayment`, requestOptionsGet)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    payment.Payment_ID = res.data.Payment_ID;
-                }
-                else {
-                    payment.Payment_ID = res.data = 1;
-                    //console.log("else");
-                }
-            });
-    };
-
-    //   const getCall_Payment = async () => {
-    //     fetch(`${apiUrl}/getcall_payment`, requestOptionsGet)
-    //       .then((response) => response.json())
-    //       .then((res) => {
-    //         if (res.data) {
-    //           payment.Unit = res.data.Unit * 800;
-    //         }
-    //         else {
-    //           payment.Unit = res.data = 1;
-    //           //console.log("else");
-    //         }
-    //       });
-    //   };
 
 
     useEffect(() => {
-        // getPrevPayment();
         getPayment_type();
-        //getPrevEnroll();
         getCurrentPaymemt();
+        //getEnrollByStudentID();
 
-
-        if (searchSubjectID == "") {
-            getEnroll();
-        } else {
-            getSubjectBySubjectID(searchSubjectID);
-        }
-        console.log(searchSubjectID);
     }, []);
-
     function updatePayment() {
         let data = {
             Admin_ID: payment.Admin_ID ?? "",
@@ -333,313 +239,323 @@ export function UpdatePayment() {
     }
 
     return (
-        <Container maxWidth={false}
-            sx={{
-                mt: 10,
-                bgcolor: "#e1e1e1",
-                padding: 2,
-                width: "auto",
-                height: "auto",
-            }}>
-            <Snackbar
-                open={success}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            >
+        <div>
+            <Container maxWidth={false}
+                sx={{
+                    mt: 0,
+                    width: "auto",
+                    height: "auto",
+                    p: 1,
+                    bgcolor: '#93BFCF'
+                }}>
+                <Container maxWidth="xl" style={{ height: "auto" }} sx={{ p: 2, bgcolor: '#BEF0CB', mt: -1 }}>
+                    <Snackbar
+                        open={success}
+                        autoHideDuration={6000}
+                        onClose={handleClose}
+                        id="success"
+                        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                    >
 
-                <Alert onClose={handleClose} severity="success">
-                    แก้ไขข้อมูลสำเร็จ
-                </Alert>
-            </Snackbar>
+                        <Alert onClose={handleClose} severity="success">
+                            บันทึกข้อมูลถูกต้อง
+                        </Alert>
+                    </Snackbar>
 
-            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="error">
-                    {message}
-                </Alert>
-            </Snackbar>
-            <Paper sx={{ pt: -1, pl: 1, pr: 1, mt: 1 }}>
-                <Box
-                    display="flex"
-                    sx={{
-                        marginTop: 2,
-                    }}
-                >
-                    <Box flexGrow={1}>
-                        <Typography
-                            component="h2"
-                            variant="h6"
-                            color="primary"
-                            gutterBottom
-                        >
-                            บันทึกรายจ่าย
-                        </Typography>
-                    </Box>
-                </Box>
-            </Paper>
-            <div>
-                <Paper
-
-                >
-                    <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
-                        <Grid >
-                            <p>กรุณาระบุรหัสนักศึกษา</p>
-                            <Box>
-                                <TextField
-                                    id="Student_ID"
-                                    label="ระบุรหัสนักศึกษา"
-                                    variant="outlined"
-                                >
-                                </TextField>
-                            </Box>
-                        </Grid>
-                        <Grid sx={{ marginTop: '63px', marginLeft: 1, }}>
-                            <Button
-                                variant="contained">
-                                ค้นหารหัสนักศึกษา
-                            </Button>
-                        </Grid>
-                    </Grid>
-                    <Grid sx={{ marginTop: '20px', display: 'flex', marginLeft: 1 }}>
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="left">รหัสวิชา</TableCell>
-                                        <TableCell align="left">ชื่อวิชา</TableCell>
-                                        <TableCell align="left">Subject name</TableCell>
-                                        <TableCell align="left">วันเรียน</TableCell>
-                                        <TableCell align="left">เริ่มเรียน</TableCell>
-                                        <TableCell align="left">เลิกเรียน</TableCell>
-                                        <TableCell align="left">หน่วยกิต</TableCell>
-                                        <TableCell align="left">กลุ่ม</TableCell>
-                                    </TableRow>
-                                </TableHead>
-
-                                <TableBody>
-                                    {(rowsPerPage > 0
-                                        ? enrolls.slice(
-                                            page * rowsPerPage,
-                                            page * rowsPerPage + rowsPerPage)
-                                        : enrolls
-                                    ).map((row) => (
-                                        <TableRow
-                                            key={row.Enroll_ID}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell align="left">{row.Subject_ID}</TableCell>
-                                            <TableCell align="left">{row.Subject_TH_Name}</TableCell>
-                                            <TableCell align="left">{row.Subject_EN_Name}</TableCell>
-                                            <TableCell align="left">{row.Day}</TableCell>
-                                            <TableCell align="left">{row.Start_Time}</TableCell>
-                                            <TableCell align="left">{row.End_Time}</TableCell>
-                                            <TableCell align="left">{row.Unit}</TableCell>
-                                            <TableCell align="left">{row.Section}</TableCell>
-                                            <TableCell align="center">
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                    {emptyRows > 0 && (
-                                        <TableRow style={{ height: 53 * emptyRows }}>
-                                            <TableCell colSpan={1} />
-                                        </TableRow>
-                                    )}
-                                </TableBody>
-                                <TableFooter>
-                                    <TableRow>
-                                        <TablePagination
-                                            rowsPerPageOptions={[
-                                                5,
-                                                10,
-                                                15,
-                                                20,
-                                                25,
-                                                { label: "All", value: -1 },
-                                            ]}
-                                            colSpan={enrolls.length}
-                                            count={enrolls.length}
-                                            rowsPerPage={rowsPerPage}
-                                            page={page}
-                                            SelectProps={{
-                                                inputProps: {
-                                                    "aria-label": "rows per page",
-                                                },
-                                                native: true,
-                                            }}
-                                            onPageChange={handleChangePage}
-                                            onRowsPerPageChange={handleChangeRowsPerPage}
-                                        />
-                                    </TableRow>
-                                </TableFooter>
-                            </Table>
-                        </TableContainer>
-                    </Grid>
-
-                    <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
-                        <Grid >
-                            <p style={{ paddingLeft: 17, }}>หน่วยกิจรวม</p>
-                            <Box
-                                component="form"
-                                sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -1, paddingLeft: 1, }}>
-                                <TextField sx={{ width: "200px" }}
-                                    size="small"
-                                    id="Unit"
-                                    value={payment.Unit}
-                                    onChange={handleInputChange}
-                                >
-                                </TextField>
-                            </Box>
-                        </Grid>
-                        <Grid >
-                            <p style={{ paddingLeft: 18, }}>จำนวนเงินที่ต้องชำระ</p>
-                            <TextField sx={{ width: "250px", pl: 2 }}
-                                size="small"
-                                id="Payable"
-                                value={payment.Payable}
-                            >
-                            </TextField>
-                        </Grid>
-                        <Grid sx={{ marginLeft: 3, }}>
-                            <p style={{ paddingLeft: 18, }}>จำนวนเงินที่นักศึกษาชำระ</p>
-                            <TextField sx={{ width: "250px", pl: 2 }}
-                                size="small"
-                                id="Amounts"
-                                value={payment.Amounts}
-                                onChange={handleInputChange}
-
-                            >
-                            </TextField>
-                        </Grid>
-                    </Grid>
-                    <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
-                        <Grid >
-                            <p style={{ paddingLeft: 17, }}>แอดมินผู้ทำรายการ</p>
-                            <Box
-                                component="form"
-                                sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -1, paddingLeft: 1, }}>
-                                <TextField sx={{ width: "200px" }}
-                                    size="small"
-                                    id="Admin_ID"
-                                    value={payment.Admin_ID}
-                                    onChange={handleInputChange}
-                                >
-                                </TextField>
-                            </Box>
-                        </Grid>
-                        <Grid >
-                            <p style={{ paddingLeft: 18, }}>รหัสนักศึกษา</p>
-                            <TextField sx={{ width: "250px", pl: 2 }}
-                                size="small"
-                                id="Student_ID"
-                                value={payment.Student_ID}
-                                onChange={handleInputChange}
-                            >
-                            </TextField>
-                        </Grid>
-                    </Grid>
-
-                    <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
-                        <Grid >
-                            <p style={{ paddingLeft: 17, }}>วิธีการชำระเงิน</p>
-                            <Box
-                                sx={{ m: 1, marginTop: -2, }}>
-                                <Select native sx={{ ml: 1, mt: 2, width: '25ch' }}
-                                    id="Payment_Type_ID"
-                                    size="small"
-                                    value={payment.Payment_Type_ID}
-                                    onChange={handleSelectChange}
-                                    inputProps={{
-                                        name: "Payment_Type_ID",
-                                    }}
-
-                                >   <option aria-label="None" value=""> กรุณาเลือกวิธีการชำระเงิน </option>
-                                    {payment_type.map((item: Payment_Type) => (
-                                        <option
-                                            value={item.Payment_Type_ID}
-                                            key={item.Payment_Type_ID}
-                                        >
-                                            {item.Payment_Type_Name}
-                                        </option>
-                                    ))}
-                                </Select>
-                            </Box>
-                        </Grid>
-                        <Grid >
-                            <p style={{ paddingLeft: 17, }}>เลขที่ใบเสร็จ</p>
-                            <Box
-                                component="form"
-                                sx={{ '& .MuiTextField-root': { m: 1, width: '30ch' }, marginTop: -1, paddingLeft: 1, }}>
-                                <TextField sx={{ width: "200px" }}
-
-                                    size="small"
-                                    id="Receipt_number"
-                                    value={payment.Receipt_number}
-                                    onChange={handleInputChange}
-                                >
-                                </TextField>
-                            </Box>
-                        </Grid>
-                        <Grid >
-                            <p style={{ paddingLeft: 18, }}>ระบุวัน-เวลาที่ชำระ</p>
-                            {/* <TextField sx={{ width: "270px", pl: 2 }}
-
-                                size="small"
-                                id="Date_Time"
-                                value={payment.Date_Time}
-                                onChange={handleInputChange}
-                            >
-                            </TextField> */}
-                            <FormControl fullWidth variant="outlined" size="small">
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DateTimePicker
-                                        renderInput={(params) => <TextField {...params} />}
-                                        value={date_time}
-                                        onChange={(newValue: Dayjs | null) => {
-                                            setDate_time(newValue);
-                                            console.log(newValue)
-                                        }}
-                                    />
-                                </LocalizationProvider>
-                            </FormControl>
-                        </Grid>
-
-                    </Grid>
-                    <Box flexGrow={1}>
+                    <Snackbar
+                        id="error"
+                        open={error}
+                        autoHideDuration={6000}
+                        onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="error">
+                            {message}
+                        </Alert>
+                    </Snackbar>
+                    <Paper sx={{ pt: 0, pl: 2, pr: 0, mt: 0, height: 55 }}>
                         <Box
                             display="flex"
                             sx={{
-                                paddingBlockEnd: 10,
-                                paddingLeft: 7,
-                                marginTop: 2,
+                                marginTop: 0,
                             }}
-                        >
-                            <Button
-                                component={RouterLink}
-                                to="/payment"
-                                variant="contained"
-                                color="primary"
-                            >
-                                กลับ
-                            </Button>
+                        > <CreditScoreIcon sx={{ fontSize: 40, mt: 0.6, paddingRight: 1, color: "#e65100" }} />
                             <Box flexGrow={1}>
-                            </Box>
-                            <Box sx={{ paddingRight: 5 }}>
-                                <Button
-                                    variant="contained"
+
+                                <Typography
+
+                                    sx={{ fontFamily: "LilyUPC", fontSize: 35, fontWeight: 'bold' }}
+                                    component="h2"
+                                    variant="h6"
                                     color="primary"
-                                    onClick={updatePayment}
+                                    gutterBottom
                                 >
-                                    แก้ไขรายจ่าย
-                                </Button>
+                                    บันทึกรายจ่าย
+                                </Typography>
                             </Box>
                         </Box>
-                    </Box>
+                    </Paper>
 
+                    <Paper
+                        sx={{ paddingBlockEnd: 3 }}
+                    >
+                        <Grid container sx={{ marginTop: 3, marginLeft: 7, }}>
+                            <Grid sx={{ mt: 2 }}>
+                                <Typography
+                                    sx={{ fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>
+                                    รหัสนักศึกษาที่แก้ไขรายจ่าย
+                                </Typography>
 
+                                <Box sx={{ mt: -0.5 }}>
+                                    <TextField sx={{ mt: 1 }}
+                                        disabled
+                                        id="Student_ID"
+                                        size="small"
+                                        value={payment.Student_ID}
+                                        variant="outlined"
+                                        onChange={handleInputChange}
+                                    >
+                                    </TextField>
+                                </Box>
+                            </Grid>
+                            <Grid sx={{ marginTop: '60px', marginLeft: 3, }}>
+                            </Grid>
+                        </Grid>
 
-                </Paper>
-            </div>
-        </Container >
+                        <Grid sx={{ marginTop: '20px', display: 'flex', paddingLeft: 6, marginLeft: 1, width: 700 }}>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell align="left">รหัสวิชา</StyledTableCell>
+                                            <StyledTableCell align="left">ชื่อวิชา</StyledTableCell>
+                                            <StyledTableCell align="left">Subject name</StyledTableCell>
+                                            <StyledTableCell align="left">หน่วยกิต</StyledTableCell>
+                                            <StyledTableCell align="left">กลุ่ม</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+
+                                    <TableBody>
+                                        {(rowsPerPage > 0
+                                            ? enrolls.slice(
+                                                page * rowsPerPage,
+                                                page * rowsPerPage + rowsPerPage)
+                                            : enrolls
+                                        ).map((row) => (
+                                            <StyledTableRow
+                                                key={row.Enroll_ID
+                                                }
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <TableCell align="left">{row.Subject_ID}</TableCell>
+                                                <TableCell align="left">{row.Subject_TH_Name}</TableCell>
+                                                <TableCell align="left">{row.Subject_EN_Name}</TableCell>
+                                                <TableCell align="left">{row.Unit}</TableCell>
+                                                <TableCell align="left">{row.Section}</TableCell>
+                                                <TableCell align="center">
+                                                </TableCell>
+                                            </StyledTableRow>
+                                        ))}
+                                        {emptyRows > 0 && (
+                                            <TableRow style={{ height: 53 * emptyRows }}>
+                                                <TableCell colSpan={1} />
+                                            </TableRow>
+                                        )}
+                                    </TableBody>
+                                    <TableFooter>
+                                        <TableRow>
+                                            <TablePagination
+                                                rowsPerPageOptions={[
+                                                    5,
+                                                    10,
+                                                    15,
+                                                    20,
+                                                    25,
+                                                    { label: "All", value: -1 },
+                                                ]}
+                                                colSpan={enrolls.length}
+                                                count={enrolls.length}
+                                                rowsPerPage={rowsPerPage}
+                                                page={page}
+                                                SelectProps={{
+                                                    inputProps: {
+                                                        "aria-label": "rows per page",
+                                                    },
+                                                    native: true,
+                                                }}
+                                                onPageChange={handleChangePage}
+                                                onRowsPerPageChange={handleChangeRowsPerPage}
+                                            />
+                                        </TableRow>
+                                    </TableFooter>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                    </Paper>
+                    <Paper sx={{ mt: 2 }}>
+                        <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
+                            <Grid >
+                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>หน่วยกิจรวม</p>
+                                <Box
+                                    component="form"
+                                    sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -3, paddingLeft: 1, }}>
+                                    <TextField sx={{ width: "200px" }}
+                                        size="small"
+                                        id="Unit"
+                                        value={payment.Unit}
+                                        onChange={handleInputChange}
+                                    >
+                                    </TextField>
+                                </Box>
+                            </Grid>
+                            <Grid >
+                                <p style={{ paddingLeft: 18, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>จำนวนเงินที่ต้องชำระ</p>
+                                <TextField sx={{ width: "250px", pl: 3, paddingRight: 2, marginTop: -2 }}
+                                    size="small"
+                                    id="Payable"
+                                    value={payment.Payable}
+                                    onChange={handleInputChange}
+                                >
+                                </TextField>
+                            </Grid>
+                            <Grid sx={{ marginLeft: 3, }}>
+                                <p style={{ paddingLeft: 18, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>จำนวนเงินที่นักศึกษาชำระ</p>
+                                <TextField sx={{ width: "250px", pl: 2, paddingLeft: 0, marginTop: -2 }}
+                                    size="small"
+                                    id="Amounts"
+                                    value={payment.Amounts}
+                                    onChange={handleInputChange}
+
+                                >
+                                </TextField>
+                            </Grid>
+                        </Grid>
+                        <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
+                            <Grid >
+                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>แอดมินผู้ทำรายการ</p>
+                                <Box
+                                    component="form"
+                                    sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -3, paddingLeft: 1, paddingRight: 2 }}>
+                                    <TextField sx={{ width: "200px" }}
+                                        type="string"
+                                        size="small"
+                                        id="Admin_ID"
+                                        disabled
+                                        value={payment.Admin_ID}
+                                        inputProps={{
+                                            name: "Admin_ID",
+                                        }}
+                                        onChange={handleInputChange}
+                                    >
+                                    </TextField>
+                                </Box>
+                            </Grid>
+                            <Grid sx={{ paddingLeft: 1 }}>
+                                <p style={{ paddingLeft: 1, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>รหัสนักศึกษา</p>
+                                <TextField sx={{ width: "250px", pl: 2, paddingLeft: 0, marginTop: -2 }}
+                                    size="small"
+                                    disabled
+                                    id="Student_ID"
+                                    value={payment.Student_ID}
+                                    onChange={handleInputChange}
+                                >
+                                </TextField>
+                            </Grid>
+                        </Grid>
+
+                        <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
+                            <Grid >
+                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>วิธีการชำระเงิน</p>
+                                <Box
+
+                                    sx={{ m: 1, marginTop: -2, }}>
+                                    <Select native sx={{ ml: 1, mt: 0, width: '25ch' }}
+                                        required
+                                        id="Payment_Type_ID"
+                                        size="small"
+                                        value={payment.Payment_Type_ID + ""}
+                                        onChange={handleSelectChange}
+                                        inputProps={{
+                                            name: "Payment_Type_ID",
+                                        }}
+
+                                    > <option aria-label="None" value=""> กรุณาเลือกวิธีการชำระเงิน </option>
+                                        {payment_type.map((item: Payment_Type) => (
+                                            <option
+                                                defaultValue={item.Payment_Type_ID}
+                                                value={item.Payment_Type_ID}
+                                                key={item.Payment_Type_ID}
+                                            >
+                                                {item.Payment_Type_Name}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                </Box>
+                            </Grid>
+                            <Grid >
+                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>เลขที่ใบเสร็จ</p>
+                                <Box
+                                    component="form"
+                                    sx={{ '& .MuiTextField-root': { m: 1, width: '29ch' }, marginTop: -3, paddingLeft: 1, }}>
+                                    <TextField sx={{ width: "200px" }}
+
+                                        size="small"
+                                        id="Receipt_number"
+                                        value={payment.Receipt_number}
+                                        onChange={handleInputChange}
+                                    >
+                                    </TextField>
+                                </Box>
+                            </Grid>
+                            <Grid sx={{ paddingLeft: 4 }}>
+                                <p style={{ paddingLeft: 18, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>ระบุวัน-เวลาที่ชำระ</p>
+                                <FormControl fullWidth variant="outlined" size="small">
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DateTimePicker
+                                            renderInput={(params) => <TextField size="small" sx={{ marginTop: -2 }} {...params} />}
+                                            value={date_time}
+                                            onChange={(newValue: Dayjs | null) => {
+                                                setDate_time(newValue);
+                                                console.log(newValue)
+                                            }}
+                                        />
+                                    </LocalizationProvider>
+                                </FormControl>
+                            </Grid>
+
+                        </Grid>
+                        <Box flexGrow={1}>
+                            <Box
+                                display="flex"
+                                sx={{
+                                    paddingBlockEnd: 3,
+                                    paddingLeft: 7,
+                                    marginTop: 2,
+                                }}
+                            >
+                                <Button
+                                    component={RouterLink}
+                                    to="/payment"
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    กลับ
+                                </Button>
+                                <Box flexGrow={1}>
+                                </Box>
+                                <Box sx={{ paddingRight: 5 }}>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={updatePayment}
+                                    >
+                                        บันทึกรายจ่าย
+                                    </Button>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Paper>
+                </Container>
+            </Container >
+        </div>
     );
 
 } export default UpdatePayment;

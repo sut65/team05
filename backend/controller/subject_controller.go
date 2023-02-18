@@ -1,7 +1,10 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
+	"regexp"
+	"strings"
 
 	"github.com/B6025212/team05/entity"
 	"github.com/B6025212/team05/service"
@@ -189,20 +192,112 @@ func GetEnrollSubject(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": extendedEnrollSubjects})
 }
 
-// GET /subject/:subject_id
+// GET /subject/:subject_key
 func GetSubject(c *gin.Context) {
-	/* Query subject record(s) by subject_id */
+	/* ค้นหาข้อมูลรายวิชาตามตัวกรองที่ได้รับมา
+
+	1. ค้นหาวิชาที่มีรหัสขึ้นต้นด้วย102 ป้อน 102* ลงในช่องรหัสวิชา -  //* check
+	2. ค้นหาวิชาที่มีรหัสลงท้ายต้นด้วย102 ป้อน *102 ลงในช่องรหัสวิชา -  //* check
+	3. ค้นหาวิชาที่มีคำว่า world เป็นส่วนหนึ่งของชื่อวิชา ป้อน *world* ลงในช่องชื่อวิชา //* check
+	4. ค้นหาวิชาที่มีชื่อวิชาลงท้ายด้วย finance ป้อน *finance ลงในช่องชื่อวิชา //* check
+	4. ค้นหาวิชาที่มีชื่อวิชาขึ้นต้นด้วย finance ป้อน finance* ลงในช่องชื่อวิชา //* check
+	*/
 
 	var extendedSubjects []extendedSubject
 
-	subject_id := c.Param("subject_id")
+	subject_key := c.Param("subject_key")
 
-	query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE subject_id = ?", subject_id).Scan(&extendedSubjects)
-	if err := query.Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+	// ถ้าต้องการค้นหารายวิชาที่อักษรเป็ยส่วนหนึ่ง เช่น %Eng% --> ต้องการค้นหารายวิชาที่ชื่อมีคำว่า Eng เป็นส่วนหนึ่ง
+	if subject_key[0] == '*' && subject_key[len(subject_key)-1] == '*' {
+		parts := strings.Split(subject_key, "*")
+		fmt.Println(parts)
+		if len(parts) > 2 {
+			// เก็บสตริงที่ได้จากการแยกออกมา
+			key := parts[1]
+
+			// กำหนดค่าในการนำไปค้นหาใน database จะได้รูปแบบ %key%
+			search_key := "%" + key + "%"
+
+			match, _ := regexp.MatchString(`[a-zA-Z\s]+$`, key)
+			if match {
+				query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE s.subject_en_name LIKE ?", search_key).Scan(&extendedSubjects)
+				if err := query.Error; err != nil {
+					c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+					return
+				}
+				c.JSON(http.StatusOK, gin.H{"data": extendedSubjects})
+			}
+		}
+		// ถ้าอักษรตัวสุดท้ายเป็น '*'
+	} else if subject_key[len(subject_key)-1] == '*' {
+
+		// Regex : [0-9]+$
+		// Regex กรณีค้นหาข้อมูลรายวิชาด้วยคำที่ขึ้นต้นด้วยเลขรหัสวิชาที่ต้องการ เช่น 532*
+		// ถ้าตัวค้นหาเป็น "523*" แสดงว่ากำลังค้นหารายวิชาที่รหัสวิชาขึ้นต้นด้วย 523
+		// ใช้คำสั่ง SELECT * FROM subjects WHERE subject_id LIKE '532%'
+
+		// เอาทุกตัวอักษรยกเว้นตัวสุดท้าย เช่น 523* ---> 523
+		key := subject_key[:len(subject_key)-1]
+		search_key := key + "%"
+		match, _ := regexp.MatchString(`[0-9]+$`, key)
+		if match {
+			query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE subject_id LIKE ?", search_key).Scan(&extendedSubjects)
+
+			if err := query.Error; err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, gin.H{"data": extendedSubjects})
+		}
+
+		// Regex : [a-zA-Z\s]+$
+		// ถ้าตัวค้นหาเป็น "software*" แสดงว่ากำลังค้นหารายวิชาที่รหัสวิชาขึ้นต้นด้วย software
+		// ใช้คำสั่ง SELECT * FROM subjects WHERE subject_en_name LIKE 'software%'
+		match_2, _ := regexp.MatchString(`[a-zA-Z\s]+$`, key)
+
+		if match_2 {
+			query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE s.subject_en_name LIKE ?", search_key).Scan(&extendedSubjects)
+			if err := query.Error; err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, gin.H{"data": extendedSubjects})
+		}
+
+		// ถ้าอักษรตัวแรกเป็น '*'
+	} else if subject_key[0] == '*' {
+		// เอาทุกตัวอักษรยกเว้นตัวแรก เช่น *332 ---> 332
+		key := subject_key[1:]
+		fmt.Println(key)
+		search_key := "%" + key
+		match, _ := regexp.MatchString(`[0-9]+$`, key)
+		if match {
+			query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE s.subject_id LIKE ?", search_key).Scan(&extendedSubjects)
+			if err := query.Error; err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, gin.H{"data": extendedSubjects})
+		}
+
+		match_2, _ := regexp.MatchString(`[a-zA-Z\s]+$`, key)
+		if match_2 {
+			query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE s.subject_en_name LIKE ?", search_key).Scan(&extendedSubjects)
+			if err := query.Error; err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, gin.H{"data": extendedSubjects})
+		}
+
+	} else {
+		query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE subject_id = ?", subject_key).Scan(&extendedSubjects)
+		if err := query.Error; err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"data": extendedSubjects})
 	}
-	c.JSON(http.StatusOK, gin.H{"data": extendedSubjects})
 }
 
 // Maybe

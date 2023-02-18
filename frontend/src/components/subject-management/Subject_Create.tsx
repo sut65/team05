@@ -8,20 +8,14 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { Subject, Subject_Category, Subject_Status, Class_Type } from "../../models/I_Subject";
 import { useEffect } from "react";
-import { FormHelperText, MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
+import { FormHelperText, MenuItem, Select, SelectChangeEvent, Stack, Toolbar } from "@mui/material";
 import { Course } from "../../models/I_Course";
 import AddIcon from '@mui/icons-material/Add';
 import Swal from 'sweetalert2'
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
+import Home_Navbar from "../navbars/Home_navbar";
+import AutoStoriesSharpIcon from '@mui/icons-material/AutoStoriesSharp';
 
 function CreateSubject() {
 
@@ -31,8 +25,6 @@ function CreateSubject() {
     const [subject_status, setSubjectStatus] = React.useState<Subject_Status[]>([]);
     const [subject_category, setSubjectCategory] = React.useState<Subject_Category[]>([]);
     const [class_types, setClassTypes] = React.useState<Class_Type[]>([]);
-    const [success, setSuccess] = React.useState(false);
-    const [error, setError] = React.useState(false);
 
     const apiUrl = "http://localhost:8080";
 
@@ -191,14 +183,12 @@ function CreateSubject() {
                             title: 'Saved!',
                             text: 'Success',
                         })
-                        setSuccess(true);
                     } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error!',
                             text: res.error,
                         })
-                        setError(true);
                     }
                 });
             } 
@@ -232,11 +222,21 @@ function CreateSubject() {
                     บันทึกข้อมูลไม่สำเร็จ
                 </Alert>
             </Snackbar> */}
+            <Home_Navbar />
+            <Toolbar />
 
 
             {/* Header */}
             <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
-                <Typography variant="h4" sx={{fontFamily:'Arial'}}> ระบบจัดการรายวิชา </Typography>
+            <Stack direction="row">
+                    <Box sx={{ padding: 2, border: 0 }}>
+                        <AutoStoriesSharpIcon fontSize="large" />
+                    </Box>
+                    <Box sx={{ padding: 1, border: 0 }}>
+                        <Typography variant="h4" sx={{ fontFamily: "Verdana", fontWeight: "bold", paddingBottom: 1.5 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
+
+                    </Box>
+                </Stack>
                 <Typography sx={{fontFamily:'Mitr-Regular'}}> เพิ่มข้อมูลรายวิชา </Typography>
             </Paper>
 

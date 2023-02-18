@@ -82,7 +82,7 @@ func main() {
 			// ++++++++++++++++++ Subject Routes ++++++++++++++++++++++++
 			api.GET("/subjects", controller.ListSubjects)
 			api.GET("/prev_subject", controller.GetPreviousSubject)
-			api.GET("/subject/:subject_id", controller.GetSubject)
+			api.GET("/get_subject/:subject_key", controller.GetSubject)
 			api.GET("/subject/:subject_id/:section", controller.GetSubjectBySection)
 			api.POST("/subjects", controller.CreateSubject)
 			api.PATCH("/subjects", controller.UpdateSubjects)
@@ -200,7 +200,7 @@ func main() {
 			api.POST("/adding_reducings", controller.CreateAdding_reducing)
 			api.PATCH("/adding_reducings", controller.UpdateEnrollforadding)
 			api.POST("/adding_reducingsonly", controller.CreateAdding_reducingonly)
-				//---------------------Adding_point--------------------------
+			//---------------------Adding_point--------------------------
 			api.GET("/adding_points/:professor_id", controller.ListAdding_point)
 			api.GET("/adding_point", controller.ListAddingByEnroll)
 			api.GET("/adding_point/:adding_point_id", controller.GetAdding_point)

@@ -604,13 +604,13 @@ func SetupDatabase() {
 			Reserved:         20,
 			Reserved_Enroll:  0,
 			Unit:             4,
-			Section:          2,
+			Section:          3,
 		}
 		db.Create(&software_engineering_sec1)
 		db.Create(&software_engineering_sec2)
 		db.Create(&software_engineering_sec3)
 		operating_system_sec1 := Subject{
-			ID:               3,
+			ID:               4,
 			Subject_ID:       "523354",
 			Professor:        professor2,
 			Course:           cpe2560,
@@ -628,7 +628,7 @@ func SetupDatabase() {
 		}
 
 		operating_system_sec2 := Subject{
-			ID:               4,
+			ID:               5,
 			Subject_ID:       "523354",
 			Professor:        professor2,
 			Course:           cpe2560,
@@ -647,7 +647,7 @@ func SetupDatabase() {
 		db.Create(&operating_system_sec1)
 		db.Create(&operating_system_sec2)
 		pluri_thai := Subject{
-			ID:               5,
+			ID:               6,
 			Subject_ID:       "IST202502",
 			Professor:        professor2,
 			Course:           cpe2560,
@@ -666,7 +666,7 @@ func SetupDatabase() {
 		db.Create(&pluri_thai)
 
 		problem_solving_sec1 := Subject{
-			ID:               6,
+			ID:               7,
 			Subject_ID:       "523203",
 			Professor:        professor1,
 			Course:           cpe2560,
@@ -684,7 +684,7 @@ func SetupDatabase() {
 		}
 
 		problem_solving_sec2 := Subject{
-			ID:               7,
+			ID:               8,
 			Subject_ID:       "523203",
 			Professor:        professor1,
 			Course:           cpe2560,
@@ -704,7 +704,7 @@ func SetupDatabase() {
 		db.Create(&problem_solving_sec2)
 
 		system_analysis_sec1 := Subject{
-			ID:               8,
+			ID:               9,
 			Subject_ID:       "523331",
 			Professor:        professor2,
 			Course:           ee2560,
@@ -722,7 +722,7 @@ func SetupDatabase() {
 		}
 
 		system_analysis_sec2 := Subject{
-			ID:               9,
+			ID:               10,
 			Subject_ID:       "523331",
 			Professor:        professor2,
 			Course:           cpe2560,
@@ -742,7 +742,7 @@ func SetupDatabase() {
 		db.Create(&system_analysis_sec2)
 
 		artificial_neural_network := Subject{
-			ID:               10,
+			ID:               11,
 			Subject_ID:       "523414",
 			Professor:        professor3,
 			Course:           cpe2560,
@@ -761,7 +761,7 @@ func SetupDatabase() {
 		db.Create(&artificial_neural_network)
 
 		knowledge_discovery_and_data_mining := Subject{
-			ID:               11,
+			ID:               12,
 			Subject_ID:       "523312",
 			Professor:        professor1,
 			Course:           cpe2560,
@@ -780,7 +780,7 @@ func SetupDatabase() {
 		db.Create(&knowledge_discovery_and_data_mining)
 
 		data_structure_and_algorithms := Subject{
-			ID:               12,
+			ID:               13,
 			Subject_ID:       "523231",
 			Professor:        professor3,
 			Course:           cpe2560,
@@ -799,7 +799,7 @@ func SetupDatabase() {
 		db.Create(&data_structure_and_algorithms)
 
 		oot_sec1 := Subject{
-			ID:               13,
+			ID:               14,
 			Subject_ID:       "523232",
 			Professor:        professor1,
 			Course:           cpe2560,
@@ -817,7 +817,7 @@ func SetupDatabase() {
 		}
 
 		oot_sec2 := Subject{
-			ID:               14,
+			ID:               15,
 			Subject_ID:       "523232",
 			Professor:        professor1,
 			Course:           cpe2560,
@@ -838,7 +838,7 @@ func SetupDatabase() {
 		db.Create(&oot_sec2)
 
 		digital_system_design_sec1 := Subject{
-			ID:               15,
+			ID:               16,
 			Subject_ID:       "523273",
 			Professor:        professor3,
 			Course:           cpe2560,
@@ -856,7 +856,7 @@ func SetupDatabase() {
 		}
 
 		digital_system_design_sec2 := Subject{
-			ID:               16,
+			ID:               17,
 			Subject_ID:       "523273",
 			Professor:        professor3,
 			Course:           cpe2560,
@@ -876,7 +876,7 @@ func SetupDatabase() {
 		db.Create(&digital_system_design_sec2)
 
 		computer_vision := Subject{
-			ID:               17,
+			ID:               18,
 			Subject_ID:       "523453",
 			Professor:        professor2,
 			Course:           cpe2560,

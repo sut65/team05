@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { Subject } from "../../models/I_Subject";
-import { Stack, Divider, Grid } from "@mui/material";
+import { Stack, Divider, Grid, Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
 import { useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
@@ -11,6 +11,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import { Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Home_Navbar from "../navbars/Home_navbar";
+import AutoStoriesSharpIcon from '@mui/icons-material/AutoStoriesSharp';
 
 function SubjectInfo() {
     const [subject, setSubject] = React.useState<Subject>();
@@ -27,9 +29,10 @@ function SubjectInfo() {
     const getSubject = async () => {
         const requestOptions = {
             method: "GET",
-            headers: { 
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json" },
+                "Content-Type": "application/json"
+            },
         };
         fetch(`${apiUrl}/subject/${params.subject_id}/${params.section}`, requestOptions)
             .then((response) => response.json())
@@ -44,9 +47,10 @@ function SubjectInfo() {
     const deleteSubject = async () => {
         const requestOptions = {
             method: "DELETE",
-            headers: { 
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json" },
+                "Content-Type": "application/json"
+            },
         };
         fetch(`${apiUrl}/subject/${params.subject_id}/${params.section}`, requestOptions)
             .then((response) => response.json())
@@ -75,10 +79,19 @@ function SubjectInfo() {
                 width: "auto",
                 height: "auto",
             }}>
-
+            <Home_Navbar />
+            <Toolbar />
             {/* Header components */}
             <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
-                <Typography variant="h4"> ระบบจัดการรายวิชา </Typography>
+                <Stack direction="row">
+                    <Box sx={{ padding: 2, border: 0 }}>
+                        <AutoStoriesSharpIcon fontSize="large" />
+                    </Box>
+                    <Box sx={{ padding: 1, border: 0 }}>
+                        <Typography variant="h4" sx={{ fontFamily: "Verdana", fontWeight: "bold", paddingBottom: 1.5 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
+
+                    </Box>
+                </Stack>
                 <Typography> รายละเอียดรายวิชา </Typography>
             </Paper>
 

@@ -27,18 +27,24 @@ import TablePagination from "@mui/material/TablePagination";
 import TableFooter from "@mui/material/TableFooter";
 import SearchIcon from "@mui/icons-material/Search";
 import { RequestInterface } from "../../models/IRequest";
+import { EnrollInterface } from "../../models/I_Enroll";
+import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 import { SelectChangeEvent } from "@mui/material/Select";
 import {
   Autocomplete,
   FormHelperText,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
   SvgIcon,
+  Toolbar,
   unstable_useEnhancedEffect,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { AppBar } from "@mui/material";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import Home_Navbar from "../navbars/Home_navbar";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -55,7 +61,9 @@ function ApprovalUpdate() {
   );
   const [approval_type, setApproval_Type] = React.useState<
     Approval_TypeInterface[]
-  >([]);
+    >([]);
+  const [request, setRequest] = React.useState<Partial<RequestInterface>>({});
+  const [requests, setRequests] = React.useState<RequestInterface[]>([]);
   // const [student, setStudent] = React.useState<
   //    StudentInterface[]
   // >([]);
@@ -67,7 +75,10 @@ function ApprovalUpdate() {
   const [message, setAlertMessage] = React.useState("");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
+  const [adding_reducing, setAdding_reducing] = React.useState<
+  Partial<Adding_reducingInterface>
+  >({});
   const navigate = useNavigate();
   const params = useParams();
 
@@ -120,9 +131,14 @@ function ApprovalUpdate() {
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#5B98B9",
+      backgroundColor: "#44484D",
       color: theme.palette.common.white,
+      fontFamily: "Noto Sans Thai",
       fontSize: 17,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      color: theme.palette.common.black,
+      fontFamily: "Noto Sans Thai",
     },
   }));
 
@@ -152,6 +168,7 @@ function ApprovalUpdate() {
       .then((res) => {
         if (res.data) {
           setApproval(res.data);
+          getRequests(res.data.Request_ID);
         } else {
           console.log("else");
         }
@@ -190,6 +207,23 @@ function ApprovalUpdate() {
       });
   };
 
+ const getRequests = async (request_id: any) => {
+   const approvalOptions = {
+     method: "GET",
+     headers: {
+       Authorization: `Bearer ${localStorage.getItem("token")}`,
+       "Content-Type": "application/json",
+     },
+   };
+   fetch(`${apiUrl}/request/${request_id}`, approvalOptions)
+     .then((response) => response.json())
+     .then((res) => {
+       if (res.data) {
+         setRequest(res.data);
+         console.log(res.data);
+       }
+     });
+ };
   useEffect(() => {
     getApproval_Type();
     getCurrentApproval();
@@ -198,309 +232,459 @@ function ApprovalUpdate() {
   }, []);
 
   function submitUpdate() {
-    let data = {
-      Approval_ID:
-        typeof approval.Approval_ID === "string"
-          ? parseInt(approval.Approval_ID)
-          : approval.Approval_ID,
-      Professor_ID: approval.Professor_ID ?? "",
-      Request_ID:
-        typeof approval.Request_ID === "string"
-          ? parseInt(approval.Request_ID)
-          : approval.Request_ID,
-      Section: approval.Section ?? "",
-      Reason: approval.Reason ?? "",
-      Approval_Type_ID: approval.Approval_Type_ID ?? "",
-    };
-    console.log(data);
+     if (request.Request_Type_ID == "R01") {
+       adding_reducing.History_Type_ID = "HT1";
+     }
+     if (request.Request_Type_ID == "R02") {
+       adding_reducing.History_Type_ID = "HT3";
+     }
+     let data = {
+       Approval_ID:
+         typeof approval.Approval_ID === "string"
+           ? parseInt(approval.Approval_ID)
+           : approval.Approval_ID,
+       Professor_ID: localStorage.getItem("id"),
+       Request_ID:
+         typeof approval.Request_ID === "string"
+           ? parseInt(approval.Request_ID)
+           : approval.Request_ID,
+       Section: approval.Section ?? "",
+       Reason: approval.Reason ?? "",
+       Approval_Type_ID: approval.Approval_Type_ID ?? "",
+
+       //update enroll
+       Enroll_ID: enroll.Enroll_ID ?? "",
+       Student_ID: enroll.Student_ID ?? "",
+       Subject_ID: approvals[0].Subject_ID,
+       Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
+       Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
+       Change_ID:
+         typeof adding_reducing.Change_ID === "string"
+           ? parseInt(adding_reducing.Change_ID)
+           : adding_reducing.Change_ID,
+       // History_Type_ID: (adding_reducing.History_Type_ID = "HT1"),
+       History_Type_ID: adding_reducing.History_Type_ID ?? "",
+     };
+     console.log(data);
 
     // const apiUrl = "http://localhost:8080/approvals";
-    const approvalOptions = {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-    console.log(JSON.stringify(data));
+    
+    //จะตรวจสอบก่อนว่าอาจารย์เลือกผลอนุมัติ เป็น "อนุมัติ" ไหม ถ้าเลือกแล้วจะแก้ไขไม่ได้
+    //ถ้าเลือกผลอนุมัติ เป็น "ไม่อนุมัติ" จะสามารถแก้ไขได้
+    //โดยถ้าแก้ไขจากไม่อนุมัติเป็นอนุมัติจะตรวจสอบเงื่อนไขด้านล่าง
 
-    fetch(`${apiUrl}/approvals`, approvalOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          setSuccess(true);
-        } else {
-          setAlertMessage(res.error);
-          setError(true);
-        }
-      });
+    //ถ้านักศึกษายื่นคำร้อง ประเภท กลุ่มเต็ม
+    if (request?.Request_Type_ID == "R01") {
+      if (approval?.Approval_Type_ID == "Y01") {
+        //ถ้าอาจารย์เลือก ผลการอนุมัติ "อนุมัติ"
+        //จะไปลงทะเบียนเรียนรายวิชานั้นที่ตาราง enroll ในรายวิชานั้น และเพิ่มประวัติ การเพิ่มรายวิชา
+        //จะไป update ตาราง approval ด้วย
+        const approvalOptions = {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        };
+        console.log(JSON.stringify(data));
+
+        fetch(`${apiUrl}/approvalupdate`, approvalOptions)
+          .then((response) => response.json())
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              setSuccess(true);
+            } else {
+              setAlertMessage(res.error);
+              setError(true);
+            }
+          });
+      } else {
+        //ถ้าอาจารย์เลือก ผลการอนุมัติ "ไม่อนุมัติ"
+        //update แค่ตาราง approval
+        const approvalOptions = {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        };
+        console.log(JSON.stringify(data));
+
+        fetch(`${apiUrl}/approvals`, approvalOptions)
+          .then((response) => response.json())
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              setSuccess(true);
+            } else {
+              setAlertMessage(res.error);
+              setError(true);
+            }
+          });
+      }
+    } else {
+      //ถ้านักศึกษายื่นคำร้อง ประเภท เปลี่ยนกลุ่ม
+      if (approval?.Approval_Type_ID == "Y01") {
+        //ถ้าอาจารย์เลือก ผลการอนุมัติ "อนุมัติ"
+        //จะไปเปลี่ยนกลุ่มที่ตาราง enroll ในรายวิชานั้น และเพิ่มประวัติ การเปลี่ยนกลุ่ม
+        //จะไป update ตาราง approval ด้วย
+        const apiUrl = "http://localhost:8080";
+        const requestOptions = {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        };
+        fetch(`${apiUrl}/approvalupdateEnroll`, requestOptions)
+          .then((response) => response.json())
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              setSuccess(true);
+            } else {
+              setAlertMessage(res.error);
+              setError(true);
+            }
+          });
+      } else {
+        //ถ้าอาจารย์เลือก ผลการอนุมัติ "ไม่อนุมัติ"
+        //update แค่ตาราง approval
+        const approvalOptions = {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        };
+        console.log(JSON.stringify(data));
+
+        fetch(`${apiUrl}/approvals`, approvalOptions)
+          .then((response) => response.json())
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              setSuccess(true);
+            } else {
+              setAlertMessage(res.error);
+              setError(true);
+            }
+          });
+      }
+    }
   }
 
   return (
     <div>
       <Container
-        maxWidth="xl"
+        maxWidth={false}
         sx={{
-          bgcolor: "#e1e1e1",
           width: "auto",
           height: "auto",
-          padding: 2,
+          p: 2,
+          bgcolor: "#F8F8F8",
+          flexGrow: 1,
+          fontFamily: "Noto Sans Thai",
         }}
       >
-        <Snackbar
-          open={success}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        <Container
+          maxWidth="xl"
+          sx={{
+            bgcolor: "#F8F8F8",
+            width: "auto",
+            height: "auto",
+            padding: 2,
+          }}
         >
-          <Alert onClose={handleClose} severity="success">
-            บันทึกข้อมูลสำเร็จ
-          </Alert>
-        </Snackbar>
-
-        <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="error">
-            {message}
-          </Alert>
-        </Snackbar>
-
-        <Paper
-          elevation={3}
-          sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
-        >
-          <Box
-            display="flex"
-            sx={{
-              marginTop: 1,
-            }}
+          <Home_Navbar></Home_Navbar>
+          <Toolbar></Toolbar>
+          <Snackbar
+            open={success}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           >
-            <Grid>
-              <Typography
-                component="h2"
-                variant="h4"
-                color="primary"
-                gutterBottom
-              >
-                อนุมัติคำร้องออนไลน์
-              </Typography>
-              <Typography sx={{ fontFamily: "Mitr-Regular" }}>
-                {" "}
-                แก้ไขข้อมูลอนุมัติคำร้องออนไลน์{" "}
-              </Typography>
-            </Grid>
-            <Grid sx={{ marginLeft: "480px" }}>
-              <p>รหัสอาจารย์</p>
-            </Grid>
-            <Grid sx={{ marginLeft: "40px" }}>
-              <TextField
-                disabled
-                id="Professor_ID"
-                variant="outlined"
-                type="string"
-                value={approval.Professor_ID}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid sx={{ marginLeft: "40px" }}>
-              <p>ลำดับ</p>
-            </Grid>
-            <Grid sx={{ marginLeft: "40px" }}>
-              <TextField
-                disabled
-                id="Approval_ID"
-                variant="outlined"
-                type="number"
-                defaultValue={approval.Approval_ID}
-                value={approval.Approval_ID}
-                onChange={handleInputChange}
-              />
-            </Grid>
-          </Box>
-        </Paper>
+            <Alert onClose={handleClose} severity="success">
+              บันทึกข้อมูลสำเร็จ
+            </Alert>
+          </Snackbar>
 
-        <Paper elevation={3} sx={{ bgcolor: "white", marginBottom: 2 }}>
-          <Box
-            sx={{
-              marginBottom: 1,
-              padding: 2,
-            }}
+          <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="error">
+              {message}
+            </Alert>
+          </Snackbar>
+
+          <Paper
+            elevation={3}
+            sx={{ bgcolor: "white", padding: 2, marginBottom: 2, boxShadow: 1 }}
           >
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      ลำดับ
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      รหัสลงทะเบียน
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      รหัสนักศึกษา
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      รหัสวิชา
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      รายวิชา
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      หน่วยกิต
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      กลุ่ม
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      หลักสูตร
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      อาจารย์
-                    </StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {(rowsPerPage > 0
-                    ? approvals.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : approvals
-                  ).map((row) => (
-                    <StyledTableRow key={row.Approval_ID}>
-                      <StyledTableCell
-                        component="th"
-                        scope="row"
-                        align="center"
-                      >
-                        {row.Approval_ID}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        component="th"
-                        scope="row"
-                        align="center"
-                      >
-                        {row.Request_ID}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        component="th"
-                        scope="row"
-                        align="center"
-                      >
-                        {row.Student_ID}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        component="th"
-                        scope="row"
-                        align="center"
-                      >
-                        {row.Subject_ID}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.Subject_EN_Name}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.Unit}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.Section}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.Course_Name}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.Professor_Name}
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <Grid container sx={{ padding: 2 }}>
+            <Box
+              display="flex"
+              sx={{
+                marginTop: 1,
+              }}
+            >
               <Grid>
-                <p>เหตุผล</p>
+                <Typography
+                  component="h2"
+                  variant="h4"
+                  color="#454547"
+                  sx={{
+                    flexGrow: 1,
+                    fontFamily: "Noto Sans Thai",
+                  }}
+                  gutterBottom
+                >
+                  อนุมัติคำร้องออนไลน์
+                </Typography>
+                <Typography
+                  sx={{
+                    color: "blue",
+                    flexGrow: 1,
+                    fontFamily: "Noto Sans Thai",
+                  }}
+                >
+                  แก้ไขข้อมูลอนุมัติคำร้องออนไลน์
+                </Typography>
               </Grid>
-              <Grid sx={{ padding: 2 }}>
+              <Grid sx={{ marginLeft: "450px" }}>
+                <p>รหัสอาจารย์</p>
+              </Grid>
+              <Grid sx={{ marginLeft: "40px" }}>
                 <TextField
-                  id="Reason"
+                  disabled
+                  id="Professor_ID"
                   variant="outlined"
                   type="string"
-                  size="medium"
-                  value={approval.Reason}
-                  sx={{ width: "50ch" }}
+                  value={approval.Professor_ID}
                   onChange={handleInputChange}
                 />
               </Grid>
-              <Grid sx={{ marginLeft: "200px" }}>
-                <p>ผลการอนุมัติ</p>
+              <Grid sx={{ marginLeft: "40px" }}>
+                <p>ลำดับ</p>
               </Grid>
-              <Grid>
-                <FormControl
-                  sx={{
-                    m: 1,
-                    minWidth: "50ch",
-                    marginTop: "14px",
-                    marginLeft: "20px",
-                  }}
-                >
-                  {/* <InputLabel id="Approval_Type_ID">ผลการอนุมัติ</InputLabel> */}
-                  <Select
-                    native
-                    id="Approval_Type_ID"
-                    value={approval.Approval_Type_ID + ""}
-                    onChange={handleSelectChange}
-                    //autoWidth
-                    inputProps={{
-                      name: "Approval_Type_ID",
-                    }}
-                  >
-                    <option aria-label="Noun" value="">
-                      กรุณาเลือกผลการอนุมัติ
-                    </option>
-                    {approval_type.map((item: Approval_TypeInterface) => (
-                      <option
-                        value={item.Approval_Type_ID}
-                        key={item.Approval_Type_ID}
-                      >
-                        {item.Approval_Type_Name}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
+              <Grid sx={{ marginLeft: "40px" }}>
+                <TextField
+                  disabled
+                  id="Approval_ID"
+                  variant="outlined"
+                  type="number"
+                  defaultValue={approval.Approval_ID}
+                  value={approval.Approval_ID}
+                  onChange={handleInputChange}
+                />
               </Grid>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              maxWidth="xl"
+            </Box>
+          </Paper>
+
+          <Paper
+            elevation={3}
+            sx={{ bgcolor: "white", marginBottom: 2, boxShadow: 1 }}
+          >
+            <Box
               sx={{
-                bgcolor: "white",
-                width: "auto",
-                height: "auto",
-                padding: 1,
+                marginBottom: 1,
+                padding: 2,
               }}
             >
-              <Button component={RouterLink} to="/approval" variant="contained">
-                ย้อนกลับ
-              </Button>
-
-              <Button
-                style={{ float: "right" }}
-                onClick={submitUpdate}
-                variant="contained"
-                color="primary"
+              <TableContainer component={Paper} sx={{ boxShadow: 0 }}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        ลำดับ
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        รหัสลงทะเบียน
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        รหัสนักศึกษา
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        รหัสวิชา
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        รายวิชา
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        หน่วยกิต
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        กลุ่ม
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        หลักสูตร
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        อาจารย์
+                      </StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {(rowsPerPage > 0
+                      ? approvals.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                      : approvals
+                    ).map((row) => (
+                      <StyledTableRow key={row.Approval_ID}>
+                        <StyledTableCell
+                          component="th"
+                          scope="row"
+                          align="center"
+                        >
+                          {row.Approval_ID}
+                        </StyledTableCell>
+                        <StyledTableCell
+                          component="th"
+                          scope="row"
+                          align="center"
+                        >
+                          {row.Request_ID}
+                        </StyledTableCell>
+                        <StyledTableCell
+                          component="th"
+                          scope="row"
+                          align="center"
+                        >
+                          {row.Student_ID}
+                        </StyledTableCell>
+                        <StyledTableCell
+                          component="th"
+                          scope="row"
+                          align="center"
+                        >
+                          {row.Subject_ID}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.Subject_EN_Name}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.Unit}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.Section}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.Course_Name}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.Professor_Name}
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Grid container sx={{ padding: 2 }}>
+                <Grid>
+                  <p>เหตุผล</p>
+                </Grid>
+                <Grid sx={{ padding: 2 }}>
+                  <TextField
+                    id="Reason"
+                    variant="outlined"
+                    type="string"
+                    size="medium"
+                    value={approval.Reason}
+                    sx={{ width: "50ch" }}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid sx={{ marginLeft: "200px" }}>
+                  <p>ผลการอนุมัติ</p>
+                </Grid>
+                <Grid>
+                  <FormControl
+                    sx={{
+                      m: 1,
+                      minWidth: "50ch",
+                      marginTop: "14px",
+                      marginLeft: "20px",
+                    }}
+                  >
+                    {/* <InputLabel id="Approval_Type_ID">ผลการอนุมัติ</InputLabel> */}
+                    <Select
+                      native
+                      id="Approval_Type_ID"
+                      value={approval.Approval_Type_ID + ""}
+                      onChange={handleSelectChange}
+                      //autoWidth
+                      inputProps={{
+                        name: "Approval_Type_ID",
+                      }}
+                    >
+                      <option aria-label="Noun" value="">
+                        กรุณาเลือกผลการอนุมัติ
+                      </option>
+                      {approval_type.map((item: Approval_TypeInterface) => (
+                        <option
+                          value={item.Approval_Type_ID}
+                          key={item.Approval_Type_ID}
+                        >
+                          {item.Approval_Type_Name}
+                        </option>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                maxWidth="xl"
+                sx={{
+                  bgcolor: "white",
+                  width: "auto",
+                  height: "auto",
+                  padding: 1,
+                }}
               >
-                อนุมัติคำร้องออนไลน์
-              </Button>
-            </Grid>
-          </Box>
-        </Paper>
+                <Button
+                  component={RouterLink}
+                  to="/approval"
+                  variant="contained"
+                  sx={{
+                    ":hover": {
+                      bgcolor: "#212121",
+                    },
+                    fontFamily: "Noto Sans Thai",
+                  }}
+                >
+                  ย้อนกลับ
+                </Button>
+
+                <Button
+                  sx={{
+                    backgroundColor: "#F05A28",
+                    float: "right",
+                    fontFamily: "Noto Sans Thai",
+                    ":hover": {
+                      bgcolor: "#212121",
+                    },
+                  }}
+                  onClick={submitUpdate}
+                  variant="contained"
+                  color="primary"
+                >
+                  อนุมัติคำร้องออนไลน์
+                </Button>
+              </Grid>
+            </Box>
+          </Paper>
+        </Container>
       </Container>
     </div>
   );

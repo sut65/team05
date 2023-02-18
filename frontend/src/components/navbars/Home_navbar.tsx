@@ -9,6 +9,7 @@ import { Avatar, Button, Divider, Drawer, FormControl, Grid, List, ListItem, Lis
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { bgcolor } from "@mui/system";
 
 function UserShow() {
     return (
@@ -190,109 +191,123 @@ function Home_Navbar() {
     }
     if (usertype === "student") {
         return (
-            <Box sx={{ flexGrow: 1 }}>
-                <AppBar component="nav" sx={{ bgcolor: "#7CB6D5" }}>
-                    <Toolbar>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            aria-label="menu"
-                            onClick={toggleDrawerOpen}
-                            sx={{ mr: 2 }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography
-                            component="div"
-                            sx={{
-                                color: "black",
-                                flexGrow: 1,
-                                fontFamily: "LilyUPC",
-                                fontSize: 36,
+          <Box sx={{ flexGrow: 1 }}>
+            <AppBar component="nav" sx={{ bgcolor: "#FF7518" }}>
+              <Toolbar>
+                <IconButton
+                  size="large"
+                  edge="start"
+                  aria-label="menu"
+                  onClick={toggleDrawerOpen}
+                  sx={{ mr: 2, bgcolor: "white" }}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography
+                  component="div"
+                  sx={{
+                    color: "white",
+                    flexGrow: 1,
+                    fontFamily: "Noto Sans Thai",
+                    fontSize: 22,
+                  }}
+                >
+                  {" "}
+                  ระบบลงทะเบียนเรียน{" "}
+                </Typography>
+              </Toolbar>
+            </AppBar>
+
+            <Drawer open={open} onClose={toggleDrawerClose}>
+              <UserShow />
+              <Box sx={{ padding: 2 }}>
+                <FormControl fullWidth>
+                  <Button
+                    onClick={() => {
+                      localStorage.clear();
+                      window.location.href = "/";
+                    }}
+                    component={RouterLink}
+                    to="/home"
+                    variant="contained"
+                  >
+                    {" "}
+                    ออกจากระบบ{" "}
+                  </Button>
+                </FormControl>
+              </Box>
+
+              <Box width={"300px"}>
+                <Box sx={{ margin: 1.5 }}>
+                  <Stack
+                    sx={{ border: 1, borderRadius: 3, borderColor: "#e1e1e1" }}
+                  >
+                    <List>
+                      <ListItem disablePadding>
+                        <ListItemButton component={RouterLink} to="/">
+                          <ListItemText
+                            primary="หน้าหลัก"
+                            onClick={() => {
+                              page_navigate({ pathname: `/` });
                             }}
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                      <Divider />
+
+                      <ListItem disablePadding>
+                        <ListItemButton
+                          component={RouterLink}
+                          to="/adding_reducing"
                         >
-                            {" "}
-                            ระบบลงทะเบียนเรียน{" "}
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
+                          <ListItemText primary="ประวัติเพิ่มลดรายวิชา" />
+                        </ListItemButton>
+                      </ListItem>
+                      <Divider />
 
-                <Drawer open={open} onClose={toggleDrawerClose}>
-                    <UserShow />
-                    <Box sx={{ padding: 2 }}>
-                        <FormControl fullWidth>
-                            <Button
-                                onClick={() => {
-                                    localStorage.clear()
-                                    window.location.href = "/"
-                                }}
-                                component={RouterLink}
-                                to="/home"
-                                variant="contained"
-                            > ออกจากระบบ </Button>
-                        </FormControl>
-                    </Box>
+                      <ListItem disablePadding>
+                        <ListItemButton component={RouterLink} to="/request">
+                          <ListItemText primary="ยื่นคำร้องออนไลน์" />
+                        </ListItemButton>
+                      </ListItem>
+                      <Divider />
 
-                    <Box width={"300px"}>
-                        <Box sx={{ margin: 1.5 }}>
-                            <Stack sx={{ border: 1, borderRadius: 3, borderColor: "#e1e1e1" }}>
-                                <List>
-                                    <ListItem disablePadding>
-                                        <ListItemButton component={RouterLink} to="/">
-                                            <ListItemText
-                                                primary="หน้าหลัก"
-                                                onClick={() => {
-                                                    page_navigate({ pathname: `/` });
-                                                }}
-                                            />
-                                        </ListItemButton>
-                                    </ListItem>
-                                    <Divider />
+                      <ListItem disablePadding>
+                        <ListItemButton component={RouterLink} to="/enroll">
+                          <ListItemText primary="ลงทะเบียนรายวิชา" />
+                        </ListItemButton>
+                      </ListItem>
+                    </List>
+                  </Stack>
+                </Box>
 
-                                    <ListItem disablePadding>
-                                        <ListItemButton component={RouterLink} to="/adding_reducing">
-                                            <ListItemText primary="ประวัติเพิ่มลดรายวิชา" />
-                                        </ListItemButton>
-                                    </ListItem>
-                                    <Divider />
+                <Divider />
+                <Stack justifyContent="center" alignItems="center">
+                  <Typography
+                    sx={{
+                      padding: 1,
+                      fontWeight: "bold",
+                      fontStyle: "LilyUPC",
+                    }}
+                  >
+                    {" "}
+                    523332 Software Engineering{" "}
+                  </Typography>
 
-                                    <ListItem disablePadding>
-                                        <ListItemButton component={RouterLink} to="/request">
-                                            <ListItemText primary="ยื่นคำร้องออนไลน์" />
-                                        </ListItemButton>
-                                    </ListItem>
-                                    <Divider />
-
-                                    <ListItem disablePadding>
-                                        <ListItemButton component={RouterLink} to="/enroll">
-                                            <ListItemText primary="ลงทะเบียนรายวิชา" />
-                                        </ListItemButton>
-                                    </ListItem>
-                                </List>
-                            </Stack>
-                        </Box>
-
-                        <Divider />
-                        <Stack justifyContent="center" alignItems="center">
-                            <Typography
-                                sx={{
-                                    padding: 1,
-                                    fontWeight: 'bold',
-                                    fontStyle: 'LilyUPC',
-                                }}
-                            > 523332 Software Engineering </Typography>
-
-                            <Typography
-                                sx={{
-                                    padding: 1,
-                                    fontWeight: 'bold',
-                                    fontStyle: 'LilyUPC',
-                                }}
-                            > Team 05 </Typography>
-                        </Stack>
-                    </Box>
-                </Drawer>
-            </Box>
+                  <Typography
+                    sx={{
+                      padding: 1,
+                      fontWeight: "bold",
+                      fontStyle: "LilyUPC",
+                    }}
+                  >
+                    {" "}
+                    Team 05{" "}
+                  </Typography>
+                </Stack>
+              </Box>
+            </Drawer>
+          </Box>
         );
     }
     if (usertype === "professor") {

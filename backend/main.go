@@ -133,13 +133,16 @@ func main() {
 			api.GET("/approval/:approval_id", controller.GetApproval)
 			api.GET("/previous_approval", controller.GetPreviousApproval)
 			api.POST("/approvals", controller.CreateApproval)
-			api.PATCH("/approvals", controller.UpdateApproval)
 			api.DELETE("/approval/:approval_id", controller.DeleteApproval)
 			api.GET("/approvalprofessor/:approval_id", controller.ListApprovalProfessor)
 			api.GET("/approvalupdate/:approval_id", controller.ListApprovalForUpdate)
 			api.GET("/approvalstudent/:student_id", controller.ListApprovalStudent)
 			api.POST("/approvalandadding", controller.CreateApprovalAdding_reducing)
-			api.PATCH("/approvalandadding", controller.UpdateApprovalAdding_reducing)
+			api.PATCH("/approvalandadding", controller.CreateApprovalAdding_reducingUpdateEnroll)
+			//---update
+			api.PATCH("/approvals", controller.UpdateApproval)
+			api.PATCH("/approvalupdate", controller.UpdateApprovalAdding_reducing)
+			api.PATCH("/approvalupdateEnroll", controller.UpdateApprovalAdding_reducingUpdateEnroll)
 			// Approval_Type
 			api.GET("/approval_types", controller.ListApproval_Type)
 			api.GET("/approval_type/:approval_type_id", controller.GetApproval_Type)

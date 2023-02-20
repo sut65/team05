@@ -193,7 +193,7 @@ func CreateApprovalAdding_reducing(c *gin.Context) {
 		Student:         student,
 		History_Type_ID: &receive_adding.History_Type_ID,
 		Enroll:   new_enroll,
-		Date_Time: time.Now(),
+		Date: time.Now(),
 	}
 
 	new_approval := entity.Approval{
@@ -335,7 +335,7 @@ func CreateApprovalAdding_reducingUpdateEnroll(c *gin.Context) {
 		Student:         student,
 		History_Type_ID: &update_adding.History_Type_ID,
 		Enroll_ID:       &enroll.Enroll_ID,
-		Date_Time: time.Now(),
+		Date: time.Now(),
 	}
 
 	update_approval := entity.Approval{
@@ -629,7 +629,7 @@ func UpdateApprovalAdding_reducing(c *gin.Context) {
 		Student:         student,
 		History_Type_ID: &receive_adding.History_Type_ID,
 		Enroll:   new_enroll,
-		Date_Time: time.Now(),
+		Date: time.Now(),
 	}
 
 	new_approval := entity.Approval{
@@ -782,7 +782,7 @@ func UpdateApprovalAdding_reducingUpdateEnroll(c *gin.Context) {
 		Student:         student,
 		History_Type_ID: &update_adding.History_Type_ID,
 		Enroll_ID:       &enroll.Enroll_ID,
-		Date_Time: time.Now(),
+		Date: time.Now(),
 	}
 
 	update_approval := entity.Approval{

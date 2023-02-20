@@ -96,25 +96,25 @@ function Approval() {
       });
   };
   //delete
-  const deleteApproval = async (approval_id: number) => {
-    console.log("good");
-    const requestOptions = {
-      method: "DELETE",
-      headers: { 
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json" },
-    };
-    fetch(`${apiUrl}/approval/${approval_id}`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          console.log("Data remove");
-          window.location.href = "/approval";
-        } else {
-          console.log("Something was wrong!!");
-        }
-      });
-  };
+  // const deleteApproval = async (approval_id: number) => {
+  //   console.log("good");
+  //   const requestOptions = {
+  //     method: "DELETE",
+  //     headers: { 
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       "Content-Type": "application/json" },
+  //   };
+  //   fetch(`${apiUrl}/approval/${approval_id}`, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         console.log("Data remove");
+  //         window.location.href = "/approval";
+  //       } else {
+  //         console.log("Something was wrong!!");
+  //       }
+  //     });
+  // };
 
   //table
   const StyledTableCell = styled(TableCell)(({ theme }) => ({

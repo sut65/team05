@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
-
+	"time"
 	"github.com/B6025212/team05/entity"
 	"github.com/asaskevich/govalidator"
 
@@ -86,6 +86,7 @@ func CreateApproval(c *gin.Context) {
 		Reason:           approval.Reason,
 		Approval_Type_ID: approval.Approval_Type_ID,
 		Request_ID:       approval.Request_ID,
+		Date_Time: time.Now(),
 	}
 
 	if _, err := govalidator.ValidateStruct(new_approval); err != nil {
@@ -192,6 +193,7 @@ func CreateApprovalAdding_reducing(c *gin.Context) {
 		Student:         student,
 		History_Type_ID: &receive_adding.History_Type_ID,
 		Enroll:   new_enroll,
+		Date_Time: time.Now(),
 	}
 
 	new_approval := entity.Approval{
@@ -201,6 +203,7 @@ func CreateApprovalAdding_reducing(c *gin.Context) {
 		Reason:           receive_adding.Reason,
 		Approval_Type: 		approval_type,
 		Request:       		request,
+		Date_Time: time.Now(),
 	}
 	if _, err := govalidator.ValidateStruct(new_approval); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -332,6 +335,7 @@ func CreateApprovalAdding_reducingUpdateEnroll(c *gin.Context) {
 		Student:         student,
 		History_Type_ID: &update_adding.History_Type_ID,
 		Enroll_ID:       &enroll.Enroll_ID,
+		Date_Time: time.Now(),
 	}
 
 	update_approval := entity.Approval{
@@ -341,6 +345,7 @@ func CreateApprovalAdding_reducingUpdateEnroll(c *gin.Context) {
 		Reason:           update_adding.Reason,
 		Approval_Type: 		approval_type,
 		Request:       		request,
+		Date_Time: time.Now(),
 	}
 	if _, err := govalidator.ValidateStruct(update_approval); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -497,6 +502,7 @@ func UpdateApproval(c *gin.Context) {
 		Section:          update_section,
 		Request:          request,
 		Approval_Type_ID: approval.Approval_Type_ID,
+		Date_Time: time.Now(),
 	}
 
 	if _, err := govalidator.ValidateStruct(update_approval); err != nil {
@@ -623,6 +629,7 @@ func UpdateApprovalAdding_reducing(c *gin.Context) {
 		Student:         student,
 		History_Type_ID: &receive_adding.History_Type_ID,
 		Enroll:   new_enroll,
+		Date_Time: time.Now(),
 	}
 
 	new_approval := entity.Approval{
@@ -632,6 +639,7 @@ func UpdateApprovalAdding_reducing(c *gin.Context) {
 		Reason:           receive_adding.Reason,
 		Approval_Type: 		approval_type,
 		Request:       		request,
+		Date_Time: time.Now(),
 	}
 
 	if _, err := govalidator.ValidateStruct(new_approval); err != nil {
@@ -774,6 +782,7 @@ func UpdateApprovalAdding_reducingUpdateEnroll(c *gin.Context) {
 		Student:         student,
 		History_Type_ID: &update_adding.History_Type_ID,
 		Enroll_ID:       &enroll.Enroll_ID,
+		Date_Time: time.Now(),
 	}
 
 	update_approval := entity.Approval{
@@ -783,6 +792,7 @@ func UpdateApprovalAdding_reducingUpdateEnroll(c *gin.Context) {
 		Reason:           update_adding.Reason,
 		Approval_Type: 		approval_type,
 		Request:       		request,
+		Date_Time: time.Now(),
 	}
 	if _, err := govalidator.ValidateStruct(update_approval); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

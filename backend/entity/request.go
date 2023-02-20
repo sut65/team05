@@ -2,6 +2,7 @@ package entity
 
 import (
 	"regexp"
+	"time"
 
 	validator "github.com/asaskevich/govalidator"
 )
@@ -30,6 +31,8 @@ type Request struct {
 
 	Class_Schedule_ID *string `valid:"-"`
 	Class_Schedule    Class_Schedule `gorm:"references:Class_Schedule_ID" valid:"-"`
+
+	Date_Time time.Time
 
 	Reason string `valid:"required~Reason cannot be blank,reason_valid~Reason cannot be special characters or number,maxstringlength(30)~The reason cannot be more than 30 characters"`
 

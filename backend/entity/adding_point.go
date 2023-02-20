@@ -12,13 +12,13 @@ type Grade struct {
 	Adding_points []Adding_point `gorm:"foreignKey:Grade_ID"`
 }
 type Adding_point struct {
-	Adding_point_ID uint `gorm:"primaryKey "`
+	Adding_point_ID uint `gorm:"primaryKey"`
 
 
 	Professor_ID *string
 	Professor    Professor `gorm:"references:Professor_ID"`
 
-	Enroll_ID *string
+	Enroll_ID *string	`gorm:"UniqueIndex"`
 	Enroll    Enroll `gorm:"references:Enroll_ID"`
 
 	Grade_ID string	`valid:"required~Grade_ID cannot be blank,gradeidchecklowercase~Please use uppercase letters,gradeidthaiall~Don't use ThaiAlphabet"`

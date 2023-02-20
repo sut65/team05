@@ -389,7 +389,8 @@ const getSubjectByCourseID = async (course_id: any) => {
   }
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg"
+    sx ={{bgcolor:"black"}}>
       <Snackbar
         open={success}
         autoHideDuration={6000}

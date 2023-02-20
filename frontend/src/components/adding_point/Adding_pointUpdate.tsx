@@ -241,9 +241,13 @@ function Adding_pointUpdate() {
           sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
         >
         
-          <p>ลำดับ</p>
-          <TextField
+        <Grid container sx={{ padding: 2, marginLeft: "20px" }}>
+            <p>ลำดับ</p>
+            <Grid>
+              <TextField
+              sx={{ marginLeft: "45px" }}
               disabled
+             
               id="Adding_point_ID"
               variant="outlined"
               type="number"
@@ -251,24 +255,48 @@ function Adding_pointUpdate() {
               value={addingpoint.Adding_point_ID}
               onChange={handleInputChange}
             />
-          <p>รหัสอาจารย์</p>
-          <TextField
-              disabled
-              id="Professor_ID"
+            </Grid>
+            <Grid sx={{ marginLeft: "50px" }}>
+              <p >รหัสอาจารย์</p></Grid>
+              <Grid>
+                <TextField    
+                  sx={{ marginLeft: "45px" }}
+                  disabled
+                  id="Professor_ID"
+                  type="string"
+                  variant="outlined"
+                  value={addingpoint.Professor_ID}
+                  onChange={handleInputChange}
+                  />
+              </Grid>
+
+
+
+              <Grid  sx={{  marginLeft: "20px" }}>
+            <p>เกรด</p></Grid>
+            <Grid   sx={{ marginLeft: "45px" }}>
+            <TextField
+             
+              id="Grade_ID"
               type="string"
               variant="outlined"
-              value={addingpoint.Professor_ID}
+              value={addingpoint.Grade_ID}
               onChange={handleInputChange}
             />
+            
+          </Grid> 
+          <Box sx={{bgcolor:"Pink",marginTop: "30px"}}>
+          <Typography sx={{ paddingLeft: 5,fontFamily:"Prompt", fontSize: 20 }}>
+                                        เงื่อนไข
+                                    </Typography>
+          <Typography sx={{ paddingLeft: 2 ,fontFamily:"Times New Roman" }}>
+          A = ดีเยี่ยม ,B+ = ดีมาก ,B = ดี ,C+ = ดีพอใช้ ,C = พอใช้ ,D+ = อ่อน ,D = อ่อนมาก ,F = ตก ,I = การวัดผลยังไม่สมบูรณ์ ,M = นักศึกษาขาดสอบ ,P = การสอนยังไม่สิ้นสุด , <br></br>S = ผลการประเมินเป็นที่พอใจ ,ST = ผลการประเมินเป็นที่พอใจสำหรับรายวิขา ,U = ผลการประเมินไม่เป็นที่พอใจ ,V = ผู้ร่วมเรียน ,W = การถอนรายวิชา ,<br></br>X =ยังไม่ได้รับผลการประเมิน 
+          </Typography>
+                                    
+          </Box>
+          </Grid>
           
-          <p>grade</p>
-          <TextField
-            id="Grade_ID"
-            type="string"
-            variant="outlined"
-            value={addingpoint.Grade_ID}
-            onChange={handleInputChange}
-          />
+          
           
           <Grid
             item

@@ -29,6 +29,7 @@ type extendedAdding_point struct {
 	Unit            string
 	Exam_Start_Time string
 	Exam_End_Time   string
+	Qualification_Name string
 }
 
 
@@ -111,7 +112,7 @@ func ListAddingByEnroll(c *gin.Context) {
 func ListAdding_point(c *gin.Context) {
 	var  extendedAdding_point []extendedAdding_point
 	id := c.Param("professor_id")
-	if err := entity.DB().Raw("SELECT a.* , e.*, st.student_name,su.subject_en_name FROM adding_points a JOIN enrolls e JOIN students st JOIN subjects su ON a.enroll_id = e.enroll_id AND e.student_id = st.student_id  AND e.subject_id = su.subject_id WHERE a.professor_id = ? group by a.adding_point_id",id).Scan(&extendedAdding_point).Error; err != nil {
+	if err := entity.DB().Raw("SELECT a.* , e.*, st.student_name,su.subject_en_name,c.*,Q.*  FROM adding_points a JOIN enrolls e JOIN students st JOIN subjects su JOIN courses c JOIN qualifications Q ON a.enroll_id = e.enroll_id AND e.student_id = st.student_id  AND e.subject_id = su.subject_id AND su.course_id = c.course_id AND c.qualification_id = Q.qualification_id WHERE a.professor_id = ? group by a.adding_point_id",id).Scan(&extendedAdding_point).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

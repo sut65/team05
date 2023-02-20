@@ -1,4 +1,5 @@
 import { GradeInterface } from "./IGrade";
+import { QualificationsInterface } from "./I_Qualification";
 import { Subject } from "./I_Subject";
 
 export interface Adding_pointInterface {
@@ -15,7 +16,7 @@ export interface Adding_pointInterface {
     Description: string;
     description: GradeInterface;
     
-    Coruse_Name: string,
+    Course_Name: string,
 
     Subject_ID: string,
     subject_id: Subject;
@@ -30,5 +31,6 @@ export interface Adding_pointInterface {
     Course: Subject;
    
     Unit: number;
-
+    Qualification_Name: string,
+    qualification_name: QualificationsInterface,
 }

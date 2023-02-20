@@ -83,6 +83,10 @@ function Adding_reducingCreate() {
       });
   };
 
+
+
+ 
+
   //delete ตารางadding
 
   const DeleteAdding_point= async (adding_point_id:number) => {
@@ -141,6 +145,7 @@ function Adding_reducingCreate() {
   useEffect(() => {
     getAdding_point();
     
+    
   }, []);
 
   return (
@@ -151,6 +156,7 @@ function Adding_reducingCreate() {
           width: "auto",
           height: "auto",
           padding: 2,
+          bgcolor:"#CCFFFF",
         }}
       >
         <Home_Navbar></Home_Navbar>
@@ -204,6 +210,15 @@ function Adding_reducingCreate() {
                     ชื่อวิชา
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
+                  กลุ่ม
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    หลักสูตร
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
+                    ปริญญา
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ border: 1 }}>
                     รหัสนักศึกษา
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
@@ -236,6 +251,15 @@ function Adding_reducingCreate() {
                     </TableCell>
                     <TableCell component="th" scope="row" align="center">
                     {row.Subject_EN_Name}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="center">
+                      {row.Section}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="center">
+                      {row.Course_Name}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="center">
+                      {row.Qualification_Name}
                     </TableCell>
                     <TableCell component="th" scope="row" align="center">
                       {row.Student_ID}
@@ -315,7 +339,7 @@ function Adding_reducingCreate() {
               variant="contained"
               color="primary"
             >
-              แก้ไข
+              เพิ่ม
             </Button>
           </Box>
 

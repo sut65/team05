@@ -278,6 +278,7 @@ const getEnroll = async () => {
           width: "auto",
           height: "auto",
           padding: 2,
+          bgcolor:"#CCFFFF",
         }}
       >
         <Snackbar
@@ -301,7 +302,7 @@ const getEnroll = async () => {
           <Box
             display="flex"
             sx={{
-              marginTop: 2,
+              marginTop: 1,
             }}
           >
             <Box flexGrow={1}>
@@ -330,42 +331,20 @@ const getEnroll = async () => {
             โดยในส่วนนี้จะเป็นสิทธิของผู้เป็นแอดมินที่มีสิทธิสามารถใช้งานได้
           </Box>
         </Paper>
-        <Paper
-          elevation={3}
-          sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
-        >
-          <Grid container sx={{ padding: 2, marginLeft: "15px" }}>
-           
+       
+         
+
+
+
+<Paper>
+<Grid>
+         <Grid container sx={{ padding: 2, marginLeft: "20px" }}>
+            <p>ลำดับ</p>
             <Grid>
-            <TextField
-            label="รหัสวิชา"
-              sx={{ marginLeft: "300px" }}
-              
-              id="Subject_ID"
-              variant="outlined"
-              type="any"
-              
-              value={addingpoint.Subject_ID}
-              onChange={handleInputChangeSearch}
-            />
-           
-            <Button
-                size="medium"
-                variant="contained"
-                onClick={sendSearchedID}//เรียกใช้ฟังชั่น
-                
-              >
-                ค้นหารายวิชา
-                <SvgIcon
-                  sx={{ marginLeft: "5px" }}
-                  component={SearchIcon}
-                  inheritViewBox
-                />
-              </Button>
-            </Grid>
-            <TextField
-              sx={{ marginLeft: "300px" }}
+              <TextField
+              sx={{ marginLeft: "45px" }}
               disabled
+             
               id="Adding_point_ID"
               variant="outlined"
               type="number"
@@ -373,14 +352,59 @@ const getEnroll = async () => {
               value={addingpoint.Adding_point_ID}
               onChange={handleInputChange}
             />
-            <TextField
-              disabled
-              id="Professor_ID"
-              type="string"
-              variant="outlined"
-              value={addingpoint.Professor_ID}
-              onChange={handleInputChange}
-            />
+            </Grid>
+            <Grid sx={{ marginLeft: "150px" }}>
+              <p >รหัสอาจารย์</p></Grid>
+              <Grid>
+                <TextField    
+                  sx={{ marginLeft: "20px" }}
+                  disabled
+                  id="Professor_ID"
+                  type="string"
+                  variant="outlined"
+                  value={addingpoint.Professor_ID}
+                  onChange={handleInputChange}
+                  />
+              </Grid>
+
+          </Grid>
+
+          <Grid container sx={{ padding: 2, marginLeft: "20px" }}>
+            <p>รหัสวิชา</p>
+              <Grid>
+             
+           <TextField
+           label="รหัสวิชา"
+             sx={{ marginLeft: "30px" }}
+             
+             id="Subject_ID"
+             variant="outlined"
+             type="any"
+             
+             value={addingpoint.Subject_ID}
+             onChange={handleInputChangeSearch}
+           />
+          
+           <Button
+            sx={{ marginLeft: "10px" }}
+               size="small"
+               variant="contained"
+               onClick={sendSearchedID}//เรียกใช้ฟังชั่น
+               
+             >
+               ค้นหารายวิชา
+               <SvgIcon
+                 sx={{ marginLeft: "5px" }}
+                 component={SearchIcon}
+                 inheritViewBox
+               />
+             </Button>
+                </Grid>
+
+
+                <Grid  sx={{  marginLeft: "15px" }}>
+            <p>เกรด</p></Grid>
+            <Grid   sx={{ marginLeft: "65px" }}>
             <TextField
               label="เกรด"
               id="Grade_ID"
@@ -389,8 +413,42 @@ const getEnroll = async () => {
               value={addingpoint.Grade_ID}
               onChange={handleInputChange}
             />
+            
+          </Grid>  
+
+
+
           </Grid>
 
+
+
+
+
+         <Box sx={{bgcolor:"Pink"}}>
+          <Typography sx={{ paddingLeft: 5,fontFamily:"Prompt", fontSize: 20 }}>
+                                        เงื่อนไข
+                                    </Typography>
+          <Typography sx={{ paddingLeft: 2 ,fontFamily:"Times New Roman" }}>
+          A = ดีเยี่ยม ,B+ = ดีมาก ,B = ดี ,C+ = ดีพอใช้ ,C = พอใช้ ,D+ = อ่อน ,D = อ่อนมาก ,F = ตก ,I = การวัดผลยังไม่สมบูรณ์ ,M = นักศึกษาขาดสอบ ,P = การสอนยังไม่สิ้นสุด , <br></br>S = ผลการประเมินเป็นที่พอใจ ,ST = ผลการประเมินเป็นที่พอใจสำหรับรายวิขา ,U = ผลการประเมินไม่เป็นที่พอใจ ,V = ผู้ร่วมเรียน ,W = การถอนรายวิชา ,<br></br>X =ยังไม่ได้รับผลการประเมิน 
+          </Typography>
+                                    
+          </Box>
+
+
+
+
+
+          
+</Grid>
+
+</Paper>
+
+
+
+<Paper
+          elevation={3}
+          sx={{ bgcolor: "white", padding: 2, marginBottom: 2 , marginTop: 2 }}
+        >
           <Grid
             sx={{
               marginTop: "20px",

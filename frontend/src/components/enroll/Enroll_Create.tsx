@@ -47,7 +47,7 @@ import { Course } from "../../models/I_Course";
 import { IconButton, MenuItem, TableFooter, TablePagination } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { set } from "date-fns/esm";
-
+import dayjs, { Dayjs } from "dayjs";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -67,7 +67,7 @@ function CreateEnroll() {
     const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
 
     //const [subject, setSubject] = React.useState<Subject[]>([]);
-
+    const [date_time, setDate_time] = React.useState<Dayjs | null>(dayjs);
     const [SearchSubjectByCourse, setSubjectByCourse] = React.useState("");
     const [subjects, setSubjects] = React.useState<Subject[]>([]);
     const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
@@ -295,7 +295,8 @@ function CreateEnroll() {
             Subject_ID: enroll.Subject_ID ?? "",
             Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
             Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
-            Section: enroll.Section
+            Section: enroll.Section,
+            Enroll_Time_Stamp: date_time,
         };
 
         console.log(data)
@@ -505,6 +506,7 @@ function CreateEnroll() {
                                 <Button
                                     size="medium"
                                     variant="contained"
+                                    color="warning"
                                     onClick={sendSearchedSubjectID}
                                     endIcon={<SearchIcon />}>ค้นหารายวิชา</Button>
                             </Grid>
@@ -513,6 +515,7 @@ function CreateEnroll() {
                                     size="medium"
                                     component={RouterLink} to="/enroll"
                                     variant="contained"
+                                    color="success"
                                     endIcon={<FactCheckIcon />}>ผลการลงทะเบียน</Button>
                             </Grid>
                         </Grid>

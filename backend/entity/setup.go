@@ -1351,6 +1351,7 @@ func SetupDatabase() {
 			Subject:        software_engineering_sec1,
 			Class_Schedule: system_analysis_sec1_class,
 			Exam_Schedule:  system_analysis_midterm,
+			Enroll_Time_Stamp: time.Now(),
 			Section:        1,
 		}
 
@@ -1360,6 +1361,7 @@ func SetupDatabase() {
 			Subject:        operating_system_sec1,
 			Class_Schedule: os_sec1_class,
 			Exam_Schedule:  os_final,
+			Enroll_Time_Stamp: time.Now(),
 			Section:        1,
 		}
 		db.Create(&enroll1)

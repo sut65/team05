@@ -15,7 +15,7 @@ import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
 //import { StudentInterface } from "../models/studentInterface";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Grid, Paper, SelectChangeEvent, TableFooter, TablePagination } from "@mui/material";
+import { Grid, Paper, SelectChangeEvent, TableFooter, TablePagination, TextField } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -28,6 +28,7 @@ import IconButton from '@mui/material/IconButton';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { id } from "date-fns/locale";
 import FactCheckIcon from '@mui/icons-material/FactCheck';
+import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
 function ListEnroll() {
   const params = useParams();
   const [enrolls, setEnrolls] = React.useState<EnrollInterface>();
@@ -58,25 +59,6 @@ function ListEnroll() {
       border: 1,
     },
   }));
-
-
-  // const getEnroll = async () => {
-  //   const apiUrl = "http://localhost:8080/enroll";
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   };
-
-
-  //   fetch(apiUrl, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       if (res.data) {
-  //         setEnroll(res.data);
-  //       }
-  //     });
-  // };
 
   const getEnroll = async () => {
     const requestOptions = {
@@ -153,7 +135,7 @@ function ListEnroll() {
           p: 2,
           bgcolor: '#93BFCF'
         }}>
-        <Container maxWidth="lg" style={{ height: "100vh" }} sx={{ p: 2, bgcolor: '#BEF0CB', mt: 6 }}>
+        <Container maxWidth="xl" style={{ height: "100vh" }} sx={{ p: 2, bgcolor: '#BEF0CB', mt: 6 }}>
           <Paper sx={{
             height: 50,
             bgcolor: '#FFFAF0',
@@ -167,7 +149,7 @@ function ListEnroll() {
 
               }}
 
-            ><FactCheckIcon sx={{ fontSize: 40, mt: 0.6, paddingRight: 0,paddingLeft:1, color: "#388e3c" }} />
+            ><FactCheckIcon sx={{ fontSize: 40, mt: 0.6, paddingRight: 0, paddingLeft: 1, color: "#388e3c" }} />
               <Box flexGrow={1}>
                 <Typography
                   sx={{ paddingLeft: 1, mt: 1 }}
@@ -182,20 +164,6 @@ function ListEnroll() {
 
 
               <Box sx={{ paddingRight: 2 }}>
-                <Button
-
-                  sx={{ mt: 1 }}
-                  component={RouterLink}
-
-                  to="/enroll/create_enroll"
-
-                  variant="contained"
-
-                  color="primary"
-
-                >
-                  ลงทะเบียน
-                </Button>
               </Box>
             </Box>
           </Paper>
@@ -205,14 +173,70 @@ function ListEnroll() {
                 variant="subtitle2"
                 color="back"
                 gutterBottom>
-                ในระบบย่อยลงทะเบียนรายวิชา 
-                จะช่วยให้นักศึกษาสามารถเลือกลงทะเบียนเรียนในรายวิชาที่ตนต้องการเมื่อถึงเวลาที่กำหนด 
-                โดยนักศึกษาสามารถเลือกหลักสูตร 
-                และกลุ่มที่ตนต้องการจะเรียน นักศึกษาสามารถแก้ไข 
+                ในระบบย่อยลงทะเบียนรายวิชา
+                จะช่วยให้นักศึกษาสามารถเลือกลงทะเบียนเรียนในรายวิชาที่ตนต้องการเมื่อถึงเวลาที่กำหนด
+                โดยนักศึกษาสามารถเลือกหลักสูตร
+                และกลุ่มที่ตนต้องการจะเรียน นักศึกษาสามารถแก้ไข
                 หรือลบรายวิชาที่ลงทะเบียนผิดพลาดได้ เมื่อลงทะเบียนเสร็จสิ้นระบบสามารถแสดงสรุป
                 รายการที่นักศึกษาลงทะเบียน เพื่อยืนยันว่านักศึกษาลงทะเบียน
               </Typography>
             </Paper>
+          </Paper>
+          {/* <Paper sx={{ mt: 2, bgcolor: '#FFFAF0' }}>
+            <Grid>
+              <Grid sx={{}}>
+                <Typography sx={{ padding: 2 }}
+                  variant="subtitle2"
+                  color="back">
+                  รายวิชาที่ท่านได้ทำการลงทะเบียนแล้วจะแสดงในตารางด้านล่าง ท่านสามารถแก้ไขกลุ่มได้ที่เมนูแก้ไข
+                  ในตาราง และสามารถยกเลิกการงทะเบียนในรายวิชานั้นๆได้ที่เมนูลบ ในตาราง
+                </Typography>
+              </Grid>
+              <Grid>
+                <Button
+                  sx={{ mt: 1 }}
+                  component={RouterLink}
+                  to="/enroll/create_enroll"
+                  variant="contained"
+                  color="primary"
+                >
+                  ลงทะเบียน
+                </Button>
+              </Grid>
+            </Grid>
+          </Paper> */}
+          <Paper sx={{ backgroundColor: '#FFFAF0' ,height: 70,mt:2}}>
+            <Box display={"flex"}>
+              <Box sx={{
+                width: 700,
+                height: 30,
+                paddingLeft:2,
+                mt:0.5,
+              }}>
+                <Paper sx={{mt:1,pd:1 ,bgcolor: '#ffb74d'}}>
+                <Typography sx={{paddingLeft:2,mt:1}}
+                  gutterBottom>
+                    รายวิชาที่ท่านได้ทำการลงทะเบียนแล้วจะแสดงในตารางด้านล่าง ท่านสามารถแก้ไขกลุ่มได้ที่เมนูแก้ไข
+                  ในตาราง และสามารถยกเลิกการลงทะเบียนในรายวิชานั้นๆได้ที่เมนูลบ ในตาราง
+                </Typography>
+                </Paper>
+              </Box>
+              <Box flexGrow={1} >
+              </Box>
+              <Box width={10} height={3} sx={{mt:2}}></Box>
+              <Grid item xs={8} sx={{mt:1,marginRight:2}}>
+                <Button
+                  sx={{ mt: 1 }}
+                  component={RouterLink}
+                  to="/enroll/create_enroll"
+                  variant="contained"
+                  color="success"
+                  startIcon={<TextIncreaseIcon sx={{ color: "#b2ff59" ,}}/>}
+                >
+                  ลงทะเบียน
+                </Button>
+              </Grid>
+            </Box>
           </Paper>
           <Grid sx={{ mt: 2 }}>
             <TableContainer component={Paper}>
@@ -230,6 +254,7 @@ function ListEnroll() {
                     <StyledTableCell align="left">เลิกสอบ</StyledTableCell>
                     <StyledTableCell align="left">หน่วยกิต</StyledTableCell>
                     <StyledTableCell align="left">กลุ่ม</StyledTableCell>
+                    <StyledTableCell align="left">เวลาที่ลงทะเบียน</StyledTableCell>
                     <StyledTableCell align="center">ลบ</StyledTableCell>
                     <StyledTableCell align="center">แก้ไข</StyledTableCell>
                   </TableRow>
@@ -254,11 +279,11 @@ function ListEnroll() {
                       <TableCell align="left">{row.Start_Time}</TableCell>
                       <TableCell align="left">{row.End_Time}</TableCell>
                       <TableCell align="left">{row.Exam_Date}</TableCell>
-
                       <TableCell align="left">{row.Exam_Start_Time}</TableCell>
                       <TableCell align="left">{row.Exam_End_Time}</TableCell>
                       <TableCell align="left">{row.Unit}</TableCell>
                       <TableCell align="left">{row.Section}</TableCell>
+                      <TableCell align="left">{row.Enroll_Time_Stamp.toString()}</TableCell>
                       <TableCell align="center">
                         <IconButton
                           aria-label="delete"

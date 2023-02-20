@@ -23,6 +23,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import pink from "@mui/material/colors/pink";
 import { red } from "@mui/material/colors";
 import ReplyIcon from '@mui/icons-material/Reply';
+import dayjs, { Dayjs } from "dayjs";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -47,7 +48,7 @@ function UpdateEnroll() {
     const [enrolls, setEnrolls] = React.useState<extendedEnrollSubjectInterface>();
 
     const theme = createTheme();
-
+    const [date_time, setDate_time] = React.useState<Dayjs | null>(dayjs);
     const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
 
     const [page, setPage] = React.useState(0);
@@ -189,7 +190,8 @@ function UpdateEnroll() {
             Subject_ID: enroll.Subject_ID ?? "",
             Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
             Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
-            Section: enroll.Section
+            Section: enroll.Section,
+            Enroll_Time_Stamp: date_time,
             //Section: typeof enroll.Section === "string" ? parseInt(enroll.Section) : enroll.Section,
         };
         console.log("Data : ");

@@ -33,6 +33,7 @@ export interface EnrollInterface {
     End_Time: string;
    
     Exam_Schedule_ID: string;
+    Enroll_Time_Stamp: Date,
 
     Exam_Date: string
     Exam_Start_Time: string
@@ -64,6 +65,7 @@ export interface extendedEnrollSubjectInterface {
     Exam_Date: string
     Start_Time: string
 	End_Time: string
+    Enroll_Time_Stamp: Date,
 
     Class_Schedule_ID: string
     Day: string

@@ -81,6 +81,7 @@ func CreateEnroll(c *gin.Context) {
 		Exam_Schedule:  exam_schedule,
 		Class_Schedule: class_schedule,
 		Section:        enroll.Section,
+		Enroll_Time_Stamp: enroll.Enroll_Time_Stamp.Local(),
 	}
 	// บันทึก entity Subject
 	if _, err := ValidateChecksubject(new_enroll); err != nil {
@@ -203,6 +204,7 @@ func UpdateEnroll(c *gin.Context) {
 	var update_class_schedule_id = enroll.Class_Schedule_ID
 	var update_subject_id = enroll.Subject_ID
 	var update_Section = enroll.Section
+	var update_Enroll_Time_Stamp = enroll.Enroll_Time_Stamp
 
 	fmt.Println(update_Section)
 	//var section = entity.Subject_ID
@@ -223,7 +225,9 @@ func UpdateEnroll(c *gin.Context) {
 		Subject_ID:        update_subject_id,
 		Exam_Schedule_ID:  updated_exam_schedule_id,
 		Class_Schedule_ID: update_class_schedule_id,
+		Enroll_Time_Stamp: update_Enroll_Time_Stamp.Local(),
 		Section:           update_Section,
+
 	}
 	if _, err := ValidateCheckExamAndClass(updated_enroll); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

@@ -1,4 +1,7 @@
 package entity
+import (
+	"time"
+)
 
 type Enroll struct {
 	Enroll_ID string `gorm:"primaryKey"`
@@ -15,5 +18,7 @@ type Enroll struct {
 	Class_Schedule_ID *string `valid:"-"`
 	Class_Schedule    Class_Schedule `gorm:"references:Class_Schedule_ID" valid:"-"`
 
+	Enroll_Time_Stamp time.Time
+   
 	Section uint
 }

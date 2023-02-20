@@ -2,6 +2,7 @@ package entity
 
 import (
 	"regexp"
+	"time"
 
 	validator "github.com/asaskevich/govalidator"
 )
@@ -13,7 +14,7 @@ type Grade struct {
 }
 type Adding_point struct {
 	Adding_point_ID uint `gorm:"primaryKey"`
-
+	Date 		time.Time
 
 	Professor_ID *string
 	Professor    Professor `gorm:"references:Professor_ID"`

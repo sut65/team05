@@ -123,7 +123,13 @@ function Adding_pointCreate() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - addingpoints.length) : 0;
 
   
-
+    const apiUrl = "http://localhost:8080";
+    const requestOptionsGet = {
+      method: "GET",
+      headers: { 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json" },
+    };
  
 
 
@@ -155,17 +161,12 @@ function Adding_pointCreate() {
       
   };
 
+ 
 
 
-  
 
-  const apiUrl = "http://localhost:8080";
-  const requestOptionsGet = {
-    method: "GET",
-    headers: { 
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json" },
-  };
+
+
 // //ดึง id enrollมาใช้เพื่อเช้คว่าใครลงรหัสรายวิชานี้บ้าง
 const getEnroll = async () => {
   const requestOptions = {

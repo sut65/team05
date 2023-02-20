@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/B6025212/team05/entity"
 	"github.com/asaskevich/govalidator"
@@ -85,6 +86,8 @@ func CreateAdding_point(c *gin.Context) {
 		Professor: professor,
 		Enroll_ID: adding_point.Enroll_ID,
 		Grade_ID: adding_point.Grade_ID,
+		Date :		time.Now(),
+		
 		
 	}
 
@@ -119,16 +122,6 @@ func ListAdding_point(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": extendedAdding_point})
 }
 
-// // Get /request
-// func GetAdding_point(c *gin.Context) {
-// 	var adding_point entity.Adding_point
-// 	id := c.Param("adding_point_id")
-// 	if err := entity.DB().Where("adding_point_id = ?", id).First(&adding_point).Error; err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
-// 	c.JSON(http.StatusOK, gin.H{"data": adding_point})
-// }
 
 // // DELETE /request
 func DeleteAdding_point(c *gin.Context) {
@@ -200,6 +193,7 @@ func UpdateAdding_point(c *gin.Context) {
 		Grade_ID: adding_point.Grade_ID,
 		Enroll: enroll,
 		Professor: professor,
+		Date :		time.Now(),
 		
 	}
 

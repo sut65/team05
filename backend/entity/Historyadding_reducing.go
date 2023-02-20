@@ -1,5 +1,7 @@
 package entity
 
+import "time"
+
 type HistoryType struct {
 	History_Type_ID string `gorm:"primaryKey"`
 	Type_Name       string
@@ -7,8 +9,8 @@ type HistoryType struct {
 }
 
 type Adding_reducing struct {
-	Change_ID uint `gorm:"primaryKey"`
-
+	Change_ID       uint `gorm:"primaryKey"`
+	Date            time.Time
 	History_Type_ID *string     `valid:"-"`
 	HistoryType     HistoryType `gorm:"references:History_Type_ID" valid:"-"`
 

@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/B6025212/team05/entity"
 	"github.com/asaskevich/govalidator"
@@ -29,6 +30,7 @@ type extendedAdding_point struct {
 	Unit            string
 	Exam_Start_Time string
 	Exam_End_Time   string
+	Qualification_Name string
 }
 
 
@@ -84,6 +86,8 @@ func CreateAdding_point(c *gin.Context) {
 		Professor: professor,
 		Enroll_ID: adding_point.Enroll_ID,
 		Grade_ID: adding_point.Grade_ID,
+		Date :		time.Now(),
+		
 		
 	}
 
@@ -111,23 +115,13 @@ func ListAddingByEnroll(c *gin.Context) {
 func ListAdding_point(c *gin.Context) {
 	var  extendedAdding_point []extendedAdding_point
 	id := c.Param("professor_id")
-	if err := entity.DB().Raw("SELECT a.* , e.*, st.student_name,su.subject_en_name FROM adding_points a JOIN enrolls e JOIN students st JOIN subjects su ON a.enroll_id = e.enroll_id AND e.student_id = st.student_id  AND e.subject_id = su.subject_id WHERE a.professor_id = ? group by a.adding_point_id",id).Scan(&extendedAdding_point).Error; err != nil {
+	if err := entity.DB().Raw("SELECT a.* , e.*, st.student_name,su.subject_en_name,c.*,Q.*  FROM adding_points a JOIN enrolls e JOIN students st JOIN subjects su JOIN courses c JOIN qualifications Q ON a.enroll_id = e.enroll_id AND e.student_id = st.student_id  AND e.subject_id = su.subject_id AND su.course_id = c.course_id AND c.qualification_id = Q.qualification_id WHERE a.professor_id = ? group by a.adding_point_id",id).Scan(&extendedAdding_point).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": extendedAdding_point})
 }
 
-// // Get /request
-// func GetAdding_point(c *gin.Context) {
-// 	var adding_point entity.Adding_point
-// 	id := c.Param("adding_point_id")
-// 	if err := entity.DB().Where("adding_point_id = ?", id).First(&adding_point).Error; err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
-// 	c.JSON(http.StatusOK, gin.H{"data": adding_point})
-// }
 
 // // DELETE /request
 func DeleteAdding_point(c *gin.Context) {
@@ -199,6 +193,7 @@ func UpdateAdding_point(c *gin.Context) {
 		Grade_ID: adding_point.Grade_ID,
 		Enroll: enroll,
 		Professor: professor,
+		Date :		time.Now(),
 		
 	}
 

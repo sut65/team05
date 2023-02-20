@@ -33,6 +33,8 @@ import { RequestInterface } from "../../models/IRequest";
 import { EnrollInterface } from "../../models/I_Enroll";
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import Home_Navbar from "../navbars/Home_navbar";
+
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
 
@@ -133,9 +135,14 @@ function ApprovalCreate() {
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#5B98B9",
+      backgroundColor: "#44484D",
       color: theme.palette.common.white,
+      fontFamily: "Noto Sans Thai",
       fontSize: 17,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      color: theme.palette.common.black,
+      fontFamily: "Noto Sans Thai",
     },
   }));
 
@@ -395,346 +402,398 @@ function ApprovalCreate() {
   return (
     <div>
       <Container
-        maxWidth="xl"
+        maxWidth={false}
         sx={{
-          bgcolor: "#e1e1e1",
           width: "auto",
           height: "auto",
-          padding: 2,
+          p: 2,
+          bgcolor: "#F3F3F3",
+          flexGrow: 1,
+          fontFamily: "Noto Sans Thai",
         }}
       >
-        <Snackbar
-          open={success}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        <Container
+          maxWidth="xl"
+          sx={{
+            bgcolor: "#F3F3F3",
+            width: "auto",
+            height: "auto",
+            padding: 2,
+          }}
         >
-          <Alert onClose={handleClose} severity="success">
-            บันทึกข้อมูลสำเร็จ
-          </Alert>
-        </Snackbar>
-
-        <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="error">
-            {message}
-          </Alert>
-        </Snackbar>
-
-        <Paper
-          elevation={3}
-          sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}
-        >
-          <Box
-            display="flex"
-            sx={{
-              marginTop: 1,
-            }}
+          <Home_Navbar></Home_Navbar>
+          <Toolbar></Toolbar>
+          <Snackbar
+            open={success}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           >
-            <Grid>
-              <Grid width="550px">
-                <Typography
-                  component="h2"
-                  variant="h4"
-                  color="primary"
-                  gutterBottom
-                >
-                  อนุมัติคำร้องออนไลน์
-                </Typography>
-                <Typography sx={{ fontFamily: "Mitr-Regular" }}>
-                  {" "}
-                  บันทึกข้อมูลอนุมัติคำร้องออนไลน์{" "}
-                </Typography>
-              </Grid>
-            </Grid>
-
-            <Grid sx={{ marginLeft: "200px" }}>
-              <p>รหัสอาจารย์</p>
-            </Grid>
-            <Grid sx={{ marginLeft: "40px" }}>
-              <TextField
-                disabled
-                id="Professor_ID"
-                variant="outlined"
-                type="string"
-                value={approval.Professor_ID}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid sx={{ marginLeft: "40px" }}>
-              <p>ลำดับ</p>
-            </Grid>
-            <Grid sx={{ marginLeft: "40px" }}>
-              <TextField
-                disabled
-                id="Approval_ID"
-                variant="outlined"
-                type="number"
-                defaultValue={approval.Approval_ID}
-                value={approval.Approval_ID}
-                onChange={handleInputChange}
-              />
-            </Grid>
-          </Box>
-        </Paper>
-
-        <Paper elevation={3} sx={{ bgcolor: "white", marginBottom: 2 }}>
-          <Grid container sx={{ padding: 2, marginLeft: "15px" }}>
-            <Grid>
-              <p>รหัสวิชา</p>
-            </Grid>
-            <Grid sx={{ marginLeft: "20px" }}>
-              <Box sx={{ width: "250px" }}>
-                <TextField
-                  label="กรอกรหัสวิชา"
-                  variant="outlined"
-                  // type="string"
-                  // value={approval.Request_ID}
-                  onChange={handleInputChangeSearch}
-                />
-              </Box>
-            </Grid>
-            <Grid sx={{ marginTop: "10px" }}>
-              <Button
-                size="medium"
-                variant="contained"
-                onClick={sendSearchedRequestID}
-              >
-                ค้นหา
-                <SvgIcon
-                  sx={{ marginLeft: "5px" }}
-                  component={SearchIcon}
-                  inheritViewBox
-                />
-              </Button>
-            </Grid>
-          </Grid>
-
-          <Box
-            sx={{
-              marginBottom: 1,
-              padding: 2,
-            }}
+            <Alert onClose={handleClose} severity="success">
+              บันทึกข้อมูลสำเร็จ
+            </Alert>
+          </Snackbar>
+          <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="error">
+              {message}
+            </Alert>
+          </Snackbar>
+          <Paper
+            elevation={3}
+            sx={{ bgcolor: "white", padding: 2, marginBottom: 2, boxShadow: 1 }}
           >
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      รหัสคำร้อง
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      รหัสนักศึกษา
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      รหัสวิชา
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      รายวิชา
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      หน่วยกิต
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      กลุ่ม
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      หลักสูตร
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      อาจารย์
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      เหตุผล
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      ประเภทคำร้อง
-                    </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ border: 1 }}>
-                      เลือก
-                    </StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {(rowsPerPage > 0
-                    ? requests.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : requests
-                  ).map((row) => (
-                    <StyledTableRow key={row.Request_ID}>
-                      <StyledTableCell
-                        component="th"
-                        scope="row"
-                        align="center"
-                      >
-                        {row.Request_ID}
-                      </StyledTableCell>
-                      <TableCell component="th" scope="row" align="center">
-                        {row.Student_ID}
-                      </TableCell>
-                      <StyledTableCell
-                        component="th"
-                        scope="row"
-                        align="center"
-                      >
-                        {row.Subject_ID}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.Subject_EN_Name}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.Unit}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.Section}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.Course_Name}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.Professor_Name}
-                      </StyledTableCell>
-                      <TableCell align="center">{row.Reason}</TableCell>
-                      <TableCell align="center">
-                        {row.Request_Type_Name}
-                      </TableCell>
-                      <StyledTableCell>
-                        <IconButton
-                          style={{ color: "#393838" }}
-                          onClick={() => {
-                            approval.Request_ID = row.Request_ID;
-                            approval.Section = row.Section;
-                            request.Request_Type_ID = row.Request_Type_ID;
-
-                            enroll.Student_ID = row.Student_ID;
-                            enroll.Subject_ID = row.Subject_ID;
-                            enroll.Section = row.Section;
-                            enroll.Exam_Schedule_ID = row.Exam_Schedule_ID;
-                            enroll.Class_Schedule_ID = row.Class_Schedule_ID;
-                            console.log(approval.Request_ID);
-                            console.log(approval.Section);
-                            console.log(enroll.Exam_Schedule_ID);
-                            console.log(enroll.Class_Schedule_ID);
-                          }}
-                        >
-                          <AddBoxIcon />
-                        </IconButton>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TablePagination
-                      rowsPerPageOptions={[
-                        5,
-                        10,
-                        25,
-                        { label: "All", value: -1 },
-                      ]}
-                      colSpan={requests.length}
-                      count={requests.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      SelectProps={{
-                        inputProps: {
-                          "aria-label": "rows per page",
-                        },
-                        native: true,
-                      }}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </TableContainer>
-            <Grid container sx={{ padding: 2 }}>
+            <Box
+              display="flex"
+              sx={{
+                marginTop: 1,
+              }}
+            >
               <Grid>
-                <p>เหตุผล</p>
+                <Grid width="550px">
+                  <Typography
+                    component="h2"
+                    variant="h4"
+                    color="#454547"
+                    sx={{
+                      flexGrow: 1,
+                      fontFamily: "Noto Sans Thai",
+                    }}
+                    gutterBottom
+                  >
+                    อนุมัติคำร้องออนไลน์
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "blue",
+                      flexGrow: 1,
+                      fontFamily: "Noto Sans Thai",
+                    }}
+                  >
+                    เพิ่มข้อมูลอนุมัติคำร้องออนไลน์
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid sx={{ padding: 2 }}>
+
+              <Grid sx={{ marginLeft: "150px" }}>
+                <p>รหัสอาจารย์</p>
+              </Grid>
+              <Grid sx={{ marginLeft: "40px" }}>
                 <TextField
-                  label="เหตุผล"
-                  id="Reason"
+                  disabled
+                  id="Professor_ID"
                   variant="outlined"
                   type="string"
-                  size="medium"
-                  value={approval.Reason}
-                  sx={{ width: "50ch" }}
+                  value={approval.Professor_ID}
                   onChange={handleInputChange}
                 />
               </Grid>
-              <Grid sx={{ marginLeft: "200px" }}>
-                <p>ผลการอนุมัติ</p>
+              <Grid sx={{ marginLeft: "40px" }}>
+                <p>ลำดับ</p>
               </Grid>
+              <Grid sx={{ marginLeft: "40px" }}>
+                <TextField
+                  disabled
+                  id="Approval_ID"
+                  variant="outlined"
+                  type="number"
+                  defaultValue={approval.Approval_ID}
+                  value={approval.Approval_ID}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+            </Box>
+          </Paper>
+          <Paper elevation={3} sx={{ bgcolor: "white", marginBottom: 2 }}>
+            <Grid container sx={{ padding: 2, marginLeft: "15px" }}>
               <Grid>
-                <FormControl
+                <p>รหัสวิชา</p>
+              </Grid>
+              <Grid sx={{ marginLeft: "20px" }}>
+                <Box sx={{ width: "250px" }}>
+                  <TextField
+                    label="กรอกรหัสวิชา"
+                    variant="outlined"
+                    // type="string"
+                    // value={approval.Request_ID}
+                    onChange={handleInputChangeSearch}
+                  />
+                </Box>
+              </Grid>
+              <Grid sx={{ marginTop: "10px" }}>
+                <Button
+                  size="medium"
+                  variant="contained"
                   sx={{
-                    m: 1,
-                    minWidth: "50ch",
-                    marginTop: "14px",
-                    marginLeft: "20px",
+                    bgcolor: "#F05A28",
+                    ":hover": {
+                      bgcolor: "#212121",
+                    },
+                    boxShadow: 3,
+                    flexGrow: 1,
+                    fontFamily: "Noto Sans Thai",
                   }}
+                  onClick={sendSearchedRequestID}
                 >
-                  {/* <InputLabel id="Approval_Type_ID">ผลการอนุมัติ</InputLabel> */}
-                  <Select
-                    native
-                    id="Approval_Type_ID"
-                    value={approval.Approval_Type_ID + ""}
-                    onChange={handleSelectChange}
-                    //autoWidth
-                    inputProps={{
-                      name: "Approval_Type_ID",
-                    }}
-                  >
-                    <option aria-label="Noun" value="">
-                      กรุณาเลือกผลการอนุมัติ
-                    </option>
-                    {approval_type.map((item: Approval_TypeInterface) => (
-                      <option
-                        value={item.Approval_Type_ID}
-                        key={item.Approval_Type_ID}
-                      >
-                        {item.Approval_Type_Name}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
+                  ค้นหารายวิชา
+                  <SvgIcon
+                    sx={{ marginLeft: "5px" }}
+                    component={SearchIcon}
+                    inheritViewBox
+                  />
+                </Button>
               </Grid>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              maxWidth="xl"
+
+            <Box
               sx={{
-                bgcolor: "white",
-                width: "auto",
-                height: "auto",
-                padding: 1,
+                marginBottom: 1,
+                padding: 2,
               }}
             >
-              <Button component={RouterLink} to="/approval" variant="contained">
-                ย้อนกลับ
-              </Button>
+              <TableContainer component={Paper} sx={{ boxShadow: 0 }}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        รหัสคำร้อง
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        รหัสนักศึกษา
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        รหัสวิชา
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        รายวิชา
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        หน่วยกิต
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        กลุ่ม
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        หลักสูตร
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        อาจารย์
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        เหตุผล
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        ประเภทคำร้อง
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ border: 1 }}>
+                        เลือก
+                      </StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {(rowsPerPage > 0
+                      ? requests.slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                      : requests
+                    ).map((row) => (
+                      <StyledTableRow key={row.Request_ID}>
+                        <StyledTableCell
+                          component="th"
+                          scope="row"
+                          align="center"
+                        >
+                          {row.Request_ID}
+                        </StyledTableCell>
+                        <TableCell component="th" scope="row" align="center">
+                          {row.Student_ID}
+                        </TableCell>
+                        <StyledTableCell
+                          component="th"
+                          scope="row"
+                          align="center"
+                        >
+                          {row.Subject_ID}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.Subject_EN_Name}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.Unit}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.Section}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.Course_Name}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.Professor_Name}
+                        </StyledTableCell>
+                        <TableCell align="center">{row.Reason}</TableCell>
+                        <TableCell align="center">
+                          {row.Request_Type_Name}
+                        </TableCell>
+                        <StyledTableCell>
+                          <IconButton
+                            sx={{
+                              color: "#393838",
+                              ":hover": {
+                                color: "red",
+                              },
+                              fontFamily: "Noto Sans Thai",
+                            }}
+                            onClick={() => {
+                              approval.Request_ID = row.Request_ID;
+                              approval.Section = row.Section;
+                              request.Request_Type_ID = row.Request_Type_ID;
 
-              <Button
-                style={{ float: "right" }}
-                onClick={submit}
-                variant="contained"
-                color="primary"
+                              enroll.Student_ID = row.Student_ID;
+                              enroll.Subject_ID = row.Subject_ID;
+                              enroll.Section = row.Section;
+                              enroll.Exam_Schedule_ID = row.Exam_Schedule_ID;
+                              enroll.Class_Schedule_ID = row.Class_Schedule_ID;
+                              console.log(approval.Request_ID);
+                              console.log(approval.Section);
+                              console.log(enroll.Exam_Schedule_ID);
+                              console.log(enroll.Class_Schedule_ID);
+                            }}
+                          >
+                            <AddBoxIcon />
+                          </IconButton>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TablePagination
+                        rowsPerPageOptions={[
+                          5,
+                          10,
+                          25,
+                          { label: "All", value: -1 },
+                        ]}
+                        colSpan={requests.length}
+                        count={requests.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        SelectProps={{
+                          inputProps: {
+                            "aria-label": "rows per page",
+                          },
+                          native: true,
+                        }}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
+                    </TableRow>
+                  </TableFooter>
+                </Table>
+              </TableContainer>
+              <Grid container sx={{ padding: 2 }}>
+                <Grid>
+                  <p>เหตุผล</p>
+                </Grid>
+                <Grid sx={{ padding: 2 }}>
+                  <TextField
+                    label="เหตุผล"
+                    id="Reason"
+                    variant="outlined"
+                    type="string"
+                    size="medium"
+                    value={approval.Reason}
+                    sx={{ width: "50ch" }}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid sx={{ marginLeft: "200px" }}>
+                  <p>ผลการอนุมัติ</p>
+                </Grid>
+                <Grid>
+                  <FormControl
+                    sx={{
+                      m: 1,
+                      minWidth: "50ch",
+                      marginTop: "14px",
+                      marginLeft: "20px",
+                    }}
+                  >
+                    {/* <InputLabel id="Approval_Type_ID">ผลการอนุมัติ</InputLabel> */}
+                    <Select
+                      native
+                      id="Approval_Type_ID"
+                      value={approval.Approval_Type_ID + ""}
+                      onChange={handleSelectChange}
+                      //autoWidth
+                      inputProps={{
+                        name: "Approval_Type_ID",
+                      }}
+                    >
+                      <option aria-label="Noun" value="">
+                        กรุณาเลือกผลการอนุมัติ
+                      </option>
+                      {approval_type.map((item: Approval_TypeInterface) => (
+                        <option
+                          value={item.Approval_Type_ID}
+                          key={item.Approval_Type_ID}
+                        >
+                          {item.Approval_Type_Name}
+                        </option>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                maxWidth="xl"
+                sx={{
+                  bgcolor: "white",
+                  width: "auto",
+                  height: "auto",
+                  padding: 1,
+                }}
               >
-                อนุมัติคำร้องออนไลน์
-              </Button>
-            </Grid>
-          </Box>
-        </Paper>
+                <Button
+                  component={RouterLink}
+                  to="/approval"
+                  variant="contained"
+                  sx={{
+                    ":hover": {
+                      bgcolor: "#212121",
+                    },
+                    fontFamily: "Noto Sans Thai",
+                  }}
+                >
+                  ย้อนกลับ
+                </Button>
+
+                <Button
+                  sx={{
+                    backgroundColor: "#F05A28",
+                    float: "right",
+                    fontFamily: "Noto Sans Thai",
+                    ":hover": {
+                      bgcolor: "#212121",
+                    },
+                  }}
+                  onClick={submit}
+                  variant="contained"
+                  color="primary"
+                >
+                  อนุมัติคำร้องออนไลน์
+                </Button>
+              </Grid>
+            </Box>
+          </Paper>
+        </Container>
       </Container>
     </div>
   );

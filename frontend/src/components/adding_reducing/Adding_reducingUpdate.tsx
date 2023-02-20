@@ -4,12 +4,6 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import { useParams } from "react-router-dom";
 
-import TextField from "@mui/material/TextField";
-
-import Button from "@mui/material/Button";
-
-//import FormControl from "@mui/material/FormControl";
-
 import Container from "@mui/material/Container";
 
 import Paper from "@mui/material/Paper";
@@ -33,17 +27,15 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import { EnrollInterface } from "../../models/I_Enroll";
 
-import SearchIcon from "@mui/icons-material/Search";
 
-import FactCheckIcon from "@mui/icons-material/FactCheck";
 
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+
 
 import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
-import {IconButton,MenuItem,SvgIcon,TableFooter,TablePagination,} from "@mui/material";
+import {Button, IconButton,MenuItem,SvgIcon,TableFooter,TablePagination,} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 import { StudentsInterface } from "../../models/I_Student";
@@ -55,16 +47,11 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
 function Adding_reducingUpdate() {
   const navigate = useNavigate();
   const params = useParams();
-  // const [date, setDate] = React.useState<Date | null>(null);
   const [adding_reducing, setAdding_reducing] = React.useState<Partial<Adding_reducingInterface>>({});
-  // const [adding_reducings, setAdding_reducings] = React.useState<Adding_reducingInterface[]>([]);
   const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
-  // const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
-  const [student, setStudent] = React.useState<StudentsInterface[]>([]);
+  const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
   const [subjects, setSubjects] = React.useState<Subject[]>([]);
-  const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
   const [success, setSuccess] = React.useState(false);
-  const [course, setCourse] = React.useState<Course[]>([]);
   const [error, setError] = React.useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -78,35 +65,6 @@ function Adding_reducingUpdate() {
     }
     setSuccess(false);
     setError(false);
-  };
-
-  const handleInputChange = (
-    event: React.ChangeEvent<{ id?: string; value: any }>
-  ) => {
-    const id = event.target.id as keyof typeof Adding_reducingUpdate;
-    const { value } = event.target;
-    setEnroll({ ...enroll, [id]: value });
-    console.log(event.target.value);
-  };
-
-
-
-  const handleInputChangeSearch = (
-    event: React.ChangeEvent<{ id?: string; value: any }>
-  ) => {
-    const id = event.target.id as keyof typeof Adding_reducingUpdate;
-    setSearchSubjectID(event.target.value);
-  };
-
-
-  const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    const name = event.target.name as keyof typeof enroll;
-    setEnroll({
-      ...enroll,
-      [name]: event.target.value,
-    });
-    // getSubjectByCourse(event.target.value);
-    console.log(event.target.value);
   };
 
   const handleChangePage = (
@@ -126,33 +84,25 @@ function Adding_reducingUpdate() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
 
-  const sendSearchedSubjectID = () => {
-    //navigate({ pathname: `/subject/${searchSubjectID}` });
-    setSearchSubjectID(searchSubjectID);//เซ้ตค่าตัวแปรsearchSubjectID
-    getSubjectBySubjectID(searchSubjectID);//เรียกใช้ฟังชั่นโดยนำค่าจากตัวแปรมาใช้
-    //window.location.reload();
-    //console.log(searchSubjectID);
-  };
+ 
+  const getcerantEnroll = async () => {
+    const apiUrl = "http://localhost:8080";
+    const requestOptions = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    };
+    fetch(`${apiUrl}/currentenroll/${params.enroll_id}`, requestOptions)
+        .then((response) => response.json())
+        .then((res) => {
+            console.log(res.data);
+            if (res.data) {
+                setEnrolls(res.data);
+                getSubjectBySubjectID(res.data.Subject_ID, res.data.Enroll_ID);
+                // console.log(res.data);
+            }
 
-  // Declaring a HTTP request for requesting GET method
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#5B98B9",
-      color: theme.palette.common.white,
-      fontSize: 17,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: "white",
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 1,
-    },
-  }));
+        });
+};
 
 
 
@@ -196,25 +146,6 @@ function Adding_reducingUpdate() {
 
 
 //เรียกใช้หังชั่นCreateAdding_reducingonlyเพราะเปลี่ยนกลุ่มในenrollแต่ต้องเก็บประวัติลงในตารางตัวเอง
-const getAdding_reducingonly = async () => {
-  const apiUrl = "http://localhost:8080";
-  const requestOptions = {
-      method: "GET",
-      headers: { 
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json" },
-  };
-  fetch(`${apiUrl}/adding_reducingsonly`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-          console.log(res.data);
-          if (res.data) {
-              setAdding_reducing(res.data);
-              // console.log(res.data);
-          }
-
-      });
-};
 
   const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
@@ -224,60 +155,11 @@ const getAdding_reducingonly = async () => {
       "Content-Type": "application/json" },
   };
 
-  // Fetch income type from API เรียกใช้listcourse เพื่อนำค่ามาใช้ในcombobox โดยใช้ชื่อcourse name
-  const getCourse = async () => {
-    fetch(`${apiUrl}/courses`, requestOptionsGet)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          console.log(res.data);
-          setCourse(res.data);
-        } else {
-          console.log("else");
-        }
-      });
-  };
-  //ListEnrollSubject เพื่อแสดงค่าจากตารางsubject
-  const getSubjects = async () => {
-    const requestOptions = {
-      method: "GET",
-      headers: { 
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json" },
-    };
-    fetch(`${apiUrl}/enrollsub`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          setSubjects(res.data);
-          console.log(res.data);
-        }
-      });
-  };
-//รับค่าเพื่อแสดงในตารางเวลาsearchด้วยsubjectID
-const getSubjectByCourseID = async (course_id: any) => {
-  const requestOptions = {
-      method: "GET",
-      headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json"
-      },
-  };
-  fetch(`${apiUrl}/subjects/${course_id}`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-          console.log(res.data);
-          if (res.data) {
-              setSubjects(res.data);
-          }else {
-              console.log("else");
-          }
-          
-      });
-};  
+ 
+
+
   //ใช้ค้นหารหัสวิชาจากที่เลือกมาใช้
-  const getSubjectBySubjectID = async (subject_id: any) => {
+  const getSubjectBySubjectID = async (subject_id: any,enroll_id: any) => {
     const requestOptions = {
       method: "GET",
       headers: { 
@@ -289,9 +171,10 @@ const getSubjectByCourseID = async (course_id: any) => {
       .then((res) => {
         console.log(res.data)
         if (res.data) {
-          setSearchSubjectID(subject_id);
           setSubjects(res.data);
+          enroll.Enroll_ID = enroll_id
         }
+
       });
   };
 
@@ -312,16 +195,12 @@ const getSubjectByCourseID = async (course_id: any) => {
   };
 
   useEffect(() => {
-    getCourse();
+    
+    getcerantEnroll();
     getStudent();
     getEnrollID();
     getPrevadding_reducing();
-    if (searchSubjectID == "") {
-      getSubjects();
-    } else {
-      getSubjectBySubjectID(searchSubjectID);
-    }
-    console.log(searchSubjectID);   
+      
    
   }, []);
 
@@ -361,7 +240,7 @@ const getSubjectByCourseID = async (course_id: any) => {
         }
       });
 
-
+//เรียกใช้หังชั่นCreateAdding_reducingonlyเพราะเปลี่ยนกลุ่มในenrollแต่ต้องเก็บประวัติลงในตารางตัวเอง
 //สร้างตารางใหม่ของaddingตารางเดียว
       const apiUrl1 = "http://localhost:8080";
       const requestOptionsGet = {
@@ -389,7 +268,8 @@ const getSubjectByCourseID = async (course_id: any) => {
   }
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg"
+    sx ={{bgcolor:"black"}}>
       <Snackbar
         open={success}
         autoHideDuration={6000}
@@ -412,83 +292,14 @@ const getSubjectByCourseID = async (course_id: any) => {
           <Box display={"flex"} sx={{ marginTop: 1 }}>
             <Box sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="h6" color="parmary" gutterBottom>
-                ลงทะเบียนรายวิชา
+                เปลี่ยนกลุ่มลงทะเบียนรายวิชา
               </Typography>
             </Box>
           </Box>
           {/* -------------------------------------------------------------------------------------- */}
-          <Grid container sx={{ marginTop: "3px", marginLeft: 5 }}>
-          <p style={{ paddingLeft: 15 }}>กรุณาเลือกหลักสูตร</p>
-            <Grid>
-             
-              <Box component="form" sx={{ m: -4, width: "40ch", marginTop: -2 }}>
-                <Select
-                  sx={{ ml: 10, mt: 1, width: "50ch" }}
-                  id="Course_ID"
-                  value={enroll.Course_ID}
-                  label="เลือกหลักสูตร"
-                  onChange={handleSelectChange}
-                  inputProps={{
-                    name: "Coures_ID",
-                  }}
-                >
-                  {course.map((item: Course) => (
-                    <MenuItem value={item.Course_ID} key={item.Course_ID}>
-                      {item.Course_Name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Box>
-            </Grid>
-          </Grid>
+          
 
-          <Grid container sx={{ marginTop: "5px", marginLeft: 5 }}>
-           
-              <p style={{ paddingLeft: 17 }}>รหัสวิชา</p>
-              <Box
-                component="form"
-                sx={{
-                  "& .MuiTextField-root": { m: 1, width: "30ch" },
-                  marginTop: -1,
-                  paddingLeft: 14,
-                }}
-              >
-                <TextField
-                  id="Subject_ID"
-                  variant="outlined"
-                  type="string"
-                  // value={adding_reducing.Subject_ID}
-                  onChange={handleInputChangeSearch}
-                />
-              </Box>
-           
-              <Button
-                sx={{ marginBottom: "20px",marginLeft: "10px",width: "21ch" }}
-                size="small"
-                variant="contained"
-                onClick={sendSearchedSubjectID}//เรียกใช้ฟังชั่น
-                
-              >
-                ค้นหารายวิชา
-                <SvgIcon
-                  sx={{ marginLeft: "5px", }}
-                  component={SearchIcon}
-                  inheritViewBox
-                />
-              </Button>
-              {/* <Grid sx={{ marginTop: "63px", marginLeft: 3 }}> */}
-                <Button
-                  sx={{ marginBottom: "20px",marginLeft: "10px",width: "21ch" }}
-                  size="small"
-                  component={RouterLink}
-                  to="/adding_reducing"
-                  variant="contained"
-                  onClick={sendSearchedSubjectID}
-                  endIcon={<FactCheckIcon />}
-                >
-                  ผลการลงทะเบียน
-                </Button>
-              </Grid>
+   
           {/* -------------------------------------------------------------------------------------- */}
           <Grid
             sx={{
@@ -595,6 +406,18 @@ const getSubjectByCourseID = async (course_id: any) => {
               </Table>
             </TableContainer>
           </Grid>
+          <Box flexGrow={1}>
+                    </Box>
+                    <Grid sx={{padding:2}}>
+                        <Button
+                            component={RouterLink}
+                            variant="outlined"
+                            to="/adding_reducing"
+                        >
+                            
+                            กลับ
+                        </Button>
+                    </Grid>
           
         </Paper>
       </div>

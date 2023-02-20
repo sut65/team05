@@ -82,7 +82,7 @@ func main() {
 			// ++++++++++++++++++ Subject Routes ++++++++++++++++++++++++
 			api.GET("/subjects", controller.ListSubjects)
 			api.GET("/prev_subject", controller.GetPreviousSubject)
-			api.GET("/subject/:subject_id", controller.GetSubject)
+			api.GET("/get_subject/:subject_key", controller.GetSubject)
 			api.GET("/subject/:subject_id/:section", controller.GetSubjectBySection)
 			api.POST("/subjects", controller.CreateSubject)
 			api.PATCH("/subjects", controller.UpdateSubjects)
@@ -133,13 +133,16 @@ func main() {
 			api.GET("/approval/:approval_id", controller.GetApproval)
 			api.GET("/previous_approval", controller.GetPreviousApproval)
 			api.POST("/approvals", controller.CreateApproval)
-			api.PATCH("/approvals", controller.UpdateApproval)
 			api.DELETE("/approval/:approval_id", controller.DeleteApproval)
 			api.GET("/approvalprofessor/:approval_id", controller.ListApprovalProfessor)
 			api.GET("/approvalupdate/:approval_id", controller.ListApprovalForUpdate)
 			api.GET("/approvalstudent/:student_id", controller.ListApprovalStudent)
 			api.POST("/approvalandadding", controller.CreateApprovalAdding_reducing)
-			api.PATCH("/approvalandadding", controller.UpdateApprovalAdding_reducing)
+			api.PATCH("/approvalandadding", controller.CreateApprovalAdding_reducingUpdateEnroll)
+			//---update
+			api.PATCH("/approvals", controller.UpdateApproval)
+			api.PATCH("/approvalupdate", controller.UpdateApprovalAdding_reducing)
+			api.PATCH("/approvalupdateEnroll", controller.UpdateApprovalAdding_reducingUpdateEnroll)
 			// Approval_Type
 			api.GET("/approval_types", controller.ListApproval_Type)
 			api.GET("/approval_type/:approval_type_id", controller.GetApproval_Type)
@@ -200,7 +203,7 @@ func main() {
 			api.POST("/adding_reducings", controller.CreateAdding_reducing)
 			api.PATCH("/adding_reducings", controller.UpdateEnrollforadding)
 			api.POST("/adding_reducingsonly", controller.CreateAdding_reducingonly)
-				//---------------------Adding_point--------------------------
+			//---------------------Adding_point--------------------------
 			api.GET("/adding_points/:professor_id", controller.ListAdding_point)
 			api.GET("/adding_point", controller.ListAddingByEnroll)
 			api.GET("/adding_point/:adding_point_id", controller.GetAdding_point)

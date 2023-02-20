@@ -222,7 +222,7 @@ const getSubjectByCourseID = async (course_id: any) => {
 };  
 
 
-
+//ใช้ในการค้นหาว่านศคนไหนเพิ่มจากรหัสที่login เข้ามา
   const getStudent = async () => {
     let uid = localStorage.getItem("id");
     fetch(`${apiUrl}/student/${uid}`, requestOptionsGet)

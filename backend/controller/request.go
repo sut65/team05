@@ -102,6 +102,7 @@ func CreateRequest(c *gin.Context) {
 		Section:         request.Section,
 		Reason:          request.Reason,
 		Request_Type_ID: request.Request_Type_ID,
+		Date_Time: time.Now(),
 	}
 	if _, err := govalidator.ValidateStruct(new_request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -271,6 +272,7 @@ func UpdateRequest(c *gin.Context) {
 		Section:         update_section,
 		Reason:          update_reason,
 		Request_Type_ID: request.Request_Type_ID,
+		Date_Time: time.Now(),
 	}
 
 	if _, err := Validatecheckapproval(strconv.FormatUint(uint64(update_request.Request_ID), 10)); err != nil {

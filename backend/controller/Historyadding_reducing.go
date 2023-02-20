@@ -113,6 +113,7 @@ func CreateAdding_reducing(c *gin.Context) {
 		Student:         student,
 		History_Type_ID: &receive_enroll.History_Type_ID,
 		Enroll_ID:       &receive_enroll.Enroll_ID,
+		Date :		time.Now(),
 	}
 
 	entity.DB().Create(&new_enroll) //สร้างตารางenroll
@@ -206,6 +207,7 @@ func CreateAdding_reducingonly(c *gin.Context) {
 		History_Type_ID: adding_reducing.History_Type_ID,
 		Enroll_ID:       adding_reducing.Enroll_ID,
 		Student_ID:      adding_reducing.Student_ID,
+		Date :		time.Now(),
 	}
 
 	// บันทึก entity request

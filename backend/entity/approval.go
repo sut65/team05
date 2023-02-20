@@ -2,7 +2,7 @@ package entity
 
 import (
 	"regexp"
-
+	"time"
 	validator "github.com/asaskevich/govalidator"
 )
 
@@ -27,6 +27,8 @@ type Approval struct {
 
 	Reason string `valid:"required~Reason cannot be blank,approval_check~Reason cannot be special characters or number,maxstringlength(30)~The reason cannot be more than 30 characters"`
 	// `valid:" required~Reason cannot be blank,approval_check~Reason cannot be special characters or number"`
+
+	Date_Time time.Time
 
 	Approval_Type_ID *string       `valid:"-"`
 	Approval_Type    Approval_Type `gorm:"references:Approval_Type_ID" valid:"-"`

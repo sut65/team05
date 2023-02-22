@@ -157,6 +157,10 @@ function Class_Schedule_Update() {
             Course_Name: course.Course_Name ?? "",
 
             Datetime: datetime,
+            Year:
+            typeof course.Year === "string"
+              ? parseInt(course.Year)
+              : course.Year,
 
             Qualification_ID: course.Qualification_ID ?? "",
 
@@ -421,6 +425,34 @@ function Class_Schedule_Update() {
                    
                </FormControl>
              </Grid>
+
+             <Grid item xs={4} color="#115686" 
+          sx={{  fontFamily : "LilyUPC" ,
+           fontWeight : 'bold' ,fontSize:27}}>
+          <p>อายุ</p>
+
+           <FormControl fullWidth variant="outlined">
+
+             <TextField
+
+               id="Year"
+
+               variant="outlined"
+
+               type="number"
+
+               size="medium"
+
+               value={course.Year}
+
+               onChange={handleInputChange}
+
+             />
+
+           </FormControl>
+
+         </Grid>
+
    
            
    

@@ -275,6 +275,9 @@ function Course_Lists() {
                                                     วันที่
                                                 </StyledTableCell>
                                                 <StyledTableCell width={100} sx={{ border: 1 }}>
+                                                    ปีอายุหลักสูตร
+                                                </StyledTableCell>
+                                                <StyledTableCell width={100} sx={{ border: 1 }}>
                                                     วุฒิ
                                                 </StyledTableCell>
                                                 <StyledTableCell width={100} sx={{ border: 1 }}>
@@ -301,6 +304,7 @@ function Course_Lists() {
                                                     <TableCell>{row.Course_ID}</TableCell>
                                                     <TableCell>{row.Course_Name}</TableCell>
                                                     <TableCell>{row.Datetime.toString()}</TableCell>
+                                                    <TableCell>{row.Year}</TableCell>
                                                     <TableCell>{row.Qualification_ID}</TableCell>
                                                     <TableCell>{row.Major_ID}</TableCell>
                                                     <TableCell>{row.Admin_ID}</TableCell>

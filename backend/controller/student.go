@@ -44,6 +44,7 @@ func CreateStudent(c *gin.Context) {
 		Student_ID:       student.Student_ID,
 		Student_Name:     student.Student_Name,
 		Student_Password: student.Student_Password,
+		Student_Age:      student.Student_Age,
 		Datetime:         student.Datetime.Local(),
 		Course_ID:        student.Course_ID,
 		Dormitory_ID:     student.Dormitory_ID,
@@ -169,6 +170,7 @@ func UpdateStudents(c *gin.Context) {
 	// var updated_Course_ID = course.Course_ID
 	var updated_Student_name = student.Student_Name
 	var updated_Student_password = student.Student_Password
+	var updated_Student_Age = student.Student_Age
 	var updated_Dormitory_name = student.Dormitory_ID
 	var updated_Course_name = student.Course_ID
 	var updated_Admin_name = student.Admin_ID
@@ -194,6 +196,7 @@ func UpdateStudents(c *gin.Context) {
 		Student_ID:       student.Student_ID,
 		Student_Name:     updated_Student_name,
 		Student_Password: updated_Student_password,
+		Student_Age:      updated_Student_Age,
 		Datetime:         updated_Datetime.Local(),
 		Course_ID:        updated_Course_name,
 		Dormitory_ID:     updated_Dormitory_name,

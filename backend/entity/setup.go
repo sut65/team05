@@ -393,6 +393,7 @@ func SetupDatabase() {
 			Student_ID:       "B6311111",
 			Student_Name:     "ปีเตอร์ สงบสุข",
 			Student_Password: string(student1_password),
+			Student_Age:      19,
 			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
@@ -404,6 +405,7 @@ func SetupDatabase() {
 			Student_ID:       "B6200001",
 			Student_Name:     "สมพงษ์ วิ่งวุฒิ",
 			Student_Password: string(student2_password),
+			Student_Age:      20,
 			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
@@ -415,6 +417,7 @@ func SetupDatabase() {
 			Student_ID:       "B6233333",
 			Student_Name:     "สมใจ ใยดี",
 			Student_Password: string(student3_password),
+			Student_Age:      20,
 			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
@@ -426,6 +429,7 @@ func SetupDatabase() {
 			Student_ID:       "B6312345",
 			Student_Name:     "เทพกิต สมพิช",
 			Student_Password: string(student4_password),
+			Student_Age:      20,
 			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
@@ -437,6 +441,7 @@ func SetupDatabase() {
 			Student_ID:       "B6302561",
 			Student_Name:     "วิเดช สุทธิพัฒน์",
 			Student_Password: string(student5_password),
+			Student_Age:      21,
 			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
@@ -1346,23 +1351,23 @@ func SetupDatabase() {
 		}
 		db.Create(&Request2)
 		enroll1 := Enroll{
-			Enroll_ID:      "E001",
-			Student:        student1,
-			Subject:        software_engineering_sec1,
-			Class_Schedule: system_analysis_sec1_class,
-			Exam_Schedule:  system_analysis_midterm,
+			Enroll_ID:         "E001",
+			Student:           student1,
+			Subject:           software_engineering_sec1,
+			Class_Schedule:    system_analysis_sec1_class,
+			Exam_Schedule:     system_analysis_midterm,
 			Enroll_Time_Stamp: time.Now(),
-			Section:        1,
+			Section:           1,
 		}
 
 		enroll2 := Enroll{
-			Enroll_ID:      "E002",
-			Student:        student2,
-			Subject:        operating_system_sec1,
-			Class_Schedule: os_sec1_class,
-			Exam_Schedule:  os_final,
+			Enroll_ID:         "E002",
+			Student:           student2,
+			Subject:           operating_system_sec1,
+			Class_Schedule:    os_sec1_class,
+			Exam_Schedule:     os_final,
 			Enroll_Time_Stamp: time.Now(),
-			Section:        1,
+			Section:           1,
 		}
 		db.Create(&enroll1)
 		db.Create(&enroll2)

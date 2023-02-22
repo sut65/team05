@@ -13,10 +13,15 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
 import Table from "@mui/material/Table";
+
 import TableBody from "@mui/material/TableBody";
+
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+
 import TableContainer from "@mui/material/TableContainer";
+
 import TableHead from "@mui/material/TableHead";
+
 import TableRow from "@mui/material/TableRow";
 
 import Typography from "@mui/material/Typography";
@@ -27,18 +32,14 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import { EnrollInterface } from "../../models/I_Enroll";
 
-
-
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-
-
 import { Subject } from "../../models/I_Subject";
-import { Course } from "../../models/I_Course";
+
 import {Button, IconButton,MenuItem,SvgIcon,TableFooter,TablePagination,} from "@mui/material";
-import { styled } from "@mui/material/styles";
+
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
-import { StudentsInterface } from "../../models/I_Student";
+
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -268,7 +269,7 @@ function Adding_reducingUpdate() {
   }
 
   return (
-    <Container maxWidth="lg"
+    <Container maxWidth="xl"
     sx ={{bgcolor:"black"}}>
       <Snackbar
         open={success}
@@ -310,7 +311,7 @@ function Adding_reducingUpdate() {
             }}
           >
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <Table sx={{ minWidth: 500 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
                     <TableCell align="left">รหัสวิชา</TableCell>

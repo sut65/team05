@@ -1,40 +1,51 @@
 import React, { useEffect } from "react";
+
 import { Link as RouterLink } from "react-router-dom";
+
 import Typography from "@mui/material/Typography";
+
 import Button from "@mui/material/Button";
+
 import Container from "@mui/material/Container";
+
 import Box from "@mui/material/Box";
+
 import Paper from "@mui/material/Paper";
 
-import { Subject } from "../../models/I_Subject";
-import {
-  Stack,
-  Divider,
-  Grid,
-  TextField,
-  SvgIcon,
-  Alert,
-  Snackbar,
-  MenuItem,
-} from "@mui/material";
+import {Stack,Divider,Grid,TextField,SvgIcon,Alert,Snackbar,MenuItem,} from "@mui/material";
+
 import IconButton from "@mui/material/IconButton";
+
 import { styled } from "@mui/material/styles";
+
 import Table from "@mui/material/Table";
+
 import TableBody from "@mui/material/TableBody";
+
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+
 import TableContainer from "@mui/material/TableContainer";
+
 import TableHead from "@mui/material/TableHead";
+
 import TableRow from "@mui/material/TableRow";
+
 import TablePagination from "@mui/material/TablePagination";
+
 import TableFooter from "@mui/material/TableFooter";
+
 import SearchIcon from "@mui/icons-material/Search";
+
 import { useNavigate } from "react-router-dom";
+
 import { useParams } from "react-router-dom";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
 import { Adding_pointInterface } from "../../models/IAdding_point";
-import { GradeInterface } from "../../models/IGrade";
+
 import { EnrollInterface } from "../../models/I_Enroll";
+
 
 function Adding_pointCreate() {
   const [addingpoint, setAdding_point] = React.useState<
@@ -44,7 +55,7 @@ function Adding_pointCreate() {
     Adding_pointInterface[]
   >([]);
  
-  const [subject, setSubject] = React.useState<Subject[]>([]);
+  
   const [enroll, setEnroll] = React.useState<EnrollInterface[]>([]);
   const [searchID, setSearchID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
 
@@ -160,10 +171,6 @@ function Adding_pointCreate() {
       });
       
   };
-
- 
-
-
 
 
 
@@ -430,7 +437,7 @@ const getEnroll = async () => {
                                         เงื่อนไข
                                     </Typography>
           <Typography sx={{ paddingLeft: 2 ,fontFamily:"Times New Roman" }}>
-          A = ดีเยี่ยม ,B+ = ดีมาก ,B = ดี ,C+ = ดีพอใช้ ,C = พอใช้ ,D+ = อ่อน ,D = อ่อนมาก ,F = ตก ,I = การวัดผลยังไม่สมบูรณ์ ,M = นักศึกษาขาดสอบ ,P = การสอนยังไม่สิ้นสุด , <br></br>S = ผลการประเมินเป็นที่พอใจ ,ST = ผลการประเมินเป็นที่พอใจสำหรับรายวิขา ,U = ผลการประเมินไม่เป็นที่พอใจ ,V = ผู้ร่วมเรียน ,W = การถอนรายวิชา ,<br></br>X =ยังไม่ได้รับผลการประเมิน 
+          A = ดีเยี่ยม ,B+ = ดีมาก ,B = ดี ,C+ = ดีพอใช้ ,C = พอใช้ ,D+ = อ่อน ,D = อ่อนมาก ,F = ตก ,I = การวัดผลยังไม่สมบูรณ์ ,M = นักศึกษาขาดสอบ ,P = การสอนยังไม่สิ้นสุด , <br></br>S = ผลการประเมินเป็นที่พอใจ ,ST = ผลการประเมินเป็นที่พอใจสำหรับรายวิชา ,U = ผลการประเมินไม่เป็นที่พอใจ ,V = ผู้ร่วมเรียน ,W = การถอนรายวิชา ,<br></br>X =ยังไม่ได้รับผลการประเมิน 
           </Typography>
                                     
           </Box>

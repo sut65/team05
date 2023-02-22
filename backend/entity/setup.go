@@ -1476,6 +1476,81 @@ func SetupDatabase() {
 			Description: "ดีมาก",
 		}
 		db.Create(&Grade2)
+		Grade3 := Grade{
+			Grade_ID:    "B",
+			Description: "ดี",
+		}
+		db.Create(&Grade3)
+		Grade4 := Grade{
+			Grade_ID:    "C+",
+			Description: "ดีพอใช้",
+		}
+		db.Create(&Grade4)
+		Grade5 := Grade{
+			Grade_ID:    "C",
+			Description: "พอใช้",
+		}
+		db.Create(&Grade5)
+		Grade6 := Grade{
+			Grade_ID:    "D+",
+			Description: "อ่อน",
+		}
+		db.Create(&Grade6)
+		Grade7 := Grade{
+			Grade_ID:    "D",
+			Description: "อ่อนมาก",
+		}
+		db.Create(&Grade7)
+		Grade8 := Grade{
+			Grade_ID:    "F",
+			Description: "ตก",
+		}
+		db.Create(&Grade8)
+		Grade9 := Grade{
+			Grade_ID:    "I",
+			Description: "การวัดผลยังไม่สมบูรณ์",
+		}
+		db.Create(&Grade9)
+		Grade10 := Grade{
+			Grade_ID:    "M",
+			Description: "นักศึกษาขาดสอบ",
+		}
+		db.Create(&Grade10)
+		Grade11 := Grade{
+			Grade_ID:    "P",
+			Description: "การสอนยังไม่สิ้นสุด",
+		}
+		db.Create(&Grade11)
+		Grade12 := Grade{
+			Grade_ID:    "S",
+			Description: "ผลการประเมินเป็นที่พอใจ",
+		}
+		db.Create(&Grade12)
+		Grade13 := Grade{
+			Grade_ID:    "ST",
+			Description: "ผลการประเมินเป็นที่พอใจสำหรับรายวิชา",
+		}
+		db.Create(&Grade13)
+		Grade14 := Grade{
+			Grade_ID:    "U",
+			Description: "ผลการประเมินไม่เป็นที่พอใจ",
+		}
+		db.Create(&Grade14)
+		Grade15 := Grade{
+			Grade_ID:    "V",
+			Description: "ผู้ร่วมเรียน",
+		}
+		db.Create(&Grade15)
+		Grade16 := Grade{
+			Grade_ID:    "W",
+			Description: "การถอนรายวิชา",
+		}
+		db.Create(&Grade16)
+		Grade17 := Grade{
+			Grade_ID:    "X",
+			Description: "ยังไม่ได้รับผลการประเมิน",
+		}
+		db.Create(&Grade17)
 
 		//adding point
 

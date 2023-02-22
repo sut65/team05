@@ -42,6 +42,8 @@ type Course struct {
 	Course_Name string `valid:"coursenamechecklanguage~Course Name cannot be English Language,maxstringlength(35)~Course Name can not greater than 35 character,required~Course Name cannot be null"`
 
 	Datetime time.Time `valid:"datetimecheckfuture~Datetime cannot be future"`
+	
+	Year uint 
 
 	Qualification_ID *string       `valid:"-"`
 	Qualification    Qualification `gorm:"references:Qualification_ID" valid:"-"`

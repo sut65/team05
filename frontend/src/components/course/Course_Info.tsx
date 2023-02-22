@@ -150,6 +150,12 @@ function CourseInfo() {
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Datetime.toString()}
                             </Box>
                         </Grid>
+
+                        <Grid container sx={{}}>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> ปีอายุหลักสูตร </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {course?.Year}
+                            </Box>
+                        </Grid>
                       
 
                         <Grid container sx={{}}>

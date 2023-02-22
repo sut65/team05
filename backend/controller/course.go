@@ -43,6 +43,7 @@ func CreateCourse(c *gin.Context) {
 		Course_ID:        course.Course_ID,
 		Course_Name:      course.Course_Name,
 		Datetime:         course.Datetime.Local(),
+		Year:             course.Year,
 		Major_ID:         course.Major_ID,
 		Qualification_ID: course.Qualification_ID,
 		Admin_ID:         course.Admin_ID,
@@ -162,6 +163,7 @@ func UpdateCourses(c *gin.Context) {
 	var updated_Major_name = course.Major_ID
 	var updated_Admin_name = course.Admin_ID
 	var updated_Datetime = course.Datetime
+	var updated_Year = course.Year
 	// var updated_Qualification_ID = course.Qualification_ID
 	// var updated_Major_ID = course.Major_ID
 
@@ -183,6 +185,7 @@ func UpdateCourses(c *gin.Context) {
 		Course_ID:        course.Course_ID,
 		Course_Name:      updated_Course_name,
 		Datetime:         updated_Datetime.Local(),
+		Year:             updated_Year,
 		Qualification_ID: updated_Qualification_name,
 		Major_ID:         updated_Major_name,
 		Admin_ID:         updated_Admin_name,

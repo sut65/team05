@@ -156,6 +156,12 @@ function StudentInfo() {
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Datetime.toString()}
                             </Box>
                         </Grid>
+
+                        <Grid container sx={{}}>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> อายุ </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Student_Age.toString()}
+                            </Box>
+                        </Grid>
                     
                         <Grid container sx={{}}>
                             <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> หลักสูตร </Box>

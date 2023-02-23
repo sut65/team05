@@ -35,6 +35,9 @@ import styled from "@emotion/styled";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import Home_Navbar from "../navbars/Home_navbar";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+
 const apiUrl = "http://localhost:8080";
 const requestOptions = {
     method: "GET",
@@ -371,22 +374,27 @@ function Course_Lists() {
                                 fontSize: 20,
                                 maxWidth: "false",
                             }}>
+                            <Paper sx={{
+                                bgcolor: "#B2BFE6",height: 50}}>
                             <Typography variant="h5" sx={{ margin: 0.5, padding: 1 }}> รายละเอียดตัวย่อคณะสาขาวิชา </Typography>
+                            </Paper>
                             <Stack direction="row" sx={{ margin: 0.5 }}>
+                             
 
 
                             </Stack>
                         </Box>
-                        <Paper>
+                        <Paper sx={{
+                                bgcolor: "#E6E4E3",height: 460}}>
                         <Box flexGrow={5} className="Status_Component"
                             sx={{
                                 bgcolor: "#E6E4E3",
-                                margin: 1,
+                                m:1,
                                 fontSize: 20,
                                 maxWidth: "false",
                             }}>
-                            <Stack sx={{ margin: 3, }}>
-                                <Typography sx={{ mb: 1 }}>CPE - Computer Engineering </Typography>
+                            <Stack sx={{ margin: 3,}}>
+                                <Typography sx={{ mb: 1 ,mt:4}}>CPE - Computer Engineering </Typography>
                                 <Typography sx={{ mb: 1 }}>EE - Electrical Engineering</Typography>
                                 <Typography sx={{ mb: 1 }}>ELEC - Electronic Engineering</Typography>
                                 <Typography sx={{ mb: 1 }}>PE - Polymer Engineering</Typography>
@@ -403,19 +411,27 @@ function Course_Lists() {
                             </Stack>
                             </Box>
                         </Paper>
-                        <Paper >
-                            <Stack sx={{ margin: 3, fontSize:16 , bgcolor:"#F59392"}} color="#9A4600" >
-                                <p><b>*ท่านสามารถใช้คำสั่งค้นหา เป็นเครื่องมือช่วยค้นหารหัสหลักสูตร*</b></p>
-                                <p><b>*You can use Search as a tool to help find the course id.*</b></p>
+                        <Paper sx={{
+                                bgcolor: "#FC3A00",height: 125}}>
+                            <Stack sx={{ margin: 0.5, fontSize:16 , bgcolor:"#EEEEEA"}} color="#40403E" >
+                                <p><b><WarningAmberIcon/>ท่านสามารถใช้ตัวช่วยในช่องค้นหาในการค้นหารหัสหลักสูตร</b></p>
+                                <p><b><WarningAmberIcon/>You can use Search as a tool to help find the course id.</b></p>
 
                             </Stack>
                         </Paper>
                     </Box>
 
                 </Grid>
+                
 
 
             </Container>
+            <Grid sx={{ml:5 , mt:2 ,mb:2}}>
+            <Button component={RouterLink} to="/home" variant="contained" color="warning" >
+           <ArrowBackIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
+             ย้อนกลับ
+           </Button>
+           </Grid>
         </div>
     );
 }

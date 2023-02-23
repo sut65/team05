@@ -16,7 +16,7 @@ import Table from "@mui/material/Table";
 
 import TableBody from "@mui/material/TableBody";
 
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 
 import TableContainer from "@mui/material/TableContainer";
 
@@ -36,7 +36,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { Subject } from "../../models/I_Subject";
 
-import {Button, IconButton,MenuItem,SvgIcon,TableFooter,TablePagination,} from "@mui/material";
+import {Button, IconButton,TableFooter,TablePagination,} from "@mui/material";
 
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 
@@ -99,7 +99,6 @@ function Adding_reducingUpdate() {
             if (res.data) {
                 setEnrolls(res.data);
                 getSubjectBySubjectID(res.data.Subject_ID, res.data.Enroll_ID);
-                // console.log(res.data);
             }
 
         });
@@ -297,11 +296,7 @@ function Adding_reducingUpdate() {
               </Typography>
             </Box>
           </Box>
-          {/* -------------------------------------------------------------------------------------- */}
           
-
-   
-          {/* -------------------------------------------------------------------------------------- */}
           <Grid
             sx={{
               marginTop: "20px",

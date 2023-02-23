@@ -38,6 +38,7 @@ import styled from "@emotion/styled";
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Home_Navbar from "../navbars/Home_navbar";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 const apiUrl = "http://localhost:8080";
@@ -154,8 +155,7 @@ function Students_List() {
                             marginTop: 2,
                         }}
                     >
-                        <Home_Navbar></Home_Navbar>
-                                    <Toolbar></Toolbar>
+                        
                         <Box flexGrow={1}>
                             <Typography
                                 component="h2"
@@ -163,6 +163,8 @@ function Students_List() {
                                 color="primary"
                                 gutterBottom
                             >
+                                <Home_Navbar></Home_Navbar>
+                        <Toolbar></Toolbar>
                                 <Paper
                                     elevation={0}
                                     sx={{
@@ -363,6 +365,12 @@ function Students_List() {
 
                 </Grid>
             </Container>
+            <Grid sx={{ml:5 , mt:2 ,mb:2}}>
+            <Button component={RouterLink} to="/home" variant="contained" color="warning" >
+           <ArrowBackIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
+             ย้อนกลับ
+           </Button>
+           </Grid>
 
         </div>
 

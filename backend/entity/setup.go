@@ -2027,6 +2027,7 @@ func SetupDatabase() {
 		///-----------------------Adding_reducing------------------------
 		Adding_reducing1 := Adding_reducing{
 			Change_ID:   1,
+			Date:	time.Now(),
 			HistoryType: HistoryType1,
 			Enroll:      enroll1,
 			Student:     student1,
@@ -2035,19 +2036,13 @@ func SetupDatabase() {
 
 		Adding_reducing2 := Adding_reducing{
 			Change_ID:   2,
+			Date:	time.Now(),
 			HistoryType: HistoryType2,
 			Enroll:      enroll2,
 			Student:     student2,
 		}
 		db.Create(&Adding_reducing2)
-		// Adding_reducing3 := Adding_reducing{
-		// 	Change_ID: 3,
-		// 	Status:    "เปลี่ยนกลุ่ม",
-		// 	HistoryType	:	HistoryType3,
-		// 	Enroll:    enroll3,
-		// 	Student :   student3,
-		// }
-		// db.Create(&Adding_reducing3)
+		
 
 		//grade
 		Grade1 := Grade{
@@ -2140,6 +2135,7 @@ func SetupDatabase() {
 
 		Adding_point1 := Adding_point{
 			Adding_point_ID: 1,
+			Date: time.Now(),
 			Professor:       professor1,
 			Enroll:          enroll1,
 			Grade:           Grade1,
@@ -2148,6 +2144,7 @@ func SetupDatabase() {
 
 		Adding_point2 := Adding_point{
 			Adding_point_ID: 2,
+			Date: time.Now(),
 			Professor:       professor2,
 			Enroll:          enroll2,
 			Grade:           Grade2,

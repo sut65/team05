@@ -6,12 +6,11 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
-import { Subject } from "../../models/I_Subject";
-import { Stack, Divider, Grid, Toolbar } from "@mui/material";
+
+import { Grid, Toolbar } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CreateIcon from "@mui/icons-material/Create";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -22,21 +21,19 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import TableFooter from "@mui/material/TableFooter";
-import SearchIcon from "@mui/icons-material/Search";
+
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { SelectChangeEvent } from "@mui/material/Select";
+
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 import { EnrollInterface } from "../../models/I_Enroll";
-import { StudentsInterface } from "../../models/I_Student";
+
 import Home_Navbar from "../navbars/Home_navbar";
 
 function Adding_reducingCreate() {
   const [adding_reducing, setAdding_reducing] = React.useState<Partial<Adding_reducingInterface>>({});
   const [adding_reducings, setAdding_reducings] = React.useState<Adding_reducingInterface[]>([]);
   const [enroll, setEnroll] = React.useState<EnrollInterface[]>([]);
-  // const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
-  const [student, setStudent] = React.useState<StudentsInterface[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchEnrollID, setSearchEnrollID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
@@ -61,13 +58,6 @@ function Adding_reducingCreate() {
 
   const apiUrl = "http://localhost:8080";
 
-  // //update
-  // const toUpdateRequestPage = () => {
-  //   navigate({
-  //     pathname: `/update/${adding_reducing.Change_ID}`,
-  //   });
-  //   // window.location.reload()
-  // };
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - adding_reducings.length) : 0;

@@ -217,7 +217,7 @@ func GetPreviousAdding_point(c *gin.Context) {
 
 
 
-//เอาค่ากลุ่มกับรหัสมากรองชื่อทั้งหมด  รับค่าprofessorมากรองรหัสวิชา
+//เอาค่าsubject_idมากรองชื่อทั้งหมดรับจากtextbox แล้วกดค้นหา ค้นหาในตารางenroll  รับค่าprofessorมากรองรหัสวิชารับมาจากloginในตารางของsubject
 func GetSubjectByProfessorandStudenByEnroll(c *gin.Context) {
 	var  subject []extendedAdding_point
 	professor_id := c.Param("professor_id")

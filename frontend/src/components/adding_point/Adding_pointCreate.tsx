@@ -146,7 +146,7 @@ function Adding_pointCreate() {
 
     const sendSearchedID = () => {
  
-      getSubjectByProfessorandStudenByEnroll(searchID);//เรียกใช้ฟังชั่นโดยนำค่าจากตัวแปรมาใช้
+      getSubjectByProfessorandStudenByEnroll(searchID);//เรียกใช้ฟังชั่นโดยนำค่าจากtextboxมาเข้าฟังก์ชั่นแล้วselectออกมา
     };
   
 
@@ -170,7 +170,7 @@ function Adding_pointCreate() {
 
 
 
-// //ดึง id enrollมาใช้เพื่อเช้คว่าใครลงรหัสรายวิชานี้บ้าง
+// //ดึง id enrollมาใช้เพื่อเช้คว่าใครลงรหัสรายวิชานี้บ้างของอาจารที่lloginเข้ามา
 const getEnroll = async () => {
   const requestOptions = {
       method: "GET",

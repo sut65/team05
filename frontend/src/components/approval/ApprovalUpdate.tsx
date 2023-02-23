@@ -45,6 +45,7 @@ import { useParams } from "react-router-dom";
 import { AppBar } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Home_Navbar from "../navbars/Home_navbar";
+import Swal from "sweetalert2";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -61,7 +62,7 @@ function ApprovalUpdate() {
   );
   const [approval_type, setApproval_Type] = React.useState<
     Approval_TypeInterface[]
-    >([]);
+  >([]);
   const [request, setRequest] = React.useState<Partial<RequestInterface>>({});
   const [requests, setRequests] = React.useState<RequestInterface[]>([]);
   // const [student, setStudent] = React.useState<
@@ -77,7 +78,7 @@ function ApprovalUpdate() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
   const [adding_reducing, setAdding_reducing] = React.useState<
-  Partial<Adding_reducingInterface>
+    Partial<Adding_reducingInterface>
   >({});
   const navigate = useNavigate();
   const params = useParams();
@@ -207,23 +208,23 @@ function ApprovalUpdate() {
       });
   };
 
- const getRequests = async (request_id: any) => {
-   const approvalOptions = {
-     method: "GET",
-     headers: {
-       Authorization: `Bearer ${localStorage.getItem("token")}`,
-       "Content-Type": "application/json",
-     },
-   };
-   fetch(`${apiUrl}/request/${request_id}`, approvalOptions)
-     .then((response) => response.json())
-     .then((res) => {
-       if (res.data) {
-         setRequest(res.data);
-         console.log(res.data);
-       }
-     });
- };
+  const getRequests = async (request_id: any) => {
+    const approvalOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    };
+    fetch(`${apiUrl}/request/${request_id}`, approvalOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setRequest(res.data);
+          console.log(res.data);
+        }
+      });
+  };
   useEffect(() => {
     getApproval_Type();
     getCurrentApproval();
@@ -232,43 +233,43 @@ function ApprovalUpdate() {
   }, []);
 
   function submitUpdate() {
-     if (request.Request_Type_ID == "R01") {
-       adding_reducing.History_Type_ID = "HT1";
-     }
-     if (request.Request_Type_ID == "R02") {
-       adding_reducing.History_Type_ID = "HT3";
-     }
-     let data = {
-       Approval_ID:
-         typeof approval.Approval_ID === "string"
-           ? parseInt(approval.Approval_ID)
-           : approval.Approval_ID,
-       Professor_ID: localStorage.getItem("id"),
-       Request_ID:
-         typeof approval.Request_ID === "string"
-           ? parseInt(approval.Request_ID)
-           : approval.Request_ID,
-       Section: approval.Section ?? "",
-       Reason: approval.Reason ?? "",
-       Approval_Type_ID: approval.Approval_Type_ID ?? "",
+    if (request.Request_Type_ID == "R01") {
+      adding_reducing.History_Type_ID = "HT1";
+    }
+    if (request.Request_Type_ID == "R02") {
+      adding_reducing.History_Type_ID = "HT3";
+    }
+    let data = {
+      Approval_ID:
+        typeof approval.Approval_ID === "string"
+          ? parseInt(approval.Approval_ID)
+          : approval.Approval_ID,
+      Professor_ID: localStorage.getItem("id"),
+      Request_ID:
+        typeof approval.Request_ID === "string"
+          ? parseInt(approval.Request_ID)
+          : approval.Request_ID,
+      Section: approval.Section ?? "",
+      Reason: approval.Reason ?? "",
+      Approval_Type_ID: approval.Approval_Type_ID ?? "",
 
-       //update enroll
-       Enroll_ID: enroll.Enroll_ID ?? "",
-       Student_ID: enroll.Student_ID ?? "",
-       Subject_ID: approvals[0].Subject_ID,
-       Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
-       Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
-       Change_ID:
-         typeof adding_reducing.Change_ID === "string"
-           ? parseInt(adding_reducing.Change_ID)
-           : adding_reducing.Change_ID,
-       // History_Type_ID: (adding_reducing.History_Type_ID = "HT1"),
-       History_Type_ID: adding_reducing.History_Type_ID ?? "",
-     };
-     console.log(data);
+      //update enroll
+      Enroll_ID: enroll.Enroll_ID ?? "",
+      Student_ID: enroll.Student_ID ?? "",
+      Subject_ID: approvals[0].Subject_ID,
+      Exam_Schedule_ID: enroll.Exam_Schedule_ID ?? "",
+      Class_Schedule_ID: enroll.Class_Schedule_ID ?? "",
+      Change_ID:
+        typeof adding_reducing.Change_ID === "string"
+          ? parseInt(adding_reducing.Change_ID)
+          : adding_reducing.Change_ID,
+      // History_Type_ID: (adding_reducing.History_Type_ID = "HT1"),
+      History_Type_ID: adding_reducing.History_Type_ID ?? "",
+    };
+    console.log(data);
 
     // const apiUrl = "http://localhost:8080/approvals";
-    
+
     //จะตรวจสอบก่อนว่าอาจารย์เลือกผลอนุมัติ เป็น "อนุมัติ" ไหม ถ้าเลือกแล้วจะแก้ไขไม่ได้
     //ถ้าเลือกผลอนุมัติ เป็น "ไม่อนุมัติ" จะสามารถแก้ไขได้
     //โดยถ้าแก้ไขจากไม่อนุมัติเป็นอนุมัติจะตรวจสอบเงื่อนไขด้านล่าง
@@ -279,6 +280,7 @@ function ApprovalUpdate() {
         //ถ้าอาจารย์เลือก ผลการอนุมัติ "อนุมัติ"
         //จะไปลงทะเบียนเรียนรายวิชานั้นที่ตาราง enroll ในรายวิชานั้น และเพิ่มประวัติ การเพิ่มรายวิชา
         //จะไป update ตาราง approval ด้วย
+        const apiUrl = "http://localhost:8080/approvalupdate";
         const approvalOptions = {
           method: "PATCH",
           headers: {
@@ -289,20 +291,54 @@ function ApprovalUpdate() {
         };
         console.log(JSON.stringify(data));
 
-        fetch(`${apiUrl}/approvalupdate`, approvalOptions)
-          .then((response) => response.json())
-          .then((res) => {
-            console.log(res);
-            if (res.data) {
-              setSuccess(true);
-            } else {
-              setAlertMessage(res.error);
-              setError(true);
-            }
-          });
+        Swal.fire({
+          title:
+            "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
+            "รหัสนักศึกษา " +
+            request?.Student_ID +
+            "\n รายวิชา " +
+            data.Subject_ID +
+            "\n กลุ่ม " +
+            data.Section,
+          icon: "warning",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "อนุมัติคำร้องออนไลน์",
+          denyButtonText: `ยกเลิก`,
+        }).then((data) => {
+          if (data.isConfirmed) {
+            fetch(apiUrl, approvalOptions)
+              .then((response) => response.json())
+              .then((res) => {
+                console.log(res);
+                if (res.data) {
+                  console.log(res.data);
+                  Swal.fire({
+                    icon: "success",
+                    title:
+                      "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
+                      "รหัสนักศึกษา " +
+                      res.request?.Student_ID +
+                      "\n รายวิชา " +
+                      res.data.Subject_ID +
+                      "\n กลุ่ม " +
+                      res.data.Section,
+                    text: "Success",
+                  });
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อมูลผิดพลาด !",
+                    text: res.error,
+                  });
+                }
+              });
+          }
+        });
       } else {
         //ถ้าอาจารย์เลือก ผลการอนุมัติ "ไม่อนุมัติ"
         //update แค่ตาราง approval
+        const apiUrl = "http://localhost:8080/approvals";
         const approvalOptions = {
           method: "PATCH",
           headers: {
@@ -313,17 +349,50 @@ function ApprovalUpdate() {
         };
         console.log(JSON.stringify(data));
 
-        fetch(`${apiUrl}/approvals`, approvalOptions)
-          .then((response) => response.json())
-          .then((res) => {
-            console.log(res);
-            if (res.data) {
-              setSuccess(true);
-            } else {
-              setAlertMessage(res.error);
-              setError(true);
-            }
-          });
+        Swal.fire({
+          title:
+            "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
+            "รหัสนักศึกษา " +
+            request?.Student_ID +
+            "\n รายวิชา " +
+            data.Subject_ID +
+            "\n กลุ่ม " +
+            data.Section,
+          icon: "warning",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "อนุมัติคำร้องออนไลน์",
+          denyButtonText: `ยกเลิก`,
+        }).then((data) => {
+          if (data.isConfirmed) {
+            fetch(apiUrl, approvalOptions)
+              .then((response) => response.json())
+              .then((res) => {
+                console.log(res);
+                if (res.data) {
+                  console.log(res.data);
+                  Swal.fire({
+                    icon: "success",
+                    title:
+                      "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
+                      "รหัสนักศึกษา " +
+                      res.request?.Student_ID +
+                      "\n รายวิชา " +
+                      res.data.Subject_ID +
+                      "\n กลุ่ม " +
+                      res.data.Section,
+                    text: "Success",
+                  });
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อมูลผิดพลาด !",
+                    text: res.error,
+                  });
+                }
+              });
+          }
+        });
       }
     } else {
       //ถ้านักศึกษายื่นคำร้อง ประเภท เปลี่ยนกลุ่ม
@@ -331,7 +400,7 @@ function ApprovalUpdate() {
         //ถ้าอาจารย์เลือก ผลการอนุมัติ "อนุมัติ"
         //จะไปเปลี่ยนกลุ่มที่ตาราง enroll ในรายวิชานั้น และเพิ่มประวัติ การเปลี่ยนกลุ่ม
         //จะไป update ตาราง approval ด้วย
-        const apiUrl = "http://localhost:8080";
+        const apiUrl = "http://localhost:8080/approvalupdateEnroll";
         const requestOptions = {
           method: "PATCH",
           headers: {
@@ -340,20 +409,55 @@ function ApprovalUpdate() {
           },
           body: JSON.stringify(data),
         };
-        fetch(`${apiUrl}/approvalupdateEnroll`, requestOptions)
-          .then((response) => response.json())
-          .then((res) => {
-            console.log(res);
-            if (res.data) {
-              setSuccess(true);
-            } else {
-              setAlertMessage(res.error);
-              setError(true);
-            }
-          });
+
+        Swal.fire({
+          title:
+            "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
+            "รหัสนักศึกษา " +
+            request?.Student_ID +
+            "\n รายวิชา " +
+            data.Subject_ID +
+            "\n กลุ่ม " +
+            data.Section,
+          icon: "warning",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "อนุมัติคำร้องออนไลน์",
+          denyButtonText: `ยกเลิก`,
+        }).then((data) => {
+          if (data.isConfirmed) {
+            fetch(apiUrl, requestOptions)
+              .then((response) => response.json())
+              .then((res) => {
+                console.log(res);
+                if (res.data) {
+                  console.log(res.data);
+                  Swal.fire({
+                    icon: "success",
+                    title:
+                      "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
+                      "รหัสนักศึกษา " +
+                      res.request?.Student_ID +
+                      "\n รายวิชา " +
+                      res.data.Subject_ID +
+                      "\n กลุ่ม " +
+                      res.data.Section,
+                    text: "Success",
+                  });
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อมูลผิดพลาด !",
+                    text: res.error,
+                  });
+                }
+              });
+          }
+        });
       } else {
         //ถ้าอาจารย์เลือก ผลการอนุมัติ "ไม่อนุมัติ"
         //update แค่ตาราง approval
+        const apiUrl = "http://localhost:8080/approvals";
         const approvalOptions = {
           method: "PATCH",
           headers: {
@@ -364,17 +468,50 @@ function ApprovalUpdate() {
         };
         console.log(JSON.stringify(data));
 
-        fetch(`${apiUrl}/approvals`, approvalOptions)
-          .then((response) => response.json())
-          .then((res) => {
-            console.log(res);
-            if (res.data) {
-              setSuccess(true);
-            } else {
-              setAlertMessage(res.error);
-              setError(true);
-            }
-          });
+        Swal.fire({
+          title:
+            "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
+            "รหัสนักศึกษา " +
+            request?.Student_ID +
+            "\n รายวิชา " +
+            data.Subject_ID +
+            "\n กลุ่ม " +
+            data.Section,
+          icon: "warning",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "อนุมัติคำร้องออนไลน์",
+          denyButtonText: `ยกเลิก`,
+        }).then((data) => {
+          if (data.isConfirmed) {
+            fetch(apiUrl, approvalOptions)
+              .then((response) => response.json())
+              .then((res) => {
+                console.log(res);
+                if (res.data) {
+                  console.log(res.data);
+                  Swal.fire({
+                    icon: "success",
+                    title:
+                      "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
+                      "รหัสนักศึกษา " +
+                      res.request?.Student_ID +
+                      "\n รายวิชา " +
+                      res.data.Subject_ID +
+                      "\n กลุ่ม " +
+                      res.data.Section,
+                    text: "Success",
+                  });
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อมูลผิดพลาด !",
+                    text: res.error,
+                  });
+                }
+              });
+          }
+        });
       }
     }
   }
@@ -387,7 +524,7 @@ function ApprovalUpdate() {
           width: "auto",
           height: "auto",
           p: 2,
-          bgcolor: "#F8F8F8",
+          bgcolor: "#DADADA",
           flexGrow: 1,
           fontFamily: "Noto Sans Thai",
         }}
@@ -395,7 +532,7 @@ function ApprovalUpdate() {
         <Container
           maxWidth="xl"
           sx={{
-            bgcolor: "#F8F8F8",
+            bgcolor: "#DADADA",
             width: "auto",
             height: "auto",
             padding: 2,

@@ -31,6 +31,7 @@ import { ApprovalInterface } from "../../models/I_Approval";
 import { Approval_TypeInterface } from "../../models/I_Approval_Type";
 import Home_Navbar from "../navbars/Home_navbar";
 
+
 function Approval() {
   const [approval, setApproval] = React.useState<Partial<ApprovalInterface>>(
     {}
@@ -95,27 +96,6 @@ function Approval() {
         }
       });
   };
-  //delete
-  // const deleteApproval = async (approval_id: number) => {
-  //   console.log("good");
-  //   const requestOptions = {
-  //     method: "DELETE",
-  //     headers: { 
-  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       "Content-Type": "application/json" },
-  //   };
-  //   fetch(`${apiUrl}/approval/${approval_id}`, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         console.log("Data remove");
-  //         window.location.href = "/approval";
-  //       } else {
-  //         console.log("Something was wrong!!");
-  //       }
-  //     });
-  // };
-
   //table
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -166,7 +146,7 @@ function Approval() {
           width: "auto",
           height: "auto",
           p: 2,
-          bgcolor: "#F3F3F3",
+          bgcolor: "#DADADA",
           flexGrow: 1,
           fontFamily: "Noto Sans Thai",
         }}
@@ -174,7 +154,7 @@ function Approval() {
         <Container
           maxWidth="xl"
           sx={{
-            bgcolor: "#F3F3F3",
+            bgcolor: "#DADADA",
             width: "auto",
             height: "auto",
             padding: 2,

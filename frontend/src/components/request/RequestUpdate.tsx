@@ -43,6 +43,7 @@ import { useParams } from "react-router-dom";
 import { AppBar } from "@mui/material";
 import Home_Navbar from "../navbars/Home_navbar";
 import SendIcon from "@mui/icons-material/Send";
+import Swal from "sweetalert2";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -238,7 +239,7 @@ const [message, setAlertMessage] = React.useState("");
     };
     console.log(data);
 
-    // const apiUrl = "http://localhost:8080/requests";
+    const apiUrl = "http://localhost:8080/requests";
     const requestOptions = {
       method: "PATCH",
       headers: {
@@ -249,17 +250,44 @@ const [message, setAlertMessage] = React.useState("");
     };
     console.log(JSON.stringify(data));
 
-    fetch(`${apiUrl}/requests`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-      if (res.data) {
-        setSuccess(true);
-      } else {
-        setAlertMessage(res.error);
-        setError(true);
-      }
-      });
+     Swal.fire({
+       title:
+         "คุณต้องการยื่นคำร้องในรายวิชา  " +
+         data.Subject_ID +
+         " กลุ่ม " +
+         data.Section,
+       icon: "warning",
+       showDenyButton: true,
+       showCancelButton: false,
+       confirmButtonText: "ยื่นคำร้องออนไลน์",
+       denyButtonText: `ยกเลิก`,
+     }).then((data) => {
+       if (data.isConfirmed) {
+         fetch(apiUrl, requestOptions)
+           .then((response) => response.json())
+           .then((res) => {
+             console.log(res);
+             if (res.data) {
+               console.log(res.data);
+               Swal.fire({
+                 icon: "success",
+                 title:
+                   "คุณได้ลงทะเบียนในรายวิชา \n" +
+                   res.data.Subject_ID +
+                   " กลุ่มที่ " +
+                   res.data.Section,
+                 text: "Success",
+               });
+             } else {
+               Swal.fire({
+                 icon: "error",
+                 title: "เกิดข้อมูลผิดพลาด !",
+                 text: res.error,
+               });
+             }
+           });
+       }
+     });
   }
 
   return (
@@ -270,7 +298,7 @@ const [message, setAlertMessage] = React.useState("");
           width: "auto",
           height: "auto",
           p: 2,
-          bgcolor: "#F8F8F8",
+          bgcolor: "#DADADA",
           flexGrow: 1,
           fontFamily: "Noto Sans Thai",
         }}
@@ -278,7 +306,7 @@ const [message, setAlertMessage] = React.useState("");
         <Container
           maxWidth="xl"
           sx={{
-            bgcolor: "#F8F8F8",
+            bgcolor: "#DADADA",
             width: "auto",
             height: "auto",
             padding: 2,
@@ -376,7 +404,7 @@ const [message, setAlertMessage] = React.useState("");
                 padding: 2,
               }}
             >
-              <TableContainer component={Paper} sx={{ boxShadow: 0}}>
+              <TableContainer component={Paper} sx={{ boxShadow: 0 }}>
                 <Table>
                   <TableHead>
                     <TableRow>

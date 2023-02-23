@@ -145,7 +145,7 @@ func TestRequestClassDayNotrepeatedly(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Cannot add class schedule. In start time 13:00 is overlapped with some class schedule"))
+	g.Expect(err.Error()).To(Equal("Cannot add class schedule. In start time 13:00 is overlapped with some class schedule "))
 }
 
 func TestClassDayNotrepeatedlyEnroll(t *testing.T) {

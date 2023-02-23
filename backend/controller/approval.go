@@ -430,17 +430,6 @@ func GetApproval(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": approval})
 }
 
-// DELETE /request //
-func DeleteApproval(c *gin.Context) {
-	id := c.Param("approval_id")
-
-	if tx := entity.DB().Exec("DELETE FROM approvals WHERE approval_id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "approval id not found"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": id})
-}
-
 //-------------------------------------------------------ใช้ update Approval------------------------------------------------------------------
 
 func UpdateApproval(c *gin.Context) {
@@ -599,10 +588,10 @@ func UpdateApprovalAdding_reducing(c *gin.Context) {
 	
 	if Old_Approval_Type.Approval_Type_ID == "Y01"{
 		if approval_type.Approval_Type_ID == "N01" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "ห้ามแก้เป็นไม่อนุมัติจร้า"})
+			c.JSON(http.StatusBadRequest, gin.H{"error": "If you have already selected the approval result as Approved, it cannot be edited"})
 			return 
 		} else if approval_type.Approval_Type_ID == "Y01" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "ห้ามอนุมัติซ้ำจร้า"})
+			c.JSON(http.StatusBadRequest, gin.H{"error": "If you have already selected the approval result as Approved, it cannot be edited"})
 			return 
 		}
 	}

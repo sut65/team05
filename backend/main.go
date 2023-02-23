@@ -133,7 +133,6 @@ func main() {
 			api.GET("/approval/:approval_id", controller.GetApproval)
 			api.GET("/previous_approval", controller.GetPreviousApproval)
 			api.POST("/approvals", controller.CreateApproval)
-			api.DELETE("/approval/:approval_id", controller.DeleteApproval)
 			api.GET("/approvalprofessor/:approval_id", controller.ListApprovalProfessor)
 			api.GET("/approvalupdate/:approval_id", controller.ListApprovalForUpdate)
 			api.GET("/approvalstudent/:student_id", controller.ListApprovalStudent)

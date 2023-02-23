@@ -45,7 +45,7 @@ import { StudentsInterface } from "../../models/I_Student";
 import Home_Navbar from "../navbars/Home_navbar";
 import { fontSize } from "@mui/system";
 import SendIcon from "@mui/icons-material/Send";
-
+import Swal from "sweetalert2";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -294,7 +294,7 @@ function RequestCreate() {
     };
     console.log(data);
 
-    // const apiUrl = "http://localhost:8080/requests";
+    const apiUrl = "http://localhost:8080/requests";
     const requestOptions = {
       method: "POST",
       headers: {
@@ -303,18 +303,44 @@ function RequestCreate() {
       },
       body: JSON.stringify(data),
     };
-
-    fetch(`${apiUrl}/requests`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          setSuccess(true);
-        } else {
-          setAlertMessage(res.error);
-          setError(true);
-        }
-      });
+       Swal.fire({
+         title:
+           "คุณต้องการยื่นคำร้องในรายวิชา  " +
+           data.Subject_ID +
+           " กลุ่ม " +
+           data.Section,
+         icon: "warning",
+         showDenyButton: true,
+         showCancelButton: false,
+         confirmButtonText: "ยื่นคำร้องออนไลน์",
+         denyButtonText: `ยกเลิก`,
+       }).then((data) => {
+         if (data.isConfirmed) {
+           fetch(apiUrl, requestOptions)
+             .then((response) => response.json())
+             .then((res) => {
+               console.log(res);
+               if (res.data) {
+                 console.log(res.data);
+                 Swal.fire({
+                   icon: "success",
+                   title:
+                     "คุณได้ลงทะเบียนในรายวิชา \n" +
+                     res.data.Subject_ID +
+                     " กลุ่มที่ " +
+                     res.data.Section,
+                   text: "Success",
+                 });
+               } else {
+                 Swal.fire({
+                   icon: "error",
+                   title: "เกิดข้อมูลผิดพลาด !",
+                   text: res.error,
+                 });
+               }
+             });
+         }
+       });
   }
 
   return (
@@ -325,7 +351,7 @@ function RequestCreate() {
           width: "auto",
           height: "auto",
           p: 2,
-          bgcolor: "#F3F3F3",
+          bgcolor: "#DADADA",
           flexGrow: 1,
           fontFamily: "Noto Sans Thai",
         }}
@@ -333,7 +359,7 @@ function RequestCreate() {
         <Container
           maxWidth="xl"
           sx={{
-            bgcolor: "#F3F3F3",
+            bgcolor: "#DADADA",
             width: "auto",
             height: "auto",
             padding: 2,
@@ -572,6 +598,9 @@ function RequestCreate() {
                             sx={{
                               color: "#393838",
                               ":hover": {
+                                color: "red",
+                              },
+                              ":focus": {
                                 color: "red",
                               },
                               fontFamily: "Noto Sans Thai",

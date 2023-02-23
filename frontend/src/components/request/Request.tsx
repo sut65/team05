@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 import { RequestInterface } from "../../models/IRequest";
 import { Request_TypeInterface } from "../../models/IRequest_Type";
 import { Subject } from "../../models/I_Subject";
-import { Stack, Divider, Grid, Toolbar, Snackbar, Alert } from "@mui/material";
+import { Stack, Divider, Grid, Toolbar, Snackbar} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
@@ -29,6 +29,16 @@ import { useParams } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material/Select";
 import Home_Navbar from "../navbars/Home_navbar";
 import { ApprovalInterface } from "../../models/I_Approval";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import Swal from "sweetalert2";
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function Request() {
   const [request, setRequest] = React.useState<Partial<RequestInterface>>({});
@@ -104,7 +114,7 @@ function Request() {
   };
 
   //delete
-  const deleteRequest = async (request_id: number) => {
+  const deleteRequest = async (request_id: number,Subject_ID:string) => {
     console.log("good");
     const requestOptions = {
       method: "DELETE",
@@ -113,18 +123,37 @@ function Request() {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/request/${request_id}`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          console.log("Data remove");
-          window.location.href = "/request";
-        } else {
-          setAlertMessage(res.error);
-          setError(true);
-        }
-      });
+    Swal.fire({
+      title: "ต้องการลบการยื่นคำร้องออนไลน์ \n" + Subject_ID + " หรือไม่",
+      icon: "warning",
+      showCancelButton: false,
+      showDenyButton: true,
+      denyButtonText: `ปิด`,
+      confirmButtonText: "ลบการยื่นคำร้องออนไลน์",
+    }).then((data) => {
+      if (data.isConfirmed) {
+        fetch(`${apiUrl}/request/${request_id}`, requestOptions)
+          .then((response) => response.json())
+          .then((res) => {
+            console.log(res);
+
+            if (res.data) {
+              Swal.fire({
+                icon: "success",
+                title: "ลบรายการเรียบร้อย !",
+                text: "Success",
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "เกิดข้อมูลผิดพลาด !",
+                text: res.error,
+              });
+            }
+            //window.location.href = "/request";
+          });
+      }
+    });
   };
 
   //table
@@ -170,6 +199,8 @@ function Request() {
     getApprovalStudents();
   }, []);
 
+  
+
   return (
     <div>
       <Container
@@ -178,7 +209,7 @@ function Request() {
           width: "auto",
           height: "auto",
           p: 2,
-          bgcolor: "#F3F3F3",
+          bgcolor: "#DADADA",
           flexGrow: 1,
           fontFamily: "Noto Sans Thai",
         }}
@@ -186,7 +217,7 @@ function Request() {
         <Container
           maxWidth="xl"
           sx={{
-            bgcolor: "#F3F3F3",
+            bgcolor: "#DADADA",
             width: "auto",
             height: "auto",
             padding: 2,
@@ -194,7 +225,12 @@ function Request() {
         >
           <Home_Navbar></Home_Navbar>
           <Toolbar></Toolbar>
-          <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+          <Snackbar
+            open={error}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          >
             <Alert onClose={handleClose} severity="error">
               {message}
             </Alert>
@@ -379,7 +415,7 @@ function Request() {
                             },
                           }}
                           onClick={() => {
-                            deleteRequest(row.Request_ID);
+                            deleteRequest(row.Request_ID, row.Subject_ID);
                           }}
                         >
                           <DeleteIcon />

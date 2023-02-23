@@ -34,6 +34,7 @@ import { EnrollInterface } from "../../models/I_Enroll";
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Home_Navbar from "../navbars/Home_navbar";
+import Swal from "sweetalert2";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -306,10 +307,10 @@ function ApprovalCreate() {
     };
     console.log(data);
 
-    // const apiUrl = "http://localhost:8080/approvals";
+    const apiUrl = "http://localhost:8080/approvals";
     if (request?.Request_Type_ID == "R01") {
       if (approval?.Approval_Type_ID == "Y01") {
-        const apiUrl1 = "http://localhost:8080";
+        const apiUrl1 = "http://localhost:8080/approvalandadding";
         const requestOptionsGet = {
           method: "POST",
           headers: {
@@ -319,19 +320,52 @@ function ApprovalCreate() {
           body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl1}/approvalandadding`, requestOptionsGet)
-          .then((response) => response.json())
-          .then((res) => {
-            console.log(res);
-            if (res.data) {
-              setSuccess(true);
-            } else {
-              setAlertMessage(res.error);
-              setError(true);
-            }
-          });
+               Swal.fire({
+                 title:
+                   "คุณต้องการอนุมัติคำร้องของ \n" +
+                   "รหัสนักศึกษา " +
+                   data.Student_ID +
+                   "\n รายวิชา " +
+                   data.Subject_ID +
+                   "\n กลุ่ม " +
+                   data.Section,
+                 icon: "warning",
+                 showDenyButton: true,
+                 showCancelButton: false,
+                 confirmButtonText: "อนุมัติคำร้องออนไลน์",
+                 denyButtonText: `ยกเลิก`,
+               }).then((data) => {
+                 if (data.isConfirmed) {
+                   fetch(apiUrl1, requestOptionsGet)
+                     .then((response) => response.json())
+                     .then((res) => {
+                       console.log(res);
+                       if (res.data) {
+                         console.log(res.data);
+                         Swal.fire({
+                           icon: "success",
+                           title:
+                             "คุณต้องการอนุมัติคำร้องของ\n" +
+                             "รหัสนักศึกษา " +
+                             res.data.Student_ID +
+                             "\n รายวิชา " +
+                             res.data.Subject_ID +
+                             "\n กลุ่ม " +
+                             res.data.Section,
+                           text: "Success",
+                         });
+                       } else {
+                         Swal.fire({
+                           icon: "error",
+                           title: "เกิดข้อมูลผิดพลาด !",
+                           text: res.error,
+                         });
+                       }
+                     });
+                 }
+               });
       } else {
-        const approvalOptions = {
+        const requestOptions = {
           method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -339,22 +373,55 @@ function ApprovalCreate() {
           },
           body: JSON.stringify(data),
         };
-
-        fetch(`${apiUrl}/approvals`, approvalOptions)
-          .then((response) => response.json())
-          .then((res) => {
-            console.log(res);
-            if (res.data) {
-              setSuccess(true);
-            } else {
-              setAlertMessage(res.error);
-              setError(true);
-            }
-          });
+        
+     Swal.fire({
+       title:
+         "คุณต้องการอนุมัติคำร้องของ \n" +
+         "รหัสนักศึกษา " +
+         data.Student_ID +
+         "\n รายวิชา " +
+         data.Subject_ID +
+         "\n กลุ่ม " +
+         data.Section,
+       icon: "warning",
+       showDenyButton: true,
+       showCancelButton: false,
+       confirmButtonText: "อนุมัติคำร้องออนไลน์",
+       denyButtonText: `ยกเลิก`,
+     }).then((data) => {
+       if (data.isConfirmed) {
+         fetch(apiUrl, requestOptions)
+           .then((response) => response.json())
+           .then((res) => {
+             console.log(res);
+             if (res.data) {
+               console.log(res.data);
+               Swal.fire({
+                 icon: "success",
+                 title:
+                   "คุณต้องการอนุมัติคำร้องของ\n" +
+                   "รหัสนักศึกษา " +
+                   res.data.Student_ID +
+                   "\n รายวิชา " +
+                   res.data.Subject_ID +
+                   "\n กลุ่ม " +
+                   res.data.Section,
+                 text: "Success",
+               });
+             } else {
+               Swal.fire({
+                 icon: "error",
+                 title: "เกิดข้อมูลผิดพลาด !",
+                 text: res.error,
+               });
+             }
+           });
+       }
+     });
       }
     } else {
       if (approval?.Approval_Type_ID == "Y01") {
-        const apiUrl = "http://localhost:8080";
+        const apiUrl = "http://localhost:8080/approvalandadding";
         const requestOptions = {
           method: "PATCH",
           headers: {
@@ -363,19 +430,53 @@ function ApprovalCreate() {
           },
           body: JSON.stringify(data),
         };
-        fetch(`${apiUrl}/approvalandadding`, requestOptions)
-          .then((response) => response.json())
-          .then((res) => {
-            console.log(res);
-            if (res.data) {
-              setSuccess(true);
-            } else {
-              setAlertMessage(res.error);
-              setError(true);
-            }
-          });
+
+             Swal.fire({
+               title:
+                 "คุณต้องการอนุมัติคำร้องของ \n" +
+                 "รหัสนักศึกษา " +
+                 data.Student_ID +
+                 "\n รายวิชา " +
+                 data.Subject_ID +
+                 "\n กลุ่ม " +
+                 data.Section,
+               icon: "warning",
+               showDenyButton: true,
+               showCancelButton: false,
+               confirmButtonText: "อนุมัติคำร้องออนไลน์",
+               denyButtonText: `ยกเลิก`,
+             }).then((data) => {
+               if (data.isConfirmed) {
+                 fetch(apiUrl, requestOptions)
+                   .then((response) => response.json())
+                   .then((res) => {
+                     console.log(res);
+                     if (res.data) {
+                       console.log(res.data);
+                       Swal.fire({
+                         icon: "success",
+                         title:
+                           "คุณต้องการอนุมัติคำร้องของ\n" +
+                           "รหัสนักศึกษา " +
+                           res.data.Student_ID +
+                           "\n รายวิชา " +
+                           res.data.Subject_ID +
+                           "\n กลุ่ม " +
+                           res.data.Section,
+                         text: "Success",
+                       });
+                     } else {
+                       Swal.fire({
+                         icon: "error",
+                         title: "เกิดข้อมูลผิดพลาด !",
+                         text: res.error,
+                       });
+                     }
+                   });
+               }
+             });
       } else {
-        const approvalOptions = {
+        const requestOptions = {
           method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -383,18 +484,50 @@ function ApprovalCreate() {
           },
           body: JSON.stringify(data),
         };
-
-        fetch(`${apiUrl}/approvals`, approvalOptions)
-          .then((response) => response.json())
-          .then((res) => {
-            console.log(res);
-            if (res.data) {
-              setSuccess(true);
-            } else {
-              setAlertMessage(res.error);
-              setError(true);
-            }
-          });
+             Swal.fire({
+               title:
+                 "คุณต้องการอนุมัติคำร้องของ \n" +
+                 "รหัสนักศึกษา " +
+                 data.Student_ID +
+                 "\n รายวิชา " +
+                 data.Subject_ID +
+                 "\n กลุ่ม " +
+                 data.Section,
+               icon: "warning",
+               showDenyButton: true,
+               showCancelButton: false,
+               confirmButtonText: "อนุมัติคำร้องออนไลน์",
+               denyButtonText: `ยกเลิก`,
+             }).then((data) => {
+               if (data.isConfirmed) {
+                 fetch(apiUrl, requestOptions)
+                   .then((response) => response.json())
+                   .then((res) => {
+                     console.log(res);
+                     if (res.data) {
+                       console.log(res.data);
+                       Swal.fire({
+                         icon: "success",
+                         title:
+                           "คุณต้องการอนุมัติคำร้องของ\n" +
+                           "รหัสนักศึกษา " +
+                           res.data.Student_ID +
+                           "\n รายวิชา " +
+                           res.data.Subject_ID +
+                           "\n กลุ่ม " +
+                           res.data.Section,
+                         text: "Success",
+                       });
+                     } else {
+                       Swal.fire({
+                         icon: "error",
+                         title: "เกิดข้อมูลผิดพลาด !",
+                         text: res.error,
+                       });
+                     }
+                   });
+               }
+             });
       }
     }
   }
@@ -407,7 +540,7 @@ function ApprovalCreate() {
           width: "auto",
           height: "auto",
           p: 2,
-          bgcolor: "#F3F3F3",
+          bgcolor: "#DADADA",
           flexGrow: 1,
           fontFamily: "Noto Sans Thai",
         }}
@@ -415,7 +548,7 @@ function ApprovalCreate() {
         <Container
           maxWidth="xl"
           sx={{
-            bgcolor: "#F3F3F3",
+            bgcolor: "#DADADA",
             width: "auto",
             height: "auto",
             padding: 2,
@@ -639,6 +772,9 @@ function ApprovalCreate() {
                             sx={{
                               color: "#393838",
                               ":hover": {
+                                color: "red",
+                              },
+                              ":focus": {
                                 color: "red",
                               },
                               fontFamily: "Noto Sans Thai",

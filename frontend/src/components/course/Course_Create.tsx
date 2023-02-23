@@ -515,7 +515,7 @@ function CourseCreate() {
           <Grid item xs={4} color="#115686" 
           sx={{  fontFamily : "LilyUPC" ,
            fontWeight : 'bold' ,fontSize:27}}>
-          <p>อายุ</p>
+          <p>ปีอายุหลักสูตร</p>
 
            <FormControl fullWidth variant="outlined">
 

@@ -2,6 +2,7 @@ package entity
 
 import (
 	"regexp"
+	"time"
 
 	validator "github.com/asaskevich/govalidator"
 )
@@ -53,6 +54,8 @@ type Subject struct {
 
 	Capacity      uint
 	Enroll_Amount uint
+
+	Latest_Updated time.Time
 
 	Reserved        uint
 	Reserved_Enroll uint

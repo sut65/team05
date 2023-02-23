@@ -474,6 +474,17 @@ func SetupDatabase() {
 		professor1_password, _ := bcrypt.GenerateFromPassword([]byte("B56221"), 14)
 		professor2_password, _ := bcrypt.GenerateFromPassword([]byte("nun289546"), 14)
 		professor3_password, _ := bcrypt.GenerateFromPassword([]byte("4924998abca"), 14)
+		nunthawut_password, _ := bcrypt.GenerateFromPassword([]byte("kdd12345"), 14)
+		chanwit_password, _ := bcrypt.GenerateFromPassword([]byte("se631234"), 14)
+		komsan_password, _ := bcrypt.GenerateFromPassword([]byte("komsanoot"), 14)
+		sarunya_password, _ := bcrypt.GenerateFromPassword([]byte("sarunyaos123"), 14)
+		wichai_password, _ := bcrypt.GenerateFromPassword([]byte("wichaielec555"), 14)
+		paramete_password, _ := bcrypt.GenerateFromPassword([]byte("jaow9876"), 14)
+		supaporn_password, _ := bcrypt.GenerateFromPassword([]byte("datastruct444"), 14)
+		kittisak_password, _ := bcrypt.GenerateFromPassword([]byte("kittisakthailand"), 14)
+		nittiya_password, _ := bcrypt.GenerateFromPassword([]byte("nittiya_ai"), 14)
+		kacha_password, _ := bcrypt.GenerateFromPassword([]byte("kachacompro54"), 14)
+		parin_password, _ := bcrypt.GenerateFromPassword([]byte("parincyber"), 14)
 
 		professor1 := Professor{
 			// Model:              gorm.Model{ID: 1},
@@ -519,6 +530,161 @@ func SetupDatabase() {
 		db.Create(&professor1)
 		db.Create(&professor2)
 		db.Create(&professor3)
+
+		// =========================== CPE Professor ======================================
+		nunthawut_kaoangku := Professor{
+			Professor_ID:       "P5788123",
+			Professor_name:     "Nunthawut Kaoungku",
+			Professor_address:  "Sakhon Nakhon",
+			Professor_email:    "nunthawut@sut.ac.th",
+			Professor_tel:      "044-224559",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification2,
+			Major:              cpe,
+			Professor_password: string(nunthawut_password),
+		}
+
+		kittisak_kerdprasop := Professor{
+			Professor_ID:       "P3704667",
+			Professor_name:     "Kittisak Kerdprasop",
+			Professor_address:  "Nakhonratchasima",
+			Professor_email:    "kerdpras@sut.ac.th",
+			Professor_tel:      "044-224349",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification3,
+			Major:              cpe,
+			Professor_password: string(kittisak_password),
+		}
+
+		nittiya_kerdprasop := Professor{
+			Professor_ID:       "P3789332",
+			Professor_name:     "Nittiya Kerdprasop",
+			Professor_address:  "Nakhonratchasima",
+			Professor_email:    "nittaya@sut.ac.th",
+			Professor_tel:      "044-224432",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification3,
+			Major:              cpe,
+			Professor_password: string(nittiya_password),
+		}
+
+		kacha_chansilp := Professor{
+			Professor_ID:       "P3901556",
+			Professor_name:     "Kacha Chansilp",
+			Professor_address:  "Chiang rai",
+			Professor_email:    "kacha@sut.ac.th",
+			Professor_tel:      "044-224237",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification2,
+			Major:              cpe,
+			Professor_password: string(kacha_password),
+		}
+
+		paramete_horkaew := Professor{
+			Professor_ID:       "P4401998",
+			Professor_name:     "Paramete Horkaew",
+			Professor_address:  "Ayutthaya",
+			Professor_email:    "paramete@sut.ac.th",
+			Professor_tel:      "044-224989",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification2,
+			Major:              cpe,
+			Professor_password: string(paramete_password),
+		}
+
+		chanwit_kaewkasi := Professor{
+			Professor_ID:       "P4866743",
+			Professor_name:     "Chanwit Kaewkasi",
+			Professor_address:  "Bangkok",
+			Professor_email:    "chanwi@sut.ac.th",
+			Professor_tel:      "044-224424",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification2,
+			Major:              cpe,
+			Professor_password: string(chanwit_password),
+		}
+
+		sarunya_kanjanawatthana := Professor{
+			Professor_ID:       "P5699811",
+			Professor_name:     "Sarunya Kanjanawatthana",
+			Professor_address:  "Lampang",
+			Professor_email:    "sarunya.k@sut.ac.th",
+			Professor_tel:      "044-224447",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification2,
+			Major:              cpe,
+			Professor_password: string(sarunya_password),
+		}
+
+		supaporn_bunrit := Professor{
+			Professor_ID:       "P4957893",
+			Professor_name:     "Supaporn Bunrit",
+			Professor_address:  "Nakhonratchasima",
+			Professor_email:    "sbunrit@sut.ac.th",
+			Professor_tel:      "044-224175",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification1,
+			Major:              cpe,
+			Professor_password: string(supaporn_password),
+		}
+
+		wichai_srisurak := Professor{
+			Professor_ID:       "P4299563",
+			Professor_name:     "Wichai Srisurak",
+			Professor_address:  "Nakhonratchasima",
+			Professor_email:    "wichai@sut.ac.th",
+			Professor_tel:      "044-224646",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification1,
+			Major:              cpe,
+			Professor_password: string(wichai_password),
+		}
+
+		parin_sornlertlamvanich := Professor{
+			Professor_ID:       "P5138446",
+			Professor_name:     "Parin Sornlertlamvanich",
+			Professor_address:  "Songkla",
+			Professor_email:    "parin@sut.ac.th",
+			Professor_tel:      "044-224452",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification1,
+			Major:              cpe,
+			Professor_password: string(parin_password),
+		}
+
+		komsan_srivisut := Professor{
+			Professor_ID:       "P6356778",
+			Professor_name:     "Komsan Srivisut",
+			Professor_address:  "Chiang Mai",
+			Professor_email:    "komsan@sut.ac.th",
+			Professor_tel:      "044-224461",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification1,
+			Major:              cpe,
+			Professor_password: string(komsan_password),
+		}
+		db.Create(&nunthawut_kaoangku)
+		db.Create(&kittisak_kerdprasop)
+		db.Create(&nittiya_kerdprasop)
+		db.Create(&kacha_chansilp)
+		db.Create(&paramete_horkaew)
+		db.Create(&chanwit_kaewkasi)
+		db.Create(&sarunya_kanjanawatthana)
+		db.Create(&supaporn_bunrit)
+		db.Create(&wichai_srisurak)
+		db.Create(&parin_sornlertlamvanich)
+		db.Create(&komsan_srivisut)
 
 		////---------------------------------------------------------------
 
@@ -576,7 +742,7 @@ func SetupDatabase() {
 		software_engineering_sec1 := Subject{
 			ID:               1,
 			Subject_ID:       "523332",
-			Professor:        professor1,
+			Professor:        chanwit_kaewkasi,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       lecture,
@@ -585,6 +751,7 @@ func SetupDatabase() {
 			Subject_EN_Name:  "Software Engineering",
 			Capacity:         60,
 			Enroll_Amount:    0,
+			Latest_Updated:   time.Now(),
 			Reserved:         20,
 			Reserved_Enroll:  0,
 			Unit:             4,
@@ -594,14 +761,15 @@ func SetupDatabase() {
 		software_engineering_sec2 := Subject{
 			ID:               2,
 			Subject_ID:       "523332",
-			Professor:        professor1,
-			Course:           cpe2564,
+			Professor:        chanwit_kaewkasi,
+			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       lecture,
 			Subject_Category: category1,
 			Subject_TH_Name:  "วิศวกรรมซอฟต์แวร์",
 			Subject_EN_Name:  "Software Engineering",
 			Capacity:         60,
+			Latest_Updated:   time.Now(),
 			Enroll_Amount:    0,
 			Reserved:         20,
 			Reserved_Enroll:  0,
@@ -611,14 +779,15 @@ func SetupDatabase() {
 		software_engineering_sec3 := Subject{
 			ID:               3,
 			Subject_ID:       "523332",
-			Professor:        professor1,
-			Course:           cpe2564,
+			Professor:        chanwit_kaewkasi,
+			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       lecture,
 			Subject_Category: category1,
 			Subject_TH_Name:  "วิศวกรรมซอฟต์แวร์",
 			Subject_EN_Name:  "Software Engineering",
 			Capacity:         60,
+			Latest_Updated:   time.Now(),
 			Enroll_Amount:    0,
 			Reserved:         20,
 			Reserved_Enroll:  0,
@@ -631,7 +800,7 @@ func SetupDatabase() {
 		operating_system_sec1 := Subject{
 			ID:               4,
 			Subject_ID:       "523354",
-			Professor:        professor2,
+			Professor:        sarunya_kanjanawatthana,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
@@ -639,6 +808,7 @@ func SetupDatabase() {
 			Subject_TH_Name:  "ระบบปฏิบัติการ",
 			Subject_EN_Name:  "Operating System",
 			Capacity:         60,
+			Latest_Updated:   time.Now(),
 			Enroll_Amount:    0,
 			Reserved:         20,
 			Reserved_Enroll:  0,
@@ -649,7 +819,7 @@ func SetupDatabase() {
 		operating_system_sec2 := Subject{
 			ID:               5,
 			Subject_ID:       "523354",
-			Professor:        professor2,
+			Professor:        sarunya_kanjanawatthana,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
@@ -658,10 +828,12 @@ func SetupDatabase() {
 			Subject_EN_Name:  "Operating System",
 			Capacity:         60,
 			Enroll_Amount:    0,
-			Reserved:         20,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          2,
+			Latest_Updated:   time.Now(),
+
+			Reserved:        20,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         2,
 		}
 		db.Create(&operating_system_sec1)
 		db.Create(&operating_system_sec2)
@@ -677,17 +849,19 @@ func SetupDatabase() {
 			Subject_EN_Name:  "Pluri-Thai Cultural Studies",
 			Capacity:         1000,
 			Enroll_Amount:    0,
-			Reserved:         200,
-			Reserved_Enroll:  0,
-			Unit:             2,
-			Section:          1,
+			Latest_Updated:   time.Now(),
+
+			Reserved:        200,
+			Reserved_Enroll: 0,
+			Unit:            2,
+			Section:         1,
 		}
 		db.Create(&pluri_thai)
 
 		problem_solving_sec1 := Subject{
 			ID:               7,
 			Subject_ID:       "523203",
-			Professor:        professor1,
+			Professor:        komsan_srivisut,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
@@ -695,17 +869,19 @@ func SetupDatabase() {
 			Subject_TH_Name:  "การแก้ปัญหาด้วยโปรแรกม",
 			Subject_EN_Name:  "Problem Solving with Programming",
 			Capacity:         40,
-			Enroll_Amount:    0,
-			Reserved:         10,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          1,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        10,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
 		}
 
 		problem_solving_sec2 := Subject{
 			ID:               8,
 			Subject_ID:       "523203",
-			Professor:        professor1,
+			Professor:        komsan_srivisut,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
@@ -713,11 +889,13 @@ func SetupDatabase() {
 			Subject_TH_Name:  "การแก้ปัญหาด้วยโปรแรกม",
 			Subject_EN_Name:  "Problem Solving with Programming",
 			Capacity:         45,
-			Enroll_Amount:    0,
-			Reserved:         10,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          2,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        10,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         2,
 		}
 		db.Create(&problem_solving_sec1)
 		db.Create(&problem_solving_sec2)
@@ -725,7 +903,7 @@ func SetupDatabase() {
 		system_analysis_sec1 := Subject{
 			ID:               9,
 			Subject_ID:       "523331",
-			Professor:        professor2,
+			Professor:        chanwit_kaewkasi,
 			Course:           ee2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
@@ -733,17 +911,19 @@ func SetupDatabase() {
 			Subject_TH_Name:  "การวิเคราะห์และออกแบบระบบ",
 			Subject_EN_Name:  "System Analysis and Design",
 			Capacity:         60,
-			Enroll_Amount:    0,
-			Reserved:         10,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          1,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        10,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
 		}
 
 		system_analysis_sec2 := Subject{
 			ID:               10,
 			Subject_ID:       "523331",
-			Professor:        professor2,
+			Professor:        chanwit_kaewkasi,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
@@ -751,11 +931,13 @@ func SetupDatabase() {
 			Subject_TH_Name:  "การวิเคราะห์และออกแบบระบบ",
 			Subject_EN_Name:  "System Analysis and Design",
 			Capacity:         60,
-			Enroll_Amount:    0,
-			Reserved:         10,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          2,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        10,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         2,
 		}
 		db.Create(&system_analysis_sec1)
 		db.Create(&system_analysis_sec2)
@@ -763,7 +945,7 @@ func SetupDatabase() {
 		artificial_neural_network := Subject{
 			ID:               11,
 			Subject_ID:       "523414",
-			Professor:        professor3,
+			Professor:        supaporn_bunrit,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
@@ -771,18 +953,20 @@ func SetupDatabase() {
 			Subject_TH_Name:  "โครงข่ายประสาทเทียม",
 			Subject_EN_Name:  "Artificial Neural Network",
 			Capacity:         40,
-			Enroll_Amount:    0,
-			Reserved:         5,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          1,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
 		}
 		db.Create(&artificial_neural_network)
 
 		knowledge_discovery_and_data_mining := Subject{
 			ID:               12,
 			Subject_ID:       "523312",
-			Professor:        professor1,
+			Professor:        nunthawut_kaoangku,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       lecture,
@@ -790,18 +974,20 @@ func SetupDatabase() {
 			Subject_TH_Name:  "การค้นพบความรู้และการทำเหมืองข้อมูล",
 			Subject_EN_Name:  "Knowledge Discovery and Data Mining",
 			Capacity:         40,
-			Enroll_Amount:    0,
-			Reserved:         5,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          1,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
 		}
 		db.Create(&knowledge_discovery_and_data_mining)
 
 		data_structure_and_algorithms := Subject{
 			ID:               13,
 			Subject_ID:       "523231",
-			Professor:        professor3,
+			Professor:        supaporn_bunrit,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       lecture,
@@ -809,18 +995,20 @@ func SetupDatabase() {
 			Subject_TH_Name:  "โครงสร้างข้อมูลและขั้นตอนวิธี",
 			Subject_EN_Name:  "Data Structure and Algorithms",
 			Capacity:         120,
-			Enroll_Amount:    0,
-			Reserved:         10,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          1,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        10,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
 		}
 		db.Create(&data_structure_and_algorithms)
 
 		oot_sec1 := Subject{
 			ID:               14,
 			Subject_ID:       "523232",
-			Professor:        professor1,
+			Professor:        komsan_srivisut,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
@@ -828,17 +1016,19 @@ func SetupDatabase() {
 			Subject_TH_Name:  "เทคโนโลยีเชิงวัตถุ",
 			Subject_EN_Name:  "Object-Oriented Technology",
 			Capacity:         45,
-			Enroll_Amount:    0,
-			Reserved:         10,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          1,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        10,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
 		}
 
 		oot_sec2 := Subject{
 			ID:               15,
 			Subject_ID:       "523232",
-			Professor:        professor1,
+			Professor:        komsan_srivisut,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
@@ -846,11 +1036,13 @@ func SetupDatabase() {
 			Subject_TH_Name:  "เทคโนโลยีเชิงวัตถุ",
 			Subject_EN_Name:  "Object-Oriented Technology",
 			Capacity:         45,
-			Enroll_Amount:    0,
-			Reserved:         10,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          2,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        10,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         2,
 		}
 
 		db.Create(&oot_sec1)
@@ -859,7 +1051,7 @@ func SetupDatabase() {
 		digital_system_design_sec1 := Subject{
 			ID:               16,
 			Subject_ID:       "523273",
-			Professor:        professor3,
+			Professor:        wichai_srisurak,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       lecture,
@@ -867,17 +1059,19 @@ func SetupDatabase() {
 			Subject_TH_Name:  "การออกแบบระบบดิจิทัล",
 			Subject_EN_Name:  "Digital System Design",
 			Capacity:         50,
-			Enroll_Amount:    0,
-			Reserved:         5,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          1,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
 		}
 
 		digital_system_design_sec2 := Subject{
 			ID:               17,
 			Subject_ID:       "523273",
-			Professor:        professor3,
+			Professor:        wichai_srisurak,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       lecture,
@@ -885,11 +1079,13 @@ func SetupDatabase() {
 			Subject_TH_Name:  "การออกแบบระบบดิจิทัล",
 			Subject_EN_Name:  "Digital System Design",
 			Capacity:         50,
-			Enroll_Amount:    0,
-			Reserved:         5,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          2,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         2,
 		}
 		db.Create(&digital_system_design_sec1)
 		db.Create(&digital_system_design_sec2)
@@ -897,7 +1093,7 @@ func SetupDatabase() {
 		computer_vision := Subject{
 			ID:               18,
 			Subject_ID:       "523453",
-			Professor:        professor2,
+			Professor:        paramete_horkaew,
 			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       lecture,
@@ -905,11 +1101,13 @@ func SetupDatabase() {
 			Subject_TH_Name:  "การมองเห็นด้วยคอมพิวเตอร์",
 			Subject_EN_Name:  "Computer Vision",
 			Capacity:         40,
-			Enroll_Amount:    0,
-			Reserved:         5,
-			Reserved_Enroll:  0,
-			Unit:             4,
-			Section:          1,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
 		}
 		db.Create(&computer_vision)
 
@@ -1243,6 +1441,17 @@ func SetupDatabase() {
 		db.Create(&oot_sec1_class)
 		db.Create(&oot_sec2_class)
 		db.Create(&computer_vision_class)
+		pluri_thai_midterm := Exam_Schedule{
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:          pluri_thai,
+			Room:             room_b4101,
+			Admin:            admin2,
+			Exam_Type:        "Midterm",
+			Exam_Date:        "23/05/2020",
+			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 13, 00),
+			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 15, 00),
+		}
+		db.Create(&pluri_thai_midterm)
 
 		system_analysis_midterm := Exam_Schedule{
 			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),

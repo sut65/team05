@@ -145,7 +145,7 @@ function ApprovalUpdate() {
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
-      backgroundColor: "white",
+      backgroundColor: "#e0e0e0",
     },
     // hide last border
     "&:last-child td, &:last-child th": {
@@ -303,7 +303,7 @@ function ApprovalUpdate() {
           icon: "warning",
           showDenyButton: true,
           showCancelButton: false,
-          confirmButtonText: "อนุมัติคำร้องออนไลน์",
+          confirmButtonText: "แก้ไขการอนุมัติคำร้องออนไลน์",
           denyButtonText: `ยกเลิก`,
         }).then((data) => {
           if (data.isConfirmed) {
@@ -315,14 +315,7 @@ function ApprovalUpdate() {
                   console.log(res.data);
                   Swal.fire({
                     icon: "success",
-                    title:
-                      "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
-                      "รหัสนักศึกษา " +
-                      res.request?.Student_ID +
-                      "\n รายวิชา " +
-                      res.data.Subject_ID +
-                      "\n กลุ่ม " +
-                      res.data.Section,
+                    title: "แก้ไขการอนุมัติคำร้องออนไลน์สำเร็จ\n",
                     text: "Success",
                   });
                 } else {
@@ -361,7 +354,7 @@ function ApprovalUpdate() {
           icon: "warning",
           showDenyButton: true,
           showCancelButton: false,
-          confirmButtonText: "อนุมัติคำร้องออนไลน์",
+          confirmButtonText: "แก้ไขการอนุมัติคำร้องออนไลน์",
           denyButtonText: `ยกเลิก`,
         }).then((data) => {
           if (data.isConfirmed) {
@@ -373,14 +366,7 @@ function ApprovalUpdate() {
                   console.log(res.data);
                   Swal.fire({
                     icon: "success",
-                    title:
-                      "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
-                      "รหัสนักศึกษา " +
-                      res.request?.Student_ID +
-                      "\n รายวิชา " +
-                      res.data.Subject_ID +
-                      "\n กลุ่ม " +
-                      res.data.Section,
+                    title: "แก้ไขการอนุมัติคำร้องออนไลน์สำเร็จ\n",
                     text: "Success",
                   });
                 } else {
@@ -422,7 +408,7 @@ function ApprovalUpdate() {
           icon: "warning",
           showDenyButton: true,
           showCancelButton: false,
-          confirmButtonText: "อนุมัติคำร้องออนไลน์",
+          confirmButtonText: "แก้ไขการอนุมัติคำร้องออนไลน์",
           denyButtonText: `ยกเลิก`,
         }).then((data) => {
           if (data.isConfirmed) {
@@ -434,14 +420,7 @@ function ApprovalUpdate() {
                   console.log(res.data);
                   Swal.fire({
                     icon: "success",
-                    title:
-                      "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
-                      "รหัสนักศึกษา " +
-                      res.request?.Student_ID +
-                      "\n รายวิชา " +
-                      res.data.Subject_ID +
-                      "\n กลุ่ม " +
-                      res.data.Section,
+                    title: "แก้ไขการอนุมัติคำร้องออนไลน์สำเร็จ\n",
                     text: "Success",
                   });
                 } else {
@@ -480,7 +459,7 @@ function ApprovalUpdate() {
           icon: "warning",
           showDenyButton: true,
           showCancelButton: false,
-          confirmButtonText: "อนุมัติคำร้องออนไลน์",
+          confirmButtonText: "แก้ไขการอนุมัติคำร้องออนไลน์",
           denyButtonText: `ยกเลิก`,
         }).then((data) => {
           if (data.isConfirmed) {
@@ -492,14 +471,7 @@ function ApprovalUpdate() {
                   console.log(res.data);
                   Swal.fire({
                     icon: "success",
-                    title:
-                      "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
-                      "รหัสนักศึกษา " +
-                      res.request?.Student_ID +
-                      "\n รายวิชา " +
-                      res.data.Subject_ID +
-                      "\n กลุ่ม " +
-                      res.data.Section,
+                    title: "แก้ไขการอนุมัติคำร้องออนไลน์สำเร็จ\n",
                     text: "Success",
                   });
                 } else {

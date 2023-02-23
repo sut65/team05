@@ -151,7 +151,7 @@ const [message, setAlertMessage] = React.useState("");
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
-      backgroundColor: "white",
+      backgroundColor: "#e0e0e0",
     },
     // hide last border
     "&:last-child td, &:last-child th": {
@@ -252,14 +252,14 @@ const [message, setAlertMessage] = React.useState("");
 
      Swal.fire({
        title:
-         "คุณต้องการยื่นคำร้องในรายวิชา  " +
+         "คุณต้องการแก้ไขการยื่นคำร้องใน \n" + "รายวิชา " +
          data.Subject_ID +
-         " กลุ่ม " +
+         "\n กลุ่ม " +
          data.Section,
        icon: "warning",
        showDenyButton: true,
        showCancelButton: false,
-       confirmButtonText: "ยื่นคำร้องออนไลน์",
+       confirmButtonText: "แก้การยื่นคำร้องออนไลน์",
        denyButtonText: `ยกเลิก`,
      }).then((data) => {
        if (data.isConfirmed) {
@@ -272,10 +272,7 @@ const [message, setAlertMessage] = React.useState("");
                Swal.fire({
                  icon: "success",
                  title:
-                   "คุณได้ลงทะเบียนในรายวิชา \n" +
-                   res.data.Subject_ID +
-                   " กลุ่มที่ " +
-                   res.data.Section,
+                 "แก้ไขการยื่นคำร้องออนไลน์สำเร็จ\n",
                  text: "Success",
                });
              } else {

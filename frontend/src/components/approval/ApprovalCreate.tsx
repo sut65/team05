@@ -149,7 +149,7 @@ function ApprovalCreate() {
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
-      backgroundColor: "white",
+      backgroundColor: "#e0e0e0",
     },
     // hide last border
     "&:last-child td, &:last-child th": {
@@ -344,14 +344,7 @@ function ApprovalCreate() {
                          console.log(res.data);
                          Swal.fire({
                            icon: "success",
-                           title:
-                             "คุณต้องการอนุมัติคำร้องของ\n" +
-                             "รหัสนักศึกษา " +
-                             res.data.Student_ID +
-                             "\n รายวิชา " +
-                             res.data.Subject_ID +
-                             "\n กลุ่ม " +
-                             res.data.Section,
+                           title: "อนุมัติคำร้องสำเร็จ\n",
                            text: "Success",
                          });
                        } else {
@@ -398,14 +391,7 @@ function ApprovalCreate() {
                console.log(res.data);
                Swal.fire({
                  icon: "success",
-                 title:
-                   "คุณต้องการอนุมัติคำร้องของ\n" +
-                   "รหัสนักศึกษา " +
-                   res.data.Student_ID +
-                   "\n รายวิชา " +
-                   res.data.Subject_ID +
-                   "\n กลุ่ม " +
-                   res.data.Section,
+                 title: "อนุมัติคำร้องสำเร็จ\n",
                  text: "Success",
                });
              } else {
@@ -456,13 +442,7 @@ function ApprovalCreate() {
                        Swal.fire({
                          icon: "success",
                          title:
-                           "คุณต้องการอนุมัติคำร้องของ\n" +
-                           "รหัสนักศึกษา " +
-                           res.data.Student_ID +
-                           "\n รายวิชา " +
-                           res.data.Subject_ID +
-                           "\n กลุ่ม " +
-                           res.data.Section,
+                           "อนุมัติคำร้องสำเร็จ\n",
                          text: "Success",
                        });
                      } else {
@@ -508,14 +488,7 @@ function ApprovalCreate() {
                        console.log(res.data);
                        Swal.fire({
                          icon: "success",
-                         title:
-                           "คุณต้องการอนุมัติคำร้องของ\n" +
-                           "รหัสนักศึกษา " +
-                           res.data.Student_ID +
-                           "\n รายวิชา " +
-                           res.data.Subject_ID +
-                           "\n กลุ่ม " +
-                           res.data.Section,
+                         title: "อนุมัติคำร้องสำเร็จ\n",
                          text: "Success",
                        });
                      } else {

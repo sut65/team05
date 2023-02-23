@@ -96,7 +96,7 @@ func SetupDatabase() {
 		)
 
 		db = database
-		admin1_password, _ := bcrypt.GenerateFromPassword([]byte("Gianmii5731"), 14)
+		admin1_password, _ := bcrypt.GenerateFromPassword([]byte("12345678"), 14)
 		admin2_password, _ := bcrypt.GenerateFromPassword([]byte("Devupindate9890"), 14)
 		admin3_password, _ := bcrypt.GenerateFromPassword([]byte("Suster3490"), 14)
 

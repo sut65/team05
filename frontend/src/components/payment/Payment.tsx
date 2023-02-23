@@ -308,6 +308,7 @@ export function ListPayment() {
                                                 <TableCell align="left">{row.Admin_ID}</TableCell>
                                                 <TableCell align="center">
                                                     <IconButton
+                                                        disabled
                                                         aria-label="delete"
                                                         onClick={() => deletePayment(row.Payment_ID)}
                                                     >

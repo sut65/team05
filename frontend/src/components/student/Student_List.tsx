@@ -23,7 +23,7 @@ import SendIcon from '@mui/icons-material/Send';
 
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Grid, Paper, Stack } from "@mui/material";
+import { Grid, Paper, Stack, Toolbar } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -37,6 +37,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import styled from "@emotion/styled";
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import Home_Navbar from "../navbars/Home_navbar";
 
 
 const apiUrl = "http://localhost:8080";
@@ -153,6 +154,8 @@ function Students_List() {
                             marginTop: 2,
                         }}
                     >
+                        <Home_Navbar></Home_Navbar>
+                                    <Toolbar></Toolbar>
                         <Box flexGrow={1}>
                             <Typography
                                 component="h2"

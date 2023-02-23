@@ -7,11 +7,9 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
 import { Subject } from "../../models/I_Subject";
-import { Stack, Divider, Grid, TextField, Toolbar } from "@mui/material";
+import {  Toolbar } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CreateIcon from "@mui/icons-material/Create";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -22,10 +20,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import TableFooter from "@mui/material/TableFooter";
-import SearchIcon from "@mui/icons-material/Search";
+
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { SelectChangeEvent } from "@mui/material/Select";
+
 
 import { Adding_pointInterface } from "../../models/IAdding_point";
 import Home_Navbar from "../navbars/Home_navbar";
@@ -34,10 +32,6 @@ function Adding_reducingCreate() {
   const [addingpoints, setAdding_points] = React.useState<
     Adding_pointInterface[]
   >([]);
-  const [addingpoint, setAdding_point] = React.useState<
-    Partial<Adding_pointInterface>
-  >({});
-  const [subject, setSubject] = React.useState<Subject[]>([]);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -47,7 +41,7 @@ function Adding_reducingCreate() {
 
   const navigate = useNavigate();
   const params = useParams();
-  // const getRequest = async () => {
+  
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -87,27 +81,7 @@ function Adding_reducingCreate() {
 
  
 
-  // //delete ตารางadding
 
-  // const DeleteAdding_point= async (adding_point_id:number) => {
-  //   console.log("good");
-  //   const requestOptions = {
-  //     method: "DELETE",
-  //     headers: { 
-  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       "Content-Type": "application/json" },
-  //   };
-  //   fetch(`${apiUrl}/adding_points/${adding_point_id}`, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         console.log("Data remove");
-  //         window.location.href = "/adding_point";
-  //       } else {
-  //         console.log("Something was wrong!!");
-  //       }
-  //     });
-  // };
 
   //table
   const StyledTableCell = styled(TableCell)(({ theme }) => ({

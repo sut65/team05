@@ -6,29 +6,21 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
-import { Subject } from "../../models/I_Subject";
+
 import {Grid,TextField,Alert,Snackbar,} from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CreateIcon from "@mui/icons-material/Create";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
+
 import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
+
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
+
 import TableRow from "@mui/material/TableRow";
-import TablePagination from "@mui/material/TablePagination";
-import TableFooter from "@mui/material/TableFooter";
-import SearchIcon from "@mui/icons-material/Search";
+
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { SelectChangeEvent } from "@mui/material/Select";
+
 
 import { Adding_pointInterface } from "../../models/IAdding_point";
-import { GradeInterface } from "../../models/IGrade";
+
 
 function Adding_pointUpdate() {
   const [addingpoint, setAdding_point] = React.useState<Partial<Adding_pointInterface>>({});
@@ -63,19 +55,7 @@ function Adding_pointUpdate() {
   };
 
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+ 
 
 
   const apiUrl = "http://localhost:8080";
@@ -87,8 +67,6 @@ function Adding_pointUpdate() {
       "Content-Type": "application/json" },
   };
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - addingpoints.length) : 0;
 //เรียกใช้ฟังก์ชั่นเพื่อส่งค่าaddingมาใช้ในการอัพเดต
     const getCurrentAdd = async () => {
       fetch(`${apiUrl}/adding_point/${params.adding_point_id}`, requestOptionsGet)
@@ -125,24 +103,7 @@ function Adding_pointUpdate() {
   
 
 
-  //table
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#5B98B9",
-      color: theme.palette.common.white,
-      fontSize: 17,
-    },
-  }));
 
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: "white",
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 1,
-    },
-  }));
 
 
   useEffect(() => {

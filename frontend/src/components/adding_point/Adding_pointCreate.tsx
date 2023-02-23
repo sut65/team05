@@ -12,7 +12,7 @@ import Box from "@mui/material/Box";
 
 import Paper from "@mui/material/Paper";
 
-import {Stack,Divider,Grid,TextField,SvgIcon,Alert,Snackbar,MenuItem,} from "@mui/material";
+import {Grid,TextField,SvgIcon,Alert,Snackbar,} from "@mui/material";
 
 import IconButton from "@mui/material/IconButton";
 
@@ -145,12 +145,8 @@ function Adding_pointCreate() {
 
 
     const sendSearchedID = () => {
-      //navigate({ pathname: `/subject/${searchSubjectID}` });
-      // setSearchID(searchID);
-      // setSearchIDs(searchIDs);//เซ้ตค่าตัวแปรsearchID
+ 
       getSubjectByProfessorandStudenByEnroll(searchID);//เรียกใช้ฟังชั่นโดยนำค่าจากตัวแปรมาใช้
-      //window.location.reload();
-      //console.log(searchSubjectID);
     };
   
 
@@ -223,10 +219,7 @@ const getEnroll = async () => {
         if (res.data) {
           addingpoint.Adding_point_ID = res.data.Adding_point_ID + 1;
         }
-        // else {
-        //   request.Request_ID = res.data = 401;
-        //   //console.log("else");
-        // }
+
       });
   };
 

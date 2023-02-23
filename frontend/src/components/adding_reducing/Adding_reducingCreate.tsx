@@ -50,11 +50,9 @@ import { Course } from "../../models/I_Course";
 
 import {IconButton,MenuItem,SvgIcon,TableFooter,TablePagination,} from "@mui/material";
 
-import { styled } from "@mui/material/styles";
-
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 
-import { StudentsInterface } from "../../models/I_Student";
+
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,ref) {
@@ -104,9 +102,7 @@ function CreateEnroll() {
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const name = event.target.name as keyof typeof enroll;
     const searched_course_id = event.target.value;
-    // const sendSearchedCourseID = () => {
-    //      setSubjectByCourse(searched_course_id);
-    // };
+   
     console.log(searched_course_id)
     getSubjectByCourseID(searched_course_id)
     setEnroll({
@@ -133,11 +129,10 @@ function CreateEnroll() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - subjects.length) : 0;
 
   const sendSearchedSubjectID = () => {
-    //navigate({ pathname: `/subject/${searchSubjectID}` });
+
     setSearchSubjectID(searchSubjectID);//เซ้ตค่าตัวแปรsearchSubjectID
     getSubjectBySubjectID(searchSubjectID);//เรียกใช้ฟังชั่นโดยนำค่าจากตัวแปรมาใช้
-    //window.location.reload();
-    //console.log(searchSubjectID);
+
   };
 
  
@@ -145,9 +140,7 @@ function CreateEnroll() {
 
   
 
-  ///setSearchCourseID(searchCourseID);
-  ////  getSubjectByCourseID(searchCourseID);
-  // Declaring a HTTP request for requesting GET method
+
 
  
 

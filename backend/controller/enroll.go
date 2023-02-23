@@ -75,12 +75,12 @@ func CreateEnroll(c *gin.Context) {
 	}
 
 	new_enroll := entity.Enroll{
-		Enroll_ID:      enroll.Enroll_ID,
-		Student:        student,
-		Subject:        subject,
-		Exam_Schedule:  exam_schedule,
-		Class_Schedule: class_schedule,
-		Section:        enroll.Section,
+		Enroll_ID:         enroll.Enroll_ID,
+		Student:           student,
+		Subject:           subject,
+		Exam_Schedule:     exam_schedule,
+		Class_Schedule:    class_schedule,
+		Section:           enroll.Section,
 		Enroll_Time_Stamp: enroll.Enroll_Time_Stamp.Local(),
 	}
 	// บันทึก entity Subject
@@ -227,7 +227,6 @@ func UpdateEnroll(c *gin.Context) {
 		Class_Schedule_ID: update_class_schedule_id,
 		Enroll_Time_Stamp: update_Enroll_Time_Stamp.Local(),
 		Section:           update_Section,
-
 	}
 	if _, err := ValidateCheckExamAndClass(updated_enroll); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -308,7 +307,8 @@ type subjectError struct {
 func (e subjectError) Error() string {
 	return e.msg
 }
-//เชคห้ามลงทะเบียนรายวิชาซ้ำ
+
+// เชคห้ามลงทะเบียนรายวิชาซ้ำ
 func ValidateChecksubject(subject entity.Enroll) (bool, error) {
 	var enroll []entity.Enroll
 	database := entity.OpenDatabase()
@@ -330,18 +330,16 @@ func ValidateCheckExamAndClass(enrolls entity.Enroll) (bool, error) {
 	fmt.Println(enrolls.Class_Schedule.Start_Time)
 	fmt.Println(enrolls.Class_Schedule.End_Time)
 	fmt.Println(enrolls.Student.Student_ID)
+	fmt.Println(enrolls.Subject.Subject_ID)
 
-	// fmt.Println(enrolls.Subject.Subject_ID)
-
+	// ค้นราข้อมูลการลงทะเบียนตามรหัสนักศึกษา แล้วเก็บไว้ในตัวแปร list_enroll
 	if tx := database.Where("student_id = ?", enrolls.Student.Student_ID).Find(&list_enroll); tx.RowsAffected >= 1 {
-		// err_message := fmt.Sprintf("Class Day cannot be added repeatedly.")
-		// return false, subjectError{err_message}
 
-		// วนลูป enroll ของนักศึกษาคนหนึ่ง ตาม student_id
+		// วนลูป enroll ของนักศึกษาตามรหัสนักศึกษา
 		for _, record := range list_enroll {
 			time_pattern := "15:04"
 
-			// ดึงข้อมูล class schedule
+			// ดึงข้อมูล class schedule จาก class_schedule_id ของข้อมูล enroll
 			database.Where("class_schedule_id = ?", record.Class_Schedule_ID).First(&class_Schedule)
 
 			// เก็บข้อมูล start time, end time และ day ของข้อมูลที่ดึงมาจาก class schedule
@@ -366,8 +364,8 @@ func ValidateCheckExamAndClass(enrolls entity.Enroll) (bool, error) {
 
 				// กรณีเวลาซ้ำซ้อนกัน เช่น
 				// ลงวิชา A 13:00 - 15:00
-				// จะลงวิชา B 14:00 - 16:00 ไม่ได้
-			} else {
+				// จะลงวิชา B 14:00 - 16:00 ไม่ได้ เพราะวิชา B เวลา 14:00 เหลื่อมกับช่วงเวลาเรียนวิชา A
+			} else if day == enrolls.Class_Schedule.Day {
 
 				// แปลง start time, end time ของข้อมูลที่จะเพิ่ม เป็นค่าเวลา
 				check_start, _ := time.Parse(time_pattern, enrolls.Class_Schedule.Start_Time)

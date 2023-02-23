@@ -12,31 +12,31 @@ function Footer() {
         <AppBar sx={{ bgcolor: "#646464", position: "static", padding: 3 }}>
             <Stack direction="row" spacing={2}>
                 <Box flexGrow={1} sx={{ border: 0, padding: 1 }}>
-                    <Typography variant="h5" sx={{color:"#78B1C8"}}> ติดต่อมหาวิทยาลัย</Typography>
-                    <Typography variant="h6"> มหาวิทยาลัยเทคโนโลยีสุรนารี ถ.มหาวิทยาลัย ต.สุรนารี  </Typography>
-                    <Typography variant="h6"> อ.เมือง จ.นครราชสีมา 30000 </Typography>
+                    <Typography  sx={{fontSize:22, color:"#78B1C8", fontFamily:"Noto Sans Thai"}}> ติดต่อมหาวิทยาลัย</Typography>
+                    <Typography  sx={{fontSize:18, fontFamily:"Noto Sans Thai"}}> มหาวิทยาลัยเทคโนโลยีสุรนารี ถ.มหาวิทยาลัย ต.สุรนารี  </Typography>
+                    <Typography  sx={{fontSize:18, fontFamily:"Noto Sans Thai"}}> อ.เมือง จ.นครราชสีมา 30000 </Typography>
                     <p></p>
-                    <Typography variant="h6"> โทรศัพท์ 0-4422-3000 </Typography>
-                    <Typography variant="h6"> โทรสาร 0-4422-4070  </Typography>
+                    <Typography  sx={{fontSize:18, fontFamily:"Noto Sans Thai"}}> โทรศัพท์ 0-4422-3000 </Typography>
+                    <Typography  sx={{fontSize:18, fontFamily:"Noto Sans Thai"}}> โทรสาร 0-4422-4070  </Typography>
 
                 </Box>
                 <Box flexGrow={1} sx={{ border: 0, padding: 1 }}>
-                    <Typography variant="h5" sx={{color:"#78B1C8"}}> ติดต่อ หน่วยประสานงาน มทส. กทม.</Typography>
-                    <Typography variant="h6"> 128/237 อาคารพญาไท พลาซ่า ชั้น 22 ถนนพญาไท เขต </Typography>
-                    <Typography variant="h6"> ราชเทวี จังหวัดกรุงเทพมหานคร 10400 </Typography>
+                    <Typography sx={{fontSize:22, color:"#78B1C8", fontFamily:"Noto Sans Thai"}}> ติดต่อ หน่วยประสานงาน มทส. กทม.</Typography>
+                    <Typography sx={{fontSize:18, fontFamily:"Noto Sans Thai"}}> 128/237 อาคารพญาไท พลาซ่า ชั้น 22 ถนนพญาไท เขต </Typography>
+                    <Typography sx={{fontSize:18, fontFamily:"Noto Sans Thai"}}> ราชเทวี จังหวัดกรุงเทพมหานคร 10400 </Typography>
                     <p></p>
-                    <Typography variant="h6"> โทรศัพท์ 0-2216-5410, 0-2216-5493-4</Typography>
-                    <Typography variant="h6"> โทรสาร 0-2216-5411</Typography>
+                    <Typography sx={{fontSize:18, fontFamily:"Noto Sans Thai"}}> โทรศัพท์ 0-2216-5410, 0-2216-5493-4</Typography>
+                    <Typography sx={{fontSize:18, fontFamily:"Noto Sans Thai"}}> โทรสาร 0-2216-5411</Typography>
                 </Box>
                 <Box flexGrow={1} sx={{ border: 0, padding:1}}>
-                    <Typography variant="h6"> 523332 Software Engineering </Typography>
-                    <Typography variant="h6"> Computer Engineering </Typography>
+                    <Typography sx={{fontSize:18, fontFamily:"Noto Sans Thai"}}> 523332 Software Engineering </Typography>
+                    <Typography sx={{fontSize:18, fontFamily:"Noto Sans Thai"}}> Computer Engineering </Typography>
 
                 </Box>
             </Stack>
             <FormControl fullWidth>
                 <Stack justifyItems="center" alignItems="center" direction="column">
-                    <Typography> Copyright 2018 beta.sut.ac.th All Right Reserved. </Typography>
+                    <Typography sx={{ fontFamily:"Noto Sans Thai"}}> Copyright 2018 beta.sut.ac.th All Right Reserved. </Typography>
                 </Stack>
             </FormControl>
             {/* <AppBar sx={{ bgcolor: "#646464", position: "static" , padding:3}}>

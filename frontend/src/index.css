@@ -12,6 +12,14 @@ code {
     monospace;
 }
 
+.swal2-title {
+  font-family:'Noto Sans Thai';
+}
+.swal2-text {
+  font-family:'Noto Sans Thai';
+}
+
+
 @font-face {
   font-family: 'Noto Sans Thai';
   src: url('https://cdn.jsdelivr.net/gh/lazywasabi/thai-web-fonts@7/fonts/NotoSansThai/var/NotoSansThai[wdth,wght].woff2') format('woff2');

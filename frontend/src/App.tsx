@@ -189,8 +189,10 @@ export default function App() {
                       element={<Adding_reducingUpdate />}
                     />
                   </Routes>
+                  <Footer />
                 </div>
               </Router>
+              
             );
         }
         else if (usertype === "professor") {
@@ -213,6 +215,7 @@ export default function App() {
                             <Route path="/adding_point/update/:adding_point_id" element={<Adding_pointUpdate/>} />
                      
                         </Routes>
+                        <Footer />
                     </div>
                 </Router>
             )

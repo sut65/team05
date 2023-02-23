@@ -190,7 +190,7 @@ function ProfessorList() {
                                     ? professors.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     : professors
                                 ).map((row) => (
-                                    <StyledTableRow key={row.ID}>
+                                    <StyledTableRow key={row.Professor_ID}>
                                         <TableCell>{row.Professor_ID}</TableCell>
                                         <TableCell>{row.Professor_name}</TableCell>
                                         <TableCell>{row.Professor_address}</TableCell>

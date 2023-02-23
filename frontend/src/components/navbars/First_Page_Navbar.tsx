@@ -7,7 +7,7 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 function First_Page_Navbar() {
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar component="nav" sx={{ bgcolor: "#7CB6D5" }}>
+            <AppBar component="nav" sx={{ bgcolor: "#FF7518" }}>
                 <Toolbar>
                     <Stack
                         justifyContent="center"
@@ -17,10 +17,10 @@ function First_Page_Navbar() {
                         flexGrow={1} 
                         sx={{border:0}}>
                         <Box sx={{border:0}}>
-                            <Typography variant="h4" sx={{color:"black", fontFamily:"LilyUPC"}}> ระบบลงทะเบียนเรียน </Typography>
+                            <Typography variant="h5" sx={{color:"black", fontFamily:"Noto Sans Thai"}}> ระบบลงทะเบียนเรียน </Typography>
                         </Box>
                         <Box sx={{border:0}}>
-                            <Typography variant="h4" sx={{color:"black", fontFamily:"LilyUPC"}}> Software Engineering </Typography>
+                            <Typography variant="h5" sx={{color:"black", fontFamily:"Noto Sans Thai"}}> Software Engineering </Typography>
                         </Box>
                         <Box sx={{border:0}}>
                             <LocalPhoneIcon/>
@@ -30,9 +30,9 @@ function First_Page_Navbar() {
                                 component={Link}
                                 to="/home"
                                 variant="contained"
-                                sx={{borderRadius:5}}
+                                sx={{borderRadius:5, bgcolor:"black"}}
                             >   
-                                <Typography variant="h6" sx={{fontFamily:"LilyUPC"}}>
+                                <Typography sx={{fontFamily:"Noto Sans Thai"}}>
                                     Login
                                 </Typography>
                             </Button>

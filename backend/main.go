@@ -210,7 +210,7 @@ func main() {
 			api.GET("/previous_adding_point", controller.GetPreviousAdding_point)
 			api.POST("/adding_points", controller.CreateAdding_point)
 			api.PATCH("/adding_points", controller.UpdateAdding_point)
-	
+
 		}
 
 	}

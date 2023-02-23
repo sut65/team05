@@ -32,8 +32,8 @@ function First_Page() {
                     spacing={2}
                     sx={{ height: '60vh', backgroundColor: 'rgba(255,255,255,0.6)', }}>
                     <SchoolIcon sx={{ fontSize: "150px", border: 0 }} />
-                    <Typography sx={{ fontSize: 70, border: 0, fontFamily: "LilyUPC" }}> Group-5 ระบบลงทะเบียนเรียน </Typography>
-                    <Typography variant='h3' sx={{ fontFamily: "LilyUPC" }}> Project of 523332 Software Engineer </Typography>
+                    <Typography sx={{ fontSize: 50, border: 0, fontFamily: "Noto Sans Thai" }}> Group-5 ระบบลงทะเบียนเรียน </Typography>
+                    <Typography variant='h4' sx={{ fontFamily: "Noto Sans Thai" }}> Project of 523332 Software Engineer </Typography>
                 </Stack>
 
 
@@ -41,12 +41,12 @@ function First_Page() {
             <Box sx={{ border: 0, padding: 5, bgcolor: 'white' }}>
                 <Grid container>
                     <Box sx={{ border: 0 }}>
-                        <Typography variant='h4' sx={{ fontFamily: "Tahoma", }}> Overview </Typography>
+                        <Typography variant='h4' sx={{ fontFamily: "Noto Sans Thai", }}> Overview </Typography>
                     </Box>
                 </Grid>
                 <Divider />
                 <Typography variant='h6' sx={{ paddingLeft: 5, paddingRight: 5, paddingTop: 2 }}>
-                    <Typography sx={{ fontFamily: "Tahoma", fontSize: 20 }}>
+                    <Typography sx={{ fontFamily: "Noto Sans Thai", fontSize: 20 }}>
                         ระบบลงทะเบียนเรียน เป็นระบบที่ใช้บริการเพื่อให้นักศึกษาของมหาวิทลัยหนึ่ง สามารถ
                         ลงทะเบียนเรียนในหลักสูตรที่มหาวิทลัยนั้นได้กําหนดไว้ในส่วนแรก เช่น การลงทะเบียนเรียนในรายวิชา
                         ต่างๆ , การเพิ่มลดรายวิชา และการยื่นคําร้องกรณีกลุ่มเต็ม โดยที่กล่าวมาข้างต้นนี้จะเกี่ยวข้องกับสิทธิ
@@ -58,28 +58,29 @@ function First_Page() {
                     </Typography>
                 </Typography>
 
-                <Stack spacing={2} sx={{ border: 1, padding: 2 }}>
+                <Stack spacing={2} sx={{ border: 0, padding: 2 }}>
                     <Box sx={{ padding: 1, bgcolor: "#e1e1e1" }}>
-                        <Typography variant="h4" sx={{ fontFamily: "Tahoma" }}> ข่าวประกาศ </Typography>
+                        <Typography variant="h4" sx={{ fontFamily: "Noto Sans Thai" }}> ข่าวประกาศ </Typography>
                     </Box>
                     <p></p>
-                    <Card variant="outlined" sx={{ border: 1, boxShadow: 2 }}>
+                    <Card variant="outlined" sx={{ border: 0, boxShadow: 2 }}>
 
                         <Box sx={{ paddingLeft: 2, paddingRight: 2 }}>
                             <Box sx={{ padding: 1 }}>
-                                <Typography variant="h5">
+                                <Typography variant="h5" sx={{fontFamily:"Noto Sans Thai"}}>
                                     ประชาสัมพันธ์การ Sign in เข้าใช้งานคอมพิวเตอร์ประจำห้องเรียน
                                 </Typography>
                                 <Divider />
-                                <p>
+                                <p></p>
+                                <Typography sx={{fontFamily:"Noto Sans Thai"}}>
                                     การ Sign in เข้าใช้งานคอมพิวเตอร์ประจำห้องเรียน ณ อาคารเรียนรวม 1-2
                                     และห้องปฏิบัติการเทคโนโลยีดิจิทัล 1-15 อาคารรัฐสีมาคุณากร
                                     สามารถ Sign in ได้ 2 แบบ
-                                </p>
+                                </Typography>
                                 <p></p>
-                                <Typography>
+                                <Typography sx={{fontFamily:"Noto Sans Thai"}}>
                                     ประกาศโดย
-                                    <Typography sx={{ color: "red" }}>
+                                    <Typography sx={{ color: "red", fontFamily:"Noto Sans Thai" }}>
                                         ฝ่ายตารางสอนตารางสอบ วันที่ประกาศ 31 มกราคม 2566
                                     </Typography>
                                 </Typography>
@@ -87,24 +88,33 @@ function First_Page() {
                         </Box>
                     </Card>
 
-                    <Card variant="outlined" sx={{ border: 1, boxShadow: 2 }}>
+                    <Card variant="outlined" sx={{ border: 0, boxShadow: 2 }}>
 
                         <Box sx={{ paddingLeft: 2, paddingRight: 2 }}>
-                            <Box sx={{ padding: 1 }}>
-                                <Typography variant="h5">
+                            <Box sx={{ padding: 0 }}>
+                                <Typography variant="h5" sx={{fontFamily:"Noto Sans Thai"}}>
                                     ประชาสัมพันธ์เปิดประเมินการสอนภาคการศึกษาที่ 2/2565
                                 </Typography>
                                 <Divider />
-                                <p>
+                                <p></p>
+                                <Typography sx={{fontFamily:"Noto Sans Thai"}}>
                                     ขอความร่วมมือนักศึกษาทุกท่านในการเข้าทำการประเมินการสอนประจำภาคการศึกษาที่ 2/2565 ได้ทาง {" "}
-                                    <Link to="https://reg.sut.ac.th/"> http://reg.sut.ac.th</Link>
+                                    <Link  to="https://reg.sut.ac.th/">
+                                        <Typography sx={{fontFamily:"Noto Sans Thai"}}>
+                                            http://reg.sut.ac.th
+                                        </Typography>
+                                    </Link>
                                     {" "}ตั้งแต่วันนี้ - 9 มีนาคม 2566
                                     ทั้งนี้ผลจากการประเมินการสอนจักนำมาใช้ประโยชน์ในการพัฒนาคุณภาพการเรียนการสอน และข้อมูลของนักศึกษาที่ทำการประเมินการสอนจักถือเป็นความลับ
-                                </p>
-                                <Link to=""> [ตามรายละเอียดที่แนบ] </Link>
+                                </Typography>
+                                <Link to=""> 
+                                    <Typography sx={{fontFamily:"Noto Sans Thai"}}>
+                                        [ตามรายละเอียดที่แนบ] 
+                                    </Typography>
+                                </Link>
                                 <p></p>
-                                <Typography> ประกาศโดย
-                                    <Typography sx={{ color: "red" }}>
+                                <Typography sx={{fontFamily:"Noto Sans Thai"}}> ประกาศโดย
+                                    <Typography sx={{ color: "red", fontFamily:"Noto Sans Thai"}}>
                                         ฝ่ายตารางสอนตารางสอบ วันที่ประกาศ 31 มกราคม 2566
                                     </Typography>
                                 </Typography>
@@ -112,51 +122,60 @@ function First_Page() {
                         </Box>
                     </Card>
 
-                    <Card variant="outlined" sx={{ border: 1, boxShadow: 2 }}>
+                    <Card variant="outlined" sx={{ border: 0, boxShadow: 2 }}>
 
                         <Box sx={{ paddingLeft: 2, paddingRight: 2 }}>
                             <Box sx={{ padding: 1 }}>
-                                <Typography variant="h5">
+                                <Typography variant="h5" sx={{fontFamily:"Noto Sans Thai"}}>
                                     นักศึกษาทุกท่านโปรดตรวจสอบรายวิชาที่เปลี่ยนแปลงรหัสใหม่ ภาคการศึกษาที่ 2/2565
                                 </Typography>
                                 <Divider />
-                                <p>
+                                <p></p>
+                                <Typography sx={{fontFamily:"Noto Sans Thai"}}>
                                     ในการลงทะเบียนภาคการศึกษาที่ 2/2565 โปรดตรวจสอบรายวิชา เนื่องจากมีการเปลี่ยนแปลงรหัสวิชาใหม่ (เทียบเท่ารายวิชาเดิม) ตามตารางที่แนบมาพร้อมนี้
-                                </p>
-                                <Link to="http://www2.sut.ac.th/ces/pr/2564-3/timetable/changeEng364.pdf">สำนักวิชาวิศวกรรมศาสตร์ </Link>
+                                </Typography>
+                                <Link to="http://www2.sut.ac.th/ces/pr/2564-3/timetable/changeEng364.pdf">
+                                    <Typography sx={{fontFamily:"Noto Sans Thai"}}>
+                                        สำนักวิชาวิศวกรรมศาสตร์ 
+                                    </Typography>    
+                                </Link>
                                 <p></p>
-                                <Link to="http://www2.sut.ac.th/ces/pr/2564-2/timetable/change1and2_2.pdf"> สำนักวิชาวิทยาศาสตร์ สำนักวิชาเทคโนโลยีสังคม และสำนักวิชาสาธารณสุขศาสตร์ </Link>
+                                <Link to="http://www2.sut.ac.th/ces/pr/2564-2/timetable/change1and2_2.pdf"> 
+                                    <Typography sx={{fontFamily:"Noto Sans Thai"}}>
+                                        สำนักวิชาวิทยาศาสตร์ สำนักวิชาเทคโนโลยีสังคม และสำนักวิชาสาธารณสุขศาสตร์ 
+                                    </Typography>
+                                </Link>
                                 <p></p>
-                                <Typography> ประกาศโดย  </Typography>
-                                <Typography sx={{ color: "red" }}>
+                                <Typography sx={{fontFamily:"Noto Sans Thai"}}> ประกาศโดย  </Typography>
+                                <Typography sx={{ color: "red", fontFamily:"Noto Sans Thai" }}>
                                     ฝ่ายตารางสอนตารางสอบ วันที่ประกาศ 10 กุมภาพันธ์ 2566
                                 </Typography>
                             </Box>
                         </Box>
                     </Card>
 
-                    <Card variant="outlined" sx={{ border: 1, boxShadow: 2 }}>
+                    <Card variant="outlined" sx={{ border: 0, boxShadow: 2 }}>
 
                         <Box sx={{ paddingLeft: 2, paddingRight: 2 }}>
                             <Box sx={{ padding: 1 }}>
-                                <Typography variant="h5">
+                                <Typography variant="h5" sx={{fontFamily:"Noto Sans Thai"}}>
                                     สมาชิก
                                 </Typography>
                                 <Divider />
-                                <p> B6000000 นาย A </p>
-                                <p> B6000000 นาย A </p>
-                                <p> B6000000 นาย A </p>
-                                <p> B6000000 นาย A </p>
-                                <p> B6000000 นาย A </p>
-                                <p> B6000000 นาย A </p>
+                                <p></p>
+                                <Typography variant="h6" sx={{fontFamily:"Noto Sans Thai"}}> B6302245 นายธนาวุฒิ ท่วมประจักษ์ </Typography>
+                                <Typography variant="h6" sx={{fontFamily:"Noto Sans Thai"}}> B6309572 นายพุฒิพงษ์ ผานัดถ์ </Typography>
+                                <Typography variant="h6" sx={{fontFamily:"Noto Sans Thai"}}> B6310851 นายอาชวัฒก์ ทองโรย </Typography>
+                                <Typography variant="h6" sx={{fontFamily:"Noto Sans Thai"}}> B6327552 นางสาวจรรยากรณ์ หมื่นหาวงค์ </Typography>
+                                <Typography variant="h6" sx={{fontFamily:"Noto Sans Thai"}}> B6331801 นายจิรวัฒน์ รักเจริญพร </Typography>
                                 <Stack direction="row" spacing={1} sx={{ padding: 1 }}>
-                                    <Typography variant="h6"> Sponsor  </Typography>
+                                    <Typography variant="h6" sx={{fontFamily:"Noto Sans Thai"}}> Sponsor  </Typography>
                                     <Box sx={{padding:0.5}}>
-                                        <Typography> อาจารย์ </Typography>
-                                        <Typography> พรี่ TA </Typography>
-                                        <Typography> Stackoverflow  </Typography>
-                                        <Typography> ChatGPT  </Typography>
-                                        <Typography> Material UI  </Typography>
+                                        <Typography sx={{fontFamily:"Noto Sans Thai"}}> อาจารย์ </Typography>
+                                        <Typography sx={{fontFamily:"Noto Sans Thai"}}> พรี่ TA </Typography>
+                                        <Typography sx={{fontFamily:"Noto Sans Thai"}}> Stackoverflow  </Typography>
+                                        <Typography sx={{fontFamily:"Noto Sans Thai"}}> ChatGPT  </Typography>
+                                        <Typography sx={{fontFamily:"Noto Sans Thai"}}> Material UI  </Typography>
                                     </Box>
                                 </Stack>
                             </Box>

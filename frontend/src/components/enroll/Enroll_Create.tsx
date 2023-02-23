@@ -294,8 +294,8 @@ function CreateEnroll() {
             icon: 'warning',
             showDenyButton: true,
             showCancelButton: false,
-            confirmButtonText: 'บันทึก',
-            denyButtonText: `ไม่บันทึก`,
+            confirmButtonText: 'ลงทะเบียน',
+            denyButtonText: `ยกเลิก`,
         }).then((data) => {
             if (data.isConfirmed) {
                 fetch(apiUrl, requestOptions)

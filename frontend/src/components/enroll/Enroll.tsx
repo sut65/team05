@@ -29,6 +29,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { id } from "date-fns/locale";
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
+import Swal from "sweetalert2";
 function ListEnroll() {
   const params = useParams();
   const [enrolls, setEnrolls] = React.useState<EnrollInterface>();
@@ -101,23 +102,57 @@ function ListEnroll() {
 
 
 
-  const deleteEnroll = async (enroll_id: string) => {
+  const deleteEnroll = async (enroll_id: string,Subject_ID:string) => {
     console.log("good");
     const requestOptions = {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     };
 
-    fetch(`${apiUrl}/deleEnroll/${enroll_id}`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          console.log("Data remove");
-          window.location.href = "/enroll";
-        } else {
-          console.log("Something was wrong!!");
-        }
-      });
+    // fetch(`${apiUrl}/deleEnroll/${enroll_id}`, requestOptions)
+    //   .then((response) => response.json())
+    //   .then((res) => {
+    //     if (res.data) {
+    //       console.log("Data remove");
+    //       window.location.href = "/enroll";
+    //     } else {
+    //       console.log("Something was wrong!!");
+    //     }
+    //   });
+    console.log(Subject_ID)
+    Swal.fire({
+      title: 'ต้องการยกเลิกการลงทะเบียนวิชา \n'+Subject_ID+" หรือไม่",
+      icon: 'warning',
+      showCancelButton: false,
+      showDenyButton: true,
+      denyButtonText: `ปิด`,
+      confirmButtonText: 'ยกเลิกการลงทะเบียน',
+    }).then((data) => {
+      if (data.isConfirmed) {
+        fetch(`${apiUrl}/deleEnroll/${enroll_id}`, requestOptions)
+          .then((response) => response.json())
+          .then((res) => {
+            console.log(res)
+            
+            if (res.data) {
+              Swal.fire({
+                icon: 'success',
+                title: 'ลบรายการเรียบร้อย !',
+                text: 'Success',
+                
+              })
+              
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อมูลผิดพลาด !',
+                text: res.error,
+              })
+            }
+            window.location.href = "/enroll";
+          });
+      }
+    })
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - enroll.length) : 0;
@@ -156,7 +191,7 @@ function ListEnroll() {
             ><FactCheckIcon sx={{ fontSize: 40, mt: 0.6, paddingRight: 0, paddingLeft: 1, color: "#388e3c" }} />
               <Box flexGrow={1}>
                 <Typography
-                  sx={{ paddingLeft: 1, mt: 1 ,fontFamily: "Noto Sans Thai"}}
+                  sx={{ paddingLeft: 1, mt: 1, fontFamily: "Noto Sans Thai" }}
                   variant="h5"
                   color="primary"
                   gutterBottom
@@ -173,7 +208,7 @@ function ListEnroll() {
           </Paper>
           <Paper>
             <Paper sx={{ mt: 2, bgcolor: '#FFFAF0' }}>
-              <Typography sx={{ padding: 2 ,fontFamily: "Noto Sans Thai"}}
+              <Typography sx={{ padding: 2, fontFamily: "Noto Sans Thai" }}
                 variant="subtitle2"
                 color="back"
                 gutterBottom>
@@ -186,33 +221,33 @@ function ListEnroll() {
               </Typography>
             </Paper>
           </Paper>
-          <Paper sx={{ backgroundColor: '#FFFAF0' ,height: 70,mt:2}}>
+          <Paper sx={{ backgroundColor: '#FFFAF0', height: 70, mt: 2 }}>
             <Box display={"flex"}>
               <Box sx={{
                 width: 700,
                 height: 30,
-                paddingLeft:2,
-                mt:0.5,
+                paddingLeft: 2,
+                mt: 0.5,
               }}>
-                <Paper sx={{mt:1,pd:1 ,bgcolor: '#ffb74d'}}>
-                <Typography sx={{paddingLeft:2,mt:1,fontFamily: "Noto Sans Thai"}}
-                  gutterBottom>
+                <Paper sx={{ mt: 1, pd: 1, bgcolor: '#ffb74d' }}>
+                  <Typography sx={{ paddingLeft: 2, mt: 1, fontFamily: "Noto Sans Thai" }}
+                    gutterBottom>
                     รายวิชาที่ท่านได้ทำการลงทะเบียนแล้วจะแสดงในตารางด้านล่าง ท่านสามารถแก้ไขกลุ่มได้ที่เมนูแก้ไข
-                  ในตาราง และสามารถยกเลิกการลงทะเบียนในรายวิชานั้นๆได้ที่เมนูลบ ในตาราง
-                </Typography>
+                    ในตาราง และสามารถยกเลิกการลงทะเบียนในรายวิชานั้นๆได้ที่เมนูลบ ในตาราง
+                  </Typography>
                 </Paper>
               </Box>
               <Box flexGrow={1} >
               </Box>
-              <Box width={10} height={3} sx={{mt:2}}></Box>
-              <Grid item xs={8} sx={{mt:1,marginRight:2}}>
+              <Box width={10} height={3} sx={{ mt: 2 }}></Box>
+              <Grid item xs={8} sx={{ mt: 1, marginRight: 2 }}>
                 <Button
-                  sx={{ mt: 1 ,fontFamily: "Noto Sans Thai"}}
+                  sx={{ mt: 1, fontFamily: "Noto Sans Thai" }}
                   component={RouterLink}
                   to="/enroll/create_enroll"
                   variant="contained"
                   color="success"
-                  startIcon={<TextIncreaseIcon sx={{ color: "#b2ff59" ,}}/>}
+                  startIcon={<TextIncreaseIcon sx={{ color: "#b2ff59", }} />}
                 >
                   ลงทะเบียน
                 </Button>
@@ -268,7 +303,7 @@ function ListEnroll() {
                       <TableCell align="center">
                         <IconButton
                           aria-label="delete"
-                          onClick={() => deleteEnroll(row.Enroll_ID)}
+                          onClick={() => deleteEnroll(row.Enroll_ID,row.Subject_ID)}
                         >
                           <DeleteIcon />
                         </IconButton>

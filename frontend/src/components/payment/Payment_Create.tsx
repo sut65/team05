@@ -1,21 +1,14 @@
 import React, { useEffect } from "react";
-
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
-
 import Typography from "@mui/material/Typography";
-
 import Button from "@mui/material/Button";
-
 import Container from "@mui/material/Container";
-
 import Box from "@mui/material/Box";
-
 import { EnrollInterface } from "../../models/I_Enroll";
 import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
-//import { StudentInterface } from "../models/studentInterface";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Alert, CssBaseline, FormControl, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, TableFooter, TablePagination } from "@mui/material";
+import { CssBaseline, FormControl, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, TableFooter, TablePagination } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -23,16 +16,9 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import DeleteIcon from '@mui/icons-material/Delete'
-import IconButton from '@mui/material/IconButton';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import TextField from '@mui/material/TextField';
-import CreateEnroll from "../enroll/Enroll_Create";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Payment } from "../../models/I_Payment";
 import { Payment_Type } from "../../models/I_Payment";
-import { bgcolor } from "@mui/system";
-import { amber } from "@mui/material/colors";
 import { StudentsInterface } from "../../models/I_Student";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
@@ -40,32 +26,32 @@ import dayjs, { Dayjs } from "dayjs";
 import { datePickerToolbarClasses, LocalizationProvider } from "@mui/x-date-pickers";
 import Home_Navbar from "../navbars/Home_navbar";
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
-import AddCardIcon from '@mui/icons-material/AddCard';
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import Swal from "sweetalert2";
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+
+    props,
+
+    ref
+
+) {
+
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+
+});
 
 export function CreatePayment() {
-    const navigate = useNavigate();
-    const params = useParams();
-    const [date, setDate] = React.useState<Date | null>(null);
-
     const [date_time, setDate_time] = React.useState<Dayjs | null>(dayjs);
-
-    //const [subject, setSubject] = React.useState<Subject[]>([]);
-
     const [subjects, setSubjects] = React.useState<Subject[]>([]);
     const [SearchStudentID, setSearchStudentID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
     const [success, setSuccess] = React.useState(false);
     const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
     const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
-    const [payment1, setPayment1] = React.useState<Payment>();
-    const [payments, setPayments] = React.useState<Payment[]>([]);
     const [payment, setPayment] = React.useState<Partial<Payment>>({});
     const [payment_type, setPayment_Type] = React.useState<Payment_Type[]>([]);
     const [message, setAlertMessage] = React.useState("");
-    const [student, setStudent] = React.useState<StudentsInterface[]>([]);
-
     const [error, setError] = React.useState(false);
-
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -101,17 +87,6 @@ export function CreatePayment() {
         }
 
     }
-
-
-
-
-    // const handleInputChangeSearch = (
-    //     event: React.ChangeEvent<{ id?: string; value: any }>
-    // ) => {
-    //     const id = event.target.id as keyof typeof CreatePayment;
-    //     setSearchStudentID(event.target.value);
-    // };
-
     const handleSelectChange = (event: SelectChangeEvent<string>) => {
         const name = event.target.name as keyof typeof payment;
         setPayment({
@@ -256,8 +231,7 @@ export function CreatePayment() {
                 }
             });
     };
-
-
+   
     const getPrevPayment = async () => {
         fetch(`${apiUrl}/previousenpayment`, requestOptionsGet)
             .then((response) => response.json())
@@ -309,17 +283,48 @@ export function CreatePayment() {
             },
             body: JSON.stringify(data),
         };
-        console.log(data)
-        fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    setSuccess(true);
-                } else {
-                    setAlertMessage(res.error);
-                    setError(true);
-                }
-            });
+
+        Swal.fire({
+            title: 'คุณต้องการที่จะบันทึกรายจ่ายหรือไม่?',
+            icon: 'warning',
+            showCancelButton: false,
+            showDenyButton: true,
+            denyButtonText: `ไม่บันทึก`,
+            confirmButtonText: 'บันทึก',
+        }).then((data) => {
+            if (data.isConfirmed) {
+                fetch(apiUrl, requestOptions)
+                    .then((response) => response.json())
+                    .then((res) => {
+                        console.log(res)
+                        if (res.data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'บันทึกเรียบร้อย !',
+                                text: 'Success',
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อมูลผิดพลาด !',
+                                text: res.error,
+                            })
+                        }
+                    });
+            }
+        })
+        
+        // console.log(data)
+        // fetch(apiUrl, requestOptions)
+        //     .then((response) => response.json())
+        //     .then((res) => {
+        //         if (res.data) {
+        //             setSuccess(true);
+        //         } else {
+        //             setAlertMessage(res.error);
+        //             setError(true);
+        //         }
+        //     });
     }
 
     return (
@@ -375,7 +380,7 @@ export function CreatePayment() {
                                     บันทึกรายจ่าย
                                 </Typography>
                             </Box>
-                            <Grid sx={{marginLeft:37,mt:3}}>
+                            <Grid sx={{ marginLeft: 37, mt: 3 }}>
                                 <Box
                                     component="form"
                                     sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -3, paddingLeft: 1, paddingRight: 2 }}>
@@ -406,8 +411,8 @@ export function CreatePayment() {
                                     กรุณาระบุรหัสนักศึกษา
                                 </Typography>
 
-                                <Box sx={{mt:-0.5}}>
-                                    <TextField  sx={{mt:1}}
+                                <Box sx={{ mt: -0.5 }}>
+                                    <TextField sx={{ mt: 1 }}
                                         id="Student_ID"
                                         size="small"
                                         label="ระบุรหัสนักศึกษา"
@@ -507,50 +512,50 @@ export function CreatePayment() {
                                     </TableFooter>
                                 </Table>
                             </TableContainer>
-                            <Box sx={{width:35}}></Box>
-                            <Grid sx={{marginRight:-100}}>
-                            <Paper sx={{
-                                mt: 0,
-                                padding: 0.5,
-                                height: 210,
-                                backgroundColor: '#44484D',
-                            }}>
-                                <Box
-                                    sx={{
-                                        
-                                        width: 370,
-                                        height: 210,
-                                        backgroundColor: '#ffb74d',
-                                    }}><Typography sx={{ paddingLeft: 11, fontFamily: "Noto Sans Thai", fontSize: 18, fontWeight: 'bold' }}>
-                                        วิธีการบันทึกรายจ่าย
-                                    </Typography>
-                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
-                                        1:กรอกรหัสนักศึกษาที่ต้องการบันทึกรายจ่ายและค้นหา
-                                    </Typography>
-                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
-                                        2:บันทึกหน่วยกิจตามที่นักศึกษาลงทะเบียน
-                                    </Typography>
-                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
-                                        3:บันทึกจำนวนเงินที่นักศึกษาชำระ
-                                    </Typography>
-                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
-                                        4:เลือกวิธีที่นักศึกษาใช้ชำระ
-                                    </Typography>
-                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
-                                        5:ในกรณีที่นักศึกษาชำระเงินด้วยการโอนชำระ ให้บันทึกเลขที่ใบเสร็จด้วย
-                                    </Typography>
-                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
-                                        6: ระบุวัันที่-เวลา ที่นักศึกษาทำการชำระเงิน
-                                    </Typography>
-                                </Box>
-                            </Paper>
+                            <Box sx={{ width: 35 }}></Box>
+                            <Grid sx={{ marginRight: -100 }}>
+                                <Paper sx={{
+                                    mt: 0,
+                                    padding: 0.5,
+                                    height: 210,
+                                    backgroundColor: '#44484D',
+                                }}>
+                                    <Box
+                                        sx={{
+
+                                            width: 370,
+                                            height: 210,
+                                            backgroundColor: '#ffb74d',
+                                        }}><Typography sx={{ paddingLeft: 11, fontFamily: "Noto Sans Thai", fontSize: 18, fontWeight: 'bold' }}>
+                                            วิธีการบันทึกรายจ่าย
+                                        </Typography>
+                                        <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                            1:กรอกรหัสนักศึกษาที่ต้องการบันทึกรายจ่ายและค้นหา
+                                        </Typography>
+                                        <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                            2:บันทึกหน่วยกิจตามที่นักศึกษาลงทะเบียน
+                                        </Typography>
+                                        <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                            3:บันทึกจำนวนเงินที่นักศึกษาชำระ
+                                        </Typography>
+                                        <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                            4:เลือกวิธีที่นักศึกษาใช้ชำระ
+                                        </Typography>
+                                        <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                            5:ในกรณีที่นักศึกษาชำระเงินด้วยการโอนชำระ ให้บันทึกเลขที่ใบเสร็จด้วย
+                                        </Typography>
+                                        <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                            6: ระบุวัันที่-เวลา ที่นักศึกษาทำการชำระเงิน
+                                        </Typography>
+                                    </Box>
+                                </Paper>
                             </Grid>
                         </Grid>
                     </Paper>
                     <Paper sx={{ mt: 2 }}>
                         <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
                             <Grid >
-                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold',}}>หน่วยกิจรวม</p>
+                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>หน่วยกิจรวม</p>
                                 <Box
                                     component="form"
                                     sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -3, paddingLeft: 1, }}>
@@ -564,8 +569,8 @@ export function CreatePayment() {
                                 </Box>
                             </Grid>
                             <Grid >
-                                <p style={{ paddingLeft: 18, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold',}}>จำนวนเงินที่ต้องชำระ</p>
-                                <TextField sx={{ width: "250px", pl: 3, paddingRight: 2 ,marginTop: -2}}
+                                <p style={{ paddingLeft: 18, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>จำนวนเงินที่ต้องชำระ</p>
+                                <TextField sx={{ width: "250px", pl: 3, paddingRight: 2, marginTop: -2 }}
                                     size="small"
                                     id="Payable"
                                     value={add(payment.Unit)}
@@ -575,8 +580,8 @@ export function CreatePayment() {
                                 </TextField>
                             </Grid>
                             <Grid sx={{ marginLeft: 3, }}>
-                                <p style={{ paddingLeft: 18, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold',}}>จำนวนเงินที่นักศึกษาชำระ</p>
-                                <TextField sx={{ width: "250px", pl: 2, paddingLeft: 0 ,marginTop: -2}}
+                                <p style={{ paddingLeft: 18, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>จำนวนเงินที่นักศึกษาชำระ</p>
+                                <TextField sx={{ width: "250px", pl: 2, paddingLeft: 0, marginTop: -2 }}
                                     size="small"
                                     label="กรุณากรอกจำนวนเงิน"
                                     id="Amounts"
@@ -590,7 +595,7 @@ export function CreatePayment() {
 
                         <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
                             <Grid >
-                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold',}}>วิธีการชำระเงิน</p>
+                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>วิธีการชำระเงิน</p>
                                 <Box
 
                                     sx={{ m: 1, marginTop: -2, }}>
@@ -618,7 +623,7 @@ export function CreatePayment() {
                                 </Box>
                             </Grid>
                             <Grid >
-                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold',}}>เลขที่ใบเสร็จ</p>
+                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>เลขที่ใบเสร็จ</p>
                                 <Box
                                     component="form"
                                     sx={{ '& .MuiTextField-root': { m: 1, width: '29ch' }, marginTop: -3, paddingLeft: 1, }}>
@@ -633,11 +638,11 @@ export function CreatePayment() {
                                 </Box>
                             </Grid>
                             <Grid sx={{ paddingLeft: 4 }}>
-                                <p style={{ paddingLeft: 18, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold',}}>ระบุวัน-เวลาที่ชำระ</p>
+                                <p style={{ paddingLeft: 18, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>ระบุวัน-เวลาที่ชำระ</p>
                                 <FormControl fullWidth variant="outlined" size="small">
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DateTimePicker
-                                            renderInput={(params) => <TextField size="small" sx={{marginTop: -2}} {...params} />}
+                                            renderInput={(params) => <TextField size="small" sx={{ marginTop: -2 }} {...params} />}
                                             value={date_time}
                                             onChange={(newValue: Dayjs | null) => {
                                                 setDate_time(newValue);

@@ -27,7 +27,7 @@ type Payment struct {
 	Receipt_number string `valid:"receipt_thai_check~receipt number cannot be thai character,receipt_english_check~receipt number cannot be special character"`
 	Date_Time      time.Time `valid:"datetimecheckfutures~Date_Time cannot be future"`
 	Unit           uint   `valid:"required~Unit cannot be blank"`
-	Payable        uint `valid:"required~Amounts cannot be blank"`
+	Payable        uint 
 	Amounts        uint `valid:"required~Amounts cannot be blank"`
 }
 

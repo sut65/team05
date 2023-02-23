@@ -1,47 +1,28 @@
 import React, { useEffect, useState } from "react";
-
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-
 import { useParams } from "react-router-dom";
-
 import TextField from "@mui/material/TextField";
-
 import Button from "@mui/material/Button";
-
 //import FormControl from "@mui/material/FormControl";
-
 import Container from "@mui/material/Container";
-
 import Paper from "@mui/material/Paper";
-
 import Grid from "@mui/material/Grid";
-
 import Box from "@mui/material/Box";
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
-
 import Typography from "@mui/material/Typography";
-
 import Snackbar from "@mui/material/Snackbar";
-
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-
 import { EnrollInterface } from "../../models/I_Enroll";
-
 import SearchIcon from '@mui/icons-material/Search';
-
 import FactCheckIcon from '@mui/icons-material/FactCheck';
-
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-
+import Swal from "sweetalert2";
 import { Subject } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
 import { IconButton, MenuItem, TableFooter, TablePagination } from "@mui/material";
@@ -81,7 +62,7 @@ function CreateEnroll() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [message, setAlertMessage] = React.useState("");
-   
+
     const handleClose = (
         event?: React.SyntheticEvent | Event,
         reason?: string
@@ -308,17 +289,48 @@ function CreateEnroll() {
             body: JSON.stringify(data),
         };
 
-        fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                console.log(res);
-                if (res.data) {
-                    setSuccess(true);
-                } else {
-                    setAlertMessage(res.error);
-                    setError(true);
-                }
-            });
+        Swal.fire({
+            title: "คุณต้องการลงทะเบียนในรายวิชา  "+data.Subject_ID+" กลุ่ม "+data.Section,
+            icon: 'warning',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'บันทึก',
+            denyButtonText: `ไม่บันทึก`,
+        }).then((data) => {
+            if (data.isConfirmed) {
+                fetch(apiUrl, requestOptions)
+                    .then((response) => response.json())
+                    .then((res) => {
+                        console.log(res)
+                        if (res.data) {
+                            console.log(res.data)
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'คุณได้ลงทะเบียนในรายวิชา \n'+res.data.Subject_ID+" กลุ่มที่ "+res.data.Section,
+                                text: 'Success',
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อมูลผิดพลาด !',
+                                text: res.error,
+                            })
+                        }
+                    });
+            }
+        })
+
+        // fetch(apiUrl, requestOptions)
+        //     .then((response) => response.json())
+        //     .then((res) => {
+        //         console.log(res);
+        //         if (res.data) {
+        //             setSuccess(true);
+        //         } else {
+        //             setAlertMessage(res.error);
+        //             setError(true);
+        //         }
+        //     });
     }
 
     return (
@@ -380,12 +392,12 @@ function CreateEnroll() {
                             <Box flexGrow={1} >
                             </Box>
                             <Grid>
-                                <Typography sx={{ mt: 0.5, fontSize: 16 ,fontFamily: "Noto Sans Thai"}}>
+                                <Typography sx={{ mt: 0.5, fontSize: 16, fontFamily: "Noto Sans Thai" }}>
                                     รหัสนักศึกษาที่ล็อคอิน
                                 </Typography>
                                 <Box
                                     component="form"
-                                    sx={{ paddingRight: 2, mt: 0 ,marginBlockEnd:1}}>
+                                    sx={{ paddingRight: 2, mt: 0, marginBlockEnd: 1 }}>
                                     <TextField
                                         disabled
                                         size="small"
@@ -400,7 +412,7 @@ function CreateEnroll() {
                     </Paper>
                     {/* -------------------------------------------------------------------------------------- */}
                     <Paper sx={{ mt: 2, backgroundColor: '#FFFAF0' }}>
-                        <Grid container sx={{ marginTop: '3px', marginLeft: 5, paddingBlockEnd:2}}>
+                        <Grid container sx={{ marginTop: '3px', marginLeft: 5, paddingBlockEnd: 2 }}>
                             <Grid >
                                 <p style={{ paddingLeft: 15, fontFamily: "Noto Sans Thai", fontSize: 18, fontWeight: 'bold' }}>กรุณาเลือกหลักสูตร</p>
                                 <Box
@@ -431,30 +443,30 @@ function CreateEnroll() {
                             </Grid>
                             <Paper sx={{
                                 mt: 2,
-                                marginLeft:1,
+                                marginLeft: 1,
                                 padding: 0.5,
                                 height: 140,
                                 backgroundColor: '#44484D',
                             }}>
                                 <Box
                                     sx={{
-                                        
+
                                         width: 300,
                                         height: 140,
                                         backgroundColor: '#ffb74d',
                                     }}><Typography sx={{ paddingLeft: 11, fontFamily: "Noto Sans Thai", fontSize: 18, fontWeight: 'bold' }}>
                                         วิธีการลงทะเบียน
                                     </Typography>
-                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                    <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
                                         1:เลือกหลักสูตรที่ต้องการลงทะเบียน
                                     </Typography>
-                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                    <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
                                         2:กรอกรหัสวิชาที่ต้องการลงทะเบียน
                                     </Typography>
-                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                    <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
                                         3:กดปุ่มค้นหารายวิชา
                                     </Typography>
-                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                    <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
                                         4:เลือกลงทะเบียนตามกลุ่มที่ต้องการ
                                     </Typography>
                                 </Box>
@@ -462,7 +474,7 @@ function CreateEnroll() {
                             <Grid sx={{ paddingLeft: 10 }}> </Grid>
                             <Paper sx={{
                                 mt: 2,
-                                
+
                                 padding: 0.5,
                                 height: 210,
                                 backgroundColor: '#f57c00',
@@ -475,16 +487,16 @@ function CreateEnroll() {
                                     }}><Typography sx={{ paddingLeft: 8, fontFamily: "Noto Sans Thai", fontSize: 18, fontWeight: 'bold', color: "red" }}>
                                         คำเตือนการลงทะเบียน
                                     </Typography>
-                                    <Typography sx={{ paddingLeft: 1, color: "#f57c00" ,fontFamily: "Noto Sans Thai", fontSize: 16,}}>
+                                    <Typography sx={{ paddingLeft: 1, color: "#f57c00", fontFamily: "Noto Sans Thai", fontSize: 16, }}>
                                         1:ไม่สามารถลงทะเบียนรหัสวิชาเดิมได้
                                     </Typography>
-                                    <Typography sx={{ paddingLeft: 1, color: "#f57c00" ,fontFamily: "Noto Sans Thai", fontSize: 16}}>
+                                    <Typography sx={{ paddingLeft: 1, color: "#f57c00", fontFamily: "Noto Sans Thai", fontSize: 16 }}>
                                         2:ไม่สามารถลงทะเบียนรายวิชาที่มีวันเรียนซ้ำกันได้
                                     </Typography>
-                                    <Typography sx={{ paddingLeft: 1, color: "#f57c00",fontFamily: "Noto Sans Thai", fontSize: 16 }}>
+                                    <Typography sx={{ paddingLeft: 1, color: "#f57c00", fontFamily: "Noto Sans Thai", fontSize: 16 }}>
                                         3:ไม่สามารถลงทะเบียนในรายวิชาที่กลุ่มเต็มได้
                                     </Typography>
-                                    <Typography sx={{ paddingLeft: 1, color: "#f57c00" ,fontFamily: "Noto Sans Thai", fontSize: 16}}>
+                                    <Typography sx={{ paddingLeft: 1, color: "#f57c00", fontFamily: "Noto Sans Thai", fontSize: 16 }}>
                                         4:กดเชคผลการลงทะเบียนเพื่อยืนยันว่าการลงทะเบียนได้รับการอนุมัติแล้ว
                                     </Typography>
                                 </Box>
@@ -496,7 +508,7 @@ function CreateEnroll() {
                                 <p style={{ paddingLeft: 17, fontFamily: "Noto Sans Thai", fontSize: 18, fontWeight: 'bold' }}>กรอกรหัสวิชา</p>
                                 <Box
                                     component="form"
-                                    sx={{ '& .MuiTextField-root': { m: 1, width: '36ch' }, marginTop: -3, paddingLeft: 1}}>
+                                    sx={{ '& .MuiTextField-root': { m: 1, width: '36ch' }, marginTop: -3, paddingLeft: 1 }}>
                                     <TextField
                                         color="warning"
                                         label="กรอกรหัสวิชา"

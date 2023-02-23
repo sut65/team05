@@ -260,6 +260,7 @@ function Students_List() {
                                                 <StyledTableCell width={100} sx={{ border: 1 }}>รหัสนักศึกษา</StyledTableCell>
                                                 <StyledTableCell width={100} sx={{ border: 1 }}>ชื่อนักศึกษา</StyledTableCell>
                                                 <StyledTableCell width={100} sx={{ border: 1 }}>วันที่เพิ่ม</StyledTableCell>
+                                                <StyledTableCell width={100} sx={{ border: 1 }}>อายุ</StyledTableCell>
                                                 <StyledTableCell width={100} sx={{ border: 1 }}>หอพัก</StyledTableCell>
                                                 <StyledTableCell width={150} sx={{ border: 1 }}>หลักสูตร</StyledTableCell>
                                                 <StyledTableCell width={150} sx={{ border: 1 }}>แอดมิน</StyledTableCell>
@@ -275,6 +276,7 @@ function Students_List() {
                                                     <TableCell>{row.Student_ID}</TableCell>
                                                     <TableCell>{row.Student_Name}</TableCell>
                                                     <TableCell>{row.Datetime.toString()}</TableCell>
+                                                    <TableCell>{row.Student_Age}</TableCell>
                                                     <TableCell>{row.Dormitory_ID}</TableCell>
                                                     <TableCell>{row.Course_ID}</TableCell>
                                                     <TableCell>{row.Admin_ID}</TableCell>

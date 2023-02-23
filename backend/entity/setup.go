@@ -187,6 +187,7 @@ func SetupDatabase() {
 			Course_ID:     "CPE2560",
 			Course_Name:   "หลักสูตรวิศวกรรมคอมพิวเตอร์ 2560",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification1,
 			Admin:         admin1,
 			Major:         cpe,
@@ -197,6 +198,7 @@ func SetupDatabase() {
 			Course_ID:     "CPE2564",
 			Course_Name:   "หลักสูตรวิศวกรรมคอมพิวเตอร์ 2564",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification2,
 			Admin:         admin1,
 			Major:         cpe,
@@ -207,6 +209,7 @@ func SetupDatabase() {
 			Course_ID:     "EE2560",
 			Course_Name:   "หลักสูตรวิศวกรรมไฟฟ้า 2560",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification3,
 			Admin:         admin2,
 			Major:         ee,
@@ -217,6 +220,7 @@ func SetupDatabase() {
 			Course_ID:     "CV2560",
 			Course_Name:   "หลักสูตรวิศวกรรมโยธา 2560",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification2,
 			Admin:         admin3,
 			Major:         civil,
@@ -227,6 +231,7 @@ func SetupDatabase() {
 			Course_ID:     "ELEC2562",
 			Course_Name:   "หลักสูตรวิศวกรรมอิเล็กทรอนิกส์ 2562",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification3,
 			Admin:         admin2,
 			Major:         elec,
@@ -237,6 +242,7 @@ func SetupDatabase() {
 			Course_ID:     "PM2564",
 			Course_Name:   "หลักสูตรวิศวกรรมพอลิเมอร์ 2564",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification2,
 			Admin:         admin3,
 			Major:         polymer,
@@ -247,6 +253,7 @@ func SetupDatabase() {
 			Course_ID:     "MC2564",
 			Course_Name:   "หลักสูตรวิศวกรรมเครื่องกล 2564",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification2,
 			Admin:         admin3,
 			Major:         mechanical,
@@ -257,6 +264,7 @@ func SetupDatabase() {
 			Course_ID:     "TLC2560",
 			Course_Name:   "หลักสูตรวิศวกรรมโทรคมนาคม 2560",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification2,
 			Admin:         admin1,
 			Major:         telecom,
@@ -267,6 +275,7 @@ func SetupDatabase() {
 			Course_ID:     "IS2560",
 			Course_Name:   "หลักสูตรวิศวกรรมอุสาหการ 2560",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification2,
 			Admin:         admin2,
 			Major:         industrial,
@@ -277,6 +286,7 @@ func SetupDatabase() {
 			Course_ID:     "PH2561",
 			Course_Name:   "หลักสูตรสาธารณสุข 2561",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification2,
 			Admin:         admin2,
 			Major:         industrial,
@@ -287,6 +297,7 @@ func SetupDatabase() {
 			Course_ID:     "CS2564",
 			Course_Name:   "หลักสูตรวิทยาการคอมพิวเตอร์ 2564",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification2,
 			Admin:         admin1,
 			Major:         com_sci,
@@ -297,6 +308,7 @@ func SetupDatabase() {
 			Course_ID:     "PS2562",
 			Course_Name:   "หลักสูตรฟิสิกส์ 2562",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification2,
 			Admin:         admin3,
 			Major:         physics,
@@ -307,6 +319,7 @@ func SetupDatabase() {
 			Course_ID:     "BL2561",
 			Course_Name:   "หลักสูตรชีววิทยา 2561",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification2,
 			Admin:         admin2,
 			Major:         biology,
@@ -317,6 +330,7 @@ func SetupDatabase() {
 			Course_ID:     "CC2564",
 			Course_Name:   "หลักสูตรเคมี 2564",
 			Datetime:      time.Now(),
+			Year:          4,
 			Qualification: qualification2,
 			Admin:         admin2,
 			Major:         chemical,
@@ -393,6 +407,7 @@ func SetupDatabase() {
 			Student_ID:       "B6311111",
 			Student_Name:     "ปีเตอร์ สงบสุข",
 			Student_Password: string(student1_password),
+			Student_Age:      19,
 			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
@@ -404,6 +419,7 @@ func SetupDatabase() {
 			Student_ID:       "B6200001",
 			Student_Name:     "สมพงษ์ วิ่งวุฒิ",
 			Student_Password: string(student2_password),
+			Student_Age:      20,
 			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
@@ -415,6 +431,7 @@ func SetupDatabase() {
 			Student_ID:       "B6233333",
 			Student_Name:     "สมใจ ใยดี",
 			Student_Password: string(student3_password),
+			Student_Age:      20,
 			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
@@ -426,6 +443,7 @@ func SetupDatabase() {
 			Student_ID:       "B6312345",
 			Student_Name:     "เทพกิต สมพิช",
 			Student_Password: string(student4_password),
+			Student_Age:      20,
 			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
@@ -437,6 +455,7 @@ func SetupDatabase() {
 			Student_ID:       "B6302561",
 			Student_Name:     "วิเดช สุทธิพัฒน์",
 			Student_Password: string(student5_password),
+			Student_Age:      21,
 			Datetime:         time.Now(),
 			Admin:            admin1,
 			Course:           cpe2560,
@@ -1346,23 +1365,23 @@ func SetupDatabase() {
 		}
 		db.Create(&Request2)
 		enroll1 := Enroll{
-			Enroll_ID:      "E001",
-			Student:        student1,
-			Subject:        software_engineering_sec1,
-			Class_Schedule: system_analysis_sec1_class,
-			Exam_Schedule:  system_analysis_midterm,
+			Enroll_ID:         "E001",
+			Student:           student1,
+			Subject:           software_engineering_sec1,
+			Class_Schedule:    system_analysis_sec1_class,
+			Exam_Schedule:     system_analysis_midterm,
 			Enroll_Time_Stamp: time.Now(),
-			Section:        1,
+			Section:           1,
 		}
 
 		enroll2 := Enroll{
-			Enroll_ID:      "E002",
-			Student:        student2,
-			Subject:        operating_system_sec1,
-			Class_Schedule: os_sec1_class,
-			Exam_Schedule:  os_final,
+			Enroll_ID:         "E002",
+			Student:           student2,
+			Subject:           operating_system_sec1,
+			Class_Schedule:    os_sec1_class,
+			Exam_Schedule:     os_final,
 			Enroll_Time_Stamp: time.Now(),
-			Section:        1,
+			Section:           1,
 		}
 		db.Create(&enroll1)
 		db.Create(&enroll2)
@@ -1457,6 +1476,81 @@ func SetupDatabase() {
 			Description: "ดีมาก",
 		}
 		db.Create(&Grade2)
+		Grade3 := Grade{
+			Grade_ID:    "B",
+			Description: "ดี",
+		}
+		db.Create(&Grade3)
+		Grade4 := Grade{
+			Grade_ID:    "C+",
+			Description: "ดีพอใช้",
+		}
+		db.Create(&Grade4)
+		Grade5 := Grade{
+			Grade_ID:    "C",
+			Description: "พอใช้",
+		}
+		db.Create(&Grade5)
+		Grade6 := Grade{
+			Grade_ID:    "D+",
+			Description: "อ่อน",
+		}
+		db.Create(&Grade6)
+		Grade7 := Grade{
+			Grade_ID:    "D",
+			Description: "อ่อนมาก",
+		}
+		db.Create(&Grade7)
+		Grade8 := Grade{
+			Grade_ID:    "F",
+			Description: "ตก",
+		}
+		db.Create(&Grade8)
+		Grade9 := Grade{
+			Grade_ID:    "I",
+			Description: "การวัดผลยังไม่สมบูรณ์",
+		}
+		db.Create(&Grade9)
+		Grade10 := Grade{
+			Grade_ID:    "M",
+			Description: "นักศึกษาขาดสอบ",
+		}
+		db.Create(&Grade10)
+		Grade11 := Grade{
+			Grade_ID:    "P",
+			Description: "การสอนยังไม่สิ้นสุด",
+		}
+		db.Create(&Grade11)
+		Grade12 := Grade{
+			Grade_ID:    "S",
+			Description: "ผลการประเมินเป็นที่พอใจ",
+		}
+		db.Create(&Grade12)
+		Grade13 := Grade{
+			Grade_ID:    "ST",
+			Description: "ผลการประเมินเป็นที่พอใจสำหรับรายวิชา",
+		}
+		db.Create(&Grade13)
+		Grade14 := Grade{
+			Grade_ID:    "U",
+			Description: "ผลการประเมินไม่เป็นที่พอใจ",
+		}
+		db.Create(&Grade14)
+		Grade15 := Grade{
+			Grade_ID:    "V",
+			Description: "ผู้ร่วมเรียน",
+		}
+		db.Create(&Grade15)
+		Grade16 := Grade{
+			Grade_ID:    "W",
+			Description: "การถอนรายวิชา",
+		}
+		db.Create(&Grade16)
+		Grade17 := Grade{
+			Grade_ID:    "X",
+			Description: "ยังไม่ได้รับผลการประเมิน",
+		}
+		db.Create(&Grade17)
 
 		//adding point
 

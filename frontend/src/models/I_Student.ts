@@ -11,6 +11,7 @@ export interface StudentsInterface {
    
     Student_Name: string;
     Student_Password: string;
+    Student_Age: number;
    
     Datetime: Date;
 

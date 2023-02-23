@@ -14,7 +14,8 @@ type Dormitory struct {
 	Dormitory_Name string
 	Students       []Student `gorm:"foreignKey:Dormitory_ID"`
 }
-//Student
+
+// Student
 type Student struct {
 	Student_ID string `gorm:"primaryKey" valid:"studentchecklenght~Student ID Should be 8 characters,required~Student ID cannot be null"`
 
@@ -22,7 +23,8 @@ type Student struct {
 
 	Student_Password string `valid:"required~Student Password cannot be null,studentpasswordchecklanguage~Student Password cannot be Thai Language,minstringlength(8)~Student Password can not less than 8 character"`
 
-	Datetime time.Time `valid:"datetimecheckfuture~Datetime cannot be future"`
+	Student_Age uint
+	Datetime    time.Time `valid:"datetimecheckfuture~Datetime cannot be future"`
 
 	Admin_ID *string `valid:"-"`
 	Admin    Admin   `gorm:"references:Admin_ID" valid:"-"`

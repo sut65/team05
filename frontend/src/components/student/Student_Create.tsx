@@ -202,6 +202,11 @@ const requestOptionsGet = {
 
     Student_Password: students.Student_Password ?? "",
 
+    Student_Age:
+    typeof students.Student_Age === "string"
+      ? parseInt(students.Student_Age)
+      : students.Student_Age,
+
     Datetime: datetime,
 
     Course_ID: students.Course_ID ?? "",
@@ -446,6 +451,34 @@ const requestOptionsGet = {
            </FormControl>
 
          </Grid>
+
+         <Grid item xs={4} color="#115686" 
+          sx={{  fontFamily : "LilyUPC" ,
+           fontWeight : 'bold' ,fontSize:27}}>
+          <p>อายุ</p>
+
+           <FormControl fullWidth variant="outlined">
+
+             <TextField
+
+               id="Student_Age"
+
+               variant="outlined"
+
+               type="number"
+
+               size="medium"
+
+               value={students.Student_Age}
+
+               onChange={handleInputChange}
+
+             />
+
+           </FormControl>
+
+         </Grid>
+
 
          <Grid item xs={4} color="#115686" 
           sx={{  fontFamily : "LilyUPC" ,

@@ -8,8 +8,6 @@ import TextField from "@mui/material/TextField";
 
 import Button from "@mui/material/Button";
 
-//import FormControl from "@mui/material/FormControl";
-
 import Container from "@mui/material/Container";
 
 import Paper from "@mui/material/Paper";
@@ -19,10 +17,15 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
 import Table from "@mui/material/Table";
+
 import TableBody from "@mui/material/TableBody";
+
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+
 import TableContainer from "@mui/material/TableContainer";
+
 import TableHead from "@mui/material/TableHead";
+
 import TableRow from "@mui/material/TableRow";
 
 import Typography from "@mui/material/Typography";
@@ -42,13 +45,17 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { Subject } from "../../models/I_Subject";
+
 import { Course } from "../../models/I_Course";
+
 import {IconButton,MenuItem,SvgIcon,TableFooter,TablePagination,} from "@mui/material";
+
 import { styled } from "@mui/material/styles";
+
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
+
 import { StudentsInterface } from "../../models/I_Student";
-import { blue, pink } from "@mui/material/colors";
-import Home_Navbar from "../navbars/Home_navbar";
+
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -57,13 +64,13 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
 function CreateEnroll() {
   const navigate = useNavigate();
   const params = useParams();
-  // const [date, setDate] = React.useState<Date | null>(null);
+
   const [adding_reducing, setAdding_reducing] = React.useState<Partial<Adding_reducingInterface>>({});
-  // const [adding_reducings, setAdding_reducings] = React.useState<Adding_reducingInterface[]>([]);
+
   const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
-  // const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
+
   const [subjects, setSubjects] = React.useState<Subject[]>([]);
-  const [student, setStudent] = React.useState<StudentsInterface[]>([]);
+
   const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
   
   const [message, setAlertMessage] = React.useState("");
@@ -142,23 +149,7 @@ function CreateEnroll() {
   ////  getSubjectByCourseID(searchCourseID);
   // Declaring a HTTP request for requesting GET method
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#5B98B9",
-      color: theme.palette.common.white,
-      fontSize: 17,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: "white",
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 1,
-    },
-  }));
+ 
 
   const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {

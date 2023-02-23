@@ -189,6 +189,11 @@ function CourseCreate() {
 
       Datetime: datetime,
 
+      Year:
+      typeof courses.Year === "string"
+        ? parseInt(courses.Year)
+        : courses.Year,
+
       Qualification_ID: courses.Qualification_ID ?? "",
 
       Major_ID: courses.Major_ID ?? "",
@@ -490,6 +495,7 @@ function CourseCreate() {
                 }}
 
               >
+              
                 <option aria-label="Noun" value="">  กรุณาเลือกสาขา</option>
 
                 {majors.map((item: MajorsInterface) => (
@@ -506,6 +512,32 @@ function CourseCreate() {
             </FormControl>
           </Grid>
 
+          <Grid item xs={4} color="#115686" 
+          sx={{  fontFamily : "LilyUPC" ,
+           fontWeight : 'bold' ,fontSize:27}}>
+          <p>อายุ</p>
+
+           <FormControl fullWidth variant="outlined">
+
+             <TextField
+
+               id="Year"
+
+               variant="outlined"
+
+               type="number"
+
+               size="medium"
+
+               value={courses.Year}
+
+               onChange={handleInputChange}
+
+             />
+
+           </FormControl>
+
+         </Grid>
 
 
           <Grid item xs={12}>

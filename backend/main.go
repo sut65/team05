@@ -211,7 +211,7 @@ func main() {
 			api.GET("/previous_adding_point", controller.GetPreviousAdding_point)
 			api.POST("/adding_points", controller.CreateAdding_point)
 			api.PATCH("/adding_points", controller.UpdateAdding_point)
-			api.DELETE("/adding_points/:adding_point_id", controller.DeleteAdding_point)
+	
 		}
 
 	}

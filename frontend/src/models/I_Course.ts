@@ -10,6 +10,7 @@ export interface Course {
     Course_Name: string;
    
     Datetime:  Date;
+    Year: number;
 
     Qualification_ID: string;
     Qualification_Name: string;

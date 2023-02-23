@@ -87,27 +87,27 @@ function Adding_reducingCreate() {
 
  
 
-  //delete ตารางadding
+  // //delete ตารางadding
 
-  const DeleteAdding_point= async (adding_point_id:number) => {
-    console.log("good");
-    const requestOptions = {
-      method: "DELETE",
-      headers: { 
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json" },
-    };
-    fetch(`${apiUrl}/adding_points/${adding_point_id}`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          console.log("Data remove");
-          window.location.href = "/adding_point";
-        } else {
-          console.log("Something was wrong!!");
-        }
-      });
-  };
+  // const DeleteAdding_point= async (adding_point_id:number) => {
+  //   console.log("good");
+  //   const requestOptions = {
+  //     method: "DELETE",
+  //     headers: { 
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       "Content-Type": "application/json" },
+  //   };
+  //   fetch(`${apiUrl}/adding_points/${adding_point_id}`, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         console.log("Data remove");
+  //         window.location.href = "/adding_point";
+  //       } else {
+  //         console.log("Something was wrong!!");
+  //       }
+  //     });
+  // };
 
   //table
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -228,9 +228,6 @@ function Adding_reducingCreate() {
                     เกรด
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ border: 1 }}>
-                    ลบ
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ border: 1 }}>
                     เเก้ไข
                   </StyledTableCell>
                 </TableRow>
@@ -266,23 +263,9 @@ function Adding_reducingCreate() {
                     </TableCell>
                     <TableCell align="center">{row.Student_Name}</TableCell>
                     <TableCell align="center">{row.Grade_ID}</TableCell>
-                    
-                    <TableCell align="center">
-                    <IconButton
-                     aria-label="delete"
-                     onClick={() => {
-                      DeleteAdding_point(row.Adding_point_ID)
-                       console.log(row.Adding_point_ID)
-                    }}>
-                    <DeleteIcon/>
-                  </IconButton>
-                  </TableCell>
-
                     <TableCell align="center">
                       <IconButton
                         aria-label="edit"             
-                        // component={RouterLink}
-                        // to="/update"
                         onClick={() => {
                           navigate({ 
                             pathname: `/adding_point/update/${row.Adding_point_ID}` });

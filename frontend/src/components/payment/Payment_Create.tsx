@@ -332,7 +332,7 @@ export function CreatePayment() {
                     p: 1,
                     bgcolor: '#93BFCF'
                 }}>
-                <Container maxWidth="xl" style={{ height: "auto" }} sx={{ p: 2, bgcolor: '#BEF0CB', mt: -1 }}>
+                <Container maxWidth="lg" style={{ height: "auto" }} sx={{ p: 2, bgcolor: '#BEF0CB', mt: -1 }}>
                     <Snackbar
                         open={success}
                         autoHideDuration={6000}
@@ -375,6 +375,24 @@ export function CreatePayment() {
                                     บันทึกรายจ่าย
                                 </Typography>
                             </Box>
+                            <Grid sx={{marginLeft:37,mt:3}}>
+                                <Box
+                                    component="form"
+                                    sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -3, paddingLeft: 1, paddingRight: 2 }}>
+                                    <TextField sx={{ width: "200px" }}
+                                        type="string"
+                                        size="small"
+                                        id="Admin_ID"
+                                        disabled
+                                        value={payment.Admin_ID}
+                                        inputProps={{
+                                            name: "Admin_ID",
+                                        }}
+                                        onChange={handleInputChange}
+                                    >
+                                    </TextField>
+                                </Box>
+                            </Grid>
                         </Box>
                     </Paper>
 
@@ -394,6 +412,7 @@ export function CreatePayment() {
                                         size="small"
                                         label="ระบุรหัสนักศึกษา"
                                         variant="outlined"
+                                        value={payment.Student_ID}
                                         onChange={handleInputChange}
                                     >
                                     </TextField>
@@ -401,13 +420,23 @@ export function CreatePayment() {
                             </Grid>
                             <Grid sx={{ marginTop: '60px', marginLeft: 3, }}>
                                 <Button
-                                    
+                                    color="info"
                                     variant="contained"
                                     onClick={sendSearchedStudentID}
                                 >
                                     ค้นหารหัสนักศึกษา
                                 </Button>
                             </Grid>
+                            {/* <Grid sx={{paddingLeft:1}}>
+                                <p style={{ paddingLeft: 1,fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>รหัสนักศึกษา</p>
+                                <TextField sx={{ width: "250px", pl: 2, paddingLeft: 0 ,marginTop: -2}}
+                                    size="small"
+                                    id="Student_ID"
+                                    value={payment.Student_ID}
+                                    onChange={handleInputChange}
+                                >
+                                </TextField>
+                            </Grid> */}
                         </Grid>
 
                         <Grid sx={{ marginTop: '20px', display: 'flex', paddingLeft: 6, marginLeft: 1, width: 700 }}>
@@ -478,6 +507,44 @@ export function CreatePayment() {
                                     </TableFooter>
                                 </Table>
                             </TableContainer>
+                            <Box sx={{width:35}}></Box>
+                            <Grid sx={{marginRight:-100}}>
+                            <Paper sx={{
+                                mt: 0,
+                                padding: 0.5,
+                                height: 210,
+                                backgroundColor: '#44484D',
+                            }}>
+                                <Box
+                                    sx={{
+                                        
+                                        width: 370,
+                                        height: 210,
+                                        backgroundColor: '#ffb74d',
+                                    }}><Typography sx={{ paddingLeft: 11, fontFamily: "Noto Sans Thai", fontSize: 18, fontWeight: 'bold' }}>
+                                        วิธีการบันทึกรายจ่าย
+                                    </Typography>
+                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                        1:กรอกรหัสนักศึกษาที่ต้องการบันทึกรายจ่ายและค้นหา
+                                    </Typography>
+                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                        2:บันทึกหน่วยกิจตามที่นักศึกษาลงทะเบียน
+                                    </Typography>
+                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                        3:บันทึกจำนวนเงินที่นักศึกษาชำระ
+                                    </Typography>
+                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                        4:เลือกวิธีที่นักศึกษาใช้ชำระ
+                                    </Typography>
+                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                        5:ในกรณีที่นักศึกษาชำระเงินด้วยการโอนชำระ ให้บันทึกเลขที่ใบเสร็จด้วย
+                                    </Typography>
+                                    <Typography sx={{ paddingLeft: 2,fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                        6: ระบุวัันที่-เวลา ที่นักศึกษาทำการชำระเงิน
+                                    </Typography>
+                                </Box>
+                            </Paper>
+                            </Grid>
                         </Grid>
                     </Paper>
                     <Paper sx={{ mt: 2 }}>
@@ -516,37 +583,6 @@ export function CreatePayment() {
                                     value={payment.Amounts}
                                     onChange={handleInputChange}
 
-                                >
-                                </TextField>
-                            </Grid>
-                        </Grid>
-                        <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
-                            <Grid >
-                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold',}}>แอดมินผู้ทำรายการ</p>
-                                <Box
-                                    component="form"
-                                    sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -3, paddingLeft: 1, paddingRight: 2 }}>
-                                    <TextField sx={{ width: "200px" }}
-                                        type="string"
-                                        size="small"
-                                        id="Admin_ID"
-                                        disabled
-                                        value={payment.Admin_ID}
-                                        inputProps={{
-                                            name: "Admin_ID",
-                                        }}
-                                        onChange={handleInputChange}
-                                    >
-                                    </TextField>
-                                </Box>
-                            </Grid>
-                            <Grid sx={{paddingLeft:1}}>
-                                <p style={{ paddingLeft: 1,fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>รหัสนักศึกษา</p>
-                                <TextField sx={{ width: "250px", pl: 2, paddingLeft: 0 ,marginTop: -2}}
-                                    size="small"
-                                    id="Student_ID"
-                                    value={payment.Student_ID}
-                                    onChange={handleInputChange}
                                 >
                                 </TextField>
                             </Grid>
@@ -598,16 +634,6 @@ export function CreatePayment() {
                             </Grid>
                             <Grid sx={{ paddingLeft: 4 }}>
                                 <p style={{ paddingLeft: 18, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold',}}>ระบุวัน-เวลาที่ชำระ</p>
-                                {/* <TextField 
-                                id="Date_Time"
-                                size="small"
-                                value={payment.Date_Time}
-                                type="datetime-local"
-                                sx={{ width: 250 ,paddingLeft:2}}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            /> */}
                                 <FormControl fullWidth variant="outlined" size="small">
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DateTimePicker
@@ -636,7 +662,7 @@ export function CreatePayment() {
                                     component={RouterLink}
                                     to="/payment"
                                     variant="contained"
-                                    color="primary"
+                                    color="warning"
                                 >
                                     กลับ
                                 </Button>
@@ -645,7 +671,7 @@ export function CreatePayment() {
                                 <Box sx={{ paddingRight: 5 }}>
                                     <Button
                                         variant="contained"
-                                        color="primary"
+                                        color="success"
                                         onClick={submitPayment}
                                     >
                                         บันทึกรายจ่าย

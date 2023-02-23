@@ -264,6 +264,7 @@ function UpdateEnroll() {
                         sx={{ marginTop: 1, }}>
                         <Box sx={{ paddingX: 2, paddingY: 1 }}>
                             <Typography
+                                sx={{fontFamily: "Noto Sans Thai"}}
                                 variant="h6"
                                 color="parmary"
                                 gutterBottom>
@@ -283,7 +284,7 @@ function UpdateEnroll() {
                         <Box sx={{
                             height: 50,
                         }}>
-                            <p style={{ paddingLeft: 2, paddingTop: 1 }}>แก้ไขรายการลงทะเบียน </p>
+                            <p style={{ paddingLeft: 2, paddingTop: 1 ,fontFamily: "Noto Sans Thai",}}>แก้ไขรายการลงทะเบียน </p>
                         </Box>
                     </Box>
                     <Box flexGrow={1}>

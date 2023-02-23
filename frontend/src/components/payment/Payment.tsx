@@ -48,6 +48,7 @@ export function ListPayment() {
         [`&.${tableCellClasses.head}`]: {
             backgroundColor: "#5B98B9",
             color: theme.palette.common.white,
+            fontFamily: "Noto Sans Thai",
             fontSize: 17,
         },
     }));
@@ -191,10 +192,10 @@ export function ListPayment() {
                             sx={{
                                 marginTop: 2,
                             }}
-                        ><CreditScoreIcon sx={{ fontSize: 40, mt: 0.6, paddingRight: 1,paddingLeft:1, color: "#388e3c" }} />
+                        ><CreditScoreIcon sx={{ fontSize: 40, mt: 0.6, paddingRight: 1, paddingLeft: 1, color: "#388e3c" }} />
                             <Box flexGrow={1}>
                                 <Typography
-                                    sx={{ fontFamily: "LilyUPC", fontSize: 35, fontWeight: 'bold',mt:0.5 }}
+                                    sx={{ fontFamily: "Noto Sans Thai", fontSize: 25, fontWeight: 'bold', mt: 1 }}
                                     variant="h5"
                                     color="primary"
                                     gutterBottom
@@ -207,7 +208,7 @@ export function ListPayment() {
 
                     <Paper sx={{ mt: 2 }}>
                         <Typography
-                            sx={{ padding: 2 }}
+                            sx={{ padding: 2, fontFamily: "Noto Sans Thai", fontSize: 15, }}
                             variant="subtitle2"
                             color="back"
                             gutterBottom
@@ -224,7 +225,7 @@ export function ListPayment() {
                     <Paper sx={{ padding: 2, mt: 2 }}>
                         <Grid container sx={{ marginTop: -1, marginLeft: 0, height: 70, }}>
                             <Grid >
-                                <Typography sx={{ fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold' }}>
+                                <Typography sx={{ fontFamily: "Noto Sans Thai", fontSize: 18, fontWeight: 'bold', mt: 1.2 }}>
                                     ค้นหารหัสนักศึกษา
                                 </Typography>
 
@@ -245,13 +246,13 @@ export function ListPayment() {
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    startIcon={<SearchIcon sx={{ color: "#84ffff" ,}}/>}
+                                    startIcon={<SearchIcon sx={{ color: "#84ffff", }} />}
                                     onClick={sendSearchedStudentID}
                                 >
                                     ค้นหาประวัติรายจ่าย
                                 </Button>
                             </Grid>
-                            <Grid sx={{paddingLeft:3,mt:3.7}}>
+                            <Grid sx={{ paddingLeft: 3, mt: 3.7 }}>
                                 <Box sx={{ paddingRight: 2 }}>
                                     <Button
                                         sx={{ mt: 1, paddingRight: 2 }}
@@ -259,8 +260,8 @@ export function ListPayment() {
                                         component={RouterLink}
                                         to="/payment/payment_create"
                                         variant="contained"
-                                        
-                                        startIcon={<AddCircleOutlineIcon sx={{ color: "#b2ff59" ,}}/>}
+
+                                        startIcon={<AddCircleOutlineIcon sx={{ color: "#b2ff59", }} />}
                                     >
                                         เพิ่มบันทึกรายจ่าย
                                     </Button>

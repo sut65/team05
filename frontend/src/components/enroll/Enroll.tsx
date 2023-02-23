@@ -44,9 +44,13 @@ function ListEnroll() {
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#5B98B9",
+      backgroundColor: "#44484D",
       color: theme.palette.common.white,
       fontSize: 17,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      color: theme.palette.common.black,
+      fontFamily: "Noto Sans Thai",
     },
   }));
 
@@ -135,7 +139,7 @@ function ListEnroll() {
           p: 2,
           bgcolor: '#93BFCF'
         }}>
-        <Container maxWidth="xl" style={{ height: "100vh" }} sx={{ p: 2, bgcolor: '#BEF0CB', mt: 6 }}>
+        <Container maxWidth="xl" style={{ height: "100vh" }} sx={{ p: 2, bgcolor: '#F3F3F3', mt: 6 }}>
           <Paper sx={{
             height: 50,
             bgcolor: '#FFFAF0',
@@ -152,7 +156,7 @@ function ListEnroll() {
             ><FactCheckIcon sx={{ fontSize: 40, mt: 0.6, paddingRight: 0, paddingLeft: 1, color: "#388e3c" }} />
               <Box flexGrow={1}>
                 <Typography
-                  sx={{ paddingLeft: 1, mt: 1 }}
+                  sx={{ paddingLeft: 1, mt: 1 ,fontFamily: "Noto Sans Thai"}}
                   variant="h5"
                   color="primary"
                   gutterBottom
@@ -169,7 +173,7 @@ function ListEnroll() {
           </Paper>
           <Paper>
             <Paper sx={{ mt: 2, bgcolor: '#FFFAF0' }}>
-              <Typography sx={{ padding: 2 }}
+              <Typography sx={{ padding: 2 ,fontFamily: "Noto Sans Thai"}}
                 variant="subtitle2"
                 color="back"
                 gutterBottom>
@@ -182,29 +186,6 @@ function ListEnroll() {
               </Typography>
             </Paper>
           </Paper>
-          {/* <Paper sx={{ mt: 2, bgcolor: '#FFFAF0' }}>
-            <Grid>
-              <Grid sx={{}}>
-                <Typography sx={{ padding: 2 }}
-                  variant="subtitle2"
-                  color="back">
-                  รายวิชาที่ท่านได้ทำการลงทะเบียนแล้วจะแสดงในตารางด้านล่าง ท่านสามารถแก้ไขกลุ่มได้ที่เมนูแก้ไข
-                  ในตาราง และสามารถยกเลิกการงทะเบียนในรายวิชานั้นๆได้ที่เมนูลบ ในตาราง
-                </Typography>
-              </Grid>
-              <Grid>
-                <Button
-                  sx={{ mt: 1 }}
-                  component={RouterLink}
-                  to="/enroll/create_enroll"
-                  variant="contained"
-                  color="primary"
-                >
-                  ลงทะเบียน
-                </Button>
-              </Grid>
-            </Grid>
-          </Paper> */}
           <Paper sx={{ backgroundColor: '#FFFAF0' ,height: 70,mt:2}}>
             <Box display={"flex"}>
               <Box sx={{
@@ -214,7 +195,7 @@ function ListEnroll() {
                 mt:0.5,
               }}>
                 <Paper sx={{mt:1,pd:1 ,bgcolor: '#ffb74d'}}>
-                <Typography sx={{paddingLeft:2,mt:1}}
+                <Typography sx={{paddingLeft:2,mt:1,fontFamily: "Noto Sans Thai"}}
                   gutterBottom>
                     รายวิชาที่ท่านได้ทำการลงทะเบียนแล้วจะแสดงในตารางด้านล่าง ท่านสามารถแก้ไขกลุ่มได้ที่เมนูแก้ไข
                   ในตาราง และสามารถยกเลิกการลงทะเบียนในรายวิชานั้นๆได้ที่เมนูลบ ในตาราง
@@ -226,7 +207,7 @@ function ListEnroll() {
               <Box width={10} height={3} sx={{mt:2}}></Box>
               <Grid item xs={8} sx={{mt:1,marginRight:2}}>
                 <Button
-                  sx={{ mt: 1 }}
+                  sx={{ mt: 1 ,fontFamily: "Noto Sans Thai"}}
                   component={RouterLink}
                   to="/enroll/create_enroll"
                   variant="contained"

@@ -5,11 +5,8 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-
-import { Subject } from "../../models/I_Subject";
 import {  Toolbar } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -20,15 +17,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import TableFooter from "@mui/material/TableFooter";
-
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-
-
 import { Adding_pointInterface } from "../../models/IAdding_point";
 import Home_Navbar from "../navbars/Home_navbar";
 
-function Adding_reducingCreate() {
+function Adding_point() {
   const [addingpoints, setAdding_points] = React.useState<
     Adding_pointInterface[]
   >([]);
@@ -59,7 +53,7 @@ function Adding_reducingCreate() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - addingpoints.length) : 0;
 
-  //ส่งค่าจากlist ผ่านinterface
+  //ส่งค่าจากlist ผ่านinterface คือข้อมูลตาราง
   const getAdding_point = async () => {
     const requestOptions = {
       method: "GET",
@@ -307,4 +301,4 @@ function Adding_reducingCreate() {
   );
 }
 
-export default Adding_reducingCreate;
+export default Adding_point;

@@ -153,7 +153,7 @@ function RequestCreate() {
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
-      backgroundColor: "white",
+      backgroundColor: "#e0e0e0",
     },
     // hide last border
     "&:last-child td, &:last-child th": {
@@ -305,9 +305,9 @@ function RequestCreate() {
     };
        Swal.fire({
          title:
-           "คุณต้องการยื่นคำร้องในรายวิชา  " +
+           "คุณต้องการยื่นคำร้องใน \n" + "รายวิชา  " +
            data.Subject_ID +
-           " กลุ่ม " +
+           "\n กลุ่ม " +
            data.Section,
          icon: "warning",
          showDenyButton: true,
@@ -324,11 +324,7 @@ function RequestCreate() {
                  console.log(res.data);
                  Swal.fire({
                    icon: "success",
-                   title:
-                     "คุณได้ลงทะเบียนในรายวิชา \n" +
-                     res.data.Subject_ID +
-                     " กลุ่มที่ " +
-                     res.data.Section,
+                   title: "ยื่นคำร้องออนไลน์สำเร็จ\n",
                    text: "Success",
                  });
                } else {

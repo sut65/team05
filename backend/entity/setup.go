@@ -686,6 +686,99 @@ func SetupDatabase() {
 		db.Create(&parin_sornlertlamvanich)
 		db.Create(&komsan_srivisut)
 
+		// ====================== Electrical Engineering Professor ===========================
+		kongpol_areerak_password, _ := bcrypt.GenerateFromPassword([]byte("kongpolpol"), 14)
+		kongpan_areerak_password, _ := bcrypt.GenerateFromPassword([]byte("ppan444"), 14)
+		keerati_chayakulkheeree_password, _ := bcrypt.GenerateFromPassword([]byte("keerati1999"), 14)
+		anant_ounsiwilai_password, _ := bcrypt.GenerateFromPassword([]byte("anantmicrocontroller"), 14)
+		boonruang_marungsri_password, _ := bcrypt.GenerateFromPassword([]byte("boonrounghighvolt"), 14)
+		athit_srikaew_password, _ := bcrypt.GenerateFromPassword([]byte("athit_elec17547"), 14)
+
+		kongpol_areerak := Professor{
+			// P45XXXXX
+			Professor_ID:       "P4894002",
+			Professor_name:     "Kongpol Areerak",
+			Professor_address:  "Samut Sakhon",
+			Professor_email:    "kongpol@sut.ac.th",
+			Professor_tel:      "044-556912",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification2,
+			Major:              ee,
+			Professor_password: string(kongpol_areerak_password),
+		}
+		kongpan_areerak := Professor{
+			// P45XXXXX
+			Professor_ID:       "P5011554",
+			Professor_name:     "Kongpan Areerak",
+			Professor_address:  "Samut Sakhon",
+			Professor_email:    "kongpan@sut.ac.th",
+			Professor_tel:      "044-556813",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification2,
+			Major:              ee,
+			Professor_password: string(kongpan_areerak_password),
+		}
+
+		keerati_chayakulkheeree := Professor{
+			Professor_ID:       "P6300781",
+			Professor_name:     "Keerati Chayakulkheeree",
+			Professor_address:  "Bangkok",
+			Professor_email:    "keerati.s@sut.ac.th",
+			Professor_tel:      "044-224699",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification1,
+			Major:              ee,
+			Professor_password: string(keerati_chayakulkheeree_password),
+		}
+
+		anant_ounsiwilai := Professor{
+			Professor_ID:       "P3896071",
+			Professor_name:     "Anant Ounsiwilai",
+			Professor_address:  "Bangkok",
+			Professor_email:    "anant@sut.ac.th",
+			Professor_tel:      "044-991934",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification3,
+			Major:              ee,
+			Professor_password: string(anant_ounsiwilai_password),
+		}
+
+		boonruang_marungsri := Professor{
+			Professor_ID:       "P4964356",
+			Professor_name:     "Boonruang Marungsri",
+			Professor_address:  "Loei",
+			Professor_email:    "bmshvee@sut.ac.th",
+			Professor_tel:      "044-464975",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification2,
+			Major:              ee,
+			Professor_password: string(boonruang_marungsri_password),
+		}
+
+		athit_srikaew := Professor{
+			Professor_ID:       "P5564644",
+			Professor_name:     "Athit Srikaew",
+			Professor_address:  "Kanchanaburi",
+			Professor_email:    "athit@sut.ac.th",
+			Professor_tel:      "044-119682",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification2,
+			Major:              ee,
+			Professor_password: string(athit_srikaew_password),
+		}
+		db.Create(&kongpan_areerak)
+		db.Create(&kongpol_areerak)
+		db.Create(&anant_ounsiwilai)
+		db.Create(&keerati_chayakulkheeree)
+		db.Create(&boonruang_marungsri)
+		db.Create(&athit_srikaew)
+
 		////---------------------------------------------------------------
 
 		subject_open := Subject_Status{
@@ -739,6 +832,7 @@ func SetupDatabase() {
 		db.Create(&category3)
 
 		////---------------------------------------------------------------
+		// ============================ Computer Engineering Subjects ==============================
 		software_engineering_sec1 := Subject{
 			ID:               1,
 			Subject_ID:       "523332",
@@ -1111,6 +1205,152 @@ func SetupDatabase() {
 		}
 		db.Create(&computer_vision)
 
+		// ============================ Electrical Engineering Subjects ==============================
+		electrical_circuit_1_sec1 := Subject{
+			ID:               19,
+			Subject_ID:       "529201",
+			Professor:        kongpan_areerak,
+			Course:           ee2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "วงจรไฟฟ้า",
+			Subject_EN_Name:  "Electrical Circuits",
+			Capacity:         60,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
+		}
+		electrical_circuit_1_sec2 := Subject{
+			ID:               20,
+			Subject_ID:       "529201",
+			Professor:        kongpol_areerak,
+			Course:           ee2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "วงจรไฟฟ้า",
+			Subject_EN_Name:  "Electrical Circuits",
+			Capacity:         60,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         2,
+		}
+
+		engineering_electronics := Subject{
+			ID:               21,
+			Subject_ID:       "529204",
+			Professor:        athit_srikaew,
+			Course:           ee2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "อิเล็กทรอนิกส์วิศวกรรม",
+			Subject_EN_Name:  "Engineering Electronics",
+			Capacity:         60,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
+		}
+
+		digital_logic_sec1 := Subject{
+			ID:               22,
+			Subject_ID:       "529207",
+			Professor:        anant_ounsiwilai,
+			Course:           ee2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "ดิจิทัลลอจิก",
+			Subject_EN_Name:  "Digital Logic",
+			Capacity:         40,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
+		}
+		digital_logic_sec2 := Subject{
+			ID:               23,
+			Subject_ID:       "529207",
+			Professor:        anant_ounsiwilai,
+			Course:           ee2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "ดิจิทัลลอจิก",
+			Subject_EN_Name:  "Digital Logic",
+			Capacity:         40,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         2,
+		}
+
+		matlab_programming_sec1 := Subject{
+			ID:               24,
+			Subject_ID:       "529212",
+			Professor:        athit_srikaew,
+			Course:           ee2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "การเขียนโปรแกรมแม็ตแล็บ",
+			Subject_EN_Name:  "Matlab Programming",
+			Capacity:         40,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
+		}
+
+		matlab_programming_sec2 := Subject{
+			ID:               25,
+			Subject_ID:       "529212",
+			Professor:        athit_srikaew,
+			Course:           ee2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "การเขียนโปรแกรมแม็ตแล็บ",
+			Subject_EN_Name:  "Matlab Programming",
+			Capacity:         40,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         2,
+		}
+		db.Create(&electrical_circuit_1_sec1)
+		db.Create(&electrical_circuit_1_sec2)
+		db.Create(&engineering_electronics)
+		db.Create(&digital_logic_sec1)
+		db.Create(&digital_logic_sec2)
+		db.Create(&matlab_programming_sec1)
+		db.Create(&matlab_programming_sec2)
+
 		lab_room_type := RoomType{
 			RoomType_ID:   "RT01",
 			RoomType_name: "Labs",
@@ -1194,6 +1434,22 @@ func SetupDatabase() {
 			Building: building_b1,
 		}
 
+		room_b1207 := Room{
+			Room_ID:  "B1207",
+			Seats:    60,
+			RoomType: lecture_room_type,
+			Admin:    admin2,
+			Building: building_b1,
+		}
+
+		room_b1208 := Room{
+			Room_ID:  "B1208",
+			Seats:    60,
+			RoomType: lecture_room_type,
+			Admin:    admin2,
+			Building: building_b1,
+		}
+
 		room_b1134 := Room{
 			Room_ID:  "B1134",
 			Seats:    60,
@@ -1215,6 +1471,8 @@ func SetupDatabase() {
 		db.Create(&room_b1134)
 		db.Create(&room_b1214)
 		db.Create(&room_b1209)
+		db.Create(&room_b1208)
+		db.Create(&room_b1207)
 		db.Create(&room_b4101)
 		db.Create(&room_F11_micro)
 		db.Create(&room_F11_software)
@@ -1240,7 +1498,7 @@ func SetupDatabase() {
 			Room:                       room_b2101,
 			Admin:                      admin1,
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
 			Class_Schedule_Description: "System Analysis sec1",
 			Day:                        "Mon",
 		}
@@ -1256,6 +1514,72 @@ func SetupDatabase() {
 			Class_Schedule_Description: "System Analysis sec2",
 			Day:                        "Mon",
 		}
+		ann_sec1_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    artificial_neural_network,
+			Section:                    1,
+			Room:                       room_b6105,
+			Admin:                      admin2,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 14, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
+			Class_Schedule_Description: "Artificial Neural Network class",
+			Day:                        "Mon",
+		}
+
+		electrical_circuit_1_sec1_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    electrical_circuit_1_sec1,
+			Section:                    1,
+			Room:                       room_b1207,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 8, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 11, 00),
+			Class_Schedule_Description: "Electrical Circuit in room b1207 sec1",
+			Day:                        "Mon",
+		}
+
+		electrical_circuit_1_sec2_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    electrical_circuit_1_sec1,
+			Section:                    2,
+			Room:                       room_b1207,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
+			Class_Schedule_Description: "Electrical Circuit in room b1206 sec2",
+			Day:                        "Mon",
+		}
+
+		problem_solving_sec1_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    problem_solving_sec1,
+			Section:                    1,
+			Room:                       room_F11_software,
+			Admin:                      admin2,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
+			Class_Schedule_Description: "Problem Solving Sec 1 Class",
+			Day:                        "Mon",
+		}
+
+		problem_solving_sec2_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    problem_solving_sec2,
+			Section:                    2,
+			Room:                       room_F11_software,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 16, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 19, 00),
+			Class_Schedule_Description: "Problem Solving Sec 2 Class",
+			Day:                        "Mon",
+		}
+
+		db.Create(&system_analysis_sec1_class)
+		db.Create(&system_analysis_sec2_class)
+		db.Create(&problem_solving_sec1_class)
+		db.Create(&problem_solving_sec2_class)
+		db.Create(&electrical_circuit_1_sec1_class)
+		db.Create(&electrical_circuit_1_sec2_class)
 
 		os_sec1_class := Class_Schedule{
 			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
@@ -1280,67 +1604,35 @@ func SetupDatabase() {
 			Class_Schedule_Description: "Operating System sec2",
 			Day:                        "Tue",
 		}
-		db.Create(&os_sec2_class)
 
-		ann_sec1_class := Class_Schedule{
+		digital_system_sec1_class := Class_Schedule{
 			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
-			Subject:                    artificial_neural_network,
+			Subject:                    digital_system_design_sec1,
 			Section:                    1,
-			Room:                       room_b6105,
-			Admin:                      admin2,
-			Start_Time:                 fmt.Sprintf("%02d:%02d", 14, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
-			Class_Schedule_Description: "Artificial Neural Network class",
-			Day:                        "Mon",
-		}
-
-		kdd_class := Class_Schedule{
-			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
-			Subject:                    knowledge_discovery_and_data_mining,
-			Section:                    1,
-			Room:                       room_b6105,
+			Room:                       room_b1120,
 			Admin:                      admin1,
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 10, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
-			Class_Schedule_Description: "Knowledge Discovery and Data Mining Class",
-			Day:                        "Fri",
-		}
-		// Class_D : {Day : "Tue", Room_ID: "F-11-MicroP", 	 Start_Time:16:00, End_Time:19:00}
-		os_lab_sec1_class := Class_Schedule{
-			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
-			Subject:                    operating_system_sec1,
-			Section:                    1,
-			Room:                       room_F11_software,
-			Admin:                      admin2,
-			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
-			Class_Schedule_Description: "Operating System Lab Class Sec1",
-			Day:                        "Fri",
+			Class_Schedule_Description: "Digital sec1 class in room b1120",
+			Day:                        "Tue",
 		}
 
-		os_lab_sec2_class := Class_Schedule{
+		digital_system_sec2_class := Class_Schedule{
 			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
-			Subject:                    operating_system_sec2,
+			Subject:                    digital_system_design_sec2,
 			Section:                    2,
-			Room:                       room_F11_software,
-			Admin:                      admin2,
-			Start_Time:                 fmt.Sprintf("%02d:%02d", 16, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 19, 00),
-			Class_Schedule_Description: "Operating System Lab Class Sec2",
-			Day:                        "Fri",
+			Room:                       room_b1120,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
+			Class_Schedule_Description: "Digital sec2 class in room b1120",
+			Day:                        "Tue",
 		}
 
-		problem_solving_sec1_class := Class_Schedule{
-			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
-			Subject:                    problem_solving_sec1,
-			Section:                    1,
-			Room:                       room_F11_software,
-			Admin:                      admin2,
-			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
-			Class_Schedule_Description: "Problem Solving Sec 1 Class",
-			Day:                        "Mon",
-		}
+		db.Create(&digital_system_sec1_class)
+		db.Create(&digital_system_sec2_class)
+		db.Create(&os_sec2_class)
+		db.Create(&os_sec1_class)
 
 		se_sec1_class := Class_Schedule{
 			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
@@ -1348,10 +1640,22 @@ func SetupDatabase() {
 			Section:                    1,
 			Room:                       room_F11_micro,
 			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 9, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
+			Class_Schedule_Description: "Software Engineering Sec 1 Class",
+			Day:                        "Wed",
+		}
+
+		se_sec2_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    software_engineering_sec1,
+			Section:                    2,
+			Room:                       room_F11_micro,
+			Admin:                      admin1,
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
-			Class_Schedule_Description: "Software Engineering Sec 1 Class",
-			Day:                        "Mon",
+			Class_Schedule_Description: "Software Engineering Sec 2 Class",
+			Day:                        "Wed",
 		}
 
 		data_structure_and_algorithms_class := Class_Schedule{
@@ -1365,6 +1669,36 @@ func SetupDatabase() {
 			Class_Schedule_Description: "Class Scheduel of Data Structure and Algorithms",
 			Day:                        "Wed",
 		}
+
+		matlab_programming_sec1_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    matlab_programming_sec1,
+			Section:                    1,
+			Room:                       room_F11_software,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
+			Class_Schedule_Description: "Matlab Sec 1 class in F11Software",
+			Day:                        "Wed",
+		}
+
+		matlab_programming_sec2_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    matlab_programming_sec1,
+			Section:                    2,
+			Room:                       room_F11_software,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 16, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 19, 00),
+			Class_Schedule_Description: "Matlab Sec 2 class in F11Software",
+			Day:                        "Wed",
+		}
+
+		db.Create(&se_sec1_class)
+		db.Create(&se_sec2_class)
+		db.Create(&data_structure_and_algorithms_class)
+		db.Create(&matlab_programming_sec1_class)
+		db.Create(&matlab_programming_sec2_class)
 
 		oot_sec1_class := Class_Schedule{
 			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
@@ -1401,46 +1735,25 @@ func SetupDatabase() {
 			Class_Schedule_Description: "ComVision sec1 class in room b1214",
 			Day:                        "Thu",
 		}
-
-		digital_system_sec1_class := Class_Schedule{
-			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
-			Subject:                    digital_system_design_sec1,
-			Section:                    1,
-			Room:                       room_b1120,
-			Admin:                      admin1,
-			Start_Time:                 fmt.Sprintf("%02d:%02d", 10, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
-			Class_Schedule_Description: "Digital sec1 class in room b1120",
-			Day:                        "Tue",
-		}
-
-		digital_system_sec2_class := Class_Schedule{
-			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
-			Subject:                    digital_system_design_sec2,
-			Section:                    2,
-			Room:                       room_b1120,
-			Admin:                      admin1,
-			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
-			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
-			Class_Schedule_Description: "Digital sec2 class in room b1120",
-			Day:                        "Tue",
-		}
-
-		db.Create(&system_analysis_sec1_class)
-		db.Create(&digital_system_sec1_class)
-		db.Create(&digital_system_sec2_class)
-		db.Create(&system_analysis_sec2_class)
-		db.Create(&problem_solving_sec1_class)
-		db.Create(&os_sec1_class)
-		db.Create(&os_lab_sec1_class)
-		db.Create(&os_lab_sec2_class)
-		db.Create(&ann_sec1_class)
-		db.Create(&kdd_class)
-		db.Create(&se_sec1_class)
-		db.Create(&data_structure_and_algorithms_class)
 		db.Create(&oot_sec1_class)
 		db.Create(&oot_sec2_class)
 		db.Create(&computer_vision_class)
+
+		kdd_class := Class_Schedule{
+			Class_Schedule_ID:          fmt.Sprintf("CLS%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:                    knowledge_discovery_and_data_mining,
+			Section:                    1,
+			Room:                       room_b6105,
+			Admin:                      admin1,
+			Start_Time:                 fmt.Sprintf("%02d:%02d", 10, 00),
+			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
+			Class_Schedule_Description: "Knowledge Discovery and Data Mining Class",
+			Day:                        "Fri",
+		}
+
+		db.Create(&ann_sec1_class)
+		db.Create(&kdd_class)
+
 		pluri_thai_midterm := Exam_Schedule{
 			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
 			Subject:          pluri_thai,
@@ -1464,18 +1777,7 @@ func SetupDatabase() {
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 17, 00),
 		}
 
-		system_analysis_final := Exam_Schedule{
-			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
-			Subject:          system_analysis_sec1,
-			Room:             room_b6105,
-			Admin:            admin2,
-			Exam_Type:        "Final",
-			Exam_Date:        "21/07/2020",
-			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
-			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
-		}
 		db.Create(&system_analysis_midterm)
-		db.Create(&system_analysis_final)
 
 		os_final := Exam_Schedule{
 			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
@@ -1530,11 +1832,84 @@ func SetupDatabase() {
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 13, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 15, 00),
 		}
+
+		se_test := Exam_Schedule{
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:          software_engineering_sec1,
+			Room:             room_b1214,
+			Admin:            admin1,
+			Exam_Type:        "Midterm",
+			Exam_Date:        "16/05/2020",
+			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 16, 00),
+			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 18, 00),
+		}
+
+		electrical_circuit_1_test := Exam_Schedule{
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:          electrical_circuit_1_sec1,
+			Room:             room_b1207,
+			Admin:            admin1,
+			Exam_Type:        "Midterm",
+			Exam_Date:        "16/05/2020",
+			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 13, 00),
+			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 15, 00),
+		}
+
+		matlab_programming_test := Exam_Schedule{
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:          matlab_programming_sec1,
+			Room:             room_b1208,
+			Admin:            admin2,
+			Exam_Type:        "Midterm",
+			Exam_Date:        "17/05/2020",
+			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
+			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
+		}
+
+		digital_system_test := Exam_Schedule{
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:          digital_system_design_sec1,
+			Room:             room_F11_micro,
+			Admin:            admin1,
+			Exam_Type:        "Midterm",
+			Exam_Date:        "20/05/2020",
+			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
+			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
+		}
+
+		kdd_test := Exam_Schedule{
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:          knowledge_discovery_and_data_mining,
+			Room:             room_b1120,
+			Admin:            admin1,
+			Exam_Type:        "Midterm",
+			Exam_Date:        "21/05/2020",
+			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 13, 00),
+			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 15, 00),
+		}
+
+		data_structure_and_algorithms_test := Exam_Schedule{
+			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
+			Subject:          data_structure_and_algorithms,
+			Room:             room_b1214,
+			Admin:            admin3,
+			Exam_Type:        "Midterm",
+			Exam_Date:        "21/05/2020",
+			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 12, 00),
+			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 14, 00),
+		}
+
 		db.Create(&os_final)
 		db.Create(&ann_midterm)
 		db.Create(&ps_final)
 		db.Create(&oot_test)
 		db.Create(&computer_vision_test)
+		db.Create(&se_test)
+		db.Create(&electrical_circuit_1_test)
+		db.Create(&matlab_programming_test)
+		db.Create(&digital_system_test)
+		db.Create(&kdd_test)
+		db.Create(&data_structure_and_algorithms_test)
 
 		///------------------------Request_Type------------------------
 		Request_Type1 := Request_Type{

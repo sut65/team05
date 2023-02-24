@@ -779,6 +779,101 @@ func SetupDatabase() {
 		db.Create(&boonruang_marungsri)
 		db.Create(&athit_srikaew)
 
+		// ====================== Civil Engineering Professor ===========================
+		sittichai_seangatith_password, _ := bcrypt.GenerateFromPassword([]byte("sittichai2static"), 14)
+		priyaporn_gosa_password, _ := bcrypt.GenerateFromPassword([]byte("priyapornpassword123"), 14)
+		teerawat_seepsiri_password, _ := bcrypt.GenerateFromPassword([]byte("teerawat233survey"), 14)
+		sittichai_seangatith := Professor{
+			Professor_ID:       "P3901864",
+			Professor_name:     "Sittichai Seangatith",
+			Professor_address:  "Khon Kaen",
+			Professor_email:    "sittichai@sut.ac.th",
+			Professor_tel:      "044-990112",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification3,
+			Major:              civil,
+			Professor_password: string(sittichai_seangatith_password),
+		}
+
+		priyaporn_gosa := Professor{
+			Professor_ID:       "P4702286",
+			Professor_name:     "Priyaporn Gosa",
+			Professor_address:  "Khon Kaen",
+			Professor_email:    "p.gosa@sut.ac.th",
+			Professor_tel:      "044-757487",
+			Status:             status1,
+			Admin:              admin1,
+			Qualification:      qualification1,
+			Major:              civil,
+			Professor_password: string(priyaporn_gosa_password),
+		}
+
+		teerawat_seepsiri := Professor{
+			Professor_ID:       "P6199264",
+			Professor_name:     "Teerawat Seepsiri",
+			Professor_address:  "Phetchaburn",
+			Professor_email:    "teerawat@sut.ac.th",
+			Professor_tel:      "044-826746",
+			Status:             status1,
+			Admin:              admin2,
+			Qualification:      qualification1,
+			Major:              civil,
+			Professor_password: string(teerawat_seepsiri_password),
+		}
+
+		db.Create(&sittichai_seangatith)
+		db.Create(&priyaporn_gosa)
+		db.Create(&teerawat_seepsiri)
+
+		// ====================== Electronics Engineering Professor ===========================
+		manot_mapato_password, _ := bcrypt.GenerateFromPassword([]byte("embedded642"), 14)
+		boonsong_password, _ := bcrypt.GenerateFromPassword([]byte("boonsongbelucky"), 14)
+		chanchai_tongsopa_password, _ := bcrypt.GenerateFromPassword([]byte("chanchaielec"), 14)
+
+		manot_mapato := Professor{
+			Professor_ID:       "P5901995",
+			Professor_name:     "Manot Mapato",
+			Professor_address:  "Nakhonratchasima",
+			Professor_email:    "manot.mapato@g.sut.ac.th",
+			Professor_tel:      "044223570",
+			Status:             status1,
+			Admin:              admin2,
+			Qualification:      qualification1,
+			Major:              elec,
+			Professor_password: string(manot_mapato_password),
+		}
+
+		boonsong_sutapan := Professor{
+			Professor_ID:       "P5388003",
+			Professor_name:     "Boonsong Sutapan",
+			Professor_address:  "Saraburi",
+			Professor_email:    "boonsong@g.sut.ac.th",
+			Professor_tel:      "044224320",
+			Status:             status1,
+			Admin:              admin2,
+			Qualification:      qualification2,
+			Major:              elec,
+			Professor_password: string(boonsong_password),
+		}
+
+		chanchai_tongsopa := Professor{
+			Professor_ID:       "P4981563",
+			Professor_name:     "Chanchai Tongsopa",
+			Professor_address:  "Bangkok",
+			Professor_email:    "chan@g.sut.ac.th",
+			Professor_tel:      "044224397",
+			Status:             status1,
+			Admin:              admin3,
+			Qualification:      qualification1,
+			Major:              elec,
+			Professor_password: string(chanchai_tongsopa_password),
+		}
+
+		db.Create(&manot_mapato)
+		db.Create(&boonsong_sutapan)
+		db.Create(&chanchai_tongsopa)
+
 		////---------------------------------------------------------------
 
 		subject_open := Subject_Status{
@@ -1350,6 +1445,219 @@ func SetupDatabase() {
 		db.Create(&digital_logic_sec2)
 		db.Create(&matlab_programming_sec1)
 		db.Create(&matlab_programming_sec2)
+
+		// ============================ Civil Engineering Subjects ==============================
+		static_sec1 := Subject{
+			ID:               26,
+			Subject_ID:       "ENG302001",
+			Professor:        sittichai_seangatith,
+			Course:           cv2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "สถิตยศาสตร์วิศวกรรม",
+			Subject_EN_Name:  "Engineering Statics",
+			Capacity:         300,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
+		}
+
+		static_sec2 := Subject{
+			ID:               27,
+			Subject_ID:       "ENG302001",
+			Professor:        sittichai_seangatith,
+			Course:           cv2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "สถิตยศาสตร์วิศวกรรม",
+			Subject_EN_Name:  "Engineering Statics",
+			Capacity:         300,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         2,
+		}
+		db.Create(&static_sec1)
+		db.Create(&static_sec2)
+
+		hydralics := Subject{
+			ID:               28,
+			Subject_ID:       "530231",
+			Professor:        priyaporn_gosa,
+			Course:           cv2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "ชลศาสตร์",
+			Subject_EN_Name:  "Hydraulics",
+			Capacity:         40,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
+		}
+
+		surveying := Subject{
+			ID:               29,
+			Subject_ID:       "530251",
+			Professor:        teerawat_seepsiri,
+			Course:           cv2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "การสำรวจ",
+			Subject_EN_Name:  "Surveying",
+			Capacity:         150,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
+		}
+
+		material_testing := Subject{
+			ID:               30,
+			Subject_ID:       "530212",
+			Professor:        sittichai_seangatith,
+			Course:           cv2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "การทดสอบวัสดุ",
+			Subject_EN_Name:  "Material Testing",
+			Capacity:         55,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
+		}
+
+		theory_of_structure := Subject{
+			ID:               31,
+			Subject_ID:       "530314",
+			Professor:        sittichai_seangatith,
+			Course:           cv2560,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "ทฤษฏีโครงสร้าง",
+			Subject_EN_Name:  "Theory of Structure",
+			Capacity:         100,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
+		}
+		db.Create(&hydralics)
+		db.Create(&surveying)
+		db.Create(&material_testing)
+		db.Create(&theory_of_structure)
+
+		// ============================ Electronics Engineering Subjects ==============================
+		embedded_systems_sec1 := Subject{
+			ID:               32,
+			Subject_ID:       "539302",
+			Professor:        manot_mapato,
+			Course:           elec2562,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "ระบบสมองกลฝังตัวและการประยุกต์ใช้",
+			Subject_EN_Name:  "Embedded Systems And Applications",
+			Capacity:         50,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
+		}
+
+		embedded_systems_sec2 := Subject{
+			ID:               33,
+			Subject_ID:       "539302",
+			Professor:        manot_mapato,
+			Course:           elec2562,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "ระบบสมองกลฝังตัวและการประยุกต์ใช้",
+			Subject_EN_Name:  "Embedded Systems And Applications",
+			Capacity:         50,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         2,
+		}
+
+		db.Create(&embedded_systems_sec1)
+		db.Create(&embedded_systems_sec2)
+
+		electronic_materials := Subject{
+			ID:               34,
+			Subject_ID:       "539301",
+			Professor:        boonruang_marungsri,
+			Course:           elec2562,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "วัสดุอิเล็กทรอนิกส์",
+			Subject_EN_Name:  "Electronic Materials",
+			Capacity:         120,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
+		}
+		db.Create(&electronic_materials)
+
+		microelectronic_device_and_circuit := Subject{
+			ID:               35,
+			Subject_ID:       "539304",
+			Professor:        boonruang_marungsri,
+			Course:           elec2562,
+			Subject_Status:   subject_open,
+			Class_Type:       lecture,
+			Subject_Category: category1,
+			Subject_TH_Name:  "อุปกรณ์และการออกแบบวงจรไมโครอิเล็กทรอนิกส์",
+			Subject_EN_Name:  "Microelectronic Device And Circuit",
+			Capacity:         120,
+			Latest_Updated:   time.Now(),
+
+			Enroll_Amount:   0,
+			Reserved:        5,
+			Reserved_Enroll: 0,
+			Unit:            4,
+			Section:         1,
+		}
+		db.Create(&microelectronic_device_and_circuit)
 
 		lab_room_type := RoomType{
 			RoomType_ID:   "RT01",
@@ -1987,7 +2295,7 @@ func SetupDatabase() {
 			Class_Schedule: system_analysis_sec1_class,
 			Exam_Schedule:  system_analysis_midterm,
 			Request_Type:   Request_Type1,
-			Date_Time:       time.Now(),
+			Date_Time:      time.Now(),
 		}
 		db.Create(&Request1)
 
@@ -2000,7 +2308,7 @@ func SetupDatabase() {
 			Class_Schedule: os_sec1_class,
 			Exam_Schedule:  os_final,
 			Request_Type:   Request_Type2,
-			Date_Time:       time.Now(),
+			Date_Time:      time.Now(),
 		}
 		db.Create(&Request2)
 
@@ -2013,7 +2321,7 @@ func SetupDatabase() {
 			Class_Schedule: system_analysis_sec1_class,
 			Exam_Schedule:  system_analysis_midterm,
 			Request_Type:   Request_Type1,
-			Date_Time:       time.Now(),
+			Date_Time:      time.Now(),
 		}
 		db.Create(&Request3)
 
@@ -2038,7 +2346,7 @@ func SetupDatabase() {
 			Section:       2,
 			Request:       Request1,
 			Approval_Type: Approval_Type1,
-			Date_Time:      time.Now(),
+			Date_Time:     time.Now(),
 		}
 		db.Create(&Approval1)
 
@@ -2049,7 +2357,7 @@ func SetupDatabase() {
 			Professor:     professor1,
 			Section:       1,
 			Approval_Type: Approval_Type2,
-			Date_Time:      time.Now(),
+			Date_Time:     time.Now(),
 		}
 		db.Create(&Approval2)
 

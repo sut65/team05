@@ -3,15 +3,16 @@ package entity
 import (
 	"testing"
 	"time"
+
 	"github.com/B6025212/team05/controller"
 	"github.com/B6025212/team05/entity"
+
 	//"github.com/asaskevich/govalidator"
 	. "github.com/onsi/gomega"
-
 )
 
 // ลงทะเบียนสำเร็จ
-func TestenrollSuccess(t *testing.T) {
+func TestAddingEnrollSuccess(t *testing.T) {
 	g := NewGomegaWithT(t)
 	subject1 := entity.Subject{
 		Subject_ID: "523354",
@@ -48,8 +49,8 @@ func TestenrollSuccess(t *testing.T) {
 
 }
 
-//ลงทะเบียน วันเรียน เวลาเรียนตรงกัน
-func Testsametimeandday(t *testing.T) {
+// ลงทะเบียน วันเรียน เวลาเรียนตรงกัน
+func TestSameTimeAndDay(t *testing.T) {
 	g := NewGomegaWithT(t)
 	subject1 := entity.Subject{
 		Subject_ID: "523203",
@@ -72,7 +73,7 @@ func Testsametimeandday(t *testing.T) {
 		Student:           student1,
 		Subject:           subject1,
 		Exam_Schedule_ID:  &Exam_Schedule1.Exam_Schedule_ID,
-		Class_Schedule: Class_Schedule1,
+		Class_Schedule:    Class_Schedule1,
 		Enroll_Time_Stamp: time.Now(),
 		Section:           1,
 	}
@@ -90,8 +91,8 @@ func Testsametimeandday(t *testing.T) {
 	g.Expect(err.Error()).To(Equal("Subject cannot be added repeatedly."))
 }
 
-//เริ่มเท่า เลิกไม่เท่า start time is same
-func Testsamestarttime(t *testing.T) {
+// เริ่มเท่า เลิกไม่เท่า start time is same
+func TestSameStartTime(t *testing.T) {
 	g := NewGomegaWithT(t)
 	subject1 := entity.Subject{
 		Subject_ID: "523331",
@@ -114,7 +115,7 @@ func Testsamestarttime(t *testing.T) {
 		Student:           student1,
 		Subject:           subject1,
 		Exam_Schedule_ID:  &Exam_Schedule1.Exam_Schedule_ID,
-		Class_Schedule: Class_Schedule1,
+		Class_Schedule:    Class_Schedule1,
 		Enroll_Time_Stamp: time.Now(),
 		Section:           2,
 	}
@@ -132,8 +133,8 @@ func Testsamestarttime(t *testing.T) {
 	g.Expect(err.Error()).To(Equal("Class Day cannot be added repeatedly, start time is same."))
 }
 
-//เริ่มไม่เท่า เลิกเท่า start time is same
-func Testsameendtime(t *testing.T) {
+// เริ่มไม่เท่า เลิกเท่า start time is same
+func TestSameEndTime(t *testing.T) {
 	g := NewGomegaWithT(t)
 	subject1 := entity.Subject{
 		Subject_ID: "523231",
@@ -156,7 +157,7 @@ func Testsameendtime(t *testing.T) {
 		Student:           student1,
 		Subject:           subject1,
 		Exam_Schedule_ID:  &Exam_Schedule1.Exam_Schedule_ID,
-		Class_Schedule: Class_Schedule1,
+		Class_Schedule:    Class_Schedule1,
 		Enroll_Time_Stamp: time.Now(),
 		Section:           1,
 	}

@@ -293,7 +293,7 @@ function ApprovalUpdate() {
 
         Swal.fire({
           title:
-            "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
+            "คุณต้องการแก้ไขการอนุมัติคำร้อง \n" +
             "รหัสนักศึกษา " +
             request?.Student_ID +
             "\n รายวิชา " +
@@ -344,7 +344,7 @@ function ApprovalUpdate() {
 
         Swal.fire({
           title:
-            "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
+            "คุณต้องการแก้ไขการอนุมัติคำร้อง \n" +
             "รหัสนักศึกษา " +
             request?.Student_ID +
             "\n รายวิชา " +
@@ -398,7 +398,7 @@ function ApprovalUpdate() {
 
         Swal.fire({
           title:
-            "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
+            "คุณต้องการแก้ไขการอนุมัติคำร้อง \n" +
             "รหัสนักศึกษา " +
             request?.Student_ID +
             "\n รายวิชา " +
@@ -449,7 +449,7 @@ function ApprovalUpdate() {
 
         Swal.fire({
           title:
-            "คุณต้องการแก้ไขการอนุมัติคำร้องของ \n" +
+            "คุณต้องการแก้ไขการอนุมัติคำร้อง \n" +
             "รหัสนักศึกษา " +
             request?.Student_ID +
             "\n รายวิชา " +
@@ -496,7 +496,7 @@ function ApprovalUpdate() {
           width: "auto",
           height: "auto",
           p: 2,
-          bgcolor: "#DADADA",
+          bgcolor: "#e1e1e1",
           flexGrow: 1,
           fontFamily: "Noto Sans Thai",
         }}
@@ -504,7 +504,7 @@ function ApprovalUpdate() {
         <Container
           maxWidth="xl"
           sx={{
-            bgcolor: "#DADADA",
+            bgcolor: "#e1e1e1",
             width: "auto",
             height: "auto",
             padding: 2,
@@ -750,6 +750,42 @@ function ApprovalUpdate() {
                   </FormControl>
                 </Grid>
               </Grid>
+              <Box sx={{ padding: 2, marginBottom: 2 }}>
+                <Grid xs={7.85}>
+                  <Typography
+                    component="h2"
+                    color="red"
+                    gutterBottom
+                    sx={{
+                      flexGrow: 1,
+                      fontSize: 16,
+                      fontFamily: "Noto Sans Thai",
+                    }}
+                  >
+                    <b>หมายเหตุ</b>
+                  </Typography>
+                  <Paper elevation={3} sx={{ p: 2, bgcolor: "#FFD3BD" }}>
+                    <Typography
+                      sx={{
+                        fontSize: 16,
+                        fontFamily: "Noto Sans Thai",
+                        boxShadow: 0,
+                        whiteSpace: "pre-line",
+                      }}
+                    >
+                      1.
+                      อาจารย์ไม่สามารถแก้ไขรายการอนุมัติคำร้องออนไลน์ที่อาจารย์เลือกผลอนุมัติ
+                      เป็น "อนุมัติ" ได้{"\n"}
+                      2. อาจารย์ไม่สามารถอนุมัติคำร้องออนไลน์ หากไม่กรอกเหตุผล
+                      {"\n"}
+                      4. อาจารย์ไม่สามารถอนุมัติคำร้องออนไลน์
+                      หากกรอกเหตุผลด้วยตัวอักษรพิเศษหรือตัวเลข{"\n"}
+                      5. อาจารย์ไม่สามารถอนุมัติคำร้องออนไลน์
+                      หากกรอกเหตุผลมากกว่า 30 ตัวอักษร{"\n"}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              </Box>
               <Grid
                 item
                 xs={12}

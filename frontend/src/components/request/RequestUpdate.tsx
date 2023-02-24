@@ -295,7 +295,7 @@ const [message, setAlertMessage] = React.useState("");
           width: "auto",
           height: "auto",
           p: 2,
-          bgcolor: "#DADADA",
+          bgcolor: "#e1e1e1",
           flexGrow: 1,
           fontFamily: "Noto Sans Thai",
         }}
@@ -303,7 +303,7 @@ const [message, setAlertMessage] = React.useState("");
         <Container
           maxWidth="xl"
           sx={{
-            bgcolor: "#DADADA",
+            bgcolor: "#e1e1e1",
             width: "auto",
             height: "auto",
             padding: 2,
@@ -553,7 +553,9 @@ const [message, setAlertMessage] = React.useState("");
               </TableContainer>
               <Grid container sx={{ padding: 2 }}>
                 <Grid>
-                  <p>เหตุผล</p>
+                  <p>
+                    <b>เหตุผล</b>
+                  </p>
                 </Grid>
                 <Grid sx={{ padding: 2 }}>
                   <TextField
@@ -567,7 +569,9 @@ const [message, setAlertMessage] = React.useState("");
                   />
                 </Grid>
                 <Grid sx={{ marginLeft: "200px" }}>
-                  <p>ประเภทคำร้อง</p>
+                  <p>
+                    <b>ประเภทคำร้อง</b>
+                  </p>
                 </Grid>
                 <Grid>
                   <FormControl
@@ -605,6 +609,49 @@ const [message, setAlertMessage] = React.useState("");
                   </FormControl>
                 </Grid>
               </Grid>
+              <Box sx={{ padding: 2, marginBottom: 2 }}>
+                <Grid xs={7.85}>
+                  <Typography
+                    component="h2"
+                    color="red"
+                    gutterBottom
+                    sx={{
+                      flexGrow: 1,
+                      fontSize: 16,
+                      fontFamily: "Noto Sans Thai",
+                    }}
+                  >
+                    <b>หมายเหตุ</b>
+                  </Typography>
+                  <Paper elevation={3} sx={{ p: 2, bgcolor: "#FFD3BD" }}>
+                    <Typography
+                      sx={{
+                        fontSize: 16,
+                        fontFamily: "Noto Sans Thai",
+                        boxShadow: 0,
+                        whiteSpace: "pre-line",
+                      }}
+                    >
+                      1.
+                      นักศึกษาไม่สามารถแก้ไขรายการยื่นคำร้องออนไลน์ที่อาจารย์ตอบกลับแล้ว
+                      {"\n"}
+                      2.
+                      นักศึกษาไม่สามารถยื่นคำร้องออนไลน์รายวิชาที่มีวันเรียนซ้ำกัน
+                      {"\n"}
+                      3. นักศึกษาไม่สามารถยื่นคำร้องออนไลน์ หากไม่กรอกเหตุผล
+                      {"\n"}
+                      4. นักศึกษาไม่สามารถยื่นคำร้องออนไลน์
+                      หากกรอกเหตุผลด้วยตัวอักษรพิเศษหรือตัวเลข{"\n"}
+                      5. นักศึกษาไม่สามารถยื่นคำร้องออนไลน์ หากกรอกเหตุผลมากกว่า
+                      30 ตัวอักษร{"\n"}
+                      6. นักศึกษาไม่สามารถยื่นคำร้องออนไลน์
+                      หากเลือกประเภทยื่นคำร้องเป็น "เปลี่ยนกลุ่ม"
+                      แล้วยังไม่ทำการลงทะเบียนเรียนในรายวิชาที่ต้องการยื่นคำร้องออนไลน์
+                      {"\n"}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              </Box>
               <Grid
                 item
                 xs={12}

@@ -14,27 +14,32 @@ import { Class_Schedule, Exam_Schedule } from "../../models/I_Schedule";
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate, Link } from "react-router-dom";
 import Container from "@mui/material/Container";
-import { Box, Button, Divider, Paper, styled, TextField, Typography } from "@mui/material";
+import { Box, Button, Divider, Paper, Stack, styled, TextField, Typography } from "@mui/material";
+import Home_Navbar from "../navbars/Home_navbar";
+import Toolbar from "@mui/material/Toolbar";
+import AutoStoriesSharpIcon from '@mui/icons-material/AutoStoriesSharp';
 
 const apiUrl = "http://localhost:8080";
 const requestOptions = {
     method: "GET",
     headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json" },
+        "Content-Type": "application/json"
+    },
 };
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: "#5B98B9",
+        backgroundColor: "#44484D",
         color: theme.palette.common.white,
+        fontFamily: "Noto Sans Thai"
     },
 }));
 
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-        backgroundColor: "#EAF1F4",
+        backgroundColor: "#e0e0e0",
     },
     // hide last border
     '&:last-child td, &:last-child th': {
@@ -44,21 +49,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function Schedule_Main() {
     return (
+
         <Box sx={{ padding: 2 }}>
-            <Typography variant="h4" sx={{ fontFamily: 'Mitr-Regular' }}> About System : ระบบจัดสรรห้องเรียนและห้องสอบ </Typography>
+            <Typography variant="h4" sx={{ fontFamily: 'Noto Sans Thai', paddingBottom: 1 }}> About System : ระบบจัดสรรห้องเรียนและห้องสอบ </Typography>
             <Divider />
-            <p>
+            <Typography sx={{ fontFamily: "Noto Sans Thai", padding: 2 }}>
                 ระบบจัดสรรห้องเรียนและห้องสอบ เป็นระบบที่แอดมินสามารถจัดสรรห้องเรียนสำหรับการเรียนการ
                 สอนได้ด้วยการเพิ่มข้อมูลการใช้ห้องเรียน โดยการเพิ่มข้อมูลนั้น จะต้องระบุรายวิชา, ห้องเรียนที่ใช้, กลุ่มเรียน
                 และช่วงเวลาที่ใช้ในการเรียนการสอน โดยห้องที่ใช้และช่วงเวลานั้น จะต้องไม่ซ้ำกับข้อมูลการใช้ห้องเรียนที่มีอยู่
                 แล้ว นอกจากนี้ผู้จัดการระบบสามารถแก้ไขข้อมูลและลบข้อมูลการใช้ห้องเรียนได้
-            </p>
-            <p>
+            </Typography>
+            <Typography sx={{ fontFamily: "Noto Sans Thai", padding: 2 }}>
                 ต่อมาแอดมินสามารถเลือกได้ว่าจะบันทึกข้อมูลการใช้ห้องสอบหรือไม่ ถ้าต้องการบันทึก ให้แอดมินเลือก
                 ว่าจะบันทึกข้อมูลการสอบกลางภาคหรือประจำภาค โดยจะต้องระบุรายวิชา, ห้องสอบ, วัน/เดือน/ปี ที่จัดสอบ
                 และช่วงเวลาในการสอบ โดยห้องที่ใช้และช่วงเวลานั้น จะต้องไม่ซ้ำกับข้อมูลการใช้ห้องสอบที่มีอยู่แล้ว นอกจากนี้
                 แอดมินสามารถแก้ไขข้อมูลและลบข้อมูลการใช้ห้องสอบได้
-            </p>
+            </Typography>
         </Box>
     )
 }
@@ -137,6 +143,9 @@ export function Class_Schedules_List() {
                             size="small"
                             label="ค้นหารายวิชา"
                             onChange={handleInputChange}
+                            sx={{ fontFamily: "Noto Sans Thai" }}
+                            inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
+
                         ></TextField>
 
                         <Button
@@ -153,7 +162,7 @@ export function Class_Schedules_List() {
                             component={Link}
                             to="/class_schedule/class_schedule_create"
                             variant="contained"
-                            sx={{ borderRadius: 0, margin: 1.25, marginTop: 1.5 }}
+                            sx={{ borderRadius: 0, margin: 1.25, marginTop: 1.5, fontFamily: "Noto Sans Thai" }}
                         > Add </Button>
                     </Box>
                 </Box>
@@ -164,14 +173,15 @@ export function Class_Schedules_List() {
                     <Table>
                         <TableHead sx={{ bgcolor: "#5B98B9" }}>
                             <TableRow sx={{ width: "auto" }}>
-                                <StyledTableCell width={100} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>รหัสวิชา</StyledTableCell>
-                                <StyledTableCell width={20} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>กลุ่มที่</StyledTableCell>
-                                <StyledTableCell width={100} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>ห้อง</StyledTableCell>
-                                <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>รายละเอียด</StyledTableCell>
-                                <StyledTableCell width={225} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>วัน</StyledTableCell>
-                                <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>เวลาเริ่ม</StyledTableCell>
-                                <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>เวลาเลิก</StyledTableCell>
-                                <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>Info</StyledTableCell>
+                                <StyledTableCell width={100} sx={{ border: 1, }}>รหัสวิชา</StyledTableCell>
+                                <StyledTableCell width={20} sx={{ border: 1, }}>กลุ่มที่</StyledTableCell>
+                                <StyledTableCell width={100} sx={{ border: 1, }}>ห้อง</StyledTableCell>
+                                <StyledTableCell width={200} sx={{ border: 1, }}>รายละเอียด</StyledTableCell>
+                                <StyledTableCell width={50} sx={{ border: 1, }}>วัน</StyledTableCell>
+                                <StyledTableCell width={50} sx={{ border: 1, }}>เวลาเริ่ม</StyledTableCell>
+                                <StyledTableCell width={50} sx={{ border: 1, }}>เวลาเลิก</StyledTableCell>
+                                <StyledTableCell width={50} sx={{ border: 1, }}>แก้ไขล่าสุด</StyledTableCell>
+                                <StyledTableCell width={50} sx={{ border: 1, }}>Info</StyledTableCell>
                             </TableRow>
                         </TableHead>
 
@@ -181,17 +191,18 @@ export function Class_Schedules_List() {
                                 : class_schedules
                             ).map((row) => (
                                 <StyledTableRow key={row.Class_Schedule_ID}>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.Subject_ID}</TableCell>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.Section}</TableCell>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.Room_ID}</TableCell>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.Class_Schedule_Description}</TableCell>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.Day}</TableCell>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.Start_Time}</TableCell>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.End_Time}</TableCell>
+                                    <TableCell sx={{  fontFamily: "Noto Sans Thai" }}>{row.Subject_ID}</TableCell>
+                                    <TableCell sx={{  fontFamily: "Noto Sans Thai" }}>{row.Section}</TableCell>
+                                    <TableCell sx={{ fontFamily: "Noto Sans Thai" }}>{row.Room_ID}</TableCell>
+                                    <TableCell sx={{  fontFamily: "Noto Sans Thai" }}>{row.Class_Schedule_Description}</TableCell>
+                                    <TableCell sx={{  fontFamily: "Noto Sans Thai" }}>{row.Day}</TableCell>
+                                    <TableCell sx={{  fontFamily: "Noto Sans Thai"}}>{row.Start_Time}</TableCell>
+                                    <TableCell sx={{  fontFamily: "Noto Sans Thai"}}>{row.End_Time}</TableCell>
+                                    <TableCell sx={{  fontFamily: "Noto Sans Thai"}}>{row.Latest_Updated.toString()}</TableCell>
                                     <TableCell>
                                         <Button
                                             variant="contained"
-                                            sx={{ borderRadius: 0 }}
+                                            sx={{ borderRadius: 0,  fontFamily: "Noto Sans Thai" }}
                                             onClick={() => {
                                                 class_navigate({ pathname: `/class_schedule/${row.Class_Schedule_ID}` })
                                             }}> Info </Button>
@@ -205,24 +216,24 @@ export function Class_Schedules_List() {
                             )}
                         </TableBody>
                         <TableFooter>
-                                <TableRow>
-                                    <TablePagination
-                                        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                        colSpan={class_schedules.length}
-                                        count={class_schedules.length}
-                                        rowsPerPage={rowsPerPage}
-                                        page={page}
-                                        SelectProps={{
-                                            inputProps: {
-                                                'aria-label': 'rows per page',
-                                            },
-                                            native: true,
-                                        }}
-                                        onPageChange={handleChangePage}
-                                        onRowsPerPageChange={handleChangeRowsPerPage}
-                                    />
-                                </TableRow>
-                            </TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                    count={class_schedules.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    colSpan={15}
+                                    SelectProps={{
+                                        inputProps: {
+                                            'aria-label': 'rows per page',
+                                       
+                                        },
+                                    }}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                />
+                            </TableRow>
+                        </TableFooter>
                     </Table>
                 </TableContainer>
             </Box>
@@ -330,13 +341,14 @@ export function Exam_Schedules_List() {
                     <Table>
                         <TableHead sx={{ bgcolor: "#5B98B9" }}>
                             <TableRow sx={{ width: "auto" }}>
-                                <StyledTableCell width={100} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>รหัสวิชา</StyledTableCell>
-                                <StyledTableCell width={100} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>ห้องสอบ</StyledTableCell>
-                                <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>วัน/เดือน/ปี ที่จัดสอบ</StyledTableCell>
-                                <StyledTableCell width={225} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>ประเภทการสอบ</StyledTableCell>
-                                <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>เวลาเริ่มสอบ</StyledTableCell>
-                                <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>เวลาเลิกสอบ</StyledTableCell>
-                                <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Mitr-Regular" }}>Info</StyledTableCell>
+                                <StyledTableCell width={100} sx={{ border: 1 }}>รหัสวิชา</StyledTableCell>
+                                <StyledTableCell width={100} sx={{ border: 1 }}>ห้องสอบ</StyledTableCell>
+                                <StyledTableCell width={50} sx={{ border: 1 }}>วัน/เดือน/ปี ที่จัดสอบ</StyledTableCell>
+                                <StyledTableCell width={50} sx={{ border: 1 }}>ประเภทการสอบ</StyledTableCell>
+                                <StyledTableCell width={50} sx={{ border: 1 }}>เวลาเริ่มสอบ</StyledTableCell>
+                                <StyledTableCell width={50} sx={{ border: 1 }}>เวลาเลิกสอบ</StyledTableCell>
+                                <StyledTableCell width={50} sx={{ border: 1 }}>แก้ไขล่าสุด</StyledTableCell>
+                                <StyledTableCell width={50} sx={{ border: 1 }}>Info</StyledTableCell>
                             </TableRow>
                         </TableHead>
 
@@ -346,16 +358,17 @@ export function Exam_Schedules_List() {
                                 : exam_schedules
                             ).map((row) => (
                                 <StyledTableRow key={row.Exam_Schedule_ID}>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.Subject_ID}</TableCell>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.Room_ID}</TableCell>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.Exam_Date}</TableCell>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.Exam_Type}</TableCell>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.Exam_Start_Time}</TableCell>
-                                    <TableCell sx={{ fontFamily: "Mitr-Regular" }}>{row.Exam_End_Time}</TableCell>
+                                    <TableCell sx={{ fontFamily: "Noto Sans Thai" }}>{row.Subject_ID}</TableCell>
+                                    <TableCell sx={{ fontFamily: "Noto Sans Thai" }}>{row.Room_ID}</TableCell>
+                                    <TableCell sx={{ fontFamily: "Noto Sans Thai" }}>{row.Exam_Date}</TableCell>
+                                    <TableCell sx={{ fontFamily: "Noto Sans Thai" }}>{row.Exam_Type}</TableCell>
+                                    <TableCell sx={{ fontFamily: "Noto Sans Thai" }}>{row.Exam_Start_Time}</TableCell>
+                                    <TableCell sx={{ fontFamily: "Noto Sans Thai" }}>{row.Exam_End_Time}</TableCell>
+                                    <TableCell sx={{ fontFamily: "Noto Sans Thai" }}>{row.Latest_Updated.toString()}</TableCell>
                                     <TableCell>
                                         <Button
                                             variant="contained"
-                                            sx={{ borderRadius: 0 }}
+                                            sx={{ borderRadius: 0, fontFamily: "Noto Sans Thai" }}
                                             onClick={() => {
                                                 exam_navigate({ pathname: `/exam_schedule/${row.Subject_ID}/${row.Exam_Type}` })
                                             }}> Info </Button>
@@ -369,24 +382,23 @@ export function Exam_Schedules_List() {
                             )}
                         </TableBody>
                         <TableFooter>
-                                <TableRow>
-                                    <TablePagination
-                                        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                        colSpan={exam_schedules.length}
-                                        count={exam_schedules.length}
-                                        rowsPerPage={rowsPerPage}
-                                        page={page}
-                                        SelectProps={{
-                                            inputProps: {
-                                                'aria-label': 'rows per page',
-                                            },
-                                            native: true,
-                                        }}
-                                        onPageChange={handleChangePage}
-                                        onRowsPerPageChange={handleChangeRowsPerPage}
-                                    />
-                                </TableRow>
-                            </TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                    colSpan={exam_schedules.length}
+                                    count={exam_schedules.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    SelectProps={{
+                                        inputProps: {
+                                            'aria-label': 'rows per page',
+                                        },
+                                    }}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                />
+                            </TableRow>
+                        </TableFooter>
                     </Table>
                 </TableContainer>
             </Box>
@@ -421,6 +433,8 @@ function ScheduleList() {
     }, [window.location.pathname]);
     return (
         <div>
+            <Home_Navbar />
+            <Toolbar />
             <Container maxWidth={false}
                 sx={{
                     bgcolor: "#e1e1e1",
@@ -431,16 +445,23 @@ function ScheduleList() {
 
                 {/* Header components */}
                 <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
-                    <Typography variant="h4" sx={{ fontFamily: 'Mitr-Regular' }}> ระบบจัดสรรห้องเรียนและห้องสอบ </Typography>
+                    <Stack direction="row" spacing={2}>
+                        <Box sx={{ padding: 2 }}>
+                            <AutoStoriesSharpIcon fontSize="large" />
+                        </Box>
+                        <Box sx={{ padding: 1 }}>
+                            <Typography variant="h4" sx={{ fontFamily: 'Noto Sans Thai', fontWeight:"bold", padding:0.5 }}> ระบบจัดสรรห้องเรียนและห้องสอบ </Typography>
+                        </Box>
+                    </Stack>
                     <AppBar position="static" sx={{ boxShadow: 0, bgcolor: "white" }}>
                         <Tabs
                             onChange={handleTabsChange}
                             value={tabvalue}
                             sx={{ color: "black" }}
                         >
-                            <Tab label="หน้าหลัก" component={Link} to="/schedule" />
-                            <Tab label="ข้อมูลรายวิชาและห้องเรียน" component={Link} to="/class_schedule" />
-                            <Tab label="ข้อมูลห้องสอบ" component={Link} to="/exam_schedule" />
+                            <Tab label="หน้าหลัก" component={Link} to="/schedule" sx={{ fontFamily: "Noto Sans Thai" }} />
+                            <Tab label="ข้อมูลรายวิชาและห้องเรียน" component={Link} to="/class_schedule" sx={{ fontFamily: "Noto Sans Thai" }} />
+                            <Tab label="ข้อมูลห้องสอบ" component={Link} to="/exam_schedule" sx={{ fontFamily: "Noto Sans Thai" }} />
                         </Tabs>
                     </AppBar>
                     {tabvalue === 0 && <Schedule_Main />}

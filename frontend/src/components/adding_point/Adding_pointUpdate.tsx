@@ -164,12 +164,18 @@ function Adding_pointUpdate() {
                           icon: 'success',
                           title: 'คุณได้เปลี่ยนเกรดนักศึกษาแล้ว ',
                           text: 'Success',
+                      }).then(()=>{
+                        window.location.href = "/adding_point";
+
                       })
                   } else {
                       Swal.fire({
                           icon: 'error',
                           title: 'เกิดข้อมูลผิดพลาด !',
                           text: res.error,
+                      }).then(()=>{
+                        window.location.href = "/adding_point";
+
                       })
                   }
               });

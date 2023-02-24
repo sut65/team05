@@ -292,12 +292,18 @@ const getEnroll = async () => {
                           icon: 'success',
                           title: 'คุณได้เพิ่มเกรดนักศึกษาแล้ว '+addingpoint.Student_ID,
                           text: 'Success',
+                      }).then(()=>{
+                        window.location.href = "/adding_point/create";
+
                       })
                   } else {
                       Swal.fire({
                           icon: 'error',
                           title: 'เกิดข้อมูลผิดพลาด !',
                           text: res.error,
+                      }).then(()=>{
+                        window.location.href = "/adding_point/create";
+
                       })
                   }
               });

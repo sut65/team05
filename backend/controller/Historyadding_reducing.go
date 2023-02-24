@@ -258,6 +258,7 @@ func UpdateEnrollforadding(c *gin.Context) {
 	var update_class_schedule_id = update_enrolls.Class_Schedule_ID
 	var update_subject_id = update_enrolls.Subject_ID
 	var update_Section = update_enrolls.Section
+	
 
 	if tx := entity.DB().Where("enroll_id = ?", update_enrolls.Enroll_ID).First(&enroll); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "enroll_id not found"})
@@ -274,10 +275,7 @@ func UpdateEnrollforadding(c *gin.Context) {
 		Enroll_Time_Stamp: enroll.Enroll_Time_Stamp.Local(),
 	}
 
-	if _, err := ValidateAdding_reducingChecksubject(updated_enroll); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	
 	if _, err := ValidateAdding_reducingExamAndClass(updated_enroll); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

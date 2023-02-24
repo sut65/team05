@@ -41,6 +41,7 @@ import {Button, IconButton,TableFooter,TablePagination, Toolbar,} from "@mui/mat
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
 import Home_Navbar from "../navbars/Home_navbar";
 import { styled } from "@mui/material/styles";
+import Swal from "sweetalert2";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -245,7 +246,7 @@ function Adding_reducingUpdate() {
     console.log(data)
    
     //อัพเดตข้อมูลตารางenrollโดยใช้ฟังชั่นUpdateEnrollforadding
-    const apiUrl = "http://localhost:8080";
+    const apiUrl = "http://localhost:8080/adding_reducings";
     const requestOptions = {
       method: "PATCH",
       headers: { 
@@ -254,20 +255,52 @@ function Adding_reducingUpdate() {
       body: JSON.stringify(data),
     };
 
-    fetch(`${apiUrl}/adding_reducings`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          setSuccess(true);
-        } else {
-          setError(true);
-        }
-      });
+    Swal.fire({
+      title: "คุณต้องการเปลี่ยนกลุ่มลงทะเบียนรายวิชา" + 
+      enroll.Subject_ID+"นี้หรือไม่",
+      icon: 'warning',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'เปลี่ยนกลุ่ม',
+      denyButtonText: `ยกเลิก`,
+  }).then((data) => {
+      if (data.isConfirmed) {
+          fetch(apiUrl, requestOptions)
+              .then((response) => response.json())
+              .then((res) => {
+                  console.log(res)
+                  if (res.data) {
+                      console.log(res.data)
+                      Swal.fire({
+                          showConfirmButton: false,
+                          icon: 'success',
+                          title: 'คุณได้เปลี่ยนกลุ่มรายวิชา'+enroll.Subject_ID+"นี้แล้ว",
+                          text: 'Success',
+                      })
+                      .then(()=>{
+                        window.location.href = "/adding_reducing";
 
+                      })
+                  } else {
+                      Swal.fire({
+                          
+                          icon: 'error',
+                          title: 'เกิดข้อมูลผิดพลาด !',
+                          text: res.error,
+                        
+                          
+                      }).then(()=>{
+                        window.location.href = "/adding_reducing";
+
+                      })
+                  }
+                  
+              });
+      }
+  })
 //เรียกใช้หังชั่นCreateAdding_reducingonlyเพราะเปลี่ยนกลุ่มในenrollแต่ต้องเก็บประวัติลงในตารางตัวเอง
 //สร้างตารางใหม่ของaddingตารางเดียว
-      const apiUrl1 = "http://localhost:8080";
+      const apiUrl1 = "http://localhost:8080/adding_reducingsonly";
       const requestOptionsGet = {
         method: "POST",
         headers: { 

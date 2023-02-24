@@ -150,7 +150,9 @@ function Request() {
                 text: res.error,
               });
             }
-            //window.location.href = "/request";
+            setTimeout(function () {
+              window.location.href = "/request";
+            }, 2500);
           });
       }
     });

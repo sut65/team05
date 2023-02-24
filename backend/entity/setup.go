@@ -1948,6 +1948,19 @@ func SetupDatabase() {
 			Request_Type:   Request_Type2,
 		}
 		db.Create(&Request2)
+
+			Request3 := Request{
+			Request_ID:     3,
+			Reason:         "อยากเรียน",
+			Student:        student1,
+			Section:        1,
+			Subject:        software_engineering_sec1,
+			Class_Schedule: system_analysis_sec1_class,
+			Exam_Schedule:  system_analysis_midterm,
+			Request_Type:   Request_Type1,
+		}
+		db.Create(&Request3)
+		
 		enroll1 := Enroll{
 			Enroll_ID:         "E001",
 			Student:           student1,

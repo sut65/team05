@@ -360,7 +360,7 @@ func ValidateAdding_reducingExamAndClass(enrolls entity.Enroll) (bool, error) {
 
 				// กรณีเวลาเรียนไม่เท่ากันทั้ง 2 วิชา แต่เวลาซ้าซ้อนกัน (วันเรียนเดียวกัน)
 				// ลงวิชา A 13:00 - 15:00
-				// จะลงวิชา B 14:00 - 16:00 ไม่ได้ เพราะวิชา B เวลา 14:00 เหลื่อมกับช่วงเวลาเรียนวิชา A
+				// จะลงวิชา B 14:00 - 16:00 ไม่ได้
 			} else if day == enrolls.Class_Schedule.Day {
 
 				// แปลง start time, end time ของข้อมูลที่จะเพิ่ม เป็นค่าเวลา

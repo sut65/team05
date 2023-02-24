@@ -300,7 +300,7 @@ function Adding_reducingUpdate() {
   })
 //เรียกใช้หังชั่นCreateAdding_reducingonlyเพราะเปลี่ยนกลุ่มในenrollแต่ต้องเก็บประวัติลงในตารางตัวเอง
 //สร้างตารางใหม่ของaddingตารางเดียว
-      const apiUrl1 = "http://localhost:8080/adding_reducingsonly";
+      const apiUrl1 = "http://localhost:8080";
       const requestOptionsGet = {
         method: "POST",
         headers: { 
@@ -313,12 +313,6 @@ function Adding_reducingUpdate() {
         .then((response) => response.json())
         .then((res) => {
           console.log(res);
-          if (res.data) {
-            setSuccess(true);
-          } else {
-            setAlertMessage(res.error);
-            setError(true);
-          }
         });
   
     

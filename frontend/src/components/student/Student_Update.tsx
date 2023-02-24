@@ -2,7 +2,7 @@ import { Box, Container } from "@mui/system";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Divider from "@mui/material/Divider";
-import { Button, FormControl, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, Stack, TextField, Typography } from "@mui/material";
+import { Button, FormControl, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, Stack, TextField, Toolbar, Typography } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { Course } from "../../models/I_Course";
 import { StudentsInterface } from "../../models/I_Student";
@@ -23,6 +23,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import Swal from "sweetalert2";
+import Home_Navbar from "../navbars/Home_navbar";
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -268,6 +269,8 @@ function Student_Update() {
                 gutterBottom
    
               >
+                <Home_Navbar></Home_Navbar>
+                <Toolbar></Toolbar>
                <Grid item xs={3} color="#115686" 
              sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:35}}>

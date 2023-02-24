@@ -41,7 +41,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-import { SelectChangeEvent } from "@mui/material";
+import { SelectChangeEvent, Toolbar } from "@mui/material";
 
 import { FormHelperText, MenuItem, Select,} from "@mui/material";
 
@@ -56,6 +56,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import Swal from "sweetalert2";
+import Home_Navbar from "../navbars/Home_navbar";
 
 
 
@@ -332,6 +333,8 @@ const requestOptionsGet = {
              gutterBottom
 
            >
+            <Home_Navbar></Home_Navbar>
+            <Toolbar></Toolbar>
             <Grid item xs={3} color="#115686" 
           sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:35}}>

@@ -11,6 +11,7 @@ export interface Class_Schedule {
     Day: string;
     Start_Time: string;
     End_Time: string;
+    Latest_Updated: Date;
 
 }
 export interface Class_Schedule_For_Update {
@@ -39,4 +40,5 @@ export interface Exam_Schedule {
     Exam_Date: string;
     Exam_Start_Time: string;
     Exam_End_Time: string;
+    Latest_Updated: Date;
 }

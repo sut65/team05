@@ -1,12 +1,14 @@
 package entity
 
+import "time"
+
 // "gorm.io/driver/sqlite"
 // "gorm.io/gorm"
 
 type Class_Schedule struct {
 	Class_Schedule_ID string `gorm:"primaryKey" valid:"required~Class Schedule ID Cannot be blank"`
 
-	Subject_ID *string
+	Subject_ID *string `valid:"-"`
 	Subject    Subject `gorm:"references:Subject_ID" valid:"-"`
 	Section    uint
 
@@ -14,6 +16,8 @@ type Class_Schedule struct {
 	Admin    Admin   `gorm:"references:Admin_ID" valid:"-"`
 	Room_ID  *string `valid:"-"`
 	Room     Room    `gorm:"references:Room_ID" valid:"-"`
+
+	Latest_Updated time.Time
 
 	Class_Schedule_Description string
 	Day                        string
@@ -24,12 +28,13 @@ type Class_Schedule struct {
 type Exam_Schedule struct {
 	Exam_Schedule_ID string `gorm:"primaryKey" valid:"required~Exam Schedule ID Cannot be blank"`
 
-	Subject_ID *string `valid:"-"`
-	Subject    Subject `gorm:"references:Subject_ID" valid:"-"`
-	Admin_ID   *string `valid:"-"`
-	Admin      Admin   `gorm:"references:Admin_ID" valid:"-"`
-	Room_ID    *string `valid:"-"`
-	Room       Room    `gorm:"references:Room_ID" valid:"-"`
+	Subject_ID     *string `valid:"-"`
+	Subject        Subject `gorm:"references:Subject_ID" valid:"-"`
+	Admin_ID       *string `valid:"-"`
+	Admin          Admin   `gorm:"references:Admin_ID" valid:"-"`
+	Room_ID        *string `valid:"-"`
+	Room           Room    `gorm:"references:Room_ID" valid:"-"`
+	Latest_Updated time.Time
 
 	Exam_Type string
 	Exam_Date string

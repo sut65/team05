@@ -1487,6 +1487,7 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
 			Class_Schedule_Description: "รายวิชาไทยพหุ เรียนที่ห้อง B4101",
+			Latest_Updated:             time.Now(),
 			Day:                        "Wed",
 		}
 		db.Create(&pluri_thai_class)
@@ -1500,7 +1501,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
 			Class_Schedule_Description: "System Analysis sec1",
-			Day:                        "Mon",
+			Latest_Updated:             time.Now(),
+
+			Day: "Mon",
 		}
 
 		system_analysis_sec2_class := Class_Schedule{
@@ -1512,6 +1515,7 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
 			Class_Schedule_Description: "System Analysis sec2",
+			Latest_Updated:             time.Now(),
 			Day:                        "Mon",
 		}
 		ann_sec1_class := Class_Schedule{
@@ -1523,7 +1527,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 14, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
 			Class_Schedule_Description: "Artificial Neural Network class",
-			Day:                        "Mon",
+			Latest_Updated:             time.Now(),
+
+			Day: "Mon",
 		}
 
 		electrical_circuit_1_sec1_class := Class_Schedule{
@@ -1535,7 +1541,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 8, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 11, 00),
 			Class_Schedule_Description: "Electrical Circuit in room b1207 sec1",
-			Day:                        "Mon",
+			Latest_Updated:             time.Now(),
+
+			Day: "Mon",
 		}
 
 		electrical_circuit_1_sec2_class := Class_Schedule{
@@ -1547,7 +1555,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
 			Class_Schedule_Description: "Electrical Circuit in room b1206 sec2",
-			Day:                        "Mon",
+			Latest_Updated:             time.Now(),
+
+			Day: "Mon",
 		}
 
 		problem_solving_sec1_class := Class_Schedule{
@@ -1559,7 +1569,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
 			Class_Schedule_Description: "Problem Solving Sec 1 Class",
-			Day:                        "Mon",
+			Latest_Updated:             time.Now(),
+
+			Day: "Mon",
 		}
 
 		problem_solving_sec2_class := Class_Schedule{
@@ -1571,7 +1583,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 16, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 19, 00),
 			Class_Schedule_Description: "Problem Solving Sec 2 Class",
-			Day:                        "Mon",
+			Latest_Updated:             time.Now(),
+
+			Day: "Mon",
 		}
 
 		db.Create(&system_analysis_sec1_class)
@@ -1590,7 +1604,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
 			Class_Schedule_Description: "Operating System sec1 class",
-			Day:                        "Tue",
+			Latest_Updated:             time.Now(),
+
+			Day: "Tue",
 		}
 
 		os_sec2_class := Class_Schedule{
@@ -1602,7 +1618,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 15, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 17, 00),
 			Class_Schedule_Description: "Operating System sec2",
-			Day:                        "Tue",
+			Latest_Updated:             time.Now(),
+
+			Day: "Tue",
 		}
 
 		digital_system_sec1_class := Class_Schedule{
@@ -1614,7 +1632,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 10, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
 			Class_Schedule_Description: "Digital sec1 class in room b1120",
-			Day:                        "Tue",
+			Latest_Updated:             time.Now(),
+
+			Day: "Tue",
 		}
 
 		digital_system_sec2_class := Class_Schedule{
@@ -1626,7 +1646,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 15, 00),
 			Class_Schedule_Description: "Digital sec2 class in room b1120",
-			Day:                        "Tue",
+			Latest_Updated:             time.Now(),
+
+			Day: "Tue",
 		}
 
 		db.Create(&digital_system_sec1_class)
@@ -1643,7 +1665,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 9, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
 			Class_Schedule_Description: "Software Engineering Sec 1 Class",
-			Day:                        "Wed",
+			Latest_Updated:             time.Now(),
+
+			Day: "Wed",
 		}
 
 		se_sec2_class := Class_Schedule{
@@ -1655,7 +1679,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
 			Class_Schedule_Description: "Software Engineering Sec 2 Class",
-			Day:                        "Wed",
+			Latest_Updated:             time.Now(),
+
+			Day: "Wed",
 		}
 
 		data_structure_and_algorithms_class := Class_Schedule{
@@ -1667,7 +1693,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 10, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
 			Class_Schedule_Description: "Class Scheduel of Data Structure and Algorithms",
-			Day:                        "Wed",
+			Latest_Updated:             time.Now(),
+
+			Day: "Wed",
 		}
 
 		matlab_programming_sec1_class := Class_Schedule{
@@ -1679,7 +1707,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
 			Class_Schedule_Description: "Matlab Sec 1 class in F11Software",
-			Day:                        "Wed",
+			Latest_Updated:             time.Now(),
+
+			Day: "Wed",
 		}
 
 		matlab_programming_sec2_class := Class_Schedule{
@@ -1691,7 +1721,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 16, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 19, 00),
 			Class_Schedule_Description: "Matlab Sec 2 class in F11Software",
-			Day:                        "Wed",
+			Latest_Updated:             time.Now(),
+
+			Day: "Wed",
 		}
 
 		db.Create(&se_sec1_class)
@@ -1709,7 +1741,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 9, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
 			Class_Schedule_Description: "OOT Lab Sec1 class",
-			Day:                        "Thu",
+			Latest_Updated:             time.Now(),
+
+			Day: "Thu",
 		}
 
 		oot_sec2_class := Class_Schedule{
@@ -1721,7 +1755,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 13, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 16, 00),
 			Class_Schedule_Description: "OOT Lab Sec1 class",
-			Day:                        "Thu",
+			Latest_Updated:             time.Now(),
+
+			Day: "Thu",
 		}
 
 		computer_vision_class := Class_Schedule{
@@ -1733,7 +1769,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 10, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
 			Class_Schedule_Description: "ComVision sec1 class in room b1214",
-			Day:                        "Thu",
+			Latest_Updated:             time.Now(),
+
+			Day: "Thu",
 		}
 		db.Create(&oot_sec1_class)
 		db.Create(&oot_sec2_class)
@@ -1748,7 +1786,9 @@ func SetupDatabase() {
 			Start_Time:                 fmt.Sprintf("%02d:%02d", 10, 00),
 			End_Time:                   fmt.Sprintf("%02d:%02d", 12, 00),
 			Class_Schedule_Description: "Knowledge Discovery and Data Mining Class",
-			Day:                        "Fri",
+			Latest_Updated:             time.Now(),
+
+			Day: "Fri",
 		}
 
 		db.Create(&ann_sec1_class)
@@ -1763,6 +1803,7 @@ func SetupDatabase() {
 			Exam_Date:        "23/05/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 13, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 15, 00),
+			Latest_Updated:   time.Now(),
 		}
 		db.Create(&pluri_thai_midterm)
 
@@ -1775,6 +1816,7 @@ func SetupDatabase() {
 			Exam_Date:        "18/05/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 15, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 17, 00),
+			Latest_Updated:   time.Now(),
 		}
 
 		db.Create(&system_analysis_midterm)
@@ -1788,6 +1830,7 @@ func SetupDatabase() {
 			Exam_Date:        "22/07/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 15, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 17, 00),
+			Latest_Updated:   time.Now(),
 		}
 
 		ann_midterm := Exam_Schedule{
@@ -1799,6 +1842,7 @@ func SetupDatabase() {
 			Exam_Date:        "19/05/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
+			Latest_Updated:   time.Now(),
 		}
 		ps_final := Exam_Schedule{
 			Exam_Schedule_ID: fmt.Sprintf("EXAM%d%10d", rand.Intn(10), rand.Intn(10000000000)+10000000000),
@@ -1809,6 +1853,7 @@ func SetupDatabase() {
 			Exam_Date:        "19/05/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
+			Latest_Updated:   time.Now(),
 		}
 
 		oot_test := Exam_Schedule{
@@ -1820,6 +1865,7 @@ func SetupDatabase() {
 			Exam_Date:        "19/05/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 15, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 18, 00),
+			Latest_Updated:   time.Now(),
 		}
 
 		computer_vision_test := Exam_Schedule{
@@ -1831,6 +1877,7 @@ func SetupDatabase() {
 			Exam_Date:        "19/05/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 13, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 15, 00),
+			Latest_Updated:   time.Now(),
 		}
 
 		se_test := Exam_Schedule{
@@ -1842,6 +1889,7 @@ func SetupDatabase() {
 			Exam_Date:        "16/05/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 16, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 18, 00),
+			Latest_Updated:   time.Now(),
 		}
 
 		electrical_circuit_1_test := Exam_Schedule{
@@ -1853,6 +1901,7 @@ func SetupDatabase() {
 			Exam_Date:        "16/05/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 13, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 15, 00),
+			Latest_Updated:   time.Now(),
 		}
 
 		matlab_programming_test := Exam_Schedule{
@@ -1864,6 +1913,7 @@ func SetupDatabase() {
 			Exam_Date:        "17/05/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
+			Latest_Updated:   time.Now(),
 		}
 
 		digital_system_test := Exam_Schedule{
@@ -1875,6 +1925,7 @@ func SetupDatabase() {
 			Exam_Date:        "20/05/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 9, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 12, 00),
+			Latest_Updated:   time.Now(),
 		}
 
 		kdd_test := Exam_Schedule{
@@ -1886,6 +1937,7 @@ func SetupDatabase() {
 			Exam_Date:        "21/05/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 13, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 15, 00),
+			Latest_Updated:   time.Now(),
 		}
 
 		data_structure_and_algorithms_test := Exam_Schedule{
@@ -1897,6 +1949,7 @@ func SetupDatabase() {
 			Exam_Date:        "21/05/2020",
 			Exam_Start_Time:  fmt.Sprintf("%02d:%02d", 12, 00),
 			Exam_End_Time:    fmt.Sprintf("%02d:%02d", 14, 00),
+			Latest_Updated:   time.Now(),
 		}
 
 		db.Create(&os_final)

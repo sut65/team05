@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/B6025212/team05/entity"
 	. "github.com/B6025212/team05/service"
@@ -62,6 +63,7 @@ func CreateClassSchedule(c *gin.Context) {
 		Admin:                      admin,
 		Class_Schedule_Description: class_schedule.Class_Schedule_Description,
 		Day:                        class_schedule.Day,
+		Latest_Updated:             time.Now(),
 		Start_Time:                 class_schedule.Start_Time,
 		End_Time:                   class_schedule.End_Time,
 	}
@@ -187,6 +189,7 @@ func UpdateClassSchedule(c *gin.Context) {
 		Room:                       room,
 		Admin:                      admin,
 		Class_Schedule_Description: updated_class_schedule_description,
+		Latest_Updated:             time.Now(),
 		Day:                        updated_day,
 		Start_Time:                 updated_start_time,
 		End_Time:                   updated_end_time,
@@ -197,12 +200,11 @@ func UpdateClassSchedule(c *gin.Context) {
 		return
 	}
 
-	if _, err := ValidateClassScheduleUnique(updated_class_schedule.Day, room, updated_class_schedule.Start_Time, updated_class_schedule.End_Time, subject); err != nil {
+	if _, err := ValidateClassScheduleTime(updated_class_schedule.Start_Time, updated_class_schedule.End_Time); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if _, err := ValidateClassScheduleTime(updated_class_schedule.Start_Time, updated_class_schedule.End_Time); err != nil {
+	if _, err := ValidateClassScheduleUnique(updated_class_schedule.Day, room, updated_class_schedule.Start_Time, updated_class_schedule.End_Time, subject); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

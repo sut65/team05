@@ -29,7 +29,7 @@ func TestClassScheduleTime(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	g.Expect(err.Error()).To(Equal("Start time and End time must not equal to each other!"))
 }
 
 func TestBlankClassScheduleID(t *testing.T) {
@@ -48,7 +48,7 @@ func TestBlankClassScheduleID(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	g.Expect(err.Error()).To(Equal("Class Schedule ID Cannot be blank"))
 }
 
 func TestClassScheduleAlreadyExist(t *testing.T) {
@@ -62,7 +62,7 @@ func TestClassScheduleAlreadyExist(t *testing.T) {
 	}
 
 	class_schedule_1 := entity.Class_Schedule{
-		Class_Schedule_ID: "CLS523332-1-B2101-Mon-13:00-15:00",
+		Class_Schedule_ID: "Primary key",
 		Room:              room_b2101,
 		Subject:           subject_1,
 		Section:           1,
@@ -81,11 +81,11 @@ func TestClassScheduleAlreadyExist(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ_2!!!"))
+	g.Expect(err.Error()).To(Equal("Cannot add class schedule. In day Mon, room B2101, start time 13:00 already occupied"))
 
 }
 
-func TestClassSchedule_StartTimeAlreadyExist(t *testing.T) {
+func TestClassScheduleTimeAlreadyOccupied(t *testing.T) {
 
 	g := NewGomegaWithT(t)
 	room_b2101 := entity.Room{
@@ -95,7 +95,7 @@ func TestClassSchedule_StartTimeAlreadyExist(t *testing.T) {
 		Subject_ID: "523332",
 	}
 	class_schedule_1 := entity.Class_Schedule{
-		Class_Schedule_ID: "CLS523332-1-B2101-Mon-13:00-16:00",
+		Class_Schedule_ID: "PrimaryKey0",
 		Room:              room_b2101,
 		Subject:           subject_1,
 		Section:           1,
@@ -113,17 +113,17 @@ func TestClassSchedule_StartTimeAlreadyExist(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	g.Expect(err.Error()).To(Equal("Cannot add class schedule. In day Mon, room B2101, in time interval 13:00 - 16:00, already occupied"))
 }
 
-func TestClassSchedule_EndTimeAlreadyExist(t *testing.T) {
+func TestClassSchedule_StartTimeOverlap(t *testing.T) {
 
 	g := NewGomegaWithT(t)
 	room_b2101 := entity.Room{
 		Room_ID: "B2101",
 	}
 	subject_1 := entity.Subject{
-		Subject_ID: "523332",
+		Subject_ID: "529204",
 	}
 	class_schedule_1 := entity.Class_Schedule{
 		Class_Schedule_ID: "CLS523332-1-B2101-Mon-14:00-15:00",
@@ -144,17 +144,17 @@ func TestClassSchedule_EndTimeAlreadyExist(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	g.Expect(err.Error()).To(Equal("est"))
 }
 
-func TestClassSchedule_StartTimeOverlap(t *testing.T) {
+func TestClassSchedule_EndTimeOverlap(t *testing.T) {
 
 	g := NewGomegaWithT(t)
 	room_b2101 := entity.Room{
 		Room_ID: "B2101",
 	}
 	subject_1 := entity.Subject{
-		Subject_ID: "523331",
+		Subject_ID: "529204",
 	}
 
 	class_schedule_1 := entity.Class_Schedule{
@@ -176,10 +176,10 @@ func TestClassSchedule_StartTimeOverlap(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	g.Expect(err.Error()).To(Equal("Cannot add class schedule. In day Mon, room B2101, end time 16:00 already occupied"))
 }
 
-func TestClassSchedule_EndTimeOverlap(t *testing.T) {
+func TestClassSchedule_SubjectStartTimeOverlap(t *testing.T) {
 
 	g := NewGomegaWithT(t)
 	room_b2101 := entity.Room{
@@ -207,7 +207,7 @@ func TestClassSchedule_EndTimeOverlap(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	g.Expect(err.Error()).To(Equal("Cannot add 523331 class schedule. end time 14:00 is overlapped"))
 }
 
 func TestClassSchedule_NoError_NotSameTimeInterval(t *testing.T) {
@@ -225,20 +225,18 @@ func TestClassSchedule_NoError_NotSameTimeInterval(t *testing.T) {
 		Subject:           subject_1,
 		Section:           1,
 		Day:               "Mon",
-		Start_Time:        "15:00",
-		End_Time:          "17:00",
+		Start_Time:        "17:00",
+		End_Time:          "19:00",
 	}
 
 	ok, err := ValidateClassScheduleUnique(class_schedule_1.Day, class_schedule_1.Room, class_schedule_1.Start_Time, class_schedule_1.End_Time, subject_1)
 
 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(ok).To(BeTrue())
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
-	g.Expect(err).ToNot(BeNil())
+	g.Expect(err).To(BeNil())
 
-	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
 }
 
 func TestClassSchedule_NoError_NotSameRoom(t *testing.T) {
@@ -263,13 +261,13 @@ func TestClassSchedule_NoError_NotSameRoom(t *testing.T) {
 	ok, err := ValidateClassScheduleUnique(class_schedule_1.Day, class_schedule_1.Room, class_schedule_1.Start_Time, class_schedule_1.End_Time, subject_1)
 
 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(ok).To(BeTrue())
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
-	g.Expect(err).ToNot(BeNil())
+	g.Expect(err).To(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	// g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
 }
 
 func TestClassSchedule_NoError_NotSameDay(t *testing.T) {
@@ -294,11 +292,9 @@ func TestClassSchedule_NoError_NotSameDay(t *testing.T) {
 	ok, err := ValidateClassScheduleUnique(class_schedule_1.Day, class_schedule_1.Room, class_schedule_1.Start_Time, class_schedule_1.End_Time, subject_1)
 
 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(ok).To(BeTrue())
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
-	g.Expect(err).ToNot(BeNil())
+	g.Expect(err).To(BeNil())
 
-	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
 }

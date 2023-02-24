@@ -11,7 +11,7 @@ import (
 )
 
 // ลงทะเบียนสำเร็จ
-func TestEnrollSuccess(t *testing.T) {
+func TestenrollSuccess(t *testing.T) {
 	g := NewGomegaWithT(t)
 	subject1 := entity.Subject{
 		Subject_ID: "523354",
@@ -49,7 +49,7 @@ func TestEnrollSuccess(t *testing.T) {
 }
 
 //ลงทะเบียน วันเรียน เวลาเรียนตรงกัน
-func TestEnrollrepeatedly(t *testing.T) {
+func Testsametimeandday(t *testing.T) {
 	g := NewGomegaWithT(t)
 	subject1 := entity.Subject{
 		Subject_ID: "523203",
@@ -91,7 +91,7 @@ func TestEnrollrepeatedly(t *testing.T) {
 }
 
 //เริ่มเท่า เลิกไม่เท่า start time is same
-func TestStart_time_is_same(t *testing.T) {
+func Testsamestarttime(t *testing.T) {
 	g := NewGomegaWithT(t)
 	subject1 := entity.Subject{
 		Subject_ID: "523331",
@@ -133,7 +133,7 @@ func TestStart_time_is_same(t *testing.T) {
 }
 
 //เริ่มไม่เท่า เลิกเท่า start time is same
-func TestEnd_time_is_same(t *testing.T) {
+func Testsameendtime(t *testing.T) {
 	g := NewGomegaWithT(t)
 	subject1 := entity.Subject{
 		Subject_ID: "523231",

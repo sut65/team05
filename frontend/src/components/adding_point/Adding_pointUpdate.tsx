@@ -5,9 +5,9 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
-
-import {Grid,TextField,Alert,Snackbar,} from "@mui/material";
+import {Grid,TextField,Snackbar,} from "@mui/material";
 
 
 import { useNavigate } from "react-router-dom";
@@ -15,10 +15,20 @@ import { useParams } from "react-router-dom";
 
 
 import { Adding_pointInterface } from "../../models/IAdding_point";
+import Swal from "sweetalert2";
+import { EnrollInterface } from "../../models/I_Enroll";
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function Adding_pointUpdate() {
   const [addingpoint, setAdding_point] = React.useState<Partial<Adding_pointInterface>>({});
+  const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
   const [addingpoints, setAdding_points] = React.useState<Adding_pointInterface[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -53,17 +63,17 @@ function Adding_pointUpdate() {
  
 
 
-  const apiUrl = "http://localhost:8080";
+  
 
+//เรียกใช้ฟังก์ชั่นเพื่อส่งค่าaddingมาใช้ในการอัพเดต
+    const getCurrentAdd = async () => {
+      const apiUrl = "http://localhost:8080";
   const requestOptionsGet = {
     method: "GET",
     headers: { 
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json" },
   };
-
-//เรียกใช้ฟังก์ชั่นเพื่อส่งค่าaddingมาใช้ในการอัพเดต
-    const getCurrentAdd = async () => {
       fetch(`${apiUrl}/adding_point/${params.adding_point_id}`, requestOptionsGet)
         .then((response) => response.json())
         .then((res) => {
@@ -78,6 +88,7 @@ function Adding_pointUpdate() {
 
     //เรียกใช้ฟังก์ชั่นเพื่อรับค่าprofessor ที่loginเข้ามา
     const getProfessor_ID = async () => {
+      const apiUrl = "http://localhost:8080";
       let id = localStorage.getItem("id")
       const requestOptions = {
         method: "GET",
@@ -122,8 +133,9 @@ function Adding_pointUpdate() {
     };
     console.log(data);
 
-
+    const apiUrl = "http://localhost:8080/adding_points";
     const requestOptionsPatch = {
+      
       method: "PATCH",
       headers: { 
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -131,19 +143,37 @@ function Adding_pointUpdate() {
       body: JSON.stringify(data),
     };
     console.log(JSON.stringify(data));
-
-    fetch(`${apiUrl}/adding_points`, requestOptionsPatch)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          setSuccess(true);
-      } else {
-          setAlertMessage(res.error);
-          setError(true);
+    Swal.fire({
+      title: "คุณต้องการเปลี่ยนเกรดใช่หรือไม่" ,
+      icon: 'warning',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'เปลี่ยนเกรด',
+      denyButtonText: `ยกเลิก`,
+  }).then((data) => {
+      if (data.isConfirmed) {
+          fetch(apiUrl, requestOptionsPatch)
+              .then((response) => response.json())
+              .then((res) => {
+                  console.log(res)
+                  if (res.data) {
+                      console.log(res.data)
+                      Swal.fire({
+                          icon: 'success',
+                          title: 'คุณได้เปลี่ยนเกรดนักศึกษาแล้ว ',
+                          text: 'Success',
+                      })
+                  } else {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'เกิดข้อมูลผิดพลาด !',
+                          text: res.error,
+                      })
+                  }
+              });
       }
-      });
-  }
+  })
+}
 
   return (
     <div>

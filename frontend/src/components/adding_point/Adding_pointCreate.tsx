@@ -11,8 +11,8 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 
 import Paper from "@mui/material/Paper";
-
-import {Grid,TextField,SvgIcon,Alert,Snackbar,} from "@mui/material";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import {Grid,TextField,SvgIcon,Snackbar} from "@mui/material";
 
 import IconButton from "@mui/material/IconButton";
 
@@ -45,8 +45,15 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Adding_pointInterface } from "../../models/IAdding_point";
 
 import { EnrollInterface } from "../../models/I_Enroll";
+import Swal from "sweetalert2";
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
 
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 function Adding_pointCreate() {
   const [addingpoint, setAdding_point] = React.useState<
     Partial<Adding_pointInterface>
@@ -57,6 +64,7 @@ function Adding_pointCreate() {
  
   
   const [enroll, setEnroll] = React.useState<EnrollInterface[]>([]);
+  const [enrolls, setEnrolls] = React.useState<Partial<EnrollInterface>>({});
   const [searchID, setSearchID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
 
  
@@ -248,7 +256,7 @@ const getEnroll = async () => {
     };
     console.log(data);
 
-   
+    const apiUrl = "http://localhost:8080/adding_points";
     const requestOptions = {
       method: "POST",
       headers: { 
@@ -256,20 +264,40 @@ const getEnroll = async () => {
         "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
-    console.log(JSON.stringify(data));
-
-    fetch(`${apiUrl}/adding_points`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          setSuccess(true);
-      } else {
-          setAlertMessage(res.error);
-          setError(true);
+    Swal.fire({
+      title: "คุณต้องการเพิ่มเกรดนักศึกษาใช่หรือไม่  " + 
+      addingpoint.Student_ID,
+      icon: 'warning',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'เพิ่มเกรด',
+      denyButtonText: `ยกเลิก`,
+  }).then((data) => {
+      if (data.isConfirmed) {
+          fetch(apiUrl, requestOptions)
+              .then((response) => response.json())
+              .then((res) => {
+                  console.log(res)
+                  if (res.data) {
+                      console.log(res.data)
+                      Swal.fire({
+                          icon: 'success',
+                          title: 'คุณได้เพิ่มเกรดนักศึกษาแล้ว '+addingpoint.Student_ID,
+                          text: 'Success',
+                      })
+                  } else {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'เกิดข้อมูลผิดพลาด !',
+                          text: res.error,
+                      })
+                  }
+              });
       }
-      });
-  }
+  })
+
+
+}
 
   return (
     <div>

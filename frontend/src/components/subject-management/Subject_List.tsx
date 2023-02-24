@@ -314,6 +314,8 @@ function SubjectList() {
                                     <StyledTableCell width={50} sx={{ border: 1, fontWeight: "bold" }}>ลง</StyledTableCell>
                                     <StyledTableCell width={50} sx={{ border: 1, fontWeight: "bold" }}>เหลือ</StyledTableCell>
                                     <StyledTableCell width={50} sx={{ border: 1, fontWeight: "bold" }}>สถานะ</StyledTableCell>
+                                    <StyledTableCell width={100} sx={{ border: 1, fontWeight: "bold" }}>แก้ไขล่าสุด</StyledTableCell>
+
                                     <StyledTableCell width={50} sx={{ border: 1, fontWeight: "bold" }}>Info</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -333,7 +335,9 @@ function SubjectList() {
                                         <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Capacity}</TableCell>
                                         <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Enroll_Amount}</TableCell>
                                         <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Capacity - row.Enroll_Amount}</TableCell>
-                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Subject_Status_ID}</TableCell>
+                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Subject_Status_Description}</TableCell>
+                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Latest_Updated.toString()}</TableCell>
+
                                         <TableCell>
                                             <Button
                                                 variant="contained"

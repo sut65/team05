@@ -2,7 +2,7 @@ import { Box, Container } from "@mui/system";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Divider from "@mui/material/Divider";
-import { Button, FormControl, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, Stack, TextField, Typography } from "@mui/material";
+import { Button, FormControl, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, Stack, TextField, Toolbar, Typography } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { Course } from "../../models/I_Course";
 import { QualificationsInterface } from "../../models/I_Qualification";
@@ -21,6 +21,8 @@ import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import NativeSelect from '@mui/material/NativeSelect';
+import Swal from "sweetalert2";
+import Home_Navbar from "../navbars/Home_navbar";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -174,19 +176,36 @@ function Class_Schedule_Update() {
             },
             body: JSON.stringify(data)
         };
-        console.log(JSON.stringify(data));
-
-        fetch(`${apiUrl}/courses`, requestOptionsPatch)
-            .then((response) => response.json())
-            .then((res) => {
+        Swal.fire({
+          title: 'คุณต้องการที่จะแก้ไขหรือไม่?',
+          icon: 'warning',
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: 'แก้ไข',
+          denyButtonText: `ไม่แก้ไข`,
+        }).then((data) => {
+          const apiUrl = "http://localhost:8080/courses";
+          if (data.isConfirmed) {
+            fetch(apiUrl, requestOptionsPatch)
+              .then((response) => response.json())
+              .then((res) => {
                 console.log(res)
                 if (res.data) {
-                  setSuccess(true);
-              } else {
-                  setAlertMessage(res.error);
-                  setError(true);
-              }
-            });
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'แก้ไขเรียบร้อย !',
+                    text: 'Success',
+                  })
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อมูลผิดพลาด !',
+                    text: res.error,
+                  })
+                }
+              });
+          }
+        })
 
     }
 
@@ -252,11 +271,13 @@ function Class_Schedule_Update() {
                 gutterBottom
    
               >
+                <Home_Navbar></Home_Navbar>
+                                    <Toolbar></Toolbar>
                <Grid item xs={3} color="#115686" 
              sx={{  fontFamily : "LilyUPC" ,
               fontWeight : 'bold' ,fontSize:35}}>
    
-               <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2}}/> แก้ไขข้อมูลหลักสูตร
+               <LibraryAddIcon sx={{  fontFamily: "Noto Sans Thai" ,fontSize:45, mb:-2}}/> แก้ไขข้อมูลหลักสูตร
                 </Grid>
    
               </Typography>
@@ -270,7 +291,7 @@ function Class_Schedule_Update() {
           <Grid container spacing={3} sx={{ padding: 2 }}>
 
           <Grid item xs={4} color="#FF0606" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <p>รหัสแอดมิน</p>
 
@@ -292,7 +313,7 @@ function Class_Schedule_Update() {
         </Grid>
    
           <Grid item xs={4} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:27}}>
              <p>รหัสหลักสูตร</p>
    
@@ -319,7 +340,7 @@ function Class_Schedule_Update() {
            </Grid>
    
             <Grid item xs={4} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:27}}>
              <p>ชื่อหลักสูตร</p>
    
@@ -346,7 +367,7 @@ function Class_Schedule_Update() {
             </Grid>
    
             <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
       
 
@@ -367,13 +388,13 @@ function Class_Schedule_Update() {
          </Grid>
    
             <Grid item xs={6} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:27}}>
                <FormControl fullWidth variant="outlined" sx={{mt:-0.5}}>
                  
                  <p>คุณวุฒิ</p>
                  <Select native 
-                                   variant="standard"
+                                   variant="outlined"
                                    id="Qualification_ID"
                                    value={course.Qualification_ID+""}
                                    onChange={handleSelectChange}
@@ -397,13 +418,13 @@ function Class_Schedule_Update() {
              </Grid>
    
              <Grid item xs={6} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:27}}>
-               <FormControl fullWidth variant="outlined" sx={{mt:-0.5}}>
+               <FormControl fullWidth variant="outlined" >
                  
                  <p>ชื่อสาขา</p> 
                  <Select native 
-                                   variant="standard"
+                                   variant="outlined"
                                    id="Major_ID"
                                    value={course.Major_ID+""}
                                    onChange={handleSelectChange}
@@ -427,7 +448,7 @@ function Class_Schedule_Update() {
              </Grid>
 
              <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <p>อายุ</p>
 
@@ -460,7 +481,7 @@ function Class_Schedule_Update() {
    
               <Button component={RouterLink} to="/course" variant="contained" color="warning">
    
-              <ArrowBackIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
+              <ArrowBackIcon sx={{  fontFamily: "Noto Sans Thai",fontSize:30,}}/>
    
                 ย้อนกลับ
    
@@ -469,6 +490,7 @@ function Class_Schedule_Update() {
               <Button
                             onClick={submit}
                             variant="contained"
+                            style={{ float: "right" }}
                             sx={{borderRadius: 0}}
                         > แก้ไขข้อมูล </Button>
    

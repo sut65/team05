@@ -186,6 +186,7 @@ func CreateApprovalAdding_reducing(c *gin.Context) {
 		Exam_Schedule:  exam_schedule,
 		Class_Schedule: class_schedule,
 		Section:        receive_adding.Section,
+		Enroll_Time_Stamp: time.Now(),
 	}
 
 	new_adding_reducing := entity.Adding_reducing{
@@ -328,6 +329,7 @@ func CreateApprovalAdding_reducingUpdateEnroll(c *gin.Context) {
 		Exam_Schedule:  exam_schedule,
 		Class_Schedule: class_schedule,
 		Section:        update_adding.Section,
+		Enroll_Time_Stamp: enroll.Enroll_Time_Stamp.Local(),
 	}
 
 	update_adding_reducing := entity.Adding_reducing{
@@ -611,6 +613,7 @@ func UpdateApprovalAdding_reducing(c *gin.Context) {
 		Exam_Schedule:  exam_schedule,
 		Class_Schedule: class_schedule,
 		Section:        receive_adding.Section,
+		Enroll_Time_Stamp: time.Now(),
 	}
 
 	new_adding_reducing := entity.Adding_reducing{
@@ -764,6 +767,7 @@ func UpdateApprovalAdding_reducingUpdateEnroll(c *gin.Context) {
 		Exam_Schedule:  exam_schedule,
 		Class_Schedule: class_schedule,
 		Section:        update_adding.Section,
+		Enroll_Time_Stamp: enroll.Enroll_Time_Stamp.Local(),
 	}
 
 	update_adding_reducing := entity.Adding_reducing{

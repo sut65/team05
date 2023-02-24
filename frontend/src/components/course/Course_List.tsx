@@ -37,6 +37,7 @@ import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import Home_Navbar from "../navbars/Home_navbar";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import { borderColor } from "@mui/system";
 
 const apiUrl = "http://localhost:8080";
 const requestOptions = {
@@ -47,22 +48,29 @@ const requestOptions = {
     },
 };
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+ //table
+ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: "#5B98B9",
-        // color: theme.palette.common.white,
+      backgroundColor: "#44484D",
+      color: "white",
+      fontFamily: "Noto Sans Thai",
+      fontSize: 17,
     },
-}));
+    [`&.${tableCellClasses.body}`]: {
+      color: "black",
+      fontFamily: "Noto Sans Thai",
+    },
+  }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
-        backgroundColor: "#EAF1F4",
+      backgroundColor: "#e0e0e0",
     },
     // hide last border
     "&:last-child td, &:last-child th": {
-        border: 1,
+      border: 1,
     },
-}));
+  }));
 
 function Course_Lists() {
     const navigate = useNavigate();
@@ -128,10 +136,11 @@ function Course_Lists() {
             <Container
                 maxWidth={false}
                 sx={{
-                    bgcolor: "#D4F5C4",
+                    bgcolor: "#e1e1e1",
                     width: "auto",
                     height: "auto",
                     padding: 2,
+                    fontFamily: "Noto Sans Thai",
                 }}
             >
                 <Paper
@@ -156,9 +165,10 @@ function Course_Lists() {
                                 <Paper
                                     elevation={0}
                                     sx={{
-                                        bgcolor: "#87B1F0",
+                                        bgcolor: "#F6B66A",
                                         marginBottom: 2,
                                         textAlign: "center",
+                                        fontFamily: "Noto Sans Thai",
                                     }}
                                 >
                                     ระบบจัดการข้อมูลหลักสูตร
@@ -166,7 +176,7 @@ function Course_Lists() {
                             </Typography>
                         </Box>
                     </Box>
-                    <Typography component="h2" variant="h6" color="Black" gutterBottom>
+                    <Typography component="h2" variant="h6" color="Black" gutterBottom sx={{fontFamily: "Noto Sans Thai",}}>
                         <u>Requirement</u>
                     </Typography>
                     <Box>
@@ -223,7 +233,7 @@ function Course_Lists() {
                         }}>
                         <Paper elevation={3} sx={{ bgcolor: "F1E262", padding: 3 }}>
                             <Typography variant="h4" color="#F1E262">
-                                <Paper elevation={2} sx={{ bgcolor: "#87B1F0", padding: 1 }}>
+                                <Paper elevation={2} sx={{ bgcolor: "#F6B66A", padding: 1 ,fontFamily: "Noto Sans Thai",}}>
                                     <FeaturedPlayListIcon
                                         sx={{ fontSize: "50px", border: 0, mb: -1.7, mr: 2 }}
                                     />
@@ -259,7 +269,7 @@ function Course_Lists() {
                                         borderRadius: 2,
                                         margin: 1.25,
                                         marginTop: 1,
-                                        bgcolor: "#4CED5F",
+                                        bgcolor: "#F3B721",
                                     }}
                                 >
                                     <AddCircleOutlineIcon /> Add{" "}
@@ -306,18 +316,18 @@ function Course_Lists() {
                                                 )
                                                 : courses
                                             ).map((row) => (
-                                                <StyledTableRow key={row.Course_ID}>
-                                                    <TableCell>{row.Course_ID}</TableCell>
-                                                    <TableCell>{row.Course_Name}</TableCell>
-                                                    <TableCell>{row.Datetime.toString()}</TableCell>
-                                                    <TableCell>{row.Year}</TableCell>
-                                                    <TableCell>{row.Qualification_ID}</TableCell>
-                                                    <TableCell>{row.Major_ID}</TableCell>
-                                                    <TableCell>{row.Admin_ID}</TableCell>
-                                                    <TableCell>
+                                                <StyledTableRow key={row.Course_ID} >
+                                                    <StyledTableCell>{row.Course_ID}</StyledTableCell>
+                                                    <StyledTableCell>{row.Course_Name}</StyledTableCell>
+                                                    <StyledTableCell>{row.Datetime.toString()}</StyledTableCell>
+                                                    <StyledTableCell>{row.Year}</StyledTableCell>
+                                                    <StyledTableCell>{row.Qualification_ID}</StyledTableCell>
+                                                    <StyledTableCell>{row.Major_ID}</StyledTableCell>
+                                                    <StyledTableCell>{row.Admin_ID}</StyledTableCell>
+                                                    <StyledTableCell>
                                                         <Button
                                                             variant="contained"
-                                                            sx={{ borderRadius: 0, bgcolor:"#F9CB6E"}}
+                                                            sx={{ borderRadius: 0, bgcolor:"#B0AB9D"}}
                                                             onClick={() => {
                                                                 navigate({ pathname: `/course/${row.Course_ID}` });
                                                             }}
@@ -325,7 +335,7 @@ function Course_Lists() {
                                                             {" "}
                                                             Info{" "}
                                                         </Button>
-                                                    </TableCell>
+                                                    </StyledTableCell>
                                                 </StyledTableRow>
                                             ))}
                                             {emptyRows > 0 && (
@@ -376,7 +386,7 @@ function Course_Lists() {
                             }}>
                             <Paper sx={{
                                 bgcolor: "#B2BFE6",height: 50}}>
-                            <Typography variant="h5" sx={{ margin: 0.5, padding: 1 }}> รายละเอียดตัวย่อคณะสาขาวิชา </Typography>
+                            <Typography variant="h5" sx={{ margin: 0.5, padding: 1,fontFamily: "Noto Sans Thai", }}> รายละเอียดตัวย่อคณะสาขาวิชา </Typography>
                             </Paper>
                             <Stack direction="row" sx={{ margin: 0.5 }}>
                              
@@ -394,25 +404,25 @@ function Course_Lists() {
                                 maxWidth: "false",
                             }}>
                             <Stack sx={{ margin: 3,}}>
-                                <Typography sx={{ mb: 1 ,mt:4}}>CPE - Computer Engineering </Typography>
-                                <Typography sx={{ mb: 1 }}>EE - Electrical Engineering</Typography>
-                                <Typography sx={{ mb: 1 }}>ELEC - Electronic Engineering</Typography>
-                                <Typography sx={{ mb: 1 }}>PE - Polymer Engineering</Typography>
-                                <Typography sx={{ mb: 1 }}>CV - Civil Engineering</Typography>
-                                <Typography sx={{ mb: 1 }}>ME - Mechanical Engineering</Typography>
-                                <Typography sx={{ mb: 1 }}>TE - Telecommunication Engineering</Typography>
-                                <Typography sx={{ mb: 1 }}>IE - Industrial Engineering</Typography>
-                                <Typography sx={{ mb: 1 }}>PH - Public Health</Typography>
-                                <Typography sx={{ mb: 1 }}>CS - Computer Science</Typography>
-                                <Typography sx={{ mb: 1 }}>PHYSC - Physics</Typography>
-                                <Typography sx={{ mb: 1 }}>BIO - Biology</Typography>
-                                <Typography sx={{ mb: 1 }}>CHEM - Chemistry</Typography>
+                                <Typography sx={{ mb: 1 ,mt:4,fontFamily: "Noto Sans Thai",}}>CPE - Computer Engineering </Typography>
+                                <Typography sx={{ mb: 1 ,fontFamily: "Noto Sans Thai",}}>EE - Electrical Engineering</Typography>
+                                <Typography sx={{ mb: 1 ,fontFamily: "Noto Sans Thai",}}>ELEC - Electronic Engineering</Typography>
+                                <Typography sx={{ mb: 1 ,fontFamily: "Noto Sans Thai",}}>PE - Polymer Engineering</Typography>
+                                <Typography sx={{ mb: 1 ,fontFamily: "Noto Sans Thai",}}>CV - Civil Engineering</Typography>
+                                <Typography sx={{ mb: 1 ,fontFamily: "Noto Sans Thai",}}>ME - Mechanical Engineering</Typography>
+                                <Typography sx={{ mb: 1 ,fontFamily: "Noto Sans Thai",}}>TE - Telecommunication Engineering</Typography>
+                                <Typography sx={{ mb: 1 ,fontFamily: "Noto Sans Thai",}}>IE - Industrial Engineering</Typography>
+                                <Typography sx={{ mb: 1 ,fontFamily: "Noto Sans Thai",}}>PH - Public Health</Typography>
+                                <Typography sx={{ mb: 1 ,fontFamily: "Noto Sans Thai",}}>CS - Computer Science</Typography>
+                                <Typography sx={{ mb: 1 ,fontFamily: "Noto Sans Thai",}}>PHYSC - Physics</Typography>
+                                <Typography sx={{ mb: 1 ,fontFamily: "Noto Sans Thai",}}>BIO - Biology</Typography>
+                                <Typography sx={{ mb: 1 ,fontFamily: "Noto Sans Thai",}}>CHEM - Chemistry</Typography>
 
                             </Stack>
                             </Box>
                         </Paper>
-                        <Paper sx={{
-                                bgcolor: "#FC3A00",height: 125}}>
+                        <Paper sx={{ border:3 ,borderColor:"red"
+                                ,height: 125}}>
                             <Stack sx={{ margin: 0.5, fontSize:16 , bgcolor:"#EEEEEA"}} color="#40403E" >
                                 <p><b><WarningAmberIcon/>ท่านสามารถใช้ตัวช่วยในช่องค้นหาในการค้นหารหัสหลักสูตร</b></p>
                                 <p><b><WarningAmberIcon/>You can use Search as a tool to help find the course id.</b></p>

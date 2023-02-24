@@ -23,13 +23,15 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import SendIcon from '@mui/icons-material/Send';
 
 import FolderIcon from '@mui/icons-material/Folder';
-import { Divider, Grid, Paper, Stack, Table, TableBody, TableCell, TableFooter, TableHead, TableRow, TextField, styled, tableCellClasses } from "@mui/material";
+import { Divider, Grid, Paper, Stack, Table, TableBody, TableCell, TableFooter, TableHead, TableRow, TextField, Toolbar, styled, tableCellClasses } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Users from "./Student_List";
 import TableContainer from "@mui/material/TableContainer";
 
 
 import CreateIcon from '@mui/icons-material/Create';
+import Swal from "sweetalert2";
+import Home_Navbar from "../navbars/Home_navbar";
 
 function StudentInfo() {
     const [students, setStudents] = React.useState<StudentsInterface>();
@@ -75,17 +77,37 @@ function StudentInfo() {
                 "Content-Type": "application/json",
               },
         };
-        fetch(`${apiUrl}/students/${params.student_id}`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log("Data remove")
-                    window.location.href = "/student"
-                }
-                else {
-                    console.log("Something was wrong!!")
-                }
-            });
+                Swal.fire({
+                    title: 'คุณต้องการที่จะลบหรือไม่?',
+                    icon: 'warning',
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: 'ลบ',
+                    denyButtonText: `ไม่ลบ`,
+                  }).then((data) => {
+                    if (data.isConfirmed) {
+                        fetch(`${apiUrl}/students/${params.student_id}`, requestOptions)
+                        .then((response) => response.json())
+                        .then((res) => {
+                            console.log(res.data)
+                            if (res.data) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'ลบเรียบร้อย',
+                                    text: 'Success',
+                                })
+                                window.location.href = "/student";
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'ลบไม่สำเร็จ !',
+                                    text: res.error,
+                                })
+                            }
+                        });
+                    } 
+                })
+  
     }
 
     useEffect(() => {
@@ -101,11 +123,13 @@ function StudentInfo() {
                 width: "auto",
                 height: "auto",
             }}>
+                <Home_Navbar></Home_Navbar>
+                <Toolbar></Toolbar>
 
             {/* Header components */}
             <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
-                <Typography variant="h4"> ระบบจัดการข้อมูลนักศึกษา </Typography>
-                <Typography> รายละเอียดนักศึกษา </Typography>
+                <Typography variant="h4" sx={{fontFamily: "Noto Sans Thai",}}> ระบบจัดการข้อมูลนักศึกษา </Typography>
+                <Typography sx={{fontFamily: "Noto Sans Thai",}}> รายละเอียดนักศึกษา </Typography>
             </Paper>
 
             {/* Body components */}
@@ -142,41 +166,41 @@ function StudentInfo() {
                     
                        
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> รหัสนักศึกษา </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Student_ID} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> รหัสนักศึกษา </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Student_ID} </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> ชื่อหลักสูตร </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Student_Name} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> ชื่อหลักสูตร </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Student_Name} </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> วันที่เพิ่ม </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Datetime.toString()}
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> วันที่เพิ่ม </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Datetime.toString()}
                             </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> อายุ </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Student_Age.toString()}
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> อายุ </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Student_Age.toString()}
                             </Box>
                         </Grid>
                     
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> หลักสูตร </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Course_Name}
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> หลักสูตร </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Course_Name}
                             </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> หอพัก </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Dormitory_Name} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> หอพัก </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Dormitory_Name} </Box>
                         </Grid>
 
                         <Grid container sx={{}} >
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> แอดมินที่เพิ่มข้อมูล </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Admin_Email} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> แอดมินที่เพิ่มข้อมูล </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Admin_Email} </Box>
                         </Grid>
 
                       
@@ -197,14 +221,14 @@ function StudentInfo() {
                             fontSize: 20,
                             maxWidth: "false",
                         }}>
-                        <Typography variant="h5" sx={{ margin: 0.5 }}> **คำเตือน </Typography>
+                        <Typography variant="h5" sx={{ margin: 0.5 ,fontFamily: "Noto Sans Thai",}}> **คำเตือน </Typography>
                         <Stack direction="row" sx={{ margin: 0.5 }}>
                             <Box sx={{ width: 0.5 }}>
                 
                                 <Stack sx={{ margin: 0.5, }}>
-                                    <Typography>1)ควรมีความรอบครอบที่จะจัดการข้อมูลนักศึกษา</Typography>
-                                    <Typography>2)ข้อมูลนักศึกษาที่ลบไปแล้ว ไม่สามารถนำมาแก้ไขได้</Typography>
-                                    <Typography>3)สามารถใช้ Search เพื่อช่วยค้นหานักศึกษาที่ต้องการ</Typography>
+                                    <Typography sx={{fontFamily: "Noto Sans Thai",}}>1)ควรมีความรอบครอบที่จะจัดการข้อมูลนักศึกษา</Typography>
+                                    <Typography sx={{fontFamily: "Noto Sans Thai",}}>2)ข้อมูลนักศึกษาที่ลบไปแล้ว ไม่สามารถนำมาแก้ไขได้</Typography>
+                                    <Typography sx={{fontFamily: "Noto Sans Thai",}}>3)สามารถใช้ Search เพื่อช่วยค้นหานักศึกษาที่ต้องการ</Typography>
                                 </Stack>
                             </Box>
                             <Box sx={{ width: 0.5 }}>

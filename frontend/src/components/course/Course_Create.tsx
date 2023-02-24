@@ -30,7 +30,7 @@ import { MajorsInterface } from "../../models/I_Major";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { SelectChangeEvent } from "@mui/material";
+import { SelectChangeEvent, Toolbar } from "@mui/material";
 import { FormHelperText, MenuItem, Select, } from "@mui/material";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -41,6 +41,7 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import Swal from "sweetalert2";
 import NativeSelect from '@mui/material/NativeSelect';
+import Home_Navbar from "../navbars/Home_navbar";
 
 
 
@@ -316,13 +317,15 @@ function CourseCreate() {
               gutterBottom
 
             >
+              <Home_Navbar></Home_Navbar>
+                                    <Toolbar></Toolbar>
               <Grid item xs={10} color="#115686"
                 sx={{
-                  fontFamily: "LilyUPC",
+                  fontFamily: "Noto Sans Thai",
                   fontWeight: 'bold', fontSize: 35
                 }}>
 
-                <LibraryAddIcon sx={{ fontFamily: "LilyUPC", fontSize: 45, mb: -2 }} /> สร้างข้อมูลหลักสูตร
+                <LibraryAddIcon sx={{ fontFamily: "Noto Sans Thai", fontSize: 45, mb: -2 }} /> สร้างข้อมูลหลักสูตร
 
               </Grid>
             </Typography>
@@ -338,7 +341,7 @@ function CourseCreate() {
 
           <Grid item xs={4} color="#FF0606"
             sx={{
-              fontFamily: "LilyUPC",
+              fontFamily: "Noto Sans Thai",
               fontWeight: 'bold', fontSize: 27
             }}>
             <p>รหัสแอดมิน</p>
@@ -363,7 +366,7 @@ function CourseCreate() {
 
           <Grid item xs={4} color="#115686"
             sx={{
-              fontFamily: "LilyUPC",
+              fontFamily: "Noto Sans Thai",
               fontWeight: 'bold', fontSize: 27
             }}>
             <p>รหัสหลักสูตร</p>
@@ -393,7 +396,7 @@ function CourseCreate() {
 
           <Grid item xs={4} color="#115686"
             sx={{
-              fontFamily: "LilyUPC",
+              fontFamily: "Noto Sans Thai",
               fontWeight: 'bold', fontSize: 27
             }}>
             <p>ชื่อหลักสูตร</p>
@@ -422,7 +425,7 @@ function CourseCreate() {
 
           <Grid item xs={4} color="#115686"
             sx={{
-              fontFamily: "LilyUPC",
+              fontFamily: "Noto Sans Thai",
               fontWeight: 'bold', fontSize: 27
             }}>
 
@@ -444,7 +447,7 @@ function CourseCreate() {
 
           <Grid item xs={6} color="#115686"
             sx={{
-              fontFamily: "LilyUPC",
+              fontFamily: "Noto Sans Thai",
               fontWeight: 'bold', fontSize: 27
             }}>
             <FormControl fullWidth variant="outlined" sx={{ mt: -0.5 }}>
@@ -461,7 +464,7 @@ function CourseCreate() {
                 }}
 
               >
-                <option aria-label="Noun" value="">  กรุณาเลือกคุณวุฒิ</option>
+                <option aria-label="Noto Sans Thai" value="">  กรุณาเลือกคุณวุฒิ</option>
 
                 {qualifications.map((item: QualificationsInterface) => (
                   <option
@@ -478,7 +481,7 @@ function CourseCreate() {
 
           <Grid item xs={6} color="#115686"
             sx={{
-              fontFamily: "LilyUPC",
+              fontFamily: "Noto Sans Thai",
               fontWeight: 'bold', fontSize: 27
             }}>
             <FormControl fullWidth variant="outlined">
@@ -513,7 +516,7 @@ function CourseCreate() {
           </Grid>
 
           <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <p>ปีอายุหลักสูตร</p>
 
@@ -544,7 +547,7 @@ function CourseCreate() {
 
             <Button component={RouterLink} to="/course" variant="contained" color="warning">
 
-              <ArrowBackIcon sx={{ fontFamily: "LilyUPC", fontSize: 30, }} />
+              <ArrowBackIcon sx={{ fontFamily: "Noto Sans Thai", fontSize: 30, }} />
 
               ย้อนกลับ
 
@@ -562,7 +565,7 @@ function CourseCreate() {
 
             >
 
-              <AddIcon sx={{ fontFamily: "LilyUPC", fontSize: 30, }} />
+              <AddIcon sx={{ fontFamily: "Noto Sans Thai", fontSize: 30, }} />
 
               เพิ่มข้อมูล
 

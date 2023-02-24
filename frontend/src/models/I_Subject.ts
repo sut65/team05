@@ -26,9 +26,11 @@ export interface Subject{
     Course_ID:  string;
     Course_Name:  string;
     Course: Course;
+    Latest_Updated:  Date;
 
     Subject_Status_ID:  string;
     Subject_Status: Subject_Status;
+    Subject_Status_Description: string;
 
     Class_Type_ID:  string;
     Class_Type: Class_Type;

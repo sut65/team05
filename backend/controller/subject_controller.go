@@ -15,8 +15,11 @@ import (
 
 type extendedSubject struct {
 	entity.Subject
-	Course_Name    string
-	Professor_Name string
+	Course_Name                string
+	Professor_Name             string
+	Subject_Status_Description string
+	Class_Type_Name            string
+	Subject_Category_Name      string
 }
 
 type extendedEnrollSubject struct {
@@ -154,7 +157,7 @@ func ListSubjects(c *gin.Context) {
 		JOIN `professors` p
 		ON s.Course_ID = c.course_id AND s.professor_id = p.id;
 	*/
-	query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id").Scan(&extendedSubjects)
+	query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name, class_types.class_type_name, subject_categories.subject_category_name, subject_status_description FROM subjects s JOIN courses c JOIN professors p JOIN subject_categories JOIN subject_statuses JOIN class_types ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id AND s.class_type_id = class_types.class_type_id AND s.subject_category_id = subject_categories.subject_category_id AND s.subject_status_id = subject_statuses.subject_status_id").Scan(&extendedSubjects)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -222,7 +225,7 @@ func GetSubject(c *gin.Context) {
 
 			match, _ := regexp.MatchString(`[a-zA-Z\s]+$`, key)
 			if match {
-				query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE s.subject_en_name LIKE ?", search_key).Scan(&extendedSubjects)
+				query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name, class_types.class_type_name, subject_categories.subject_category_name, subject_status_description FROM subjects s JOIN courses c JOIN professors p JOIN subject_categories JOIN subject_statuses JOIN class_types ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id AND s.class_type_id = class_types.class_type_id AND s.subject_category_id = subject_categories.subject_category_id AND s.subject_status_id = subject_statuses.subject_status_id WHERE s.subject_en_name LIKE ?", search_key).Scan(&extendedSubjects)
 				if err := query.Error; err != nil {
 					c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 					return
@@ -243,7 +246,7 @@ func GetSubject(c *gin.Context) {
 		search_key := key + "%"
 		match, _ := regexp.MatchString(`[0-9]+$`, key)
 		if match {
-			query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE subject_id LIKE ?", search_key).Scan(&extendedSubjects)
+			query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name, class_types.class_type_name, subject_categories.subject_category_name, subject_status_description FROM subjects s JOIN courses c JOIN professors p JOIN subject_categories JOIN subject_statuses JOIN class_types ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id AND s.class_type_id = class_types.class_type_id AND s.subject_category_id = subject_categories.subject_category_id AND s.subject_status_id = subject_statuses.subject_status_id WHERE subject_id LIKE ?", search_key).Scan(&extendedSubjects)
 
 			if err := query.Error; err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -258,7 +261,7 @@ func GetSubject(c *gin.Context) {
 		match_2, _ := regexp.MatchString(`[a-zA-Z\s]+$`, key)
 
 		if match_2 {
-			query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE s.subject_en_name LIKE ?", search_key).Scan(&extendedSubjects)
+			query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name, class_types.class_type_name, subject_categories.subject_category_name, subject_status_description FROM subjects s JOIN courses c JOIN professors p JOIN subject_categories JOIN subject_statuses JOIN class_types ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id AND s.class_type_id = class_types.class_type_id AND s.subject_category_id = subject_categories.subject_category_id AND s.subject_status_id = subject_statuses.subject_status_id WHERE s.subject_en_name LIKE ?", search_key).Scan(&extendedSubjects)
 			if err := query.Error; err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				return
@@ -274,7 +277,7 @@ func GetSubject(c *gin.Context) {
 		search_key := "%" + key
 		match, _ := regexp.MatchString(`[0-9]+$`, key)
 		if match {
-			query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE s.subject_id LIKE ?", search_key).Scan(&extendedSubjects)
+			query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name, class_types.class_type_name, subject_categories.subject_category_name, subject_status_description FROM subjects s JOIN courses c JOIN professors p JOIN subject_categories JOIN subject_statuses JOIN class_types ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id AND s.class_type_id = class_types.class_type_id AND s.subject_category_id = subject_categories.subject_category_id AND s.subject_status_id = subject_statuses.subject_status_id WHERE s.subject_id LIKE ?", search_key).Scan(&extendedSubjects)
 			if err := query.Error; err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				return
@@ -284,7 +287,7 @@ func GetSubject(c *gin.Context) {
 
 		match_2, _ := regexp.MatchString(`[a-zA-Z\s]+$`, key)
 		if match_2 {
-			query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE s.subject_en_name LIKE ?", search_key).Scan(&extendedSubjects)
+			query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name, class_types.class_type_name, subject_categories.subject_category_name, subject_status_description FROM subjects s JOIN courses c JOIN professors p JOIN subject_categories JOIN subject_statuses JOIN class_types ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id AND s.class_type_id = class_types.class_type_id AND s.subject_category_id = subject_categories.subject_category_id AND s.subject_status_id = subject_statuses.subject_status_id WHERE s.subject_en_name LIKE ?", search_key).Scan(&extendedSubjects)
 			if err := query.Error; err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				return
@@ -293,7 +296,7 @@ func GetSubject(c *gin.Context) {
 		}
 
 	} else {
-		query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name FROM subjects s JOIN courses c JOIN professors p ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id WHERE subject_id = ?", subject_key).Scan(&extendedSubjects)
+		query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name, class_types.class_type_name, subject_categories.subject_category_name, subject_status_description FROM subjects s JOIN courses c JOIN professors p JOIN subject_categories JOIN subject_statuses JOIN class_types ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id AND s.class_type_id = class_types.class_type_id AND s.subject_category_id = subject_categories.subject_category_id AND s.subject_status_id = subject_statuses.subject_status_id WHERE subject_id = ?", subject_key).Scan(&extendedSubjects)
 		if err := query.Error; err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
@@ -307,12 +310,14 @@ func GetSubject(c *gin.Context) {
 func GetSubjectBySection(c *gin.Context) {
 	/* Query subject record by subject_id and section */
 
-	var subject entity.Subject
+	var subject extendedSubject
 	subject_id := c.Param("subject_id")
 	section := c.Param("section")
 
 	//* SQL command : SELECT * FROM `subjects` WHERE subject_id = ? AND section = ?;
-	if tx := entity.DB().Where("subject_id = ? AND section = ?", subject_id, section).First(&subject); tx.RowsAffected == 0 {
+	query := entity.DB().Raw("SELECT s.*, c.Course_Name, p.professor_name, class_types.class_type_name, subject_categories.subject_category_name, subject_status_description FROM subjects s JOIN courses c JOIN professors p JOIN subject_categories JOIN subject_statuses JOIN class_types ON s.Course_ID = c.course_id AND s.professor_id = p.professor_id AND s.class_type_id = class_types.class_type_id AND s.subject_category_id = subject_categories.subject_category_id AND s.subject_status_id = subject_statuses.subject_status_id WHERE subject_id = ? AND section = ?", subject_id, section).Scan(&subject)
+
+	if query.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "subject with this section not found"})
 		return
 	}
@@ -429,11 +434,6 @@ func UpdateSubjects(c *gin.Context) {
 
 	_, err := govalidator.ValidateStruct(updated_subject)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	if _, err := service.ValidateDuplicateSubject(updated_subject); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

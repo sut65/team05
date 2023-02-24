@@ -152,7 +152,7 @@ function Request() {
                 text: res.error,
               });
             }
-              //window.location.href = "/request";
+              window.location.href = "/request";
           });
       }
     });

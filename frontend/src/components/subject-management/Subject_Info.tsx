@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { Subject } from "../../models/I_Subject";
-import { Stack, Divider, Grid, Toolbar } from "@mui/material";
+import { Stack, Divider, Grid, Toolbar, Breadcrumbs, Link } from "@mui/material";
 import { Box } from "@mui/system";
 import { useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
@@ -13,6 +13,7 @@ import { Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Home_Navbar from "../navbars/Home_navbar";
 import AutoStoriesSharpIcon from '@mui/icons-material/AutoStoriesSharp';
+import Swal from "sweetalert2";
 
 function SubjectInfo() {
     const [subject, setSubject] = React.useState<Subject>();
@@ -52,17 +53,37 @@ function SubjectInfo() {
                 "Content-Type": "application/json"
             },
         };
-        fetch(`${apiUrl}/subject/${params.subject_id}/${params.section}`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log("Data remove")
-                    window.location.href = "/subject"
-                }
-                else {
-                    console.log("Something was wrong!!")
-                }
-            });
+        Swal.fire({
+            title: 'Do you want to delete the subject?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`${apiUrl}/subject/${params.subject_id}/${params.section}`, requestOptions)
+                    .then((response) => response.json())
+                    .then((res) => {
+                        console.log(res)
+                        if (res.data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Delete!',
+                                text: 'ลบข้อมูลรายวิชาสำเร็จ',
+                            }).then(() => {
+                                window.location.href = "/subject"
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'ไม่สามารถลบข้อมูลรายวิชาได้',
+                            })
+                        }
+                    });
+            }
+        })
+
     }
 
     useEffect(() => {
@@ -88,11 +109,16 @@ function SubjectInfo() {
                         <AutoStoriesSharpIcon fontSize="large" />
                     </Box>
                     <Box sx={{ padding: 1, border: 0 }}>
-                        <Typography variant="h4" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold", paddingBottom: 1.5 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
+                        <Typography variant="h4" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold", padding: 0.5 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
 
                     </Box>
                 </Stack>
-                <Typography> รายละเอียดรายวิชา </Typography>
+                <Breadcrumbs aria-label="breadcrumb" sx={{ padding: 1 }}>
+                    <Link underline="hover" href="/subject" sx={{ fontFamily: "Noto Sans Thai" }}>
+                        รายการข้อมูลรายวิชา
+                    </Link>
+                    <Typography color="text.primary" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold" }}>  รายละเอียดรายวิชา {subject?.Subject_ID} กลุ่มที่ {subject?.Section} </Typography>
+                </Breadcrumbs>
             </Paper>
 
             {/* Body components */}
@@ -125,63 +151,68 @@ function SubjectInfo() {
                             padding: 1,
                             margin: 1,
                         }}>
-                        <Typography variant="h5" sx={{ width: "auto" }}> {subject?.Subject_ID}</Typography>
-                        <Typography variant="h5" sx={{ width: "auto" }}> {subject?.Subject_TH_Name} ({subject?.Subject_EN_Name})</Typography>
+                        <Typography variant="h5" sx={{ width: "auto", fontFamily: "Noto Sans Thai" }}> {subject?.Subject_ID}</Typography>
+                        <Typography variant="h5" sx={{ width: "auto", fontFamily: "Noto Sans Thai" }}> {subject?.Subject_TH_Name} ({subject?.Subject_EN_Name})</Typography>
                         <Divider sx={{ margin: 1 }} />
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> กลุ่มที่ </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {subject?.Section} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily: "Noto Sans Thai" }}> กลุ่มที่ </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {subject?.Section} </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> อาจารย์ </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {subject?.Professor_ID} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily: "Noto Sans Thai" }}> อาจารย์ </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {subject?.Professor_Name} </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> หลักสูตร </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {subject?.Course_ID} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily: "Noto Sans Thai" }}> หลักสูตร </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {subject?.Course_Name} </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> สถานะรายวิชา </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {subject?.Subject_Status_ID} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily: "Noto Sans Thai" }}> สถานะรายวิชา </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {subject?.Subject_Status_Description} </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> ประเภท </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {subject?.Class_Type_ID} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily: "Noto Sans Thai" }}> ประเภท </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {subject?.Class_Type_ID} </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> หมวด </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {subject?.Subject_Category_ID} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily: "Noto Sans Thai" }}> หมวด </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {subject?.Subject_Category_ID} </Box>
+                        </Grid>
+
+                        <Grid container sx={{}}>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily: "Noto Sans Thai" }}> แก้ไขล่าสุด </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {subject?.Latest_Updated.toString()} </Box>
                         </Grid>
                         <p></p>
-                        <Box sx={{ width: 1, fontSize: 20, }}> ที่นั่ง </Box>
+                        <Box sx={{ width: 1, fontSize: 20, fontFamily: "Noto Sans Thai" }}> ที่นั่ง </Box>
                         <Divider />
 
-                        <Grid container sx={{}}>
+                        <Grid container sx={{padding:0.5}}>
                             <Grid container>
                                 <Box sx={{ width: 0.3, margin: 0.5 }}>
                                     <Grid container>
-                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, }}> เปิด </Box>
-                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, }}> {subject?.Capacity} </Box>
+                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, fontFamily: "Noto Sans Thai" }}> เปิด </Box>
+                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {subject?.Capacity} </Box>
                                     </Grid>
                                     <Grid container>
-                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, }}> สำรอง </Box>
-                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, }}> {subject?.Reserved} </Box>
+                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, fontFamily: "Noto Sans Thai" }}> สำรอง </Box>
+                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {subject?.Reserved} </Box>
                                     </Grid>
                                 </Box>
 
                                 <Box sx={{ width: 0.45, margin: 0.5 }}>
                                     <Grid container>
-                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, }}> ลงทะเบียน </Box>
-                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, }}> {subject?.Enroll_Amount} </Box>
+                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, fontFamily: "Noto Sans Thai" }}> ลงทะเบียน </Box>
+                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {subject?.Enroll_Amount} </Box>
                                     </Grid>
                                     <Grid container sx={{}}>
-                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, }}> ลงทะเบียยที่นั่งสำรอง </Box>
-                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, }}> {subject?.Reserved_Enroll} </Box>
+                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, fontFamily: "Noto Sans Thai" }}> ลงทะเบียยที่นั่งสำรอง </Box>
+                                        <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.35, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {subject?.Reserved_Enroll} </Box>
                                     </Grid>
                                 </Box>
                                 <p></p>
@@ -198,28 +229,28 @@ function SubjectInfo() {
                             fontSize: 20,
                             maxWidth: "false",
                         }}>
-                        <Typography variant="h5" sx={{ margin: 0.5 }}> หมายเหตุ </Typography>
+                        <Typography variant="h5" sx={{ margin: 0.5, fontFamily: "Noto Sans Thai" }}> หมายเหตุ </Typography>
                         <Stack direction="row" sx={{ margin: 0.5 }}>
                             <Box sx={{ width: 0.5 }}>
-                                <Typography variant="h6"> ประเภท </Typography>
+                                <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}> ประเภท </Typography>
                                 <Stack sx={{ margin: 0.5, }}>
-                                    <Typography> C = Lecture</Typography>
-                                    <Typography> L = Labs</Typography>
-                                    <Typography> P = Project</Typography>
-                                    <Typography> R = Meeting</Typography>
-                                    <Typography> S = Self Study</Typography>
-                                    <Typography> T = Tutoring</Typography>
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> C = Lecture</Typography>
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> L = Labs</Typography>
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> P = Project</Typography>
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> R = Meeting</Typography>
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> S = Self Study</Typography>
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> T = Tutoring</Typography>
                                 </Stack>
                             </Box>
                             <Box sx={{ width: 0.5 }}>
-                                <Typography variant="h6"> หมวด </Typography>
+                                <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}> หมวด </Typography>
                                 <Stack sx={{ margin: 0.5, }}>
-                                    <Typography> B = วิชาเสริมพื้นฐาน</Typography>
-                                    <Typography> E = วิชาเลือกเฉพาะสาขา</Typography>
-                                    <Typography> F = วิชาเลือกเสรี</Typography>
-                                    <Typography> M = วิชาพื้นฐาน</Typography>
-                                    <Typography> W = วิชาบังคับ</Typography>
-                                    <Typography> X = ยังไม่กำหนด</Typography>
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> B = วิชาเสริมพื้นฐาน</Typography>
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> E = วิชาเลือกเฉพาะสาขา</Typography>
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> F = วิชาเลือกเสรี</Typography>
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> M = วิชาพื้นฐาน</Typography>
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> W = วิชาบังคับ</Typography>
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> X = ยังไม่กำหนด</Typography>
                                 </Stack>
                             </Box>
                         </Stack>
@@ -228,14 +259,14 @@ function SubjectInfo() {
             </Grid>
             <Stack
                 direction="row"
-                sx={{ bgcolor: "white", margin: 1, }}>
-                <Box sx={{ width: 0.33, margin: 0.5, }}>
+                sx={{ bgcolor: "white", boxShadow: 3 }}>
+                <Box flex={1} sx={{ margin: 0.5, }}>
                     <Button
                         component={RouterLink}
                         to="/subject"
                         variant="contained"
                         color="primary"
-                        sx={{ margin: 0.5 }}
+                        sx={{ margin: 0.5, fontFamily: "Noto Sans Thai" }}
                     > Back </Button>
                 </Box>
 
@@ -248,13 +279,13 @@ function SubjectInfo() {
                         variant="contained"
                         onClick={toUpdateSubjectPage}
                         color="warning"
-                        sx={{ margin: 0.5, }}
+                        sx={{ margin: 0.5, fontFamily: "Noto Sans Thai" }}
                         startIcon={<CreateIcon />}
                     > Edit </Button>
                     <Button
                         variant="contained"
                         color="error"
-                        sx={{ margin: 0.5 }}
+                        sx={{ margin: 0.5, fontFamily: "Noto Sans Thai" }}
                         startIcon={<DeleteIcon />}
                         onClick={deleteSubject}
                     > Delete </Button>

@@ -234,7 +234,7 @@ function CreateSubject() {
                         <AutoStoriesSharpIcon fontSize="large" />
                     </Box>
                     <Box sx={{ padding: 1, border: 0 }}>
-                        <Typography variant="h4" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold", padding: 1 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
+                        <Typography variant="h4" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold", padding: 0.5 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
 
                     </Box>
                 </Stack>

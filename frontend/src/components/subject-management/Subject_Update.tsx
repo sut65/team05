@@ -1,5 +1,5 @@
 import React from "react";
-import { Link as RouterLink, useParams } from "react-router-dom";
+import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
@@ -12,7 +12,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { Subject, Subject_Category, Subject_Status, Class_Type, } from "../../models/I_Subject";
 import { Course } from "../../models/I_Course";
 import { useEffect } from "react";
-import { FormHelperText, MenuItem, Select, SelectChangeEvent, Stack, Toolbar } from "@mui/material";
+import { Breadcrumbs, FormHelperText, Link, MenuItem, Select, SelectChangeEvent, Stack, Toolbar } from "@mui/material";
 import Swal from 'sweetalert2'
 import AutoStoriesSharpIcon from '@mui/icons-material/AutoStoriesSharp';
 import Home_Navbar from "../navbars/Home_navbar";
@@ -33,7 +33,7 @@ function UpdateSubject() {
     const [error, setError] = React.useState(false);
     const apiUrl = "http://localhost:8080";
     const params = useParams();
-
+    const navigate = useNavigate();
 
     const handleClose = (
         event?: React.SyntheticEvent | Event,
@@ -232,11 +232,26 @@ function UpdateSubject() {
                         <AutoStoriesSharpIcon fontSize="large" />
                     </Box>
                     <Box sx={{ padding: 1, border: 0 }}>
-                        <Typography variant="h4" sx={{ fontFamily: "Verdana", fontWeight: "bold", paddingBottom: 1.5 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
+                        <Typography variant="h4" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold", padding: 0.5 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
 
                     </Box>
                 </Stack>
-                <Typography sx={{ fontFamily: 'Mitr-Regular' }}> แก้ไขข้อมูลรายวิชา </Typography>
+                <Breadcrumbs aria-label="breadcrumb" sx={{padding:1}}>
+                    <Link underline="hover" href="/subject" sx={{fontFamily:"Noto Sans Thai"}}>
+                        รายการข้อมูลรายวิชา
+                    </Link>
+                    <Link 
+                        underline="hover" 
+                        sx={{fontFamily:"Noto Sans Thai"}}
+                        onClick={() => {
+                            navigate({ pathname: `/subject/${subject?.Subject_ID}/${subject.Section}` })
+                        }}
+                    >
+                        รายละเอียดรายวิชา {subject.Subject_ID} กลุ่มที่ {subject.Section}
+                    </Link>
+                    <Typography color="text.primary" sx={{fontFamily:"Noto Sans Thai", fontWeight:"bold"}}> แก้ไขข้อมูลรายวิชา </Typography>
+                </Breadcrumbs>
+                {/* <Typography sx={{fontFamily:'Noto Sans Thai'}}> เพิ่มข้อมูลรายวิชา </Typography> */}
             </Paper>
 
             <Grid container item
@@ -249,45 +264,46 @@ function UpdateSubject() {
                 }}>
                 <Box flexGrow={1} sx={{ border: 0, width: "auto" }}>
                     <Box sx={{ border: 0, width: "auto", padding: 1 }}>
-                        <Typography sx={{ fontFamily: 'Mitr-Regular' }}> รหัสวิชา </Typography>
+                    <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> รหัสวิชา </Typography>
                         <FormControl fullWidth>
                             <TextField
                                 id="Subject_ID"
-                                variant="standard"
+                                size="small"
+                                disabled
                                 type="string"
                                 value={subject.Subject_ID}
                                 onChange={handleInputChange}
-                                sx={{ fontFamily: 'Mitr-Regular' }}
+                                inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
                             />
                         </FormControl>
-                        <FormHelperText sx={{ fontFamily: 'Mitr-Regular' }}> โปรดกรอกรหัสวิชา</FormHelperText>
+                        <FormHelperText sx={{ fontFamily: 'Noto Sans Thai' }}> โปรดกรอกรหัสวิชา</FormHelperText>
                     </Box>
 
                     <Box sx={{ border: 0, width: "auto", padding: 1 }}>
-                        <Typography sx={{ fontFamily: 'Mitr-Regular' }}> อาจารย์ </Typography>
+                    <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> อาจารย์ </Typography>
                         <FormControl fullWidth>
                             <TextField
                                 id="Professor_ID"
-                                variant="standard"
+                                size="small"
                                 type="string"
                                 value={subject.Professor_ID}
                                 onChange={handleInputChange}
-                                sx={{ fontFamily: 'Mitr-Regular' }}
+                                inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
                             />
                         </FormControl>
-                        <FormHelperText sx={{ fontFamily: 'Mitr-Regular' }}> ระบุอาจารย์ผู้สอน </FormHelperText>
+                        <FormHelperText sx={{ fontFamily: 'Noto Sans Thai' }}> ระบุอาจารย์ผู้สอน </FormHelperText>
                     </Box>
 
                     <Box sx={{ border: 0, width: "auto", padding: 1 }}>
-                        <Typography sx={{ fontFamily: 'Mitr-Regular' }}> สถานะรายวิชา </Typography>
+                    <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> สถานะรายวิชา </Typography>
                         <FormControl fullWidth>
                             <Select
                                 id="Subject_Status_ID"
-                                variant="standard"
+                                size="small"
                                 value={subject.Subject_Status_ID + ""}
                                 inputProps={{ name: "Subject_Status_ID", }}
                                 onChange={handleSelectChange}
-                                sx={{ fontFamily: 'Mitr-Regular' }}
+                                sx={{ fontFamily: 'Noto Sans Thai' }}
                             >
                                 {subject_status.map((item: Subject_Status) => (
                                     <MenuItem
@@ -303,15 +319,15 @@ function UpdateSubject() {
                     </Box>
 
                     <Box sx={{ border: 0, width: "auto", padding: 1 }}>
-                        <Typography> รูปแบบการเรียนการสอน </Typography>
+                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}> รูปแบบการเรียนการสอน </Typography>
                         <FormControl fullWidth>
                             <Select
                                 id="Class_Type_ID"
-                                variant="standard"
+                                size="small"
                                 value={subject.Class_Type_ID + ""}
                                 inputProps={{ name: "Class_Type_ID", }}
                                 onChange={handleSelectChange}
-                                sx={{ fontFamily: 'Mitr-Regular' }}
+                                sx={{ fontFamily: 'Noto Sans Thai' }}
                             >
                                 {class_types.map((item: Class_Type) => (
                                     <MenuItem
@@ -329,29 +345,29 @@ function UpdateSubject() {
                 <Box flexGrow={1} sx={{ border: 0, width: "auto" }}>
                     <Grid container sx={{ border: 0 }}>
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> ชื่อรายวิชา(TH) </Typography>
+                        <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> ชื่อรายวิชา(TH) </Typography>
                             <FormControl fullWidth>
                                 <TextField
                                     id="Subject_TH_Name"
-                                    variant="standard"
+                                    size="small"
                                     type="string"
                                     value={subject.Subject_TH_Name}
                                     onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                    inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
                                 />
                             </FormControl>
                         </Box>
 
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> ชื่อรายวิชา(EN) </Typography>
+                        <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> ชื่อรายวิชา(EN) </Typography>
                             <FormControl fullWidth>
                                 <TextField
                                     id="Subject_EN_Name"
-                                    variant="standard"
+                                    size="small"
                                     type="string"
                                     value={subject.Subject_EN_Name}
                                     onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                    inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
                                 />
                             </FormControl>
                         </Box>
@@ -360,15 +376,15 @@ function UpdateSubject() {
 
                     <Grid container sx={{ border: 0 }}>
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> หลักสูตร </Typography>
+                        <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> หลักสูตร </Typography>
                             <FormControl fullWidth>
                                 <Select
                                     id="Course_ID"
-                                    variant="standard"
+                                    size="small"
                                     value={subject.Course_ID + ""}
                                     inputProps={{ name: "Course_ID", }}
                                     onChange={handleSelectChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                    sx={{ fontFamily: 'Noto Sans Thai' }}
                                 >
                                     {courses.map((item: Course) => (
                                         <MenuItem
@@ -386,57 +402,57 @@ function UpdateSubject() {
 
                     <Grid container sx={{ border: 0 }}>
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> จำนวนที่เปิดรับ </Typography>
+                        <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> จำนวนที่เปิดรับ </Typography>
                             <FormControl fullWidth>
                                 <TextField
                                     id="Capacity"
-                                    variant="standard"
+                                    size="small"
                                     type="number"
                                     value={subject.Capacity}
                                     onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                    inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
                                 />
                             </FormControl>
                         </Box>
 
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> สำรองที่นั่ง </Typography>
+                        <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> สำรองที่นั่ง </Typography>
                             <FormControl fullWidth>
                                 <TextField
                                     id="Reserved"
-                                    variant="standard"
+                                    size="small"
                                     type="number"
                                     value={subject.Reserved}
                                     onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                    inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
                                 />
                             </FormControl>
                         </Box>
 
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> หน่วยกิจ </Typography>
+                        <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> หน่วยกิจ </Typography>
                             <FormControl fullWidth>
                                 <TextField
                                     id="Unit"
-                                    variant="standard"
+                                    size="small"
                                     type="number"
                                     value={subject.Unit}
                                     onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                    inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
                                 />
                             </FormControl>
                         </Box>
 
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> กลุ่มเรียน </Typography>
+                        <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> กลุ่มเรียน </Typography>
                             <FormControl fullWidth>
                                 <TextField
                                     id="Section"
-                                    variant="standard"
+                                    size="small"
                                     type="number"
                                     value={subject.Section}
                                     onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                    inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
                                 />
                             </FormControl>
                             <FormHelperText> </FormHelperText>
@@ -445,15 +461,15 @@ function UpdateSubject() {
                     </Grid>
                     <Grid container sx={{ border: 0 }}>
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> หมวด </Typography>
+                        <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> หมวด </Typography>
                             <FormControl fullWidth>
                                 <Select
                                     id="Subject_Categories_ID"
-                                    variant="standard"
+                                    size="small"
                                     value={subject.Subject_Category_ID + ""}
                                     inputProps={{ name: "Subject_Category_ID", }}
                                     onChange={handleSelectChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                    sx={{ fontFamily: 'Noto Sans Thai' }}
                                 >
                                     {subject_category.map((item: Subject_Category) => (
                                         <MenuItem
@@ -477,9 +493,11 @@ function UpdateSubject() {
                 <Grid container sx={{ border: 0 }}>
                     <Box flexGrow={1}>
                         <Button
-                            component={RouterLink}
-                            to="/subject" variant="contained"
-                            sx={{ borderRadius: 0 }}
+                            onClick={() => {
+                                navigate({ pathname: `/subject/${subject?.Subject_ID}/${subject.Section}` })
+                            }} 
+                            variant="contained"
+                            sx={{ borderRadius: 0 , fontFamily:"Noto Sans Thai"}}
                         > Back </Button>
                     </Box>
                     <Box flexGrow={1} justifyContent="flex-end" display="flex">
@@ -487,7 +505,7 @@ function UpdateSubject() {
                             onClick={submitUpdate}
                             variant="contained"
                             // endIcon={<AddIcon/>}
-                            sx={{ borderRadius: 0 }}
+                            sx={{ borderRadius: 0, fontFamily:"Noto Sans Thai" }}
                         > Submit </Button>
                     </Box>
                 </Grid>

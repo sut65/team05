@@ -22,7 +22,7 @@ type Adding_point struct {
 	Enroll_ID *string	`gorm:"UniqueIndex"`
 	Enroll    Enroll `gorm:"references:Enroll_ID"`
 
-	Grade_ID string	`valid:"required~Grade_ID cannot be blank,gradeidchecklowercase~Please use uppercase letters,gradeidthaiall~Don't use ThaiAlphabet"`
+	Grade_ID string	`valid:"required~Grade cannot be blank,gradeidchecklowercase~Please use uppercase letters,gradeidthaiall~Don't use ThaiAlphabet"`
 	Grade    Grade `gorm:"references:Grade_ID "`
 
 	

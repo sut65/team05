@@ -68,7 +68,10 @@ function Adding_pointCreate() {
   
   const [searchID, setSearchID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
 
- 
+  const [active, setActive] = React.useState(false);
+  const handleClick = () => {
+    setActive(!active);
+  };
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -237,8 +240,7 @@ const getEnroll = async () => {
       });
   };
 
-
-
+  
   
 
   useEffect(() => {
@@ -526,14 +528,23 @@ const getEnroll = async () => {
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <IconButton
-                          // id="Subject_ID"
+                          sx={{
+                            color: "blue",
+                            ":hover": {
+                              color: "red",
+                            },
+                           
+                      
+                          }}
                           onClick={() => {
+                           
                             addingpoint.Subject_ID = row.Subject_ID;
                             addingpoint.Student_ID = row.Student_ID;
                             addingpoint.Enroll_ID = row.Enroll_ID;
                             console.log(addingpoint.Subject_ID);
                             console.log(addingpoint.Student_ID);
                             console.log(addingpoint.Enroll_ID);
+                            
                           }}
                         >
                           <CheckCircleIcon />

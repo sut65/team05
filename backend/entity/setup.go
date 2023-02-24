@@ -31,9 +31,9 @@ func OpenDatabase() *gorm.DB {
 
 	splitPath := regexp.MustCompile(`[/\\]`).Split(path, -1)
 	if splitPath[len(splitPath)-1] != "backend" {
-		db_path = filepath.Dir(path) + `\test.db`
+		db_path = filepath.Join(filepath.Dir(path), `test.db`)
 	} else {
-		db_path = path + `\test.db`
+		db_path = filepath.Join(path, `test.db`)
 	}
 	database, _ := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
 	fmt.Println(db_path)
@@ -47,7 +47,7 @@ func SetupDatabase() {
 		panic("failed to get working directory path!!")
 	}
 
-	db_path := path + `\test.db`
+	db_path := filepath.Join(path, `test.db`)
 
 	if _, err := os.Stat(db_path); os.IsNotExist(err) {
 
@@ -1949,7 +1949,7 @@ func SetupDatabase() {
 		}
 		db.Create(&Request2)
 
-			Request3 := Request{
+		Request3 := Request{
 			Request_ID:     3,
 			Reason:         "อยากเรียน",
 			Student:        student1,
@@ -1960,7 +1960,7 @@ func SetupDatabase() {
 			Request_Type:   Request_Type1,
 		}
 		db.Create(&Request3)
-		
+
 		enroll1 := Enroll{
 			Enroll_ID:         "E001",
 			Student:           student1,

@@ -10,13 +10,69 @@ import (
 )
 
 // ตรวจสอบค่าว่างของชื่อแล้วต้องเจอ Error
-func TestAmountsNotBlank(t *testing.T) {
+func TestSuccess(t *testing.T) {
 	g := NewGomegaWithT(t)
+	entity.SetReceipt_numberValidation()
+	entity.SetPaymentDatetimeValidation()
+	Payment_Type_ID1 := entity.Payment_Type{
+		Payment_Type_ID: "P01",
+	}
+	Student1 := entity.Student{
+		Student_ID: "B6311111",
+	}
+	Admin1 := entity.Admin{
+		Admin_ID: "AD1234567",
+	}
 
 	Payment1 := entity.Payment{
-		Amounts: 0, // ผิด
-		Unit: 0,
-		Date_Time: time.Now(),
+		Payment_ID: 123,
+		Payment_Type_ID: &Payment_Type_ID1.Payment_Type_ID,
+		Student_ID:      &Student1.Student_ID,
+		Admin_ID:        &Admin1.Admin_ID,
+		Amounts:         123, // ผิด
+		Unit:            8,
+		Payable:         1000,
+		Receipt_number:  "31s2df",
+		Date_Time:       time.Now(),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Payment1)
+
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).To(BeTrue())
+
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).To(BeNil())
+
+	// err.Error ต้องมี error message แสดงออกมา
+	//g.Expect(err.Error()).To(Equal("Amounts cannot be blank"))
+}
+
+func TestAmountsNotBlank(t *testing.T) {
+	g := NewGomegaWithT(t)
+	entity.SetReceipt_numberValidation()
+	entity.SetPaymentDatetimeValidation()
+	Payment_Type_ID1 := entity.Payment_Type{
+		Payment_Type_ID: "P01",
+	}
+	Student1 := entity.Student{
+		Student_ID: "B6311111",
+	}
+	Admin1 := entity.Admin{
+		Admin_ID: "AD1234567",
+	}
+
+	Payment1 := entity.Payment{
+		Payment_ID: 1234,
+		Payment_Type_ID: &Payment_Type_ID1.Payment_Type_ID,
+		Student_ID:      &Student1.Student_ID,
+		Admin_ID:        &Admin1.Admin_ID,
+		Amounts:         0, // ผิด
+		Unit:            8,
+		Payable:         1000,
+		Receipt_number:  "31s2df",
+		Date_Time:       time.Now(),
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -27,71 +83,165 @@ func TestAmountsNotBlank(t *testing.T) {
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
 	g.Expect(err).ToNot(BeNil())
-
+	
 	// err.Error ต้องมี error message แสดงออกมา
 	g.Expect(err.Error()).To(Equal("Amounts cannot be blank"))
 }
 
-// func TestAmountsCharacters(t *testing.T) {
-// 	g := NewGomegaWithT(t)
 
-// 	reason := entity.Request{
-// 		Reason: "1234?$#@", // ผิด
-// 	}
+func TestReciept_number_not_thai_Character(t *testing.T) {
+	g := NewGomegaWithT(t)
+	entity.SetReceipt_numberValidation()
+	entity.SetPaymentDatetimeValidation()
+	Payment_Type_ID1 := entity.Payment_Type{
+		Payment_Type_ID: "P01",
+	}
+	Student1 := entity.Student{
+		Student_ID: "B6311111",
+	}
+	Admin1 := entity.Admin{
+		Admin_ID: "AD1234567",
+	}
 
-// 	// ตรวจสอบด้วย govalidator
-// 	ok, err := govalidator.ValidateStruct(reason)
+	Payment1 := entity.Payment{
+		Payment_ID: 1234,
+		Payment_Type_ID: &Payment_Type_ID1.Payment_Type_ID,
+		Student_ID:      &Student1.Student_ID,
+		Admin_ID:        &Admin1.Admin_ID,
+		Amounts:         1000, 
+		Unit:            8,
+		Payable:         1000,
+		Receipt_number:  "สวัสดีครับท่านสมาชิก",// ผิด
+		Date_Time:       time.Now(),
+	}
 
-// 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-// 	g.Expect(ok).ToNot(BeTrue())
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Payment1)
 
-// 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
-// 	g.Expect(err).ToNot(BeNil())
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).ToNot(BeTrue())
 
-// 	// err.Error ต้องมี error message แสดงออกมา
-// 	g.Expect(err.Error()).To(Equal("Reason cannot be special characters or number"))
-// }
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).ToNot(BeNil())
+	
+	// err.Error ต้องมี error message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("receipt number cannot be thai character"))
+}
 
-// func TestReasonNotNumber(t *testing.T) {
-// 	g := NewGomegaWithT(t)
-// 	entity.SetRequestValidation()
+func TestReciept_number_cannot_be_special_Character(t *testing.T) {
+	g := NewGomegaWithT(t)
+	entity.SetReceipt_numberValidation()
+	entity.SetPaymentDatetimeValidation()
+	Payment_Type_ID1 := entity.Payment_Type{
+		Payment_Type_ID: "P01",
+	}
+	Student1 := entity.Student{
+		Student_ID: "B6311111",
+	}
+	Admin1 := entity.Admin{
+		Admin_ID: "AD1234567",
+	}
 
-// 	reason := entity.Request{
-// 		Reason:     "fuck", // ผิด
-// 	}
+	Payment1 := entity.Payment{
+		Payment_ID: 1234,
+		Payment_Type_ID: &Payment_Type_ID1.Payment_Type_ID,
+		Student_ID:      &Student1.Student_ID,
+		Admin_ID:        &Admin1.Admin_ID,
+		Amounts:         1000, 
+		Unit:            8,
+		Payable:         1000,
+		Receipt_number:  "#$%#@",// ผิด
+		Date_Time:       time.Now(),
+	}
 
-// 	// ตรวจสอบด้วย govalidator
-// 	ok, err := govalidator.ValidateStruct(reason)
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Payment1)
 
-// 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-// 	g.Expect(ok).NotTo(BeTrue())
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).ToNot(BeTrue())
 
-// 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
-// 	g.Expect(err).ToNot(BeNil())
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).ToNot(BeNil())
+	
+	// err.Error ต้องมี error message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("receipt number cannot be special character"))
+}
 
-// 	// err.Error ต้องมี error message แสดงออกมา
-// 	g.Expect(err.Error()).To(Equal("The reason can't use profanity"))
-// }
+func TestUnit_cannot_be_Blank(t *testing.T) {
+	g := NewGomegaWithT(t)
+	entity.SetReceipt_numberValidation()
+	entity.SetPaymentDatetimeValidation()
+	Payment_Type_ID1 := entity.Payment_Type{
+		Payment_Type_ID: "P01",
+	}
+	Student1 := entity.Student{
+		Student_ID: "B6311111",
+	}
+	Admin1 := entity.Admin{
+		Admin_ID: "AD1234567",
+	}
 
-// func SetRequest() {
-// 	// Define a slice of prohibited words
-// 	prohibitedWords := []string{"fuck", "badword2", "badword3"}
+	Payment1 := entity.Payment{
+		Payment_ID: 1234,
+		Payment_Type_ID: &Payment_Type_ID1.Payment_Type_ID,
+		Student_ID:      &Student1.Student_ID,
+		Admin_ID:        &Admin1.Admin_ID,
+		Amounts:         1000, 
+		Unit:            0,// ผิด
+		Payable:         1000,
+		Receipt_number:  "135dfs52",
+		Date_Time:       time.Now(),
+	}
 
-// 	// Function to validate the input
-// 	isValid := func(input string) bool {
-// 		for _, word := range prohibitedWords {
-// 			if govalidator.Contains(input, word) {
-// 				return false
-// 			}
-// 		}
-// 		return true
-// 	}
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Payment1)
 
-// 	// Test the validation
-// 	input := "This is an example input with a fuck."
-// 	if isValid(input) {
-// 		fmt.Println("The input is valid.")
-// 	} else {
-// 		fmt.Println("The input is not valid.")
-// 	}
-// }
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).ToNot(BeTrue())
+
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).ToNot(BeNil())
+	
+	// err.Error ต้องมี error message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("Unit cannot be blank"))
+}
+
+func TestDate_Time_cannot_be_futuer(t *testing.T) {
+	g := NewGomegaWithT(t)
+	entity.SetReceipt_numberValidation()
+	entity.SetPaymentDatetimeValidation()
+	Payment_Type_ID1 := entity.Payment_Type{
+		Payment_Type_ID: "P01",
+	}
+	Student1 := entity.Student{
+		Student_ID: "B6311111",
+	}
+	Admin1 := entity.Admin{
+		Admin_ID: "AD1234567",
+	}
+
+	Payment1 := entity.Payment{
+		Payment_ID: 1234,
+		Payment_Type_ID: &Payment_Type_ID1.Payment_Type_ID,
+		Student_ID:      &Student1.Student_ID,
+		Admin_ID:        &Admin1.Admin_ID,
+		Amounts:         1000, 
+		Unit:            8,
+		Payable:         1000,
+		Receipt_number:  "135dfs52",// ผิด
+		Date_Time:       time.Now().AddDate(2024,2,3),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Payment1)
+
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).ToNot(BeTrue())
+
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).ToNot(BeNil())
+	
+	// err.Error ต้องมี error message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("Date_Time cannot be future"))
+}
+

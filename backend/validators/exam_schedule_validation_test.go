@@ -148,7 +148,7 @@ func TestExamScheduleStartTimeOverlapped(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Cannot add Midterm exam schedule. In date 18/05/2020, room B2101, exam start time 16:00 is overlapped with some exam schedule"))
+	g.Expect(err.Error()).To(Equal("Cannot add Midterm exam schedule. In date 18/05/2020, room B2101, exam start time 16:00 is overlapped with some exam schedule "))
 }
 
 func TestExamScheduleEndTimeOverlapped(t *testing.T) {
@@ -179,7 +179,7 @@ func TestExamScheduleEndTimeOverlapped(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Cannot add Midterm exam schedule. In date 18/05/2020, room B2101, exam end time 16:00 is overlapped with some exam schedule"))
+	g.Expect(err.Error()).To(Equal("Cannot add Midterm exam schedule. In date 18/05/2020, room B2101, exam end time 16:00 is overlapped with some exam schedule "))
 }
 
 func TestExamSchedule_NoError_NotSameRoom(t *testing.T) {

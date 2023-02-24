@@ -113,6 +113,7 @@ func TestSubjectName(t *testing.T) {
 	// }
 
 	software_engineering := entity.Subject{
+		Subject_ID:      "551222",
 		Section:         1,
 		Unit:            1,
 		Subject_EN_Name: "Software Engineering",

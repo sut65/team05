@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
-import {Grid,TextField,Snackbar,} from "@mui/material";
+import {Grid,TextField,Snackbar, Toolbar,} from "@mui/material";
 
 
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,8 @@ import { useParams } from "react-router-dom";
 import { Adding_pointInterface } from "../../models/IAdding_point";
 import Swal from "sweetalert2";
 import { EnrollInterface } from "../../models/I_Enroll";
+import Home_Navbar from "../navbars/Home_navbar";
+import { pink } from "@mui/material/colors";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -185,6 +187,8 @@ function Adding_pointUpdate() {
           padding: 2,
         }}
       >
+        <Home_Navbar></Home_Navbar>
+        <Toolbar></Toolbar>
         <Snackbar
           open={success}
           autoHideDuration={6000}
@@ -271,18 +275,57 @@ function Adding_pointUpdate() {
             />
             
           </Grid> 
-          <Box sx={{bgcolor:"Pink",marginTop: "30px"}}>
-          <Typography sx={{ paddingLeft: 5,fontFamily:"Prompt", fontSize: 20 }}>
+          <Paper elevation={3} sx={{ p: 2, bgcolor: "pink" ,marginTop :2}}>
+          <Typography 
+          color="red"sx={{ fontFamily:"Prompt", fontSize: 20 }}>
                                         เงื่อนไข
-                                    </Typography>
-          <Typography sx={{ paddingLeft: 2 ,fontFamily:"Times New Roman" }}>
-          A = ดีเยี่ยม ,B+ = ดีมาก ,B = ดี ,C+ = ดีพอใช้ ,C = พอใช้ ,D+ = อ่อน ,D = อ่อนมาก ,F = ตก ,I = การวัดผลยังไม่สมบูรณ์ ,M = นักศึกษาขาดสอบ ,P = การสอนยังไม่สิ้นสุด , <br></br>S = ผลการประเมินเป็นที่พอใจ ,ST = ผลการประเมินเป็นที่พอใจสำหรับรายวิขา ,U = ผลการประเมินไม่เป็นที่พอใจ ,V = ผู้ร่วมเรียน ,W = การถอนรายวิชา ,<br></br>X =ยังไม่ได้รับผลการประเมิน 
+          </Typography>
+          <Typography component="h2"
+                    
+                    sx={{
+                      fontSize: 16,
+                      fontFamily: "Noto Sans Thai",
+                      boxShadow: 0,
+                      whiteSpace: "pre-line",
+                    }}
+                  
+                  >
+          A = ดีเยี่ยม ,B+ = ดีมาก ,B = ดี ,C+ = ดีพอใช้ ,C = พอใช้ ,D+ = อ่อน ,D = อ่อนมาก ,F = ตก ,I = การวัดผลยังไม่สมบูรณ์ ,M = นักศึกษาขาดสอบ ,P = การสอนยังไม่สิ้นสุด , S = ผลการประเมินเป็นที่พอใจ ,<br></br>ST = ผลการประเมินเป็นที่พอใจสำหรับรายวิขา ,U = ผลการประเมินไม่เป็นที่พอใจ ,V = ผู้ร่วมเรียน ,W = การถอนรายวิชา ,X =ยังไม่ได้รับผลการประเมิน 
           </Typography>
                                     
-          </Box>
+          </Paper>
+          
           </Grid>
           
-          
+          <Paper elevation={3} sx={{ p: 2, bgcolor: "#FFD3BD" }}>
+          <Typography
+                    component="h2"
+                    color="red"
+                    gutterBottom
+                    sx={{
+                      flexGrow: 1,
+                      fontSize: 16,
+                      fontFamily: "Noto Sans Thai",
+                    }}
+                  >
+                    <b>หมายเหตุ</b>
+                  </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 16,
+                        fontFamily: "Noto Sans Thai",
+                        boxShadow: 0,
+                        whiteSpace: "pre-line",
+                      }}
+                    >
+                      1.ไม่สามารถเพิ่มเกรดได้หากไม่มีค่าในช่องเกรด
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.ไม่สามารถเพิ่มเกรดได้หากในช่องเกรดเป็นตัวอักษรภาษาไทย
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.ไม่สามารถเพิ่มเกรดได้หากในช่องเกรดเป็นตัวอักษรภาษาอังกฤษตัวพิมพ์เล็ก
+                      {"\n"}
+                      4.ไม่สามารถเพิ่มเกรดได้เมื่อเพิ่มเกรดนักศึกษาในรายวิชานั้นๆแล้ว           
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.สามารถเพิ่มเกรดได้เมื่อพิมพ์ตามรูปแบบในเงื่อนไข
+                    </Typography>
+                  </Paper>
           
           <Grid
             item

@@ -167,15 +167,19 @@ function Adding_reducingCreate() {
   //table
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#5B98B9",
+      backgroundColor: "#44484D",
       color: theme.palette.common.white,
       fontSize: 17,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      color: theme.palette.common.black,
+      fontFamily: "Noto Sans Thai",
     },
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
-      backgroundColor: "white",
+      backgroundColor: "#e0e0e0",
     },
     // hide last border
     "&:last-child td, &:last-child th": {
@@ -269,20 +273,20 @@ function Adding_reducingCreate() {
       <Grid sx={{ mt: 2 }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
+            <TableHead >
+              <TableRow sx={{ minWidth: 650 }}>
               
-                <TableCell align="left">รหัสวิชา</TableCell>
-                <TableCell align="left">ชื่อวิชา</TableCell>
-                <TableCell align="left">Subject name</TableCell>
-                <TableCell align="left">วันเรียน</TableCell>
-                <TableCell align="left">เริ่มเรียน</TableCell>
-                <TableCell align="left">เลิกเรียน</TableCell>
-                <TableCell align="left">วันสอบ</TableCell>
-                <TableCell align="left">หน่วยกิต</TableCell>
-                <TableCell align="left">กลุ่ม</TableCell>
-                <TableCell align="center">ลบ</TableCell>
-                <TableCell align="center">แก้ไข</TableCell>
+                <StyledTableCell align="left">รหัสวิชา</StyledTableCell>
+                <StyledTableCell align="left">ชื่อวิชา</StyledTableCell>
+                <StyledTableCell align="left">Subject name</StyledTableCell>
+                <StyledTableCell align="left">วันเรียน</StyledTableCell>
+                <StyledTableCell align="left">เริ่มเรียน</StyledTableCell>
+                <StyledTableCell align="left">เลิกเรียน</StyledTableCell>
+                <StyledTableCell align="left">วันสอบ</StyledTableCell>
+                <StyledTableCell align="left">หน่วยกิต</StyledTableCell>
+                <StyledTableCell align="left">กลุ่ม</StyledTableCell>
+                <StyledTableCell align="center">ลบ</StyledTableCell>
+                <StyledTableCell align="center">แก้ไข</StyledTableCell>
               </TableRow>
             </TableHead>
 
@@ -293,21 +297,21 @@ function Adding_reducingCreate() {
                   ): enroll
 
               ).map((row) => (
-                <TableRow
+                <StyledTableRow
                   key={row.Enroll_ID}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   
-                  <TableCell align="left">{row.Subject_ID}</TableCell>
-                  <TableCell align="left">{row.Subject_TH_Name}</TableCell>
-                  <TableCell align="left">{row.Subject_EN_Name}</TableCell>
-                  <TableCell align="left">{row.Day}</TableCell>
-                  <TableCell align="left">{row.Start_Time}</TableCell>
-                  <TableCell align="left">{row.End_Time}</TableCell>
-                  <TableCell align="left">{row.Exam_Date}</TableCell>
-                  <TableCell align="left">{row.Unit}</TableCell>
-                  <TableCell align="left">{row.Section}</TableCell>
-                  <TableCell align="center">
+                  <StyledTableCell align="left">{row.Subject_ID}</StyledTableCell>
+                  <StyledTableCell align="left">{row.Subject_TH_Name}</StyledTableCell>
+                  <StyledTableCell align="left">{row.Subject_EN_Name}</StyledTableCell>
+                  <StyledTableCell align="left">{row.Day}</StyledTableCell>
+                  <StyledTableCell align="left">{row.Start_Time}</StyledTableCell>
+                  <StyledTableCell align="left">{row.End_Time}</StyledTableCell>
+                  <StyledTableCell align="left">{row.Exam_Date}</StyledTableCell>
+                  <StyledTableCell align="left">{row.Unit}</StyledTableCell>
+                  <StyledTableCell align="left">{row.Section}</StyledTableCell>
+                  <StyledTableCell align="center">
                     <IconButton
                      aria-label="delete"
                      onClick={() => {
@@ -318,7 +322,7 @@ function Adding_reducingCreate() {
                     >
                     <DeleteIcon />
                   </IconButton>
-                  </TableCell>
+                  </StyledTableCell>
                   <TableCell align="center">
                   <IconButton
                   onClick={() => {
@@ -328,7 +332,7 @@ function Adding_reducingCreate() {
                     <ModeEditIcon />
                   </IconButton>
                   </TableCell>
-                </TableRow>
+                </StyledTableRow>
               ))}
             </TableBody>
           </Table>
@@ -445,15 +449,15 @@ function Adding_reducingCreate() {
                   : adding_reducings
                 ).map((row) => (
                   <StyledTableRow key={row.Change_ID}>
-                    <TableCell component="th" scope="row" align="center">{row.Change_ID} </TableCell>
-                    <TableCell align="center">{row.Type_Name}</TableCell>
-                    <TableCell align="center">{row.Subject_ID}</TableCell>
-                    <TableCell align="center">{row.Subject_EN_Name}</TableCell>  
+                    <StyledTableCell component="th" scope="row" align="center">{row.Change_ID} </StyledTableCell>
+                    <StyledTableCell align="center">{row.Type_Name}</StyledTableCell>
+                    <StyledTableCell align="center">{row.Subject_ID}</StyledTableCell>
+                    <StyledTableCell align="center">{row.Subject_EN_Name}</StyledTableCell>  
                   </StyledTableRow>
                 ))}
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 53 * emptyRows }}>
-                    <TableCell colSpan={6} />
+                    <StyledTableCell colSpan={6} />
                   </TableRow>
                 )}
               </TableBody>
@@ -482,6 +486,7 @@ function Adding_reducingCreate() {
                 </TableRow>
               </TableFooter>
             </Table>
+           
           </TableContainer>
         </Paper>
       </Container>

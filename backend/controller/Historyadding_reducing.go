@@ -96,6 +96,7 @@ func CreateAdding_reducing(c *gin.Context) {
 		Exam_Schedule:  exam_schedule,
 		Class_Schedule: class_schedule,
 		Section:        receive_enroll.Section,
+		Enroll_Time_Stamp:time.Now(),
 	}
 	// fmt.Printf(new_enroll.Subject.Subject_ID)
 	// fmt.Printf(new_enroll.Student.Student_ID)
@@ -270,6 +271,7 @@ func UpdateEnrollforadding(c *gin.Context) {
 		Exam_Schedule_ID:  updated_exam_schedule_id,
 		Class_Schedule_ID: update_class_schedule_id,
 		Section:           update_Section,
+		Enroll_Time_Stamp: enroll.Enroll_Time_Stamp.Local(),
 	}
 
 	if _, err := ValidateAdding_reducingChecksubject(updated_enroll); err != nil {

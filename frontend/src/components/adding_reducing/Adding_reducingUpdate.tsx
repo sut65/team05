@@ -16,7 +16,7 @@ import Table from "@mui/material/Table";
 
 import TableBody from "@mui/material/TableBody";
 
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 
 import TableContainer from "@mui/material/TableContainer";
 
@@ -36,10 +36,11 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { Subject } from "../../models/I_Subject";
 
-import {Button, IconButton,TableFooter,TablePagination,} from "@mui/material";
+import {Button, IconButton,TableFooter,TablePagination, Toolbar,} from "@mui/material";
 
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
-
+import Home_Navbar from "../navbars/Home_navbar";
+import { styled } from "@mui/material/styles";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -67,6 +68,30 @@ function Adding_reducingUpdate() {
     setSuccess(false);
     setError(false);
   };
+
+//table
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#44484D",
+      color: theme.palette.common.white,
+      fontSize: 17,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      color: theme.palette.common.black,
+      fontFamily: "Noto Sans Thai",
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: "#e0e0e0",
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 1,
+    },
+  }));
+
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -270,6 +295,8 @@ function Adding_reducingUpdate() {
   return (
     <Container maxWidth="xl"
     sx ={{bgcolor:"black"}}>
+      <Home_Navbar></Home_Navbar>
+        <Toolbar></Toolbar>
       <Snackbar
         open={success}
         autoHideDuration={6000}
@@ -309,18 +336,18 @@ function Adding_reducingUpdate() {
               <Table sx={{ minWidth: 500 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="left">รหัสวิชา</TableCell>
-                    <TableCell align="left">ชื่อวิชา</TableCell>
-                    <TableCell align="left">Subject name</TableCell>
-                    <TableCell align="left">วันเรียน</TableCell>
-                    <TableCell align="left">เริ่มเรียน</TableCell>
-                    <TableCell align="left">เลิกเรียน</TableCell>
-                    <TableCell align="left">วันสอบ</TableCell>
-                    <TableCell align="left">เริ่มสอบ</TableCell>
-                    <TableCell align="left">เลิกสอบ</TableCell>
-                    <TableCell align="left">หน่วยกิต</TableCell>
-                    <TableCell align="left">กลุ่ม</TableCell>
-                    <TableCell align="center">เลือก</TableCell>
+                    <StyledTableCell align="left">รหัสวิชา</StyledTableCell>
+                    <StyledTableCell align="left">ชื่อวิชา</StyledTableCell>
+                    <StyledTableCell align="left">Subject name</StyledTableCell>
+                    <StyledTableCell align="left">วันเรียน</StyledTableCell>
+                    <StyledTableCell align="left">เริ่มเรียน</StyledTableCell>
+                    <StyledTableCell align="left">เลิกเรียน</StyledTableCell>
+                    <StyledTableCell align="left">วันสอบ</StyledTableCell>
+                    <StyledTableCell align="left">เริ่มสอบ</StyledTableCell>
+                    <StyledTableCell align="left">เลิกสอบ</StyledTableCell>
+                    <StyledTableCell align="left">หน่วยกิต</StyledTableCell>
+                    <StyledTableCell align="left">กลุ่ม</StyledTableCell>
+                    <StyledTableCell align="center">เลือก</StyledTableCell>
                   </TableRow>
                 </TableHead>
 
@@ -332,22 +359,22 @@ function Adding_reducingUpdate() {
                       )
                     : subjects
                   ).map((row) => (
-                    <TableRow
+                    <StyledTableRow
                       key={row.ID}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      <TableCell align="left">{row.Subject_ID}</TableCell>
-                      <TableCell align="left">{row.Subject_TH_Name}</TableCell>
-                      <TableCell align="left">{row.Subject_EN_Name}</TableCell>
-                      <TableCell align="left">{row.Day}</TableCell>
-                      <TableCell align="left">{row.Start_Time}</TableCell>
-                      <TableCell align="left">{row.End_Time}</TableCell>
-                      <TableCell align="left">{row.Exam_Date}</TableCell>
-                      <TableCell align="left">{row.Exam_Start_Time}</TableCell>
-                      <TableCell align="left">{row.Exam_End_Time}</TableCell>
-                      <TableCell align="left">{row.Unit}</TableCell>
-                      <TableCell align="left">{row.Section}</TableCell>
-                      <TableCell align="center">
+                      <StyledTableCell align="left">{row.Subject_ID}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Subject_TH_Name}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Subject_EN_Name}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Day}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Start_Time}</StyledTableCell>
+                      <StyledTableCell align="left">{row.End_Time}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Exam_Date}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Exam_Start_Time}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Exam_End_Time}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Unit}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Section}</StyledTableCell>
+                      <StyledTableCell align="center">
                         <IconButton
                           onClick={() => {
                             enroll.Subject_ID = row.Subject_ID;
@@ -364,8 +391,8 @@ function Adding_reducingUpdate() {
                         >
                           <CheckCircleIcon />
                         </IconButton>
-                      </TableCell>
-                    </TableRow>
+                      </StyledTableCell>
+                    </StyledTableRow>
                   ))}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
@@ -400,6 +427,25 @@ function Adding_reducingUpdate() {
                   </TableRow>
                 </TableFooter>
               </Table>
+              <Paper elevation={3} sx={{ p: 2, bgcolor: "#FFD3BD" }} >
+            <Typography sx={{ paddingLeft: 8, fontFamily: "Noto Sans Thai", fontSize: 18, fontWeight: 'bold', color: "red" }}>
+                                            คำเตือนการลงทะเบียน
+            </Typography>
+                  <Typography
+                      sx={{
+                        fontSize: 16,
+                        fontFamily: "Noto Sans Thai",
+                        boxShadow: 0,
+                        whiteSpace: "pre-line",
+                      }}
+                    >
+                      1:ไม่สามารถลงทะเบียนรหัสวิชาเดิมได้
+                      &nbsp;&nbsp;2:ไม่สามารถลงทะเบียนรายวิชาที่มีวันเรียนซ้ำกันได้
+                      &nbsp;&nbsp; 3.ไม่สามารถลงทะเบียนรายวิชาที่มีเวลาเรียนซ้ำกันได้
+                      
+                      &nbsp;&nbsp;4:กดเชคผลการลงทะเบียนเพื่อยืนยันว่าการลงทะเบียนได้รับการอนุมัติแล้ว
+                      </Typography>
+                      </Paper>
             </TableContainer>
           </Grid>
           <Box flexGrow={1}>

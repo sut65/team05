@@ -56,14 +56,15 @@ function ListEnroll() {
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: "white",
+    '&:nth-of-type(odd)': {
+        backgroundColor: "#e0e0e0",
+        fontFamily: "Noto Sans Thai",
     },
     // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 1,
+    '&:last-child td, &:last-child th': {
+        border: 0,
     },
-  }));
+}));
 
   const getEnroll = async () => {
     const requestOptions = {
@@ -108,17 +109,6 @@ function ListEnroll() {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     };
-
-    // fetch(`${apiUrl}/deleEnroll/${enroll_id}`, requestOptions)
-    //   .then((response) => response.json())
-    //   .then((res) => {
-    //     if (res.data) {
-    //       console.log("Data remove");
-    //       window.location.href = "/enroll";
-    //     } else {
-    //       console.log("Something was wrong!!");
-    //     }
-    //   });
     console.log(Subject_ID)
     Swal.fire({
       title: 'ต้องการยกเลิกการลงทะเบียนวิชา \n'+Subject_ID+" หรือไม่",
@@ -139,7 +129,6 @@ function ListEnroll() {
                 icon: 'success',
                 title: 'ลบรายการเรียบร้อย !',
                 text: 'Success',
-                
               })
               
             } else {
@@ -174,7 +163,9 @@ function ListEnroll() {
           p: 2,
           bgcolor: '#93BFCF'
         }}>
-        <Container maxWidth="xl" style={{ height: "100vh" }} sx={{ p: 2, bgcolor: '#F3F3F3', mt: 6 }}>
+        <Container maxWidth="xl"
+        sx={{ p: 2, bgcolor: '#F3F3F3', mt: 6 , width: "auto",
+        height: "auto",}}>
           <Paper sx={{
             height: 50,
             bgcolor: '#FFFAF0',

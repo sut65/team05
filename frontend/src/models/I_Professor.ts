@@ -4,7 +4,6 @@ import { QualificationsInterface } from "./I_Qualification"
 import { StatusInterface } from "./I_Status"
 
 export interface ProfessorInterface{
-    ID: number,
     Professor_ID: string,
     Professor_name:  string,
     Professor_address: string,

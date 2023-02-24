@@ -149,7 +149,7 @@ function ApprovalCreate() {
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
-      backgroundColor: "white",
+      backgroundColor: "#e0e0e0",
     },
     // hide last border
     "&:last-child td, &:last-child th": {
@@ -344,14 +344,7 @@ function ApprovalCreate() {
                          console.log(res.data);
                          Swal.fire({
                            icon: "success",
-                           title:
-                             "คุณต้องการอนุมัติคำร้องของ\n" +
-                             "รหัสนักศึกษา " +
-                             res.data.Student_ID +
-                             "\n รายวิชา " +
-                             res.data.Subject_ID +
-                             "\n กลุ่ม " +
-                             res.data.Section,
+                           title: "อนุมัติคำร้องสำเร็จ\n",
                            text: "Success",
                          });
                        } else {
@@ -398,14 +391,7 @@ function ApprovalCreate() {
                console.log(res.data);
                Swal.fire({
                  icon: "success",
-                 title:
-                   "คุณต้องการอนุมัติคำร้องของ\n" +
-                   "รหัสนักศึกษา " +
-                   res.data.Student_ID +
-                   "\n รายวิชา " +
-                   res.data.Subject_ID +
-                   "\n กลุ่ม " +
-                   res.data.Section,
+                 title: "อนุมัติคำร้องสำเร็จ\n",
                  text: "Success",
                });
              } else {
@@ -456,13 +442,7 @@ function ApprovalCreate() {
                        Swal.fire({
                          icon: "success",
                          title:
-                           "คุณต้องการอนุมัติคำร้องของ\n" +
-                           "รหัสนักศึกษา " +
-                           res.data.Student_ID +
-                           "\n รายวิชา " +
-                           res.data.Subject_ID +
-                           "\n กลุ่ม " +
-                           res.data.Section,
+                           "อนุมัติคำร้องสำเร็จ\n",
                          text: "Success",
                        });
                      } else {
@@ -508,14 +488,7 @@ function ApprovalCreate() {
                        console.log(res.data);
                        Swal.fire({
                          icon: "success",
-                         title:
-                           "คุณต้องการอนุมัติคำร้องของ\n" +
-                           "รหัสนักศึกษา " +
-                           res.data.Student_ID +
-                           "\n รายวิชา " +
-                           res.data.Subject_ID +
-                           "\n กลุ่ม " +
-                           res.data.Section,
+                         title: "อนุมัติคำร้องสำเร็จ\n",
                          text: "Success",
                        });
                      } else {
@@ -540,7 +513,7 @@ function ApprovalCreate() {
           width: "auto",
           height: "auto",
           p: 2,
-          bgcolor: "#DADADA",
+          bgcolor: "#e1e1e1",
           flexGrow: 1,
           fontFamily: "Noto Sans Thai",
         }}
@@ -548,7 +521,7 @@ function ApprovalCreate() {
         <Container
           maxWidth="xl"
           sx={{
-            bgcolor: "#DADADA",
+            bgcolor: "#e1e1e1",
             width: "auto",
             height: "auto",
             padding: 2,
@@ -886,6 +859,42 @@ function ApprovalCreate() {
                   </FormControl>
                 </Grid>
               </Grid>
+              <Box sx={{ padding: 2, marginBottom: 2 }}>
+                <Grid xs={7.85}>
+                  <Typography
+                    component="h2"
+                    color="red"
+                    gutterBottom
+                    sx={{
+                      flexGrow: 1,
+                      fontSize: 16,
+                      fontFamily: "Noto Sans Thai",
+                    }}
+                  >
+                    <b>หมายเหตุ</b>
+                  </Typography>
+                  <Paper elevation={3} sx={{ p: 2, bgcolor: "#FFD3BD" }}>
+                    <Typography
+                      sx={{
+                        fontSize: 16,
+                        fontFamily: "Noto Sans Thai",
+                        boxShadow: 0,
+                        whiteSpace: "pre-line",
+                      }}
+                    >
+                      1.
+                      อาจารย์ไม่สามารถอนุมัติคำร้องออนไลน์รหัสยื่นคำร้องออนไลน์เดิมได้
+                      {"\n"}
+                      2. อาจารย์ไม่สามารถอนุมัติคำร้องออนไลน์ หากไม่กรอกเหตุผล
+                      {"\n"}
+                      3. อาจารย์ไม่สามารถอนุมัติคำร้องออนไลน์
+                      หากกรอกเหตุผลด้วยตัวอักษรพิเศษหรือตัวเลข{"\n"}
+                      4. อาจารย์ไม่สามารถอนุมัติคำร้องออนไลน์
+                      หากกรอกเหตุผลมากกว่า 30 ตัวอักษร{"\n"}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              </Box>
               <Grid
                 item
                 xs={12}

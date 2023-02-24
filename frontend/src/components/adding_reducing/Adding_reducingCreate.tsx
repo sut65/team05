@@ -314,10 +314,12 @@ const getSubjectByCourseID = async (course_id: any) => {
       .then((res) => {
         console.log(res);
         if (res.data) {
+          window.location.href ="/adding_reducing/";
           setSuccess(true);
         } else {
           setAlertMessage(res.error);
           setError(true);
+          window.location.href ="/adding_reducing";
         }
         });
     

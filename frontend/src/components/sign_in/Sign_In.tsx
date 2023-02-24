@@ -13,10 +13,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { SignInInterface } from '../../models/I_SignIn';
+import First_Page_Navbar from '../navbars/First_Page_Navbar';
+import { Toolbar } from '@mui/material';
+import Swal from 'sweetalert2';
 
 function Copyright(props: any) {
     return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        <Typography variant="body2" color="text.secondary" align="center" sx={{ fontFamily: "Noto Sans Thai" }} {...props}>
             {'Copyright © '}
             <Link color="inherit" href="https://mui.com/">
                 Your Website
@@ -31,8 +34,7 @@ const theme = createTheme();
 
 export default function SignIn() {
     const [signin, setSignIn] = React.useState<Partial<SignInInterface>>({});
-    const [success, setSuccess] = React.useState(false);
-    const [error, setError] = React.useState(false);
+
 
     const apiUrl = "http://localhost:8080";
 
@@ -62,30 +64,45 @@ export default function SignIn() {
         // console.log(localStorage.getItem("token"))
         // console.log(localStorage.getItem("id"))
         // console.log(localStorage.getItem("usertype"))
-
-        fetch(`${apiUrl}/login`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                // console.log(res)
-                if (res.data) {
-                //     // console.log(res.data)
-                    setSuccess(true);
-                    localStorage.setItem("token", res.data.token);
-                    localStorage.setItem("id", res.data.id);
-                    localStorage.setItem("usertype", res.data.usertype);
-                    window.location.reload()
-                } else {
-                    setError(true);
+        if (signin.ID == undefined || signin.Password == undefined) {
+            Swal.fire({
+                icon: 'error',
+                title: 'เข้าสู่ระบบไม่สำเร็จ',
+                text: 'กรุณากรอกรหัสผู้ใช้และรหัสผ่าน',
+            })
+        } else {
+            fetch(`${apiUrl}/login`, requestOptions)
+                .then((response) => response.json())
+                .then((res) => {
+                    // console.log(res)
+                    if (res.data) {
+                        //     // console.log(res.data)
+                        Swal.fire({
+                            title: 'เข้าสู่ระบบสำเร็จ',
+                            icon: 'success',
+                        }).then(() => {
+                            localStorage.setItem("token", res.data.token);
+                            localStorage.setItem("id", res.data.id);
+                            localStorage.setItem("usertype", res.data.usertype);
+                            window.location.reload()
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: "รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+                        })
+                    }
                 }
-            }
-        );
-
-
+            );
+        }
     };
 
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
+                <First_Page_Navbar />
+                <Toolbar />
                 <CssBaseline />
                 <Box
                     sx={{
@@ -98,7 +115,7 @@ export default function SignIn() {
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h4" sx={{ fontFamily: "Noto Sans Thai" }}>
                         Sign in
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -110,9 +127,10 @@ export default function SignIn() {
                             // value={signin.Password}
                             onChange={handleInputChange}
                             label=""
-                            // name="email"
-                            // autoComplete="email"
-                            // autoFocus
+                            inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
+                        // name="email"
+                        // autoComplete="email"
+                        // autoFocus
                         />
                         <TextField
                             margin="normal"
@@ -121,12 +139,14 @@ export default function SignIn() {
                             // value={signin.Password}
                             onChange={handleInputChange}
                             type="password"
+                            inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
                             id="Password"
-                            // autoComplete="current-password"
+                        // autoComplete="current-password"
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
+                            sx={{ fontFamily: "Noto Sans Thai" }}
                         />
                         <Button
                             type="submit"
@@ -135,17 +155,23 @@ export default function SignIn() {
                             onClick={login}
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            <Typography sx={{ fontFamily: "Noto Sans Thai" }}>
+                                Sign In
+                            </Typography>
                         </Button>
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
-                                    Forgot password?
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}>
+                                        Forgot password?
+                                    </Typography>
                                 </Link>
                             </Grid>
                             <Grid item>
                                 <Link href="#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                    <Typography sx={{ fontFamily: "Noto Sans Thai" }}>
+                                        {"Don't have an account? Sign Up"}
+                                    </Typography>
                                 </Link>
                             </Grid>
                         </Grid>

@@ -138,7 +138,7 @@ function CreateProfessor() {
 
     function submit() {
         let data = {
-            ID: typeof professor.ID === "string" ? parseInt(professor.ID) : professor.ID,
+            // ID: typeof professor.ID === "string" ? parseInt(professor.ID) : professor.ID,
             Professor_ID: professor.Professor_ID ?? "",
             Professor_name: professor.Professor_name ?? "",
             Professor_address: professor.Professor_address ?? "",

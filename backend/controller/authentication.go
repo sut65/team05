@@ -124,5 +124,8 @@ func Login(c *gin.Context) {
 		fmt.Println(tokenResponse)
 
 		c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "user or password is incorrect"})
+		return
 	}
 }

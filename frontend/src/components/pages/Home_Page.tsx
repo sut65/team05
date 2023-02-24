@@ -39,7 +39,7 @@ function Home_Page() {
 
                 </Stack>
                 <Box sx={{ border: 0, padding:3, bgcolor: 'white' }}>
-                    <Typography variant='h4' sx={{ border: 0 }}> ระบบลงทะเบียนเรียน </Typography>
+                    <Typography variant='h4' sx={{ border: 0, fontFamily:"Noto Sans Thai" }}> ระบบลงทะเบียนเรียน </Typography>
                     {/* <Typography variant='h4'> Features </Typography> */}
                     <Divider />
                     <Grid container justifyContent="center"
@@ -47,11 +47,11 @@ function Home_Page() {
                         <Box sx={{ padding: 2 }}>
                             <Card sx={{ maxWidth: 500, width: 'auto', minWidth: 250, boxShadow: 5, height: 250 }}>
                                 <CardContent>
-                                    <Typography variant='h5' color="text.secondary" gutterBottom>
+                                    <Typography variant='h5' color="text.secondary" gutterBottom sx={{fontFamily:"Noto Sans Thai"}}>
                                         ระบบจัดการข้อมูลหลักสูตร
                                     </Typography>
                                     <Box>
-                                        <Typography color="text.secondary">
+                                        <Typography color="text.secondary" sx={{fontFamily:"Noto Sans Thai"}}>
                                             ระบบจัดการข้อมูลหลักสูตร เป็นระบบที่ผู้เป็นแอดมินของระบบ สามารถจัดการในส่วนของการเพิ่มข้อมูล
                                             ,แก้ไขข้อมูล , ลบข้อมูลหลักสูตรได้ และสามารถค้นหาในหน้าแสดงข้อมูลเพื่อดูรายละเอียดข้อมูลหลักสูตร
                                         </Typography>
@@ -79,11 +79,11 @@ function Home_Page() {
                         <Box sx={{ padding: 2 }}>
                             <Card sx={{ maxWidth: 500, width: 'auto', minWidth: 250, boxShadow: 5, height: 250 }}>
                                 <CardContent>
-                                    <Typography variant='h5' color="text.secondary" gutterBottom>
+                                    <Typography variant='h5' color="text.secondary" gutterBottom sx={{fontFamily:"Noto Sans Thai"}}>
                                         ระบบจัดการข้อมูลอาจารย์
                                     </Typography>
                                     <Box>
-                                        <Typography color="text.secondary">
+                                        <Typography color="text.secondary" sx={{fontFamily:"Noto Sans Thai"}}>
                                             ระบบจัดการข้อมูลอาจารย์ เป็นระบบที่แอดมินของระบบใช้งานเพื่อจัดการเกี่ยวกับอาจารย์ของ
                                             มหาวิทยาลัย ทั้งเพิ่มข้อมูลอาจารย์ที่มาใหม่ อัพเดทข้อมูลอาจาย์ที่มีการเปลี่ยนแปลงไปตามเวลา หรือ มีการ
                                             อัพเดทสถานะอาจารย์ว่ายังคงสอนอยู่หรือเกษียณไปแล้ว ข้อมูลติดต่ออาจารย์วุฒิอาจาย์ที่สำเร็จการศึกษามา
@@ -115,11 +115,11 @@ function Home_Page() {
                         <Box sx={{ padding: 2 }}>
                             <Card sx={{ maxWidth: 500, width: 'auto', minWidth: 250, boxShadow: 5, height: 250 }}>
                                 <CardContent>
-                                    <Typography variant='h5' color="text.secondary" gutterBottom>
+                                    <Typography variant='h5' color="text.secondary" gutterBottom sx={{fontFamily:"Noto Sans Thai"}}>
                                         ระบบจัดการข้อมูลนักศึกษา
                                     </Typography>
                                     <Box>
-                                        <Typography color="text.secondary">
+                                        <Typography color="text.secondary" sx={{fontFamily:"Noto Sans Thai"}}>
                                             ระบบจัดการข้อมูลนักศึกษา เป็นระบบที่ผู้เป็นแอดมินของระบบ สามารถจัดการในส่วนของการเพิ่มข้อมูล ,แก้ไขข้อมูล ,
                                             ลบข้อมูลนักศึกษาได้ และสามารถค้นหาในหน้าแสดงข้อมูลเพื่อดูรายละเอียดข้อมูลนักศึกษา โดยอิงจากรหัสนักศึกษา
                                         </Typography>
@@ -149,11 +149,11 @@ function Home_Page() {
                         <Box sx={{ padding: 2 }}>
                             <Card sx={{ maxWidth: 500, width: 'auto', minWidth: 250, boxShadow: 5, height: 250 }}>
                                 <CardContent>
-                                    <Typography variant='h5' color="text.secondary" gutterBottom>
+                                    <Typography variant='h5' color="text.secondary" gutterBottom sx={{fontFamily:"Noto Sans Thai"}}>
                                         ระบบจัดการข้อมูลรายวิชา
                                     </Typography>
                                     <Box sx={{}}>
-                                        <Typography color="text.secondary">
+                                        <Typography color="text.secondary" sx={{fontFamily:"Noto Sans Thai"}}>
                                             ระบบย่อยจัดการข้อมูลรายวิชา เป็นระบบที่แอดมินสามารถแสดง, เพิ่ม, แก้ไข หรือลบข้อมูล
                                             รายวิชาได้ในส่วนของการแสดงข้อมูลรายวิชานั้น
                                         </Typography>
@@ -184,11 +184,11 @@ function Home_Page() {
                         <Box sx={{ padding: 2 }}>
                             <Card sx={{ maxWidth: 500, width: 'auto', minWidth: 250, boxShadow: 5, height: 250 }}>
                                 <CardContent>
-                                    <Typography variant='h5' color="text.secondary" gutterBottom>
+                                    <Typography variant='h5' color="text.secondary" gutterBottom sx={{fontFamily:"Noto Sans Thai"}}>
                                         ระบบจัดการข้อมูลห้องเรียน
                                     </Typography>
                                     <Box sx={{}}>
-                                        <Typography color="text.secondary">
+                                        <Typography color="text.secondary" sx={{fontFamily:"Noto Sans Thai"}}>
                                             ระบบจัดการข้อมูลห้องเรียน เป็นระบบที่บันทึกโดยแอดมินโดยมีการบันทึกข้อมูลห้องเรียน ตึกเรียน และ
                                             เป็นห้องเรียนประเภทไหนห้องแลปที่มีการเรียนการสอนที่ต้องใช้สื่อการสอน เพื่อให้สามารถนําไปจัดสรรห้องใน
                                             การใช้สอนนักศึกษา
@@ -216,11 +216,11 @@ function Home_Page() {
                         <Box sx={{ padding: 2 }}>
                             <Card sx={{ maxWidth: 500, width: 'auto', minWidth: 250, boxShadow: 5, height: 250 }}>
                                 <CardContent>
-                                    <Typography variant='h5' color="text.secondary" gutterBottom>
+                                    <Typography variant='h5' color="text.secondary" gutterBottom sx={{fontFamily:"Noto Sans Thai"}}>
                                         ระบบจัดสรรห้องเรียนและห้องสอบ
                                     </Typography>
                                     <Box sx={{}}>
-                                        <Typography color="text.secondary">
+                                        <Typography color="text.secondary" sx={{fontFamily:"Noto Sans Thai"}}>
                                             ระบบจัดสรรห้องเรียนและห้องสอบ เป็นระบบที่แอดมินสามารถจัดสรรห้องเรียนสําหรับการ
                                             เรียนการสอนได้ สามารถเลือกได้ว่าจะบันทึกข้อมูลการใช้ห้องสอบในการสอบกลางภาคและประจําภาคของ
                                             แต่ละวิชาหรือไม่
@@ -253,11 +253,11 @@ function Home_Page() {
                         <Box sx={{ padding: 2 }}>
                             <Card sx={{ maxWidth: 500, width: 'auto', minWidth: 250, boxShadow: 5, height: 250 }}>
                                 <CardContent>
-                                    <Typography variant='h5' color="text.secondary" gutterBottom>
+                                    <Typography variant='h5' color="text.secondary" gutterBottom sx={{fontFamily:"Noto Sans Thai"}}>
                                         ระบบลงทะเบียนรายวิชา
                                     </Typography>
                                     <Box sx={{}}>
-                                        <Typography color="text.secondary">
+                                        <Typography color="text.secondary" sx={{fontFamily:"Noto Sans Thai"}}>
                                             ระบบย่อยลงทะเบียนรายวิชา จะช่วยให้นักศึกษาสามารถเลือกลงทะเบียนเรียนในรายวิชาที่ตน
                                             ต้องการเมื่อถึงเวลาที่กําหนด โดยนักศึกษาสามารถเลือกหลักสูตร และกลุ่มที่ตนต้องการจะเรียน นักศึกษาสามารถ
                                             แก้ไข หรือลบรายวิชาที่ลงทะเบียนผิดพลาดได้ เมื่อลงทะเบียนเสร็จสิ้นระบบสามารถแสดงสรุปรายการที่นักศึกษา
@@ -287,11 +287,11 @@ function Home_Page() {
                         <Box sx={{ padding: 2 }}>
                             <Card sx={{ maxWidth: 500, width: 'auto', minWidth: 250, boxShadow: 5, height: 250 }}>
                                 <CardContent>
-                                    <Typography variant='h5' color="text.secondary" gutterBottom>
+                                    <Typography variant='h5' color="text.secondary" gutterBottom sx={{fontFamily:"Noto Sans Thai"}}>
                                         ระบบประวัติเพิ่มลดรายวิชา
                                     </Typography>
                                     <Box sx={{}}>
-                                        <Typography color="text.secondary">
+                                        <Typography color="text.secondary" sx={{fontFamily:"Noto Sans Thai"}}>
                                             ระบบประวัติเพิ่มลดรายวิชาเป็นระบบย่อยที่นักศึกษาสามารถทําการบันทึก เพิ่ม ลดและแก้ไขข้อมูลการ
                                             ลงทะเบียนได้
                                         </Typography>
@@ -320,11 +320,11 @@ function Home_Page() {
                         <Box sx={{ padding: 2 }}>
                             <Card sx={{ maxWidth: 500, width: 'auto', minWidth: 250, boxShadow: 5, height: 250 }}>
                                 <CardContent>
-                                    <Typography variant='h5' color="text.secondary" gutterBottom>
+                                    <Typography variant='h5' color="text.secondary" gutterBottom sx={{fontFamily:"Noto Sans Thai"}}>
                                         ระบบยื่นคำร้องออนไลน์
                                     </Typography>
                                     <Box sx={{}}>
-                                        <Typography color="text.secondary">
+                                        <Typography color="text.secondary" sx={{fontFamily:"Noto Sans Thai"}}>
                                             ระบบยื่นคําร้องออนไลน์เป็นระบบย่อยที่นักศึกษา สามารถจัดการในส่วนของการสามารถบันทึก,
                                             แก้ไขและลบข้อมูลการยื่นคําร้องออนไลน์ได้ โดยนักศึกษาสามารถเลือกรายวิชาและเลือกประเภทคําร้องที่
                                             ต้องการยื่นคําร้องออนไลน์
@@ -355,11 +355,11 @@ function Home_Page() {
                         <Box sx={{ padding: 2 }}>
                             <Card sx={{ maxWidth: 500, width: 'auto', minWidth: 250, boxShadow: 5, height: 250 }}>
                                 <CardContent>
-                                    <Typography variant='h5' color="text.secondary" gutterBottom>
+                                    <Typography variant='h5' color="text.secondary" gutterBottom sx={{fontFamily:"Noto Sans Thai"}}>
                                         ระบบอนุมัติคำร้องออนไลน์
                                     </Typography>
                                     <Box sx={{}}>
-                                        <Typography color="text.secondary">
+                                        <Typography color="text.secondary" sx={{fontFamily:"Noto Sans Thai"}}>
                                             ระบบอนุมัติคําร้องออนไลน์เป็นระบบย่อยที่อาจารย์ผู้เปิดสอนในรายวิชาสามารถทําการบันทึก และ
                                             แก้ไขข้อมูลการอนุมัติคําร้องออนไลน์ได้จากนักศึกษาที่ยื่นคําร้องออนไลน์เข้าในระบบ โดยทําการเลือกรหัส
                                             การยื่นคําร้องออนไลน์ที่ต้องการตรวจสอบคําร้อง
@@ -390,11 +390,11 @@ function Home_Page() {
                         <Box sx={{ padding: 2 }}>
                             <Card sx={{ maxWidth: 500, width: 'auto', minWidth: 250, boxShadow: 5, height: 250 }}>
                                 <CardContent>
-                                    <Typography variant='h5' color="text.secondary" gutterBottom>
+                                    <Typography variant='h5' color="text.secondary" gutterBottom sx={{fontFamily:"Noto Sans Thai"}}>
                                         ระบบบันทึกผลการเรียน
                                     </Typography>
                                     <Box sx={{}}>
-                                        <Typography color="text.secondary">
+                                        <Typography color="text.secondary" sx={{fontFamily:"Noto Sans Thai"}}>
                                             ระบบย่อยระบบบันทึกผลการเรียน เป็นระบบย่อยที่อาจารย์ผู้เปิดสอนในรายวิชาสามารถทําการเพิ่ม และ
                                             แก้ไขข้อมูลเกรดนักศึกษาในรายวิชาที่อาจารย์ผู้สอนเปิดสอนในรายวิชาเข้าในระบบ
                                         </Typography>
@@ -423,11 +423,11 @@ function Home_Page() {
                         <Box sx={{ padding: 2 }}>
                             <Card sx={{ maxWidth: 500, width: 'auto', minWidth: 250, boxShadow: 5, height: 250 }}>
                                 <CardContent>
-                                    <Typography variant='h5' color="text.secondary" gutterBottom>
+                                    <Typography variant='h5' color="text.secondary" gutterBottom sx={{fontFamily:"Noto Sans Thai"}}>
                                         ระบบบันทึกรายจ่าย
                                     </Typography>
                                     <Box sx={{}}>
-                                        <Typography color="text.secondary">
+                                        <Typography color="text.secondary" sx={{fontFamily:"Noto Sans Thai"}}>
                                             ระบบบันทึกรายจ่ายเป็นระบบที่ให้เจ้าหน้าที่ของมหาลัย หรือแอดมินใช้ เพื่อยืนยันการชําระเงิน
                                             ค่าลงทะเบียนเรียนของนักศึกษา โดยเมื่อนักศึกษาทําการจ่ายเงินตามจํานวนครบแล้ว จะต้องยื่นหลักฐานเพื่อให้
                                             เจ้าหน้าที่ของมหาลัย หรือแอดมิน ทําการบันทึกลงในระบบ

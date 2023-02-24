@@ -150,7 +150,9 @@ function Request() {
                 text: res.error,
               });
             }
-            //window.location.href = "/request";
+            setTimeout(function () {
+              window.location.href = "/request";
+            }, 2500);
           });
       }
     });
@@ -172,7 +174,7 @@ function Request() {
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
-      backgroundColor: "white",
+      backgroundColor: "#e0e0e0",
     },
     // hide last border
     "&:last-child td, &:last-child th": {
@@ -209,7 +211,7 @@ function Request() {
           width: "auto",
           height: "auto",
           p: 2,
-          bgcolor: "#DADADA",
+          bgcolor: "#e1e1e1",
           flexGrow: 1,
           fontFamily: "Noto Sans Thai",
         }}
@@ -217,7 +219,7 @@ function Request() {
         <Container
           maxWidth="xl"
           sx={{
-            bgcolor: "#DADADA",
+            bgcolor: "#e1e1e1",
             width: "auto",
             height: "auto",
             padding: 2,
@@ -279,45 +281,88 @@ function Request() {
               </Box>
             </Box>
           </Paper>
+
           <Paper
             elevation={3}
-            sx={{ bgcolor: "white", padding: 2, marginBottom: 2, boxShadow: 1 }}
+            sx={{ padding: 2, marginBottom: 2, boxShadow: 1 }}
           >
-            <Typography
-              component="h2"
-              variant="h5"
-              color="primary"
-              gutterBottom
-              sx={{
-                flexGrow: 1,
-                fontFamily: "Noto Sans Thai",
-              }}
-            >
-              Requirement
-            </Typography>
-            <Box sx={{ bgcolor: "#FEF6D6" }}>
-              ระบบลงทะเบียนเรียน
-              เป็นระบบที่ใช้บริการเพื่อให้นักศึกษาของมหาวิทยาลัยหนึ่ง
-              สามารถลงทะเบียนเรียนในหลักสูตรที่มหาวิทยาลัยนั้นได้กำหนดไว้
-              ในส่วนแรก เช่น การลงทะเบียนเรียนในรายวิชาต่างๆ , การเพิ่มลดรายวิชา
-              และการยื่นคำร้องออนไลน์
-              โดยที่กล่าวมาข้างต้นนี้จะเกี่ยวข้องกับสิทธิของผู้เป็นนักศึกษาที่สามารถใช้สิทธิในระบบลงทะเบียนเรียนได้
-              ส่วนของการจัดสรรห้องเรียน , การบันทึกผลการเรียน ,
-              และการอนุมัติคำร้องออนไลน์
-              จะเป็นสิทธิของผู้เป็นอาจารย์ที่สามารถใช้งานในส่วนนี้ได้
-              และส่วนสุดท้ายจะมี การเพิ่มข้อมูลนักศึกษา , การเพิ่มข้อมูลหลักสูตร
-              , การเพิ่มข้อมูลรายวิชา และการคำนวณค่าใช่จ่าย
-              โดยในส่วนนี้จะเป็นสิทธิของผู้เป็นแอดมินที่มีสิทธิสามารถใช้งานได้ในทีนี้จะขอกล่าวถึงระบบยื่นคำร้องออนไลน์เท่านั้น
-              ระบบยื่นคำร้องออนไลน์เป็นระบบย่อยที่นักศึกษา
-              สามารถจัดการในส่วนของการสามารถบันทึก,
-              แก้ไขและลบข้อมูลการยื่นคำร้องออนไลน์ได้
-              โดยนักศึกษาสามารถเลือกรายวิชาและเลือกประเภทคำร้องที่ต้องการยื่นคำร้องออนไลน์
-              ซึ่งประเภทคำร้อง ได้แก่ กลุ่มเต็มและเปลี่ยนกลุ่ม
-              เมื่อใส่ข้อมูลเสร็จสิ้นแล้ว
-              นักศึกษาจะสามารถกดบันทึกการยื่นคำร้องให้อาจารย์ในรายวิชาที่ต้องการยื่นคำร้องออนไลน์ได้
-              โดยจะสามารถแก้ไขหรือลบข้อมูลได้ในภายหลัง
-              และนอกจากนี้นักศึกษาสามารถดูข้อมูลการยื่นคำร้องออนไลน์ที่บันทึกในรูปแบบของตารางได้
-            </Box>
+            <Grid container columns={16}>
+              <Grid xs={9.1}>
+                <Typography
+                  component="h2"
+                  variant="h5"
+                  color="primary"
+                  gutterBottom
+                  sx={{
+                    flexGrow: 1,
+                    fontFamily: "Noto Sans Thai",
+                  }}
+                >
+                  Requirement
+                </Typography>
+                <Paper elevation={5} sx={{ p: 3, bgcolor: "#FEF6D6" }}>
+                  <Typography
+                    sx={{ fontFamily: "Noto Sans Thai", boxShadow: 0 }}
+                  >
+                    ระบบยื่นคำร้องออนไลน์เป็นระบบย่อยที่นักศึกษา
+                    สามารถจัดการในส่วนของการสามารถบันทึก,
+                    แก้ไขและลบข้อมูลการยื่นคำร้องออนไลน์ได้
+                    โดยนักศึกษาสามารถเลือกรายวิชาและเลือกประเภทคำร้องที่ต้องการยื่นคำร้องออนไลน์
+                    ซึ่งประเภทคำร้อง ได้แก่ กลุ่มเต็มและเปลี่ยนกลุ่ม
+                    เมื่อใส่ข้อมูลเสร็จสิ้นแล้ว
+                    นักศึกษาจะสามารถกดบันทึกการยื่นคำร้องให้อาจารย์ในรายวิชาที่ต้องการยื่นคำร้องออนไลน์ได้
+                    โดยจะสามารถแก้ไขหรือลบข้อมูลได้ในภายหลัง
+                    และนอกจากนี้นักศึกษาสามารถดูข้อมูลการยื่นคำร้องออนไลน์ที่บันทึกในรูปแบบของตารางได้
+                  </Typography>
+                </Paper>
+              </Grid>
+              <Grid xs={0.3}></Grid>
+              <Grid xs={6.6}>
+                <Typography
+                  component="h2"
+                  variant="h5"
+                  color="red"
+                  gutterBottom
+                  sx={{
+                    flexGrow: 1,
+                    fontFamily: "Noto Sans Thai",
+                  }}
+                >
+                  หมายเหตุ
+                </Typography>
+                <Paper elevation={5} sx={{ p: 3, bgcolor: "#FFD3BD" }}>
+                  <Typography
+                    sx={{
+                      fontFamily: "Noto Sans Thai",
+                      boxShadow: 0,
+                      whiteSpace: "pre-line",
+                    }}
+                  >
+                    1.
+                    รายวิชาที่นักศึกษาได้ทำการยื่นคำร้องออนไลน์แล้วจะแสดงในตารางด้านล่าง
+                    {"\n"}
+                    2. นักศึกษาสามารถแก้ไขได้ที่เมนูแก้ไขในตาราง{"\n"}
+                    3.
+                    นักศึกษาสามารถยกเลิกการยื่นคำร้องออนไลน์ในรายวิชานั้นๆได้ที่เมนูลบในตาราง
+                    {"\n"}
+                    <Box
+                      fontWeight="fontWeightMedium"
+                      display="inline"
+                      color={"red"}
+                    >
+                      เงื่อนไข
+                    </Box>
+                    {"\n"}
+                    1.
+                    นักศึกษาไม่สามารถแก้ไขรายการยื่นคำร้องออนไลน์ที่อาจารย์ตอบกลับแล้ว
+                    {"\n"}
+                    2.
+                    นักศึกษาไม่สามารถลบรายการยื่นคำร้องออนไลน์ที่อาจารย์ตอบกลับแล้ว
+                    {"\n"}
+                  </Typography>
+                </Paper>
+              </Grid>
+            </Grid>
           </Paper>
 
           <Paper

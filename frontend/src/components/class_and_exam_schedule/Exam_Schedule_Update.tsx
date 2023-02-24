@@ -1,4 +1,4 @@
-import { Button, FormControl, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, Stack, TextField, Typography } from "@mui/material";
+import { Breadcrumbs, Button, FormControl, Grid, Link, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, Stack, TextField, Toolbar, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React, { useEffect } from "react";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
@@ -7,14 +7,14 @@ import { Subject } from "../../models/I_Subject";
 import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import { useParams } from "react-router-dom";
 import { Room } from "../../models/I_Room";
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+import Home_Navbar from "../navbars/Home_navbar";
+import Swal from 'sweetalert2'
+import AutoStoriesSharpIcon from '@mui/icons-material/AutoStoriesSharp';
+import { Link as RouterLink } from "react-router-dom";
+import { formatTime, formatDate } from "../services/FormatDateTime";
 
 function Exam_Schedule_Update() {
     const params = useParams()
@@ -22,6 +22,8 @@ function Exam_Schedule_Update() {
     const [exam_schedule, setExamSchedule] = React.useState<Partial<Exam_Schedule>>({});
     const [subject, setSubject] = React.useState<Subject>();
     const [exam_date, setExamDate] = React.useState<Dayjs | null>(dayjs('2022-04-07'));
+    const [exam_start_time, setExamStartTime] = React.useState<Dayjs | null>(null);
+    const [exam_end_time, setExamEndTime] = React.useState<Dayjs | null>(null);
 
     const [rooms, setRooms] = React.useState<Room[]>([]);
     const [searchedSubject, setSearchSubject] = React.useState<string>();
@@ -49,9 +51,10 @@ function Exam_Schedule_Update() {
 
     const requestOptionsGet = {
         method: "GET",
-        headers: { 
+        headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json" },
+            "Content-Type": "application/json"
+        },
     };
 
     const handleInputChange = (
@@ -110,51 +113,133 @@ function Exam_Schedule_Update() {
     function ShowSubjectInfo() {
         if (subject === undefined) {
             return (
-                <Box flexGrow={1} sx={{ border: 1, padding: 2, }}>
-                    Subject Not found!!
+                <Box flexGrow={1} sx={{ bgcolor: "#e0e0e0", border: 0, padding: 2, }}>
+                    <Stack direction="column" justifyContent="center" alignItems="center">
+                        <Typography variant="h5" sx={{ fontFamily: "Noto Sans Thai" }}>
+                            Subject Not found!!
+                        </Typography>
+                    </Stack>
                 </Box>
             )
         }
         else {
             return (
-                <Box flexGrow={1} sx={{ border: 0, padding: 2, width: "auto" }}>
+                <Box flexGrow={1} sx={{ bgcolor: "#e0e0e0", padding: 2, width: "auto" }}>
                     <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}> รหัสวิชา </Box>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}> {subject?.Subject_ID} </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                รหัสวิชา
+                            </Typography>
+                        </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                {subject?.Subject_ID}
+                            </Typography>
+                        </Box>
                     </Grid>
 
                     <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}> ชื่อรายวิชา </Box>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}> {subject?.Subject_EN_Name} </Box>
-                    </Grid>
-                    <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}> อาจารย์ผู้สอน </Box>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}> {subject?.Professor_ID} </Box>
-                    </Grid>
-
-                    <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}> หลักสูตร </Box>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}> {subject?.Course_ID} </Box>
-                    </Grid>
-
-                    <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}> สถานะรายวิชา </Box>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}> {subject?.Subject_Status_ID} </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                ชื่อรายวิชา
+                            </Typography>
+                        </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                {subject?.Subject_EN_Name}
+                            </Typography>
+                        </Box>
                     </Grid>
 
                     <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}> จำนวนที่เปิดรับ </Box>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}> {subject?.Capacity} </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                กลุ่มที่
+                            </Typography>
+                        </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                {subject?.Section}
+                            </Typography>
+                        </Box>
                     </Grid>
 
                     <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}> ที่นั่งสำรอง </Box>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}> {subject?.Reserved} </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                อาจารย์ผู้สอน
+                            </Typography>
+                        </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                {subject?.Professor_Name}
+                            </Typography>
+                        </Box>
                     </Grid>
 
                     <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}> หน่วยกิจ </Box>
-                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}> {subject?.Unit} </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                หลักสูตร
+                            </Typography>
+                        </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                {subject?.Course_Name}
+                            </Typography>
+                        </Box>
+                    </Grid>
+
+                    <Grid container sx={{ border: 0 }}>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                สถานะรายวิชา
+                            </Typography>
+                        </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                {subject?.Subject_Status_Description}
+                            </Typography>
+                        </Box>
+                    </Grid>
+
+                    <Grid container sx={{ border: 0 }}>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                จำนวนที่เปิดรับ
+                            </Typography>
+                        </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                {subject?.Capacity}
+                            </Typography>
+                        </Box>
+                    </Grid>
+
+                    <Grid container sx={{ border: 0 }}>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                ที่นั่งสำรอง
+                            </Typography>
+                        </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                {subject?.Reserved}
+                            </Typography>
+                        </Box>
+                    </Grid>
+
+                    <Grid container sx={{ border: 0 }}>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.3 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                หน่วยกิจ
+                            </Typography>
+                        </Box>
+                        <Box flexGrow={1} sx={{ border: 0, width: 0.6 }}>
+                            <Typography variant="h6" sx={{ fontFamily: "Noto Sans Thai" }}>
+                                {subject?.Unit}
+                            </Typography>
+                        </Box>
                     </Grid>
                 </Box>
             )
@@ -166,32 +251,59 @@ function Exam_Schedule_Update() {
             Exam_Schedule_ID: exam_schedule.Exam_Schedule_ID ?? "",
             Subject_ID: exam_schedule.Subject_ID ?? "",
             Room_ID: exam_schedule.Room_ID ?? "",
-            Admin_ID: exam_schedule.Admin_ID ?? "",
+            Admin_ID: localStorage.getItem("id"),
             Exam_Type: exam_schedule.Exam_Type ?? "",
-            Exam_Date: exam_schedule.Exam_Date ?? "",
-            Exam_Start_Time: exam_schedule.Exam_Start_Time ?? "",
-            Exam_End_Time: exam_schedule.Exam_End_Time ?? "",
+            Exam_Date: formatDate(exam_date),
+            Exam_Start_Time: formatTime(exam_start_time),
+            Exam_End_Time: formatTime(exam_end_time),
         }
 
         const requestOptionsPatch = {
             method: "PATCH",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             body: JSON.stringify(data)
         };
         console.log(JSON.stringify(data));
-
-        fetch(`${apiUrl}/exam_schedules`, requestOptionsPatch)
-            .then((response) => response.json())
-            .then((res) => {
-                console.log(res)
-                if (res.data) {
-                    setSuccess(true);
-                } else {
-                    setError(true);
-                }
-            });
+        Swal.fire({
+            title: 'Do you want to update this exam schedule data?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`${apiUrl}/exam_schedules`, requestOptionsPatch)
+                    .then((response) => response.json())
+                    .then((res) => {
+                        if (res.data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Saved!',
+                                text: 'Update success',
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: res.error,
+                            })
+                        }
+                    });
+            }
+        })
+        // fetch(`${apiUrl}/exam_schedules`, requestOptionsPatch)
+        //     .then((response) => response.json())
+        //     .then((res) => {
+        //         console.log(res)
+        //         if (res.data) {
+        //             setSuccess(true);
+        //         } else {
+        //             setError(true);
+        //         }
+        //     });
 
     }
 
@@ -209,28 +321,35 @@ function Exam_Schedule_Update() {
                 width: "auto",
                 height: "auto",
             }}>
-
-            <Snackbar
-                open={success}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            >
-
-                <Alert onClose={handleClose} severity="success">
-                    บันทึกข้อมูลสำเร็จ
-                </Alert>
-            </Snackbar>
-
-            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="error">
-                    บันทึกข้อมูลไม่สำเร็จ
-                </Alert>
-            </Snackbar>
+            <Home_Navbar />
+            <Toolbar />
             {/* Header */}
             <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
-                <Typography variant="h4" sx={{ fontFamily: 'Mitr-Regular' }}> ระบบจัดสรรห้องเรียนและห้องสอบ </Typography>
-                <Typography sx={{ fontFamily: 'Mitr-Regular' }}> เพิ่มข้อมูลการใช้ห้องเรียน </Typography>
+                <Stack direction="row">
+                    <Box sx={{ padding: 2 }}>
+                        <AutoStoriesSharpIcon fontSize="large" />
+                    </Box>
+                    <Box sx={{ padding: 1 }}>
+                        <Typography variant="h4" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold", padding: 0.5 }}> ระบบจัดสรรห้องเรียนและห้องสอบ </Typography>
+
+                    </Box>
+                </Stack>
+                <Breadcrumbs aria-label="breadcrumb" sx={{ padding: 1 }}>
+                    <Link underline="hover" href="/exam_schedule" sx={{ fontFamily: "Noto Sans Thai" }}>
+                        รายการข้อมูลการใช้ห้องสอบ
+                    </Link>
+
+                    <Link
+                        underline="hover"
+                        href={`/exam_schedule/${exam_schedule?.Subject_ID}/${exam_schedule?.Exam_Type}`}
+                        // onClick = {() => {
+                        //     navigate({ pathname: `/class_schedule/${class_schedule?.Class_Schedule_ID}` })
+                        // }}
+                        sx={{ fontFamily: "Noto Sans Thai" }}>
+                        รายการข้อมูลการใช้ห้องสอบวิชา {exam_schedule?.Subject_ID}
+                    </Link>
+                    <Typography color="text.primary" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold" }}> แก้ไขข้อมูลการใช้ห้องเรียน </Typography>
+                </Breadcrumbs>
             </Paper>
 
             <Grid container item
@@ -241,64 +360,53 @@ function Exam_Schedule_Update() {
                     boxShadow: 3,
                     padding: 3
                 }}>
-                <Box flexGrow={1} sx={{ border: 1, }}>
-                    <Grid container sx={{ border: 0 }}>
-                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> รหัสเวลาสอบ </Typography>
+                <Box flexGrow={1} sx={{ border: 0, }}>
+                    <Grid flexGrow={0.5} container sx={{ border: 0 }}>
+                        <Box sx={{ border: 0, width: "auto", padding: 1 }}>
+                            <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> รหัสเวลาสอบ </Typography>
                             <FormControl fullWidth>
                                 <TextField
                                     id="Exam_Schedule_ID"
-                                    variant="standard"
+                                    size="small"
                                     disabled
                                     type="string"
                                     value={exam_schedule.Exam_Schedule_ID}
                                     onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                    inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
+
                                 />
                             </FormControl>
                         </Box>
 
-                        <Box sx={{ padding: 1 }}>
-                            <Button
-                                onClick={() => {
-                                    // class_schedule.Class_Schedule_ID = `CLS-${class_schedule.Subject_ID}-${class_schedule.Section}-${class_schedule.Room_ID}-${class_schedule.Day}-${class_schedule.Start_Time}-${class_schedule.End_Time}`
-                                    exam_schedule.Exam_Schedule_ID = `EXAM-${exam_schedule.Subject_ID}-${exam_schedule.Room_ID}-${exam_schedule.Exam_Type}-${exam_schedule.Exam_Date}-${exam_schedule.Exam_Start_Time}-${exam_schedule.Exam_End_Time}`
-                                    // setClassScheduleID(class_schedule.Class_Schedule_ID)
-                                    // setExamScheduleID(exam_schedule.Exam_Schedule_ID);
-                                }}
-                                variant="contained"
-                                sx={{ borderRadius: 0 }}
-                            > Format ID </Button>
-                        </Box>
-
-                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> รหัสวิชา </Typography>
+                        <Box sx={{ border: 0, width: "auto", padding: 1 }}>
+                            <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> รหัสวิชา </Typography>
                             <FormControl fullWidth>
                                 <TextField
                                     id="Subject_ID"
-                                    variant="standard"
+                                    size="small"
                                     type="string"
+                                    disabled
                                     value={exam_schedule.Subject_ID}
                                     onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                    inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
                                 />
                             </FormControl>
                         </Box>
 
-                        <Box sx={{ padding: 1, border: 1 }}>
+                        <Box sx={{ paddingTop: 4, border: 0 }}>
                             <Button
                                 // component={RouterLink} 
                                 // to="/" 
                                 onClick={getSubject}
                                 variant="contained"
-                                sx={{ borderRadius: 0 }}
+                                sx={{ borderRadius: 0, fontFamily: "Noto Sans Thai" }}
                             > แสดงรายละเอียด </Button>
                         </Box>
                     </Grid>
 
                     <Grid container sx={{ border: 0 }}>
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> วัน/เดือน/ปี ที่จัดสอบ </Typography>
+                            <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> วัน/เดือน/ปี ที่จัดสอบ </Typography>
                             <FormControl fullWidth>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
@@ -308,64 +416,80 @@ function Exam_Schedule_Update() {
                                             // exam_schedule.Exam_Date = `${newValue?.year()}-${newValue?.month() + 1}-${newValue?.date()}`
                                             // console.log(exam_schedule.Exam_Date)
                                         }}
-                                        renderInput={(params: any) => <TextField variant="standard" {...params} />}
+                                        renderInput={(params: any) => <TextField size="small" sx={{ fontFamily: "Noto Sans Thai" }}{...params} />}
                                     />
                                 </LocalizationProvider>
                             </FormControl>
                         </Box>
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> ห้องสอบ </Typography>
+                            <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> ห้องเรียน </Typography>
                             <FormControl fullWidth>
-                                <TextField
+                                <Select
                                     id="Room_ID"
-                                    variant="standard"
-                                    type="string"
-                                    value={exam_schedule.Room_ID}
-                                    onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
-                                />
-                            </FormControl>
-                        </Box>
-                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> เวลาเริ่มสอบ </Typography>
-                            <FormControl fullWidth>
-                                <TextField
-                                    id="Exam_Start_Time"
-                                    variant="standard"
-                                    type="string"
-                                    value={exam_schedule.Exam_Start_Time}
-                                    onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
-                                />
+                                    size="small"
+                                    value={exam_schedule.Room_ID + ""}
+                                    inputProps={{ name: "Room_ID", }}
+                                    onChange={handleSelectChange}
+                                    sx={{ fontFamily: 'Noto Sans Thai' }}
+                                >
+                                    {rooms.map((item: Room) => (
+                                        <MenuItem
+                                            key={item.Room_ID}
+                                            value={item.Room_ID}
+                                        > {item.Room_ID}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
                             </FormControl>
                         </Box>
 
-                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> เวลาสิ้นสุดการสอบ </Typography>
-                            <FormControl fullWidth>
-                                <TextField
-                                    id="Exam_End_Time"
-                                    variant="standard"
-                                    type="string"
-                                    value={exam_schedule.Exam_End_Time}
-                                    onChange={handleInputChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
-                                />
-                            </FormControl>
-                        </Box>
 
                     </Grid>
                     <Box flexGrow={1}>
+
                         <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> ประเภทการสอบ </Typography>
+                            <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> เวลาเริ่มสอบ </Typography>
+                            <FormControl fullWidth>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <TimePicker
+                                        ampm={false}
+                                        value={exam_start_time}
+                                        onChange={(newValue) => {
+                                            setExamStartTime(newValue)
+                                        }}
+                                        renderInput={(params) => <TextField size="small" sx={{ fontFamily: "Noto Sans Thai" }} {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </FormControl>
+                        </Box>
+
+                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
+                            <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> เวลาสิ้นสุดการสอบ </Typography>
+                            <FormControl fullWidth>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <TimePicker
+                                        ampm={false}
+                                        value={exam_end_time}
+                                        onChange={(newValue) => {
+                                            setExamEndTime(newValue)
+                                        }}
+                                        renderInput={(params) => <TextField size="small" sx={{ fontFamily: "Noto Sans Thai" }} {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </FormControl>
+                        </Box>
+                    </Box>
+                    <Box flexGrow={1}>
+                        <Box flexGrow={1} sx={{ border: 0, width: "auto", padding: 1 }}>
+                            <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> ประเภทการสอบ </Typography>
                             <FormControl fullWidth>
                                 <Select
                                     id="Exam_Date"
-                                    variant="standard"
-                                    value={exam_schedule.Exam_Type}
+                                    size="small"
+                                    value={exam_schedule.Exam_Type + ""}
                                     inputProps={{ name: "Exam_Type", }}
                                     onChange={handleSelectChange}
-                                    sx={{ fontFamily: 'Mitr-Regular' }}
+                                    sx={{ fontFamily: 'Noto Sans Thai' }}
                                 >
                                     {exam_types.map((item) => (
                                         <MenuItem value={item.exam_type} key={item.exam_type}>
@@ -376,14 +500,24 @@ function Exam_Schedule_Update() {
                             </FormControl>
                         </Box>
                     </Box>
-                    <Box sx={{ width: 0.33, margin: 0.5, }}>
+                    <Stack direction="row" flexGrow={1} display="flex" justifyContent="flex-end" sx={{ padding: 1 }}>
+                        <Box flex={1}>
+                            <Button
+                                variant="contained"
+                                component={RouterLink}
+                                to={`/exam_schedule/${exam_schedule?.Subject_ID}/${exam_schedule?.Exam_Type}`}
+                                // endIcon={<AddIcon />}
+                                sx={{ borderRadius: 0, fontFamily: "Noto Sans Thai" }}
+                            > Back </Button>
+                        </Box>
+
                         <Button
                             onClick={submit}
                             variant="contained"
                             // endIcon={<AddIcon />}
-                            sx={{ borderRadius: 0 }}
+                            sx={{ borderRadius: 0, fontFamily: "Noto Sans Thai" }}
                         > Submit </Button>
-                    </Box>
+                    </Stack>
                 </Box>
                 <Box flexGrow={10} sx={{ border: 0, display: "flex" }}>
                     {ShowSubjectInfo()}

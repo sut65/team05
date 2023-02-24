@@ -89,15 +89,15 @@ function Class_Schedule_Info() {
                 width: "auto",
                 height: "auto",
             }}>
-            <Home_Navbar/>
-            <Toolbar/>
+            <Home_Navbar />
+            <Toolbar />
             {/* Header components */}
             <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
                 <Stack direction="row">
-                    <Box sx={{ padding: 2}}>
+                    <Box sx={{ padding: 2 }}>
                         <AutoStoriesSharpIcon fontSize="large" />
                     </Box>
-                    <Box sx={{ padding: 1}}>
+                    <Box sx={{ padding: 1 }}>
                         <Typography variant="h4" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold", padding: 0.5 }}> ระบบจัดสรรห้องเรียนและห้องสอบ </Typography>
 
                     </Box>
@@ -117,7 +117,7 @@ function Class_Schedule_Info() {
                 sx={{
                     bgcolor: "white",
                     width: "auto",
-                    height:"auto",
+                    height: "auto",
                     boxShadow: 3,
                 }}>
                 <Stack
@@ -138,34 +138,34 @@ function Class_Schedule_Info() {
                             padding: 1,
                             margin: 1,
                         }}>
-                        <Stack direction="row" spacing={3} sx={{padding:1.25}}>
+                        <Stack direction="row" spacing={3} sx={{ padding: 1.25 }}>
                             <Typography variant="h5" sx={{ width: "auto", fontFamily: "Noto Sans Thai" }}> {subject?.Subject_ID} </Typography>
-                            <Typography variant="h5" sx={{width: "auto", fontFamily: "Noto Sans Thai" }}> {subject?.Subject_EN_Name} </Typography>
+                            <Typography variant="h5" sx={{ width: "auto", fontFamily: "Noto Sans Thai" }}> {subject?.Subject_EN_Name} </Typography>
                         </Stack>
                         <Divider sx={{ margin: 1 }} />
-                        <Box sx={{padding:1.5}}>
-                            <Grid container sx={{padding:0.25}}>
-                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily:"Noto Sans Thai"}}> ID </Box>
-                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily:"Noto Sans Thai"}}> {class_schedule?.Class_Schedule_ID} </Box>
+                        <Box sx={{ padding: 1.5 }}>
+                            <Grid container sx={{ padding: 0.25 }}>
+                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily: "Noto Sans Thai" }}> ID </Box>
+                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {class_schedule?.Class_Schedule_ID} </Box>
                             </Grid>
-                            <Grid container sx={{padding:0.25}}>
-                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily:"Noto Sans Thai"}}> กลุ่มที่ </Box>
-                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily:"Noto Sans Thai"}}> {class_schedule?.Section} </Box>
-                            </Grid>
-
-                            <Grid container sx={{padding:0.25}}>
-                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily:"Noto Sans Thai"}}> เวลาเรียน </Box>
-                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily:"Noto Sans Thai"}}> {class_schedule?.Day} {class_schedule?.Start_Time} - {class_schedule?.End_Time} </Box>
+                            <Grid container sx={{ padding: 0.25 }}>
+                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily: "Noto Sans Thai" }}> กลุ่มที่ </Box>
+                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {class_schedule?.Section} </Box>
                             </Grid>
 
-                            <Grid container sx={{padding:0.25}}>
-                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily:"Noto Sans Thai"}}> ห้องเรียน </Box>
-                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily:"Noto Sans Thai"}}> {class_schedule?.Room_ID} </Box>
+                            <Grid container sx={{ padding: 0.25 }}>
+                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily: "Noto Sans Thai" }}> เวลาเรียน </Box>
+                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {class_schedule?.Day} {class_schedule?.Start_Time} - {class_schedule?.End_Time} </Box>
                             </Grid>
 
-                            <Grid container sx={{padding:0.25}}>
-                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily:"Noto Sans Thai"}}> แก้ไขล่าสุด </Box>
-                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily:"Noto Sans Thai"}}> {class_schedule?.Latest_Updated.toString()} </Box>
+                            <Grid container sx={{ padding: 0.25 }}>
+                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily: "Noto Sans Thai" }}> ห้องเรียน </Box>
+                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {class_schedule?.Room_ID} </Box>
+                            </Grid>
+
+                            <Grid container sx={{ padding: 0.25 }}>
+                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, fontFamily: "Noto Sans Thai" }}> แก้ไขล่าสุด </Box>
+                                <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, fontFamily: "Noto Sans Thai" }}> {class_schedule?.Latest_Updated.toString()} </Box>
                             </Grid>
                         </Box>
                     </Stack>
@@ -181,45 +181,45 @@ function Class_Schedule_Info() {
                         <Box flexGrow={1} sx={{ width: "auto" }}>
                             <Stack sx={{ margin: 0.5, padding: 2 }}>
                                 <Grid container sx={{}}>
-                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily:"Noto Sans Thai" }}> อาจารย์ </Box>
+                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily: "Noto Sans Thai" }}> อาจารย์ </Box>
                                     <Box flexGrow={1}
-                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5 , fontFamily:"Noto Sans Thai"}}> {subject?.Professor_Name} </Box>
+                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily: "Noto Sans Thai" }}> {subject?.Professor_Name} </Box>
                                 </Grid>
 
                                 <Grid container sx={{}}>
-                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily:"Noto Sans Thai" }}> หลักสูตร </Box>
+                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily: "Noto Sans Thai" }}> หลักสูตร </Box>
                                     <Box flexGrow={1}
-                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily:"Noto Sans Thai" }}> {subject?.Course_Name} </Box>
+                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily: "Noto Sans Thai" }}> {subject?.Course_Name} </Box>
                                 </Grid>
 
                                 <Grid container sx={{}}>
-                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily:"Noto Sans Thai" }}> สถานะรายวิชา </Box>
+                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily: "Noto Sans Thai" }}> สถานะรายวิชา </Box>
                                     <Box flexGrow={1}
-                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily:"Noto Sans Thai" }}> {subject?.Subject_Status_Description} </Box>
+                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily: "Noto Sans Thai" }}> {subject?.Subject_Status_Description} </Box>
                                 </Grid>
 
                                 <Grid container sx={{}}>
-                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily:"Noto Sans Thai" }}> หมวด </Box>
+                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily: "Noto Sans Thai" }}> หมวด </Box>
                                     <Box flexGrow={1}
-                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily:"Noto Sans Thai" }}> {"ddddd"} </Box>
+                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily: "Noto Sans Thai" }}> {"ddddd"} </Box>
                                 </Grid>
 
                                 <Grid container sx={{}}>
-                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily:"Noto Sans Thai" }}> จำนวนที่เปิดรับ </Box>
+                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily: "Noto Sans Thai" }}> จำนวนที่เปิดรับ </Box>
                                     <Box flexGrow={1}
-                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily:"Noto Sans Thai" }}> {subject?.Capacity} </Box>
+                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily: "Noto Sans Thai" }}> {subject?.Capacity} </Box>
                                 </Grid>
 
                                 <Grid container sx={{}}>
-                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily:"Noto Sans Thai" }}> ที่นั่งสำรอง </Box>
+                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily: "Noto Sans Thai" }}> ที่นั่งสำรอง </Box>
                                     <Box flexGrow={1}
-                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily:"Noto Sans Thai" }}> {subject?.Reserved} </Box>
+                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily: "Noto Sans Thai" }}> {subject?.Reserved} </Box>
                                 </Grid>
 
                                 <Grid container sx={{}}>
-                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily:"Noto Sans Thai" }}> หน่วยกิจ </Box>
+                                    <Box flexGrow={1} sx={{ wordWrap: "break-word", fontSize: 20, width: 0.45, fontFamily: "Noto Sans Thai" }}> หน่วยกิจ </Box>
                                     <Box flexGrow={1}
-                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily:"Noto Sans Thai" }}> {subject?.Unit} </Box>
+                                        sx={{ wordWrap: "break-word", fontSize: 20, width: 0.5, fontFamily: "Noto Sans Thai" }}> {subject?.Unit} </Box>
                                 </Grid>
                             </Stack>
                         </Box>
@@ -227,14 +227,14 @@ function Class_Schedule_Info() {
                     </Box>
                 </Box>
             </Grid>
-            <Stack direction="row" sx={{ padding: 1, bgcolor:'white' , boxShadow:3}}>
-                <Box flex={1} sx={{  }}>
+            <Stack direction="row" sx={{ padding: 1, bgcolor: 'white', boxShadow: 3 }}>
+                <Box flex={1} sx={{}}>
                     <Button
                         component={RouterLink}
                         to="/class_schedule"
                         variant="contained"
                         color="primary"
-                        sx={{ margin: 0.5, fontFamily:"Noto Sans Thai"}}
+                        sx={{ margin: 0.5, fontFamily: "Noto Sans Thai" }}
                     // startIcon={<CreateIcon />}
                     > Back </Button>
                 </Box>
@@ -243,21 +243,21 @@ function Class_Schedule_Info() {
                     alignItems="flex-end"
                     justifyContent="flex-end"
                     flex={1}
-                    >
+                >
                     <Button
                         variant="contained"
                         onClick={() => {
                             navigate({ pathname: `/class_schedule/update/${class_schedule?.Class_Schedule_ID}` })
                         }}
                         color="warning"
-                        sx={{ margin: 0.5, fontFamily:"Noto Sans Thai" }}
+                        sx={{ margin: 0.5, fontFamily: "Noto Sans Thai" }}
                         startIcon={<CreateIcon />}
                     > Edit </Button>
                     <Button
                         variant="contained"
                         onClick={deleteClassSchedule}
                         color="error"
-                        sx={{ margin: 0.5, fontFamily:"Noto Sans Thai" }}
+                        sx={{ margin: 0.5, fontFamily: "Noto Sans Thai" }}
                         startIcon={<DeleteIcon />}
                     > Delete </Button>
                 </Box>

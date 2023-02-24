@@ -24,7 +24,7 @@ func TestExamScheduleIDNotBlank(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	g.Expect(err.Error()).To(Equal("Exam Schedule ID Cannot be blank"))
 }
 
 func TestExamScheduleAlreadyExist(t *testing.T) {
@@ -55,7 +55,7 @@ func TestExamScheduleAlreadyExist(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	g.Expect(err.Error()).To(Equal("Cannot add Midterm exam schedule. In date 18/05/2020, room B2101, in time interval 15:00 - 17:00, already occupied"))
 }
 
 func TestExamScheduleStartTimeAlreadyOccupied(t *testing.T) {
@@ -86,7 +86,7 @@ func TestExamScheduleStartTimeAlreadyOccupied(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	g.Expect(err.Error()).To(Equal("Cannot add Midterm exam schedule. In date 18/05/2020, room B2101, exam start time 15:00 already occupied"))
 }
 
 func TestExamScheduleEndTimeAlreadyOccupied(t *testing.T) {
@@ -117,7 +117,7 @@ func TestExamScheduleEndTimeAlreadyOccupied(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	g.Expect(err.Error()).To(Equal("Cannot add Midterm exam schedule. In date 18/05/2020, room B2101, exam end time 17:00 already occupied"))
 }
 
 func TestExamScheduleStartTimeOverlapped(t *testing.T) {
@@ -148,7 +148,7 @@ func TestExamScheduleStartTimeOverlapped(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	g.Expect(err.Error()).To(Equal("Cannot add Midterm exam schedule. In date 18/05/2020, room B2101, exam start time 16:00 is overlapped with some exam schedule"))
 }
 
 func TestExamScheduleEndTimeOverlapped(t *testing.T) {
@@ -179,7 +179,7 @@ func TestExamScheduleEndTimeOverlapped(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
+	g.Expect(err.Error()).To(Equal("Cannot add Midterm exam schedule. In date 18/05/2020, room B2101, exam end time 16:00 is overlapped with some exam schedule"))
 }
 
 func TestExamSchedule_NoError_NotSameRoom(t *testing.T) {
@@ -204,13 +204,11 @@ func TestExamSchedule_NoError_NotSameRoom(t *testing.T) {
 
 	ok, err := ValidateExamScheduleUnique(exam_schedule_1)
 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(ok).To(BeTrue())
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
-	g.Expect(err).ToNot(BeNil())
+	g.Expect(err).To(BeNil())
 
-	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
 }
 
 func TestExamSchedule_NoError_NotSameDate(t *testing.T) {
@@ -235,13 +233,11 @@ func TestExamSchedule_NoError_NotSameDate(t *testing.T) {
 
 	ok, err := ValidateExamScheduleUnique(exam_schedule_1)
 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(ok).To(BeTrue())
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
-	g.Expect(err).ToNot(BeNil())
+	g.Expect(err).To(BeNil())
 
-	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
 }
 
 func TestExamSchedule_NoError_NotSameTime(t *testing.T) {
@@ -266,11 +262,9 @@ func TestExamSchedule_NoError_NotSameTime(t *testing.T) {
 
 	ok, err := ValidateExamScheduleUnique(exam_schedule_1)
 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(ok).To(BeTrue())
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
-	g.Expect(err).ToNot(BeNil())
+	g.Expect(err).To(BeNil())
 
-	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("เออเร่อ!!!"))
 }

@@ -15,9 +15,6 @@ import AutoStoriesSharpIcon from '@mui/icons-material/AutoStoriesSharp';
 import Home_Navbar from "../navbars/Home_navbar";
 import { Link as RouterLink } from "react-router-dom";
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 function Class_Schedule_Update() {
     const params = useParams()

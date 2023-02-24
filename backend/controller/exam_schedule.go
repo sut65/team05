@@ -83,6 +83,7 @@ func UpdateExamSchedule(c *gin.Context) {
 	var exam_schedule entity.Exam_Schedule
 	var subject entity.Subject
 	var room entity.Room
+	var admin entity.Admin
 
 	if err := c.ShouldBindJSON(&exam_schedule); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -103,6 +104,10 @@ func UpdateExamSchedule(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "room not found"})
 		return
 	}
+	if tx := entity.DB().Where("admin_id = ?", exam_schedule.Admin_ID).First(&admin); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
+		return
+	}
 
 	if tx := entity.DB().Where("exam_schedule_id = ?", exam_schedule.Exam_Schedule_ID).Find(&exam_schedule); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "exam schedule not found"})
@@ -113,11 +118,21 @@ func UpdateExamSchedule(c *gin.Context) {
 		Exam_Schedule_ID: exam_schedule.Exam_Schedule_ID,
 		Subject:          subject,
 		Room:             room,
+		Admin:            admin,
 		Exam_Type:        updated_exam_type,
 		Exam_Date:        updated_exam_date,
 		Latest_Updated:   time.Now(),
 		Exam_Start_Time:  updated_exam_start_time,
 		Exam_End_Time:    updated_exam_end_time,
+	}
+	if _, err := govalidator.ValidateStruct(updated_exam_schedule); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if _, err := ValidateExamScheduleUnique(updated_exam_schedule); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	if err := entity.DB().Save(&updated_exam_schedule).Error; err != nil {

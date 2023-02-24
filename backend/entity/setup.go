@@ -998,7 +998,7 @@ func SetupDatabase() {
 			ID:               9,
 			Subject_ID:       "523331",
 			Professor:        chanwit_kaewkasi,
-			Course:           ee2560,
+			Course:           cpe2560,
 			Subject_Status:   subject_open,
 			Class_Type:       labs,
 			Subject_Category: category1,

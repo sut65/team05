@@ -32,82 +32,84 @@ interface TablePaginationActionsProps {
     page: number;
     rowsPerPage: number;
     onPageChange: (
-      event: React.MouseEvent<HTMLButtonElement>,
-      newPage: number,
+        event: React.MouseEvent<HTMLButtonElement>,
+        newPage: number,
     ) => void;
-  }
+}
 
-  
+
 function TablePaginationActions(props: TablePaginationActionsProps) {
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
-  
+
     const handleFirstPageButtonClick = (
-      event: React.MouseEvent<HTMLButtonElement>,
+        event: React.MouseEvent<HTMLButtonElement>,
     ) => {
-      onPageChange(event, 0);
+        onPageChange(event, 0);
     };
-  
+
     const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      onPageChange(event, page - 1);
+        onPageChange(event, page - 1);
     };
-  
+
     const handleNextButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      onPageChange(event, page + 1);
+        onPageChange(event, page + 1);
     };
-  
+
     const handleLastPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+        onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
     };
-  
+
     return (
-      <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-        <IconButton
-          onClick={handleFirstPageButtonClick}
-          disabled={page === 0}
-          aria-label="first page"
-        >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-        </IconButton>
-        <IconButton
-          onClick={handleBackButtonClick}
-          disabled={page === 0}
-          aria-label="previous page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-        </IconButton>
-        <IconButton
-          onClick={handleNextButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="next page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-        </IconButton>
-        <IconButton
-          onClick={handleLastPageButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="last page"
-        >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-        </IconButton>
-      </Box>
+        <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+            <IconButton
+                onClick={handleFirstPageButtonClick}
+                disabled={page === 0}
+                aria-label="first page"
+            >
+                {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+            </IconButton>
+            <IconButton
+                onClick={handleBackButtonClick}
+                disabled={page === 0}
+                aria-label="previous page"
+            >
+                {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+            </IconButton>
+            <IconButton
+                onClick={handleNextButtonClick}
+                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                aria-label="next page"
+            >
+                {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+            </IconButton>
+            <IconButton
+                onClick={handleLastPageButtonClick}
+                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                aria-label="last page"
+            >
+                {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+            </IconButton>
+        </Box>
     );
-  }
-  
+}
+
 
 // MUI Table 
 // Source : https://mui.com/material-ui/react-table/
 function SubjectList() {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
-            backgroundColor: "#5B98B9",
+            backgroundColor: "#44484D",
             color: theme.palette.common.white,
+            fontFamily: "Noto Sans Thai"
         },
     }));
 
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
         '&:nth-of-type(odd)': {
-            backgroundColor: "#EAF1F4",
+            backgroundColor: "#e0e0e0",
+
         },
         // hide last border
         '&:last-child td, &:last-child th': {
@@ -218,15 +220,15 @@ function SubjectList() {
                             <AutoStoriesSharpIcon fontSize="large" />
                         </Box>
                         <Box sx={{ padding: 1, border: 0 }}>
-                            <Typography variant="h4" sx={{ fontFamily: "Verdana", fontWeight: "bold", paddingBottom: 1.5 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
+                            <Typography variant="h4" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold", padding: 0.5 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
 
                         </Box>
                     </Stack>
                     <Stack flexGrow={1} direction="row" sx={{ border: 0, }}>
                         <Box flex={1} sx={{ border: 0, padding: 2 }}>
-                            <Typography variant="h5" sx={{ fontFamily: "Vendana", fontWeight: "bold", fontSize: 24 }}> Requirement </Typography>
+                            <Typography variant="h5" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold", fontSize: 24 }}> Requirement </Typography>
                             <Divider />
-                            <Typography sx={{ padding: 1, fontSize: 18 }}>
+                            <Typography sx={{ padding: 1, fontSize: 18, fontFamily: "Noto Sans Thai" }}>
                                 ระบบจัดการข้อมูลรายวิชา เป็นระบบที่แอดมินสามารถเพิ่ม, แก้ไข หรือลบข้อมูลรายวิชาได้โดยข้อมูล
                                 รายวิชานั้นจะประกอบไปด้วย รหัสวิชา, ชื่อรายวิชาภาษาไทยและภาษาอังกฤษ, อาจารย์ผู้สอน, สาขาวิชาที่
                                 รับผิดชอบรายวิชา, จำนวนหน่วยกิจ, หลักสูตร, สถานะรายวิชา, เวลาในการสอน กลุ่มเรียน และจำนวนที่เปิดรับ
@@ -237,26 +239,26 @@ function SubjectList() {
                                 <Box sx={{ padding: 0.5 }}>
                                     <SearchIcon />
                                 </Box>
-                                <Typography variant="h5" sx={{ fontWeight: "bold" }}> การค้นหารายวิชา </Typography>
+                                <Typography variant="h5" sx={{ fontWeight: "bold", fontFamily: "Noto Sans Thai" }}> การค้นหารายวิชา </Typography>
                             </Stack>
                             <Box sx={{ padding: 1, bgcolor: "#e1e1e1" }}>
-                                <Typography sx={{ fontSize: 18 }}>
+                                <Typography sx={{ fontSize: 18, fontFamily: "Noto Sans Thai" }}>
                                     1. ค้นหาวิชาที่มีรหัสขึ้นต้นด้วย 102 ป้อน 102* ลงในช่องค้นหารายวิชา
                                 </Typography>
 
-                                <Typography sx={{ fontSize: 18 }}>
+                                <Typography sx={{ fontSize: 18, fontFamily: "Noto Sans Thai" }}>
                                     2.  ค้นหาวิชาที่มีรหัสลงท้ายต้นด้วย 102 ป้อน *102 ลงในช่องค้นหารายวิชา
                                 </Typography>
 
-                                <Typography sx={{ fontSize: 18 }}>
+                                <Typography sx={{ fontSize: 18, fontFamily: "Noto Sans Thai" }}>
                                     3. ค้นหาวิชาที่มีชื่อวิชาลงท้ายด้วย finance ป้อน *finance ลงในช่องค้นหารายวิชา
                                 </Typography>
 
-                                <Typography sx={{ fontSize: 18 }}>
+                                <Typography sx={{ fontSize: 18, fontFamily: "Noto Sans Thai" }}>
                                     4. ค้นหาวิชาที่มีชื่อวิชาขึ้นต้นด้วย finance ป้อน finance* ลงในช่องค้นหารายวิชา
                                 </Typography>
 
-                                <Typography sx={{ fontSize: 18 }}>
+                                <Typography sx={{ fontSize: 18, fontFamily: "Noto Sans Thai" }}>
                                     5. ค้นหาวิชาที่มีคำว่า world เป็นส่วนหนึ่งของชื่อวิชา ป้อน *world* ลงในช่องค้นหารายวิชา
                                 </Typography>
 
@@ -276,7 +278,8 @@ function SubjectList() {
                                 size="small"
                                 label="ค้นหารายวิชา"
                                 onChange={handleInputChange}
-                                sx={{ fontFamily: "Verdana" }}
+                                inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
+                                sx={{fontFamily:"Noto Sans Thai"}}
                             ></TextField>
 
                             <Button
@@ -292,7 +295,8 @@ function SubjectList() {
                             variant="contained"
                             startIcon={<AddIcon />}
                             sx={{ borderRadius: 0, margin: 1.25, marginTop: 1.5 }}
-                        > ADD
+                        >
+                            <Typography sx={{ fontFamily: "Noto Sans Thai" }}> ADD </Typography>
                         </Button>
                     </Box>
 
@@ -300,17 +304,17 @@ function SubjectList() {
                         <Table>
                             <TableHead sx={{ bgcolor: "#5B98B9" }}>
                                 <TableRow sx={{ width: "auto" }}>
-                                    <StyledTableCell width={100} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>รหัสวิชา</StyledTableCell>
-                                    <StyledTableCell width={250} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>ชื่อรายวิชา</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>กลุ่มที่</StyledTableCell>
-                                    <StyledTableCell width={100} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>อาจารย์</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>หน่วยกิจ</StyledTableCell>
-                                    <StyledTableCell width={225} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>หลักสูตร</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>เปิด</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>ลง</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>เหลือ</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>สถานะ</StyledTableCell>
-                                    <StyledTableCell width={50} sx={{ border: 1, fontFamily: "Verdana", fontWeight: "bold" }}>Info</StyledTableCell>
+                                    <StyledTableCell width={100} sx={{ border: 1, fontWeight: "bold" }}>รหัสวิชา</StyledTableCell>
+                                    <StyledTableCell width={250} sx={{ border: 1, fontWeight: "bold" }}>ชื่อรายวิชา</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontWeight: "bold" }}>กลุ่มที่</StyledTableCell>
+                                    <StyledTableCell width={100} sx={{ border: 1, fontWeight: "bold" }}>อาจารย์</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontWeight: "bold" }}>หน่วยกิจ</StyledTableCell>
+                                    <StyledTableCell width={225} sx={{ border: 1, fontWeight: "bold" }}>หลักสูตร</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontWeight: "bold" }}>เปิด</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontWeight: "bold" }}>ลง</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontWeight: "bold" }}>เหลือ</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontWeight: "bold" }}>สถานะ</StyledTableCell>
+                                    <StyledTableCell width={50} sx={{ border: 1, fontWeight: "bold" }}>Info</StyledTableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -320,20 +324,20 @@ function SubjectList() {
                                     : subjects
                                 ).map((row) => (
                                     <StyledTableRow key={row.ID}>
-                                        <TableCell>{row.Subject_ID}</TableCell>
-                                        <TableCell>{row.Subject_EN_Name}</TableCell>
-                                        <TableCell>{row.Section}</TableCell>
-                                        <TableCell>{row.Professor_Name}</TableCell>
-                                        <TableCell>{row.Unit}</TableCell>
-                                        <TableCell>{row.Course_Name}</TableCell>
-                                        <TableCell>{row.Capacity}</TableCell>
-                                        <TableCell>{row.Enroll_Amount}</TableCell>
-                                        <TableCell>{row.Capacity - row.Enroll_Amount}</TableCell>
-                                        <TableCell>{row.Subject_Status_ID}</TableCell>
+                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Subject_ID}</TableCell>
+                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Subject_EN_Name}</TableCell>
+                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Section}</TableCell>
+                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Professor_Name}</TableCell>
+                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Unit}</TableCell>
+                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Course_Name}</TableCell>
+                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Capacity}</TableCell>
+                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Enroll_Amount}</TableCell>
+                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Capacity - row.Enroll_Amount}</TableCell>
+                                        <TableCell sx={{fontFamily:"Noto Sans Thai"}}>{row.Subject_Status_ID}</TableCell>
                                         <TableCell>
                                             <Button
                                                 variant="contained"
-                                                sx={{ borderRadius: 0 }}
+                                                sx={{ borderRadius: 0, fontFamily:"Noto Sans Thai" }}
                                                 onClick={() => {
                                                     navigate({ pathname: `/subject/${row.Subject_ID}/${row.Section}` })
                                                 }}> Info </Button>
@@ -350,13 +354,14 @@ function SubjectList() {
                                 <TableRow>
                                     <TablePagination
                                         rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                        colSpan={10}
+                                        colSpan={15}
                                         count={subjects.length}
                                         rowsPerPage={rowsPerPage}
                                         page={page}
                                         onPageChange={handleChangePage}
                                         onRowsPerPageChange={handleChangeRowsPerPage}
                                         ActionsComponent={TablePaginationActions}
+                                        sx={{fontFamily:"Noto Sans Thai"}}
                                     />
                                 </TableRow>
                             </TableFooter>

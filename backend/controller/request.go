@@ -102,7 +102,7 @@ func CreateRequest(c *gin.Context) {
 		Section:         request.Section,
 		Reason:          request.Reason,
 		Request_Type_ID: request.Request_Type_ID,
-		Date_Time: time.Now(),
+		Date_Time:       time.Now(),
 	}
 	if _, err := govalidator.ValidateStruct(new_request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -272,7 +272,7 @@ func UpdateRequest(c *gin.Context) {
 		Section:         update_section,
 		Reason:          update_reason,
 		Request_Type_ID: request.Request_Type_ID,
-		Date_Time: time.Now(),
+		Date_Time:       time.Now(),
 	}
 
 	if _, err := Validatecheckapproval(strconv.FormatUint(uint64(update_request.Request_ID), 10)); err != nil {
@@ -371,7 +371,7 @@ func ValidateRequestCheckExamAndClass(request entity.Request) (bool, error) {
 				// กรณีเวลาซ้ำซ้อนกัน เช่น
 				// ลงวิชา A 13:00 - 15:00
 				// จะลงวิชา B 14:00 - 16:00 ไม่ได้
-			} else if day == request.Class_Schedule.Day{
+			} else if day == request.Class_Schedule.Day {
 
 				// แปลง start time, end time ของข้อมูลที่จะเพิ่ม เป็นค่าเวลา
 				check_start, _ := time.Parse(time_pattern, request.Class_Schedule.Start_Time)
@@ -414,29 +414,30 @@ func ValidateCheckExamAndClassEnroll(enrolls entity.Request) (bool, error) {
 	var list_enroll []entity.Enroll
 
 	database := entity.OpenDatabase()
+	fmt.Println("ข้อมูลวิชากำลังที่ลงทะเบียน")
 	fmt.Println(enrolls.Class_Schedule.Day)
 	fmt.Println(enrolls.Class_Schedule.Start_Time)
 	fmt.Println(enrolls.Class_Schedule.End_Time)
 	fmt.Println(enrolls.Student.Student_ID)
+	fmt.Println(enrolls.Subject.Subject_ID)
+	fmt.Println("=======================================")
 
-	// fmt.Println(enrolls.Subject.Subject_ID)
-
+	// ค้นราข้อมูลการลงทะเบียนตามรหัสนักศึกษา แล้วเก็บไว้ในตัวแปร list_enroll
 	if tx := database.Where("student_id = ?", enrolls.Student.Student_ID).Find(&list_enroll); tx.RowsAffected >= 1 {
-		// err_message := fmt.Sprintf("Class Day cannot be added repeatedly.")
-		// return false, subjectError{err_message}
 
-		// วนลูป enroll ของนักศึกษาคนหนึ่ง ตาม student_id
-		for _, record := range list_enroll {
+		// วนลูป enroll ของนักศึกษาตามรหัสนักศึกษา
+		fmt.Println("จำนวนรายวิชาที่ลงทะเบียน", len(list_enroll))
+		for i, record := range list_enroll {
 			time_pattern := "15:04"
 
-			// ดึงข้อมูล class schedule
-			database.Where("class_schedule_id = ?", record.Class_Schedule_ID).First(&class_Schedule)
-
+			// ดึงข้อมูล class schedule จาก class_schedule_id ของข้อมูล enroll
+			database.Raw("SELECT * FROM class_schedules WHERE class_schedule_id = ?", record.Class_Schedule_ID).First(&class_Schedule)
 			// เก็บข้อมูล start time, end time และ day ของข้อมูลที่ดึงมาจาก class schedule
 			var start_time = class_Schedule.Start_Time
 			var end_time = class_Schedule.End_Time
 			var day = class_Schedule.Day
 
+			fmt.Printf("วิชาที่ %d - เรียนวัน %s เวลา %s - %s\n", i+1, day, start_time, end_time)
 			// ถ้า start_time, end_time และ day ตรงกันเป้ะ
 			if start_time == enrolls.Class_Schedule.Start_Time && end_time == enrolls.Class_Schedule.End_Time && day == enrolls.Class_Schedule.Day {
 				err_message := fmt.Sprintf("Class Day cannot be added repeatedly.")
@@ -452,10 +453,10 @@ func ValidateCheckExamAndClassEnroll(enrolls entity.Request) (bool, error) {
 				err_message := fmt.Sprintf("Class Day cannot be added repeatedly, end time is same.")
 				return false, subjectError{err_message}
 
-				// กรณีเวลาซ้ำซ้อนกัน เช่น
+				// กรณีเวลาเรียนไม่เท่ากันทั้ง 2 วิชา แต่เวลาซ้าซ้อนกัน (วันเรียนเดียวกัน)
 				// ลงวิชา A 13:00 - 15:00
-				// จะลงวิชา B 14:00 - 16:00 ไม่ได้
-			} else if day == enrolls.Class_Schedule.Day{
+				// จะลงวิชา B 14:00 - 16:00 ไม่ได้ เพราะวิชา B เวลา 14:00 เหลื่อมกับช่วงเวลาเรียนวิชา A
+			} else if day == enrolls.Class_Schedule.Day {
 
 				// แปลง start time, end time ของข้อมูลที่จะเพิ่ม เป็นค่าเวลา
 				check_start, _ := time.Parse(time_pattern, enrolls.Class_Schedule.Start_Time)
@@ -477,11 +478,11 @@ func ValidateCheckExamAndClassEnroll(enrolls entity.Request) (bool, error) {
 					err_message := fmt.Sprintf("Cannot add class schedule. In end time %s is overlapped with some class schedule ", end_time)
 					return false, subjectError{err_message}
 				}
+
 			}
-			return true, nil
 
 		}
-
+		return true, nil
 	}
 	return true, nil
 	// วนลูป enroll ของ นศ สักคน

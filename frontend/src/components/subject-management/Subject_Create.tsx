@@ -233,11 +233,11 @@ function CreateSubject() {
                         <AutoStoriesSharpIcon fontSize="large" />
                     </Box>
                     <Box sx={{ padding: 1, border: 0 }}>
-                        <Typography variant="h4" sx={{ fontFamily: "Verdana", fontWeight: "bold", paddingBottom: 1.5 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
+                        <Typography variant="h4" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold", padding: 1 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
 
                     </Box>
                 </Stack>
-                <Typography sx={{fontFamily:'Mitr-Regular'}}> เพิ่มข้อมูลรายวิชา </Typography>
+                <Typography sx={{fontFamily:'Noto Sans Thai'}}> เพิ่มข้อมูลรายวิชา </Typography>
             </Paper>
 
             <Grid container item
@@ -250,33 +250,33 @@ function CreateSubject() {
                 }}>
                 <Box flexGrow={1} sx={{ border: 0, width: "auto" }}>
                     <Box sx={{ border: 0, width: "auto", padding: 1 }}>
-                        <Typography sx={{fontFamily:'Mitr-Regular'}}> รหัสวิชา </Typography>
+                        <Typography sx={{fontFamily:'Noto Sans Thai'}}> รหัสวิชา </Typography>
                         <FormControl fullWidth>
                             <TextField
                                 id="Subject_ID"
-                                variant="standard"
+                                size="small"
                                 type="string"
                                 value={subject.Subject_ID}
                                 onChange={handleInputChange} 
-                                sx={{fontFamily:'Mitr-Regular'}}
+                                inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}
                             />
                         </FormControl>
-                        <FormHelperText sx={{fontFamily:'Mitr-Regular'}}> โปรดกรอกรหัสวิชา</FormHelperText>
+                        <FormHelperText sx={{fontFamily:'Noto Sans Thai'}}> โปรดกรอกรหัสวิชา</FormHelperText>
                     </Box>
 
                     <Box sx={{ border: 0, width: "auto", padding: 1 }}>
-                        <Typography sx={{fontFamily:'Mitr-Regular'}}> อาจารย์ </Typography>
+                        <Typography sx={{fontFamily:'Noto Sans Thai'}}> อาจารย์ </Typography>
                         <FormControl fullWidth>
                             <TextField
                                 id="Professor_ID"
-                                variant="standard"
+                                size="small"
                                 type="string"
                                 value={subject.Professor_ID}
                                 onChange={handleInputChange} 
-                                sx={{fontFamily:'Mitr-Regular'}}    
+                                inputProps={{ style: { fontFamily: "Noto Sans Thai" } }}   
                             />
                         </FormControl>
-                        <FormHelperText sx={{fontFamily:'Mitr-Regular'}}> ระบุอาจารย์ผู้สอน </FormHelperText>
+                        <FormHelperText sx={{fontFamily:'Noto Sans Thai'}}> ระบุอาจารย์ผู้สอน </FormHelperText>
                     </Box>
 
                     <Box sx={{ border: 0, width: "auto", padding: 1 }}>

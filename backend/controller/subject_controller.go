@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/B6025212/team05/entity"
 	"github.com/B6025212/team05/service"
@@ -106,6 +107,7 @@ func CreateSubject(c *gin.Context) {
 		Subject_EN_Name:  subject.Subject_EN_Name,
 		Capacity:         subject.Capacity,
 		Enroll:           subject.Enroll,
+		Latest_Updated:   time.Now(),
 		Reserved:         subject.Reserved,
 		Reserved_Enroll:  subject.Reserved_Enroll,
 		Unit:             subject.Unit,
@@ -418,6 +420,7 @@ func UpdateSubjects(c *gin.Context) {
 		Subject_EN_Name:  updated_en_name,
 		Capacity:         updated_capacity,
 		Enroll:           updated_enroll,
+		Latest_Updated:   time.Now(),
 		Reserved:         updated_reserved,
 		Reserved_Enroll:  updated_reserved_enroll,
 		Unit:             updated_unit,

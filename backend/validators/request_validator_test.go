@@ -13,7 +13,7 @@ import (
 // ตรวจสอบค่าว่างของเหตุผลแล้วต้องเจอ Error
 func TestReasonPass(t *testing.T) {
 	g := NewGomegaWithT(t)
-	entity.SetRequestValidation();
+	entity.SetRequestValidation()
 
 	student1 := entity.Student{
 		Student_ID: "B6311111",
@@ -33,7 +33,7 @@ func TestReasonPass(t *testing.T) {
 
 	request := entity.Request{
 		Request_ID:     4,
-		Reason: "อยากเรียน",
+		Reason:         "อยากเรียน",
 		Student:        student1,
 		Section:        1,
 		Subject:        electrical_circuit_1_sec1,
@@ -57,7 +57,7 @@ func TestReasonPass(t *testing.T) {
 func TestReasonNotBlank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	entity.SetRequestValidation();
+	entity.SetRequestValidation()
 
 	student1 := entity.Student{
 		Student_ID: "B6311111",
@@ -77,7 +77,7 @@ func TestReasonNotBlank(t *testing.T) {
 
 	request := entity.Request{
 		Request_ID:     4,
-		Reason: "",
+		Reason:         "",
 		Student:        student1,
 		Section:        1,
 		Subject:        electrical_circuit_1_sec1,
@@ -123,7 +123,7 @@ func TestReasonNotSpecialCharacters(t *testing.T) {
 
 	request := entity.Request{
 		Request_ID:     4,
-		Reason: "5555",
+		Reason:         "5555",
 		Student:        student1,
 		Section:        1,
 		Subject:        electrical_circuit_1_sec1,
@@ -150,7 +150,7 @@ func TestReasonNotSpecialCharacters(t *testing.T) {
 func TestRequestMaxcharectorReason(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	entity.SetRequestValidation();
+	entity.SetRequestValidation()
 
 	student1 := entity.Student{
 		Student_ID: "B6311111",
@@ -170,7 +170,7 @@ func TestRequestMaxcharectorReason(t *testing.T) {
 
 	request := entity.Request{
 		Request_ID:     4,
-		Reason: "กกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก",
+		Reason:         "กกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก",
 		Student:        student1,
 		Section:        1,
 		Subject:        electrical_circuit_1_sec1,
@@ -216,7 +216,7 @@ func TestRequestCannotApprove(t *testing.T) {
 func TestRequestSubjectNotrepeatedly(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	entity.SetRequestValidation();
+	entity.SetRequestValidation()
 
 	student1 := entity.Student{
 		Student_ID: "B6311111",
@@ -236,7 +236,7 @@ func TestRequestSubjectNotrepeatedly(t *testing.T) {
 
 	request := entity.Request{
 		Request_ID:     4,
-		Reason: "อยากเรียน",
+		Reason:         "อยากเรียน",
 		Student:        student1,
 		Section:        1,
 		Subject:        operating_system_sec1,
@@ -283,7 +283,7 @@ func TestRequestClassDayNotrepeatedly(t *testing.T) {
 
 	request := entity.Request{
 		Request_ID:     4,
-		Reason: "อยากเรียน",
+		Reason:         "อยากเรียน",
 		Student:        student1,
 		Section:        1,
 		Subject:        love_yourself,
@@ -304,4 +304,51 @@ func TestRequestClassDayNotrepeatedly(t *testing.T) {
 
 	// err.Error ต้องมี error message แสดงออกมา
 	g.Expect(err.Error()).To(Equal("Cannot add class schedule. In start time 13:00 is overlapped with some class schedule "))
+}
+
+func TestRequestClassDayNotrepeatedlyEnroll(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	subject1 := entity.Subject{
+		Subject_ID: "523231",
+	}
+	student1 := entity.Student{
+		Student_ID: "B6311111",
+	}
+	Exam_Schedule1 := entity.Exam_Schedule{
+		Exam_Schedule_ID: "EXAM112202729479",
+	}
+	Class_Schedule1 := entity.Class_Schedule{
+		Class_Schedule_ID: "CLS010888298971",
+		Day:               "Wed",
+		Start_Time:        "10:00",
+		End_Time:          "12:00",
+	}
+	Request_Type2 := entity.Request_Type{
+		Request_Type_ID: "R01",
+	}
+
+	request := entity.Request{
+		Request_ID:     4,
+		Reason:         "อยากเรียน",
+		Student:        student1,
+		Section:        1,
+		Subject:        subject1,
+		Class_Schedule: Class_Schedule1,
+		Exam_Schedule:  Exam_Schedule1,
+		Request_Type:   Request_Type2,
+		Date_Time:      time.Now(),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := controller.ValidateCheckExamAndClassEnroll(request)
+
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).ToNot(BeTrue())
+
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).ToNot(BeNil())
+
+	// err.Error ต้องมี error message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("Class Day cannot be added repeatedly, end time is same."))
 }

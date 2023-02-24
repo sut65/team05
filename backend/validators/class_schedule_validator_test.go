@@ -144,7 +144,7 @@ func TestClassSchedule_StartTimeOverlap(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("est"))
+	g.Expect(err.Error()).To(Equal("Cannot add class schedule. In day Mon, room B2101, start time 14:00 is overlapped with some class schedule "))
 }
 
 func TestClassSchedule_EndTimeOverlap(t *testing.T) {

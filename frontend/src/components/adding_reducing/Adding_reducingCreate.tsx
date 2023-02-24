@@ -48,9 +48,12 @@ import { Subject } from "../../models/I_Subject";
 
 import { Course } from "../../models/I_Course";
 
-import {IconButton,MenuItem,SvgIcon,TableFooter,TablePagination,} from "@mui/material";
+import {IconButton,MenuItem,SvgIcon,TableFooter,TablePagination, Toolbar,} from "@mui/material";
 
 import { Adding_reducingInterface } from "../../models/IAdding_Reducing";
+import Home_Navbar from "../navbars/Home_navbar";
+import Swal from "sweetalert2";
+import { styled } from "@mui/material/styles";
 
 
 
@@ -137,7 +140,28 @@ function CreateEnroll() {
 
  
 
+//table
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#44484D",
+      color: theme.palette.common.white,
+      fontSize: 17,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      color: theme.palette.common.black,
+      fontFamily: "Noto Sans Thai",
+    },
+  }));
 
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: "#e0e0e0",
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 1,
+    },
+  }));
   
 
 
@@ -308,20 +332,46 @@ const getSubjectByCourseID = async (course_id: any) => {
         "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
+    Swal.fire({
+      title: "คุณต้องการลงทะเบียนรายวิชา" + 
+      enroll.Subject_ID+"นี้หรือไม่",
+      icon: 'warning',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'ลงทะเบียน',
+      denyButtonText: `ยกเลิก`,
+  }).then((data) => {
+      if (data.isConfirmed) {
+          fetch(apiUrl, requestOptions)
+              .then((response) => response.json())
+              .then((res) => {
+                  console.log(res)
+                  if (res.data) {
+                      console.log(res.data)
+                      Swal.fire({
+                          showConfirmButton: false,
+                          icon: 'success',
+                          title: 'คุณได้เพิ่มรายวิชา'+enroll.Subject_ID+"นี้แล้ว",
+                          text: 'Success',
+                      })
+                  } else {
+                      Swal.fire({
+                          
+                          icon: 'error',
+                          title: 'เกิดข้อมูลผิดพลาด !',
+                          text: res.error,
+                        
+                          
+                      }).then(()=>{
+                        window.location.href = "/adding_reducing/create";
 
-    fetch(apiUrl, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          window.location.href ="/adding_reducing/";
-          setSuccess(true);
-        } else {
-          setAlertMessage(res.error);
-          setError(true);
-          window.location.href ="/adding_reducing";
-        }
-        });
+                      })
+                  }
+                  
+              });
+      }
+  })
+   
     
   }
 
@@ -329,6 +379,8 @@ const getSubjectByCourseID = async (course_id: any) => {
     
     <Container maxWidth="xl"
     sx ={{bgcolor:"black"}}>
+      <Home_Navbar></Home_Navbar>
+        <Toolbar></Toolbar>
       <Snackbar
         open={success}
         autoHideDuration={6000}
@@ -378,6 +430,8 @@ const getSubjectByCourseID = async (course_id: any) => {
                 </Select>
               </Box>
             </Grid>
+
+
           </Grid>
 
           <Grid container sx={{ marginTop: "5px", marginLeft: 5 }}>
@@ -426,6 +480,7 @@ const getSubjectByCourseID = async (course_id: any) => {
                 >
                   ผลการลงทะเบียน
                 </Button>
+                
               </Grid>
            
 
@@ -443,18 +498,18 @@ const getSubjectByCourseID = async (course_id: any) => {
               <Table sx={{ minWidth: 650}} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="left">รหัสวิชา</TableCell>
-                    <TableCell align="left">ชื่อวิชา</TableCell>
-                    <TableCell align="left">Subject name</TableCell>
-                    <TableCell align="left">วันเรียน</TableCell>
-                    <TableCell align="left">เริ่มเรียน</TableCell>
-                    <TableCell align="left">เลิกเรียน</TableCell>
-                    <TableCell align="left">วันสอบ</TableCell>
-                    <TableCell align="left">เริ่มสอบ</TableCell>
-                    <TableCell align="left">เลิกสอบ</TableCell>
-                    <TableCell align="left">หน่วยกิต</TableCell>
-                    <TableCell align="left">กลุ่ม</TableCell>
-                    <TableCell align="center">เลือก</TableCell>
+                    <StyledTableCell align="left">รหัสวิชา</StyledTableCell>
+                    <StyledTableCell align="left">ชื่อวิชา</StyledTableCell>
+                    <StyledTableCell align="left">Subject name</StyledTableCell>
+                    <StyledTableCell align="left">วันเรียน</StyledTableCell>
+                    <StyledTableCell align="left">เริ่มเรียน</StyledTableCell>
+                    <StyledTableCell align="left">เลิกเรียน</StyledTableCell>
+                    <StyledTableCell align="left">วันสอบ</StyledTableCell>
+                    <StyledTableCell align="left">เริ่มสอบ</StyledTableCell>
+                    <StyledTableCell align="left">เลิกสอบ</StyledTableCell>
+                    <StyledTableCell align="left">หน่วยกิต</StyledTableCell>
+                    <StyledTableCell align="left">กลุ่ม</StyledTableCell>
+                    <StyledTableCell align="center">เลือก</StyledTableCell>
                   </TableRow>
                 </TableHead>
 
@@ -466,23 +521,23 @@ const getSubjectByCourseID = async (course_id: any) => {
                       )
                     : subjects
                   ).map((row) => (
-                    <TableRow
+                    <StyledTableRow
                       key={row.ID}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      <TableCell align="left">{row.Subject_ID}</TableCell>
+                      <StyledTableCell align="left">{row.Subject_ID}</StyledTableCell>
                       
-                      <TableCell align="left">{row.Subject_TH_Name}</TableCell>
-                      <TableCell align="left">{row.Subject_EN_Name}</TableCell>
-                      <TableCell align="left">{row.Day}</TableCell>
-                      <TableCell align="left">{row.Start_Time}</TableCell>
-                      <TableCell align="left">{row.End_Time}</TableCell>
-                      <TableCell align="left">{row.Exam_Date}</TableCell>
-                      <TableCell align="left">{row.Exam_Start_Time}</TableCell>
-                      <TableCell align="left">{row.Exam_End_Time}</TableCell>
-                      <TableCell align="left">{row.Unit}</TableCell>
-                      <TableCell align="left">{row.Section}</TableCell>
-                      <TableCell align="center">
+                      <StyledTableCell align="left">{row.Subject_TH_Name}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Subject_EN_Name}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Day}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Start_Time}</StyledTableCell>
+                      <StyledTableCell align="left">{row.End_Time}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Exam_Date}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Exam_Start_Time}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Exam_End_Time}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Unit}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Section}</StyledTableCell>
+                      <StyledTableCell align="center">
                         <IconButton
                           onClick={() => {
                             enroll.Subject_ID = row.Subject_ID;
@@ -499,8 +554,8 @@ const getSubjectByCourseID = async (course_id: any) => {
                         >
                           <CheckCircleIcon />
                         </IconButton>
-                      </TableCell>
-                    </TableRow>
+                      </StyledTableCell>
+                    </StyledTableRow>
                   ))}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
@@ -531,6 +586,25 @@ const getSubjectByCourseID = async (course_id: any) => {
                   </TableRow>
                 </TableFooter>
               </Table>
+              <Paper elevation={3} sx={{ p: 2, bgcolor: "#FFD3BD" }} >
+            <Typography sx={{ paddingLeft: 8, fontFamily: "Noto Sans Thai", fontSize: 18, fontWeight: 'bold', color: "red" }}>
+                                            คำเตือนการลงทะเบียน
+            </Typography>
+                  <Typography
+                      sx={{
+                        fontSize: 16,
+                        fontFamily: "Noto Sans Thai",
+                        boxShadow: 0,
+                        whiteSpace: "pre-line",
+                      }}
+                    >
+                      1:ไม่สามารถลงทะเบียนรหัสวิชาเดิมได้
+                      &nbsp;&nbsp;2:ไม่สามารถลงทะเบียนรายวิชาที่มีวันเรียนซ้ำกันได้
+                      &nbsp;&nbsp; 3.ไม่สามารถลงทะเบียนรายวิชาที่มีเวลาเรียนซ้ำกันได้
+                      
+                      &nbsp;&nbsp;4:กดเชคผลการลงทะเบียนเพื่อยืนยันว่าการลงทะเบียนได้รับการอนุมัติแล้ว
+                      </Typography>
+                      </Paper>
             </TableContainer>
           </Grid>
        

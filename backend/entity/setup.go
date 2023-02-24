@@ -2148,7 +2148,7 @@ func SetupDatabase() {
 		Adding_point1 := Adding_point{
 			Adding_point_ID: 1,
 			Date:            time.Now(),
-			Professor:       professor1,
+			Professor:       chanwit_kaewkasi,
 			Enroll:          enroll1,
 			Grade:           Grade1,
 		}
@@ -2157,7 +2157,7 @@ func SetupDatabase() {
 		Adding_point2 := Adding_point{
 			Adding_point_ID: 2,
 			Date:            time.Now(),
-			Professor:       professor2,
+			Professor:       sarunya_kanjanawatthana,
 			Enroll:          enroll2,
 			Grade:           Grade2,
 		}

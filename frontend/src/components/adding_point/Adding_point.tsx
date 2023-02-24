@@ -80,15 +80,19 @@ function Adding_point() {
   //table
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#5B98B9",
+      backgroundColor: "#44484D",
       color: theme.palette.common.white,
       fontSize: 17,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      color: theme.palette.common.black,
+      fontFamily: "Noto Sans Thai",
     },
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
-      backgroundColor: "white",
+      backgroundColor: "#e0e0e0",
     },
     // hide last border
     "&:last-child td, &:last-child th": {
@@ -124,7 +128,7 @@ function Adding_point() {
           width: "auto",
           height: "auto",
           padding: 2,
-          bgcolor:"#CCFFFF",
+          bgcolor: "#e1e1e1",
         }}
       >
         <Home_Navbar></Home_Navbar>

@@ -12,7 +12,7 @@ import Box from "@mui/material/Box";
 
 import Paper from "@mui/material/Paper";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import {Grid,TextField,SvgIcon,Snackbar} from "@mui/material";
+import {Grid,TextField,SvgIcon,Snackbar, Toolbar} from "@mui/material";
 
 import IconButton from "@mui/material/IconButton";
 
@@ -46,6 +46,7 @@ import { Adding_pointInterface } from "../../models/IAdding_point";
 
 import { EnrollInterface } from "../../models/I_Enroll";
 import Swal from "sweetalert2";
+import Home_Navbar from "../navbars/Home_navbar";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -64,7 +65,7 @@ function Adding_pointCreate() {
  
   
   const [enroll, setEnroll] = React.useState<EnrollInterface[]>([]);
-  const [enrolls, setEnrolls] = React.useState<Partial<EnrollInterface>>({});
+  
   const [searchID, setSearchID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
 
  
@@ -88,17 +89,22 @@ function Adding_pointCreate() {
     setSuccess(false);
     setError(false);
   };
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+   //table
+   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#5B98B9",
+      backgroundColor: "#44484D",
       color: theme.palette.common.white,
       fontSize: 17,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      color: theme.palette.common.black,
+      fontFamily: "Noto Sans Thai",
     },
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
-      backgroundColor: "white",
+      backgroundColor: "#e0e0e0",
     },
     // hide last border
     "&:last-child td, &:last-child th": {
@@ -307,9 +313,11 @@ const getEnroll = async () => {
           width: "auto",
           height: "auto",
           padding: 2,
-          bgcolor:"#CCFFFF",
+          bgcolor: "#e1e1e1",
         }}
       >
+        <Home_Navbar></Home_Navbar>
+        <Toolbar></Toolbar>
         <Snackbar
           open={success}
           autoHideDuration={6000}
@@ -346,19 +354,7 @@ const getEnroll = async () => {
             </Box>
           </Box>
 
-          <Box>
-            Requirements ระบบลงทะเบียนเรียน
-            เป็นระบบที่ใช้บริการเพื่อให้นักศึกษาของมหาวิทยาลัยหนึ่ง
-            สามารถลงทะเบียนเรียนในหลักสูตรที่มหาวิทลัยนั้นได้กำหนดไว้ ในส่วนแรก
-            เช่น การลงทะเบียนเรียนในรายวิชาต่างๆ ,
-            การเพิ่มลดรายวิชาและการยื่นคำร้องกรณีกลุ่มเต็ม
-            โดยที่กล่าวมาข้างต้นนี้จะเกี่ยวข้องกับสิทธิของผู้เป็นนักศึกษาที่สามารถใช้สิทธิในระบบลงทะเบียนเรียนได้
-            ส่วนของการจัดสรรห้องเรียน , การบันทึกผลการเรียน ,
-            และการอนุมัติคำร้องกรณีกลุ่มเต็มจะเป็นสิทธิของผู้เป็นอาจารย์ที่สามารถใช้งานในส่วนนี้ได้
-            และส่วนสุดท้ายจะมี การเพิ่มข้อมูลนักศึกษา , การเพิ่มข้อมูลหลักสูตร ,
-            การเพิ่มข้อมูลรายวิชาและการคำนวณค่าใช่จ่าย
-            โดยในส่วนนี้จะเป็นสิทธิของผู้เป็นแอดมินที่มีสิทธิสามารถใช้งานได้
-          </Box>
+         
         </Paper>
        
          
@@ -580,6 +576,35 @@ const getEnroll = async () => {
               </Table>
             </TableContainer>
           </Grid>
+          <Paper elevation={3} sx={{ p: 2, bgcolor: "#FFD3BD" }}>
+          <Typography
+                    component="h2"
+                    color="red"
+                    gutterBottom
+                    sx={{
+                      flexGrow: 1,
+                      fontSize: 16,
+                      fontFamily: "Noto Sans Thai",
+                    }}
+                  >
+                    <b>หมายเหตุ</b>
+                  </Typography>
+                  <Typography
+                      sx={{
+                        fontSize: 16,
+                        fontFamily: "Noto Sans Thai",
+                        boxShadow: 0,
+                        whiteSpace: "pre-line",
+                      }}
+                    >
+                      1.ไม่สามารถเพิ่มเกรดได้หากไม่มีค่าในช่องเกรด
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.ไม่สามารถเพิ่มเกรดได้หากในช่องเกรดเป็นตัวอักษรภาษาไทย
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.ไม่สามารถเพิ่มเกรดได้หากในช่องเกรดเป็นตัวอักษรภาษาอังกฤษตัวพิมพ์เล็ก
+                      {"\n"}
+                      4.ไม่สามารถเพิ่มเกรดได้เมื่อเพิ่มเกรดนักศึกษาในรายวิชานั้นๆแล้ว           
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.สามารถเพิ่มเกรดได้เมื่อพิมพ์ตามรูปแบบในเงื่อนไข
+                    </Typography>
+                  </Paper>
           <Grid
             item
             xs={12}

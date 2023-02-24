@@ -294,7 +294,7 @@ function Adding_reducingUpdate() {
 
   return (
     <Container maxWidth="xl"
-    sx ={{bgcolor:"black"}}>
+    sx ={{bgcolor:"white"}}>
       <Home_Navbar></Home_Navbar>
         <Toolbar></Toolbar>
       <Snackbar

@@ -274,7 +274,7 @@ function Class_Schedule_Update() {
              sx={{  fontFamily : "LilyUPC" ,
               fontWeight : 'bold' ,fontSize:35}}>
    
-               <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2}}/> แก้ไขข้อมูลหลักสูตร
+               <LibraryAddIcon sx={{  fontFamily: "Noto Sans Thai" ,fontSize:45, mb:-2}}/> แก้ไขข้อมูลหลักสูตร
                 </Grid>
    
               </Typography>
@@ -288,7 +288,7 @@ function Class_Schedule_Update() {
           <Grid container spacing={3} sx={{ padding: 2 }}>
 
           <Grid item xs={4} color="#FF0606" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <p>รหัสแอดมิน</p>
 
@@ -310,7 +310,7 @@ function Class_Schedule_Update() {
         </Grid>
    
           <Grid item xs={4} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:27}}>
              <p>รหัสหลักสูตร</p>
    
@@ -337,7 +337,7 @@ function Class_Schedule_Update() {
            </Grid>
    
             <Grid item xs={4} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:27}}>
              <p>ชื่อหลักสูตร</p>
    
@@ -364,7 +364,7 @@ function Class_Schedule_Update() {
             </Grid>
    
             <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
       
 
@@ -385,13 +385,13 @@ function Class_Schedule_Update() {
          </Grid>
    
             <Grid item xs={6} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:27}}>
                <FormControl fullWidth variant="outlined" sx={{mt:-0.5}}>
                  
                  <p>คุณวุฒิ</p>
                  <Select native 
-                                   variant="standard"
+                                   variant="outlined"
                                    id="Qualification_ID"
                                    value={course.Qualification_ID+""}
                                    onChange={handleSelectChange}
@@ -415,13 +415,13 @@ function Class_Schedule_Update() {
              </Grid>
    
              <Grid item xs={6} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:27}}>
-               <FormControl fullWidth variant="outlined" sx={{mt:-0.5}}>
+               <FormControl fullWidth variant="outlined" >
                  
                  <p>ชื่อสาขา</p> 
                  <Select native 
-                                   variant="standard"
+                                   variant="outlined"
                                    id="Major_ID"
                                    value={course.Major_ID+""}
                                    onChange={handleSelectChange}
@@ -445,7 +445,7 @@ function Class_Schedule_Update() {
              </Grid>
 
              <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <p>อายุ</p>
 
@@ -478,7 +478,7 @@ function Class_Schedule_Update() {
    
               <Button component={RouterLink} to="/course" variant="contained" color="warning">
    
-              <ArrowBackIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
+              <ArrowBackIcon sx={{  fontFamily: "Noto Sans Thai",fontSize:30,}}/>
    
                 ย้อนกลับ
    
@@ -487,6 +487,7 @@ function Class_Schedule_Update() {
               <Button
                             onClick={submit}
                             variant="contained"
+                            style={{ float: "right" }}
                             sx={{borderRadius: 0}}
                         > แก้ไขข้อมูล </Button>
    

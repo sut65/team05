@@ -124,8 +124,8 @@ function StudentInfo() {
 
             {/* Header components */}
             <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>
-                <Typography variant="h4"> ระบบจัดการข้อมูลนักศึกษา </Typography>
-                <Typography> รายละเอียดนักศึกษา </Typography>
+                <Typography variant="h4" sx={{fontFamily: "Noto Sans Thai",}}> ระบบจัดการข้อมูลนักศึกษา </Typography>
+                <Typography sx={{fontFamily: "Noto Sans Thai",}}> รายละเอียดนักศึกษา </Typography>
             </Paper>
 
             {/* Body components */}
@@ -162,41 +162,41 @@ function StudentInfo() {
                     
                        
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> รหัสนักศึกษา </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Student_ID} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> รหัสนักศึกษา </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Student_ID} </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> ชื่อหลักสูตร </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Student_Name} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> ชื่อหลักสูตร </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Student_Name} </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> วันที่เพิ่ม </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Datetime.toString()}
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> วันที่เพิ่ม </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Datetime.toString()}
                             </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> อายุ </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Student_Age.toString()}
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> อายุ </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Student_Age.toString()}
                             </Box>
                         </Grid>
                     
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> หลักสูตร </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Course_Name}
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> หลักสูตร </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Course_Name}
                             </Box>
                         </Grid>
 
                         <Grid container sx={{}}>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> หอพัก </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Dormitory_Name} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> หอพัก </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Dormitory_Name} </Box>
                         </Grid>
 
                         <Grid container sx={{}} >
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20, }}> แอดมินที่เพิ่มข้อมูล </Box>
-                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20, }}> {students?.Admin_Email} </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.3, fontSize: 20,fontFamily: "Noto Sans Thai", }}> แอดมินที่เพิ่มข้อมูล </Box>
+                            <Box flexGrow={1} sx={{ wordWrap: "break-word", width: 0.6, fontSize: 20,fontFamily: "Noto Sans Thai", }}> {students?.Admin_Email} </Box>
                         </Grid>
 
                       
@@ -217,14 +217,14 @@ function StudentInfo() {
                             fontSize: 20,
                             maxWidth: "false",
                         }}>
-                        <Typography variant="h5" sx={{ margin: 0.5 }}> **คำเตือน </Typography>
+                        <Typography variant="h5" sx={{ margin: 0.5 ,fontFamily: "Noto Sans Thai",}}> **คำเตือน </Typography>
                         <Stack direction="row" sx={{ margin: 0.5 }}>
                             <Box sx={{ width: 0.5 }}>
                 
                                 <Stack sx={{ margin: 0.5, }}>
-                                    <Typography>1)ควรมีความรอบครอบที่จะจัดการข้อมูลนักศึกษา</Typography>
-                                    <Typography>2)ข้อมูลนักศึกษาที่ลบไปแล้ว ไม่สามารถนำมาแก้ไขได้</Typography>
-                                    <Typography>3)สามารถใช้ Search เพื่อช่วยค้นหานักศึกษาที่ต้องการ</Typography>
+                                    <Typography sx={{fontFamily: "Noto Sans Thai",}}>1)ควรมีความรอบครอบที่จะจัดการข้อมูลนักศึกษา</Typography>
+                                    <Typography sx={{fontFamily: "Noto Sans Thai",}}>2)ข้อมูลนักศึกษาที่ลบไปแล้ว ไม่สามารถนำมาแก้ไขได้</Typography>
+                                    <Typography sx={{fontFamily: "Noto Sans Thai",}}>3)สามารถใช้ Search เพื่อช่วยค้นหานักศึกษาที่ต้องการ</Typography>
                                 </Stack>
                             </Box>
                             <Box sx={{ width: 0.5 }}>

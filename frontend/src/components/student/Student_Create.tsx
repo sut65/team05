@@ -333,10 +333,10 @@ const requestOptionsGet = {
 
            >
             <Grid item xs={3} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:35}}>
 
-            <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2}}/> สร้างข้อมูลนักศึกษา
+            <LibraryAddIcon sx={{ fontFamily: "Noto Sans Thai",fontSize:45, mb:-2}}/> สร้างข้อมูลนักศึกษา
              </Grid>
 
            </Typography>
@@ -350,7 +350,7 @@ const requestOptionsGet = {
        <Grid container spacing={3} sx={{ padding: 2 }}>
 
        <Grid item xs={4} color="#FF0606" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <p>รหัสแอดมิน</p>
 
@@ -372,7 +372,7 @@ const requestOptionsGet = {
         </Grid>
 
        <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <p>รหัสนักศึกษา</p>
 
@@ -399,7 +399,7 @@ const requestOptionsGet = {
         </Grid>
 
          <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <p>ชื่อนักศึกษา</p>
 
@@ -426,7 +426,7 @@ const requestOptionsGet = {
          </Grid>
 
          <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <p>รหัสผ่านนักศึกษา</p>
 
@@ -453,7 +453,7 @@ const requestOptionsGet = {
          </Grid>
 
          <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <p>อายุ</p>
 
@@ -481,7 +481,7 @@ const requestOptionsGet = {
 
 
          <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <FormControl fullWidth variant="outlined">
 
@@ -502,7 +502,7 @@ const requestOptionsGet = {
          </Grid>
 
          <Grid item xs={6} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
             <FormControl fullWidth variant="outlined" sx={{mt:-0.5}}>
               
@@ -534,7 +534,7 @@ const requestOptionsGet = {
           </Grid>
 
           <Grid item xs={6} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
             <FormControl fullWidth variant="outlined" sx={{mt:-0.5}}>
               
@@ -571,7 +571,7 @@ const requestOptionsGet = {
 
            <Button component={RouterLink} to="/student" variant="contained" color="warning">
 
-           <ArrowBackIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
+           <ArrowBackIcon sx={{  fontFamily: "Noto Sans Thai",fontSize:30,}}/>
 
              ย้อนกลับ
 
@@ -589,7 +589,7 @@ const requestOptionsGet = {
 
            >
 
-            <AddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
+            <AddIcon sx={{  fontFamily: "Noto Sans Thai",fontSize:30,}}/>
 
              เพิ่มข้อมูล
 

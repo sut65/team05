@@ -269,10 +269,10 @@ function Student_Update() {
    
               >
                <Grid item xs={3} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:35}}>
    
-               <LibraryAddIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:45, mb:-2}}/> แก้ไขข้อมูลนักศึกษา
+               <LibraryAddIcon sx={{  fontFamily: "Noto Sans Thai",fontSize:45, mb:-2}}/> แก้ไขข้อมูลนักศึกษา
                 </Grid>
    
               </Typography>
@@ -285,7 +285,7 @@ function Student_Update() {
    
           <Grid container spacing={3} sx={{ padding: 2 }}>
           <Grid item xs={4} color="#FF0606" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <p>รหัสแอดมิน</p>
 
@@ -307,7 +307,7 @@ function Student_Update() {
         </Grid> 
    
           <Grid item xs={4} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:27}}>
              <p>รหัสนักศึกษา</p>
    
@@ -334,7 +334,7 @@ function Student_Update() {
            </Grid>
    
             <Grid item xs={4} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{ fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:27}}>
              <p>ชื่อนักศึกษา</p>
    
@@ -360,37 +360,9 @@ function Student_Update() {
    
             </Grid>
 
-            {/* <Grid item xs={4} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
-              fontWeight : 'bold' ,fontSize:27}}>
-             <p>รหัสผ่านนักศึกษา</p>
-   
-              <FormControl fullWidth variant="outlined">
-   
-                <TextField
-   
-                  id="Student_Password"
-   
-                  variant="outlined"
-   
-                  type="string"
-   
-                  size="medium"
-                  
-                  disabled
-   
-                  value={students.Student_Password || ""}
-   
-                  onChange={handleInputChange}
-   
-                />
-   
-              </FormControl>
-   
-            </Grid> */}
    
             <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
            <FormControl fullWidth variant="outlined">
 
@@ -409,7 +381,7 @@ function Student_Update() {
          </Grid>
    
             <Grid item xs={6} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:27}}>
                <FormControl fullWidth variant="outlined" sx={{mt:-0.5}}>
                  
@@ -439,7 +411,7 @@ function Student_Update() {
              </Grid>
    
              <Grid item xs={6} color="#115686" 
-             sx={{  fontFamily : "LilyUPC" ,
+             sx={{  fontFamily: "Noto Sans Thai",
               fontWeight : 'bold' ,fontSize:27}}>
                <FormControl fullWidth variant="outlined" sx={{mt:-0.5}}>
                  
@@ -469,7 +441,7 @@ function Student_Update() {
              </Grid>
 
              <Grid item xs={4} color="#115686" 
-          sx={{  fontFamily : "LilyUPC" ,
+          sx={{  fontFamily: "Noto Sans Thai",
            fontWeight : 'bold' ,fontSize:27}}>
           <p>อายุ</p>
 
@@ -502,7 +474,7 @@ function Student_Update() {
    
               <Button component={RouterLink} to="/student" variant="contained" color="warning">
    
-              <ArrowBackIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
+              <ArrowBackIcon sx={{  fontFamily: "Noto Sans Thai",fontSize:30,}}/>
    
                 ย้อนกลับ
    
@@ -520,7 +492,7 @@ function Student_Update() {
    
               >
    
-               <BorderColorIcon sx={{  fontFamily : "LilyUPC"  ,fontSize:30,}}/>
+               <BorderColorIcon sx={{  fontFamily: "Noto Sans Thai",fontSize:30,}}/>
    
                 แก้ไขข้อมูล
    

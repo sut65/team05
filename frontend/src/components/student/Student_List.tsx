@@ -39,6 +39,8 @@ import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Home_Navbar from "../navbars/Home_navbar";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+
 
 
 const apiUrl = "http://localhost:8080";
@@ -50,22 +52,29 @@ const requestOptions = {
     },
 };
 
+//table
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: "#5B98B9",
-        // color: theme.palette.common.white,
+      backgroundColor: "#44484D",
+      color: "white",
+      fontFamily: "Noto Sans Thai",
+      fontSize: 17,
     },
-}));
+    [`&.${tableCellClasses.body}`]: {
+      color: "black",
+      fontFamily: "Noto Sans Thai",
+    },
+  }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: "#EAF1F4",
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: "#e0e0e0",
     },
     // hide last border
-    '&:last-child td, &:last-child th': {
-        border: 1,
+    "&:last-child td, &:last-child th": {
+      border: 1,
     },
-}));
+  }));
 
 
 function Students_List() {
@@ -139,7 +148,7 @@ function Students_List() {
         <div>
             <Container maxWidth={false}
                 sx={{
-                    bgcolor: "#D4F5C4",
+                    bgcolor: "#e1e1e1",
                     width: "auto",
                     height: "auto",
                     padding: 2
@@ -171,6 +180,7 @@ function Students_List() {
                                         bgcolor: "#F7BA6E",
                                         marginBottom: 2,
                                         textAlign: "center",
+                                        fontFamily: "Noto Sans Thai",
                                     }}
                                 >
                                     ระบบจัดการข้อมูลนักศึกษา
@@ -181,7 +191,7 @@ function Students_List() {
                     <Typography component="h2" variant="h6" color="Black" gutterBottom>
                         <u>Requirement</u>
                     </Typography>
-                    <Box>
+                    <Box sx={{fontFamily: "Noto Sans Thai",}}>
                         ระบบลงทะเบียนเรียน เป็นระบบที่ใช้บริการเพื่อให้นักศึกษาของมหาวิทลัยหนึ่ง สามารถลงทะเบียนเรียนในหลักสูตรที่มหาวิทลัยนั้นได้กำหนดไว้ ในส่วนแรก
                         เช่น การลงทะเบียนเรียนในรายวิชาต่างๆ , การเพิ่มลดรายวิชา และการยื่นคำร้องกรณีกลุ่มเต็ม โดยที่กล่าวมาข้างต้นนี้จะเกี่ยวข้องกับสิทธิของผู้เป็นนักศึกษา
                         ที่สามารถใช้สิทธิในระบบลงทะเบียนเรียนได้ ส่วนของการจัดสรรห้องเรียน , การบันทึกผลการเรียน , และการอนุมัติคำร้องกรณีกลุ่มเต็ม จะเป็นสิทธิของผู้เป็น
@@ -220,9 +230,9 @@ function Students_List() {
                         }}>
                         <Paper elevation={3} sx={{ bgcolor: "white", padding: 2 }}>
                             <Typography variant="h4" color="#F1E262">
-                                <Paper elevation={2} sx={{ bgcolor: "#F7BA6E", padding: 1 }}>
+                                <Paper elevation={2} sx={{ bgcolor: "#F7BA6E", padding: 1,fontFamily: "Noto Sans Thai", }}>
                                     <ImportContactsIcon
-                                        sx={{ fontSize: "50px", border: 0, mb: -1.7, mr: 2 }}
+                                        sx={{ fontSize: "50px", border: 0, mb: -1.7, mr: 2 ,fontFamily: "Noto Sans Thai",}}
                                     />
                                     รายการนักศึกษาทั้งหมด
                                 </Paper>
@@ -252,7 +262,7 @@ function Students_List() {
                                     to="student_create"
                                     variant="contained"
                                     sx={{
-                                        borderRadius: 0, margin: 1.25, marginTop: 1.5, bgcolor: "#4CED5F",
+                                        borderRadius: 0, margin: 1.25, marginTop: 1.5, bgcolor: "#E8B830",
                                     }}
                                 > <AddCircleOutlineIcon />Add </Button>
                             </Box>
@@ -288,7 +298,7 @@ function Students_List() {
                                                     <TableCell>
                                                         <Button
                                                             variant="contained"
-                                                            sx={{ borderRadius: 0 }}
+                                                            sx={{ borderRadius: 0 ,bgcolor:"#A5A19A"}}
                                                             onClick={() => {
                                                                 navigate({ pathname: `/student/${row.Student_ID}` })
                                                             }}> Info </Button>
@@ -333,11 +343,7 @@ function Students_List() {
                                 fontSize: 20,
                                 maxWidth: "false",
                             }}>
-                            <Typography variant="h5" sx={{ margin: 0.5, padding: 1 }}> โปรดอ่านก่อนที่จะจัดการข้อมูลนักศึกษา </Typography>
-                            <Stack direction="row" sx={{ margin: 0.5 }}>
-
-
-                            </Stack>
+                            <Typography variant="h5" sx={{ margin: 0.5, padding: 1,fontFamily: "Noto Sans Thai", }}> โปรดอ่านก่อนที่จะจัดการข้อมูลนักศึกษา </Typography>
                         </Box>
                         <Paper>
                         <Box flexGrow={5} className="Status_Component"
@@ -347,17 +353,13 @@ function Students_List() {
                                 fontSize: 20,
                                 maxWidth: "false",
                             }}>
-                            <Stack sx={{ margin: 3, }}>
-                                <Typography sx={{ mb: 1 }}> </Typography>
-                                
-
-                            </Stack>
+       
                             </Box>
                         </Paper>
                         <Paper >
-                            <Stack sx={{ margin: 3, fontSize:16 , bgcolor:"#F59392"}} color="#9A4600" >
-                                <p><b>*ท่านสามารถใช้คำสั่งค้นหา เป็นเครื่องมือช่วยค้นหารหัสนักศึกษา*</b></p>
-                                <p><b>*You can use Search as a tool to help find the student id.*</b></p>
+                            <Stack sx={{ margin: 3, fontSize:16 , bgcolor:"#F59392",fontFamily: "Noto Sans Thai",}} color="#9A4600" >
+                                <p><b><WarningAmberIcon/>ท่านสามารถใช้คำสั่งค้นหา เป็นเครื่องมือช่วยค้นหารหัสนักศึกษา</b></p>
+                                <p><b><WarningAmberIcon/>You can use Search as a tool to help find the student id.</b></p>
 
                             </Stack>
                         </Paper>

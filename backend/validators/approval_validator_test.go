@@ -2,18 +2,70 @@ package entity
 
 import (
 	"testing"
+	"time"
 
 	"github.com/B6025212/team05/entity"
 	"github.com/asaskevich/govalidator"
 	. "github.com/onsi/gomega"
 )
 
+func TestApprovalPass(t *testing.T) {
+	g := NewGomegaWithT(t)
+	entity.SetApprovalValidation()
+	professor1 := entity.Professor{
+		Professor_ID: "P4866743",
+	}
+	Request3 := entity.Request{
+		Request_ID: 3,
+	}
+	Approval_Type1 := entity.Approval_Type{
+		Approval_Type_ID: "N01",
+	}
+
+	approval := entity.Approval{
+		Approval_ID:   3,
+		Reason:        "รับแล้วจ้า",
+		Professor:     professor1,
+		Section:       2,
+		Request:       Request3,
+		Approval_Type: Approval_Type1,
+		Date_Time:      time.Now(),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(approval)
+
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).To(BeTrue())
+
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).To(BeNil())
+
+}
+
 // ตรวจสอบค่าว่างของชื่อแล้วต้องเจอ Error
 func TestApprovalReasonNotBlank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
+	entity.SetApprovalValidation()
+	professor1 := entity.Professor{
+		Professor_ID: "P4866743",
+	}
+	Request3 := entity.Request{
+		Request_ID: 3,
+	}
+	Approval_Type1 := entity.Approval_Type{
+		Approval_Type_ID: "N01",
+	}
+
 	approval := entity.Approval{
-		Reason:     "", // ผิด
+		Approval_ID:   3,
+		Reason:        "",
+		Professor:     professor1,
+		Section:       2,
+		Request:       Request3,
+		Approval_Type: Approval_Type1,
+		Date_Time:      time.Now(),
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -32,12 +84,28 @@ func TestApprovalReasonNotBlank(t *testing.T) {
 func TestApprovalReasonNotSpecialCharacters(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	reason2 := entity.Approval{
-		Reason:     "1234?$#@", // ผิด
+	entity.SetApprovalValidation()
+	professor1 := entity.Professor{
+		Professor_ID: "P4866743",
+	}
+	Request3 := entity.Request{
+		Request_ID: 3,
+	}
+	Approval_Type1 := entity.Approval_Type{
+		Approval_Type_ID: "N01",
 	}
 
+	approval := entity.Approval{
+		Approval_ID:   3,
+		Reason:        "55555",
+		Professor:     professor1,
+		Section:       2,
+		Request:       Request3,
+		Approval_Type: Approval_Type1,
+		Date_Time:      time.Now(),
+	}
 	// ตรวจสอบด้วย govalidator
-	ok, err := govalidator.ValidateStruct(reason2)
+	ok, err := govalidator.ValidateStruct(approval)
 
 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
 	g.Expect(ok).ToNot(BeTrue())
@@ -51,13 +119,29 @@ func TestApprovalReasonNotSpecialCharacters(t *testing.T) {
 
 func TestMaxcharectorReason(t *testing.T) {
 	g := NewGomegaWithT(t)
+	entity.SetApprovalValidation()
+	professor1 := entity.Professor{
+		Professor_ID: "P4866743",
+	}
+	Request3 := entity.Request{
+		Request_ID: 3,
+	}
+	Approval_Type1 := entity.Approval_Type{
+		Approval_Type_ID: "N01",
+	}
 
-	reason2 := entity.Approval{
-		Reason: "กกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก", // ผิด
+	approval := entity.Approval{
+		Approval_ID:   3,
+		Reason:        "กกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก",
+		Professor:     professor1,
+		Section:       2,
+		Request:       Request3,
+		Approval_Type: Approval_Type1,
+		Date_Time:      time.Now(),
 	}
 
 	// ตรวจสอบด้วย govalidator
-	ok, err := govalidator.ValidateStruct(reason2)
+	ok, err := govalidator.ValidateStruct(approval)
 
 	// ok ต้องไม่เป็น true แปลว่าต้องจับ error ได้
 	g.Expect(ok).NotTo(BeTrue())

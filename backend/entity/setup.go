@@ -1987,6 +1987,7 @@ func SetupDatabase() {
 			Class_Schedule: system_analysis_sec1_class,
 			Exam_Schedule:  system_analysis_midterm,
 			Request_Type:   Request_Type1,
+			Date_Time:       time.Now(),
 		}
 		db.Create(&Request1)
 
@@ -1999,6 +2000,7 @@ func SetupDatabase() {
 			Class_Schedule: os_sec1_class,
 			Exam_Schedule:  os_final,
 			Request_Type:   Request_Type2,
+			Date_Time:       time.Now(),
 		}
 		db.Create(&Request2)
 
@@ -2011,6 +2013,7 @@ func SetupDatabase() {
 			Class_Schedule: system_analysis_sec1_class,
 			Exam_Schedule:  system_analysis_midterm,
 			Request_Type:   Request_Type1,
+			Date_Time:       time.Now(),
 		}
 		db.Create(&Request3)
 
@@ -2035,6 +2038,7 @@ func SetupDatabase() {
 			Section:       2,
 			Request:       Request1,
 			Approval_Type: Approval_Type1,
+			Date_Time:      time.Now(),
 		}
 		db.Create(&Approval1)
 
@@ -2045,6 +2049,7 @@ func SetupDatabase() {
 			Professor:     professor1,
 			Section:       1,
 			Approval_Type: Approval_Type2,
+			Date_Time:      time.Now(),
 		}
 		db.Create(&Approval2)
 

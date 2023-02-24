@@ -17,10 +17,10 @@ function First_Page_Navbar() {
                         flexGrow={1} 
                         sx={{border:0}}>
                         <Box sx={{border:0}}>
-                            <Typography variant="h5" sx={{color:"black", fontFamily:"Noto Sans Thai"}}> ระบบลงทะเบียนเรียน </Typography>
+                            <Typography variant="h5" sx={{color:"white", fontFamily:"Noto Sans Thai"}}> ระบบลงทะเบียนเรียน </Typography>
                         </Box>
                         <Box sx={{border:0}}>
-                            <Typography variant="h5" sx={{color:"black", fontFamily:"Noto Sans Thai"}}> Software Engineering </Typography>
+                            <Typography variant="h5" sx={{color:"white", fontFamily:"Noto Sans Thai"}}> Software Engineering </Typography>
                         </Box>
                         <Box sx={{border:0}}>
                             <LocalPhoneIcon/>

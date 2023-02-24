@@ -1,20 +1,12 @@
 import React, { useEffect } from "react";
-
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
-
 import Typography from "@mui/material/Typography";
-
 import Button from "@mui/material/Button";
-
 import Container from "@mui/material/Container";
-
 import Box from "@mui/material/Box";
-
+import Swal from "sweetalert2";
 import { EnrollInterface } from "../../models/I_Enroll";
 import { Subject } from "../../models/I_Subject";
-import { Course } from "../../models/I_Course";
-//import { StudentInterface } from "../models/studentInterface";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Alert, CssBaseline, FormControl, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, TableFooter, TablePagination } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -23,35 +15,23 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import DeleteIcon from '@mui/icons-material/Delete'
-import IconButton from '@mui/material/IconButton';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import TextField from '@mui/material/TextField';
-import CreateEnroll from "../enroll/Enroll_Create";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Payment } from "../../models/I_Payment";
 import { Payment_Type } from "../../models/I_Payment";
-import { bgcolor } from "@mui/system";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
+import Home_Navbar from "../navbars/Home_navbar";
 
 export function UpdatePayment() {
-    const navigate = useNavigate();
     const params = useParams();
-    const [date, setDate] = React.useState<Date | null>(null);
     const [date_time, setDate_time] = React.useState<Dayjs | null>(dayjs);
-
     //const [subject, setSubject] = React.useState<Subject[]>([]);
-
     const [subjects, setSubjects] = React.useState<Subject[]>([]);
-    const [searchSubjectID, setSearchSubjectID] = React.useState(""); //ค่าเริ่มต้นเป็น สตริงว่าง
     const [message, setAlertMessage] = React.useState("");
     const [success, setSuccess] = React.useState(false);
-    const [enroll, setEnroll] = React.useState<Partial<EnrollInterface>>({});
     const [enrolls, setEnrolls] = React.useState<EnrollInterface[]>([]);
-    const [payments, setPayments] = React.useState<Payment[]>([]);
     const [payment, setPayment] = React.useState<Partial<Payment>>({});
     const [payment_type, setPayment_Type] = React.useState<Payment_Type[]>([]);
 
@@ -79,13 +59,6 @@ export function UpdatePayment() {
             ...payment,
             [id]: event.target.value
         });
-    };
-
-    const handleInputChangeSearch = (
-        event: React.ChangeEvent<{ id?: string; value: any }>
-    ) => {
-        const id = event.target.id as keyof typeof UpdatePayment;
-        setSearchSubjectID(event.target.value);
     };
 
     const handleSelectChange = (event: SelectChangeEvent<string>) => {
@@ -116,15 +89,17 @@ export function UpdatePayment() {
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
-            backgroundColor: "#5B98B9",
+            backgroundColor: "#44484D",
             color: theme.palette.common.white,
             fontSize: 17,
+            fontFamily: "Noto Sans Thai",
         },
     }));
 
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
         "&:nth-of-type(odd)": {
-            backgroundColor: "white",
+            backgroundColor: "e0e0e0",
+            fontFamily: "Noto Sans Thai",
         },
         // hide last border
         "&:last-child td, &:last-child th": {
@@ -150,7 +125,7 @@ export function UpdatePayment() {
                     console.log(res.data)
                     setPayment_Type(res.data);
                     console.log(res.data.Student_ID)
-                    
+
                 } else {
                     console.log("else");
                 }
@@ -196,8 +171,6 @@ export function UpdatePayment() {
     useEffect(() => {
         getPayment_type();
         getCurrentPaymemt();
-        //getEnrollByStudentID();
-
     }, []);
     function updatePayment() {
         let data = {
@@ -210,8 +183,6 @@ export function UpdatePayment() {
             Receipt_number: payment.Receipt_number ?? "",
             Student_ID: payment.Student_ID ?? "",
             Unit: typeof payment.Unit === "string" ? parseInt(payment.Unit) : payment.Unit,
-            // Student_ID:
-            //Section: typeof enroll.Section === "string" ? parseInt(enroll.Section) : enroll.Section,
         };
 
 
@@ -224,31 +195,51 @@ export function UpdatePayment() {
             },
             body: JSON.stringify(data),
         };
-        console.log(data)
-        fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                console.log(res);
-                if (res.data) {
-                    setSuccess(true);
-                } else {
-                    setAlertMessage(res.error);
-                    setError(true);
-                }
-            });
+        Swal.fire({
+            title: 'คุณต้องการที่จะบันทึกรายจ่าย \nนักศึกษารหัส ' + data.Student_ID + " หรือไม่",
+            icon: 'warning',
+            showCancelButton: false,
+            showDenyButton: true,
+            denyButtonText: `ไม่บันทึก`,
+            confirmButtonText: 'บันทึก',
+        }).then((data) => {
+            if (data.isConfirmed) {
+                fetch(apiUrl, requestOptions)
+                    .then((response) => response.json())
+                    .then((res) => {
+                        console.log(res)
+                        if (res.data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'บันทึกเรียบร้อย !',
+                                text: 'Success',
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อมูลผิดพลาด !',
+                                text: res.error,
+                            })
+                        }
+                    });
+            }
+        })
     }
 
     return (
         <div>
+            <Home_Navbar></Home_Navbar>
             <Container maxWidth={false}
                 sx={{
-                    mt: 0,
+                    mt: 9,
                     width: "auto",
                     height: "auto",
                     p: 1,
-                    bgcolor: '#93BFCF'
+                    bgcolor: '#F3F3F3'
                 }}>
-                <Container maxWidth="xl" style={{ height: "auto" }} sx={{ p: 2, bgcolor: '#BEF0CB', mt: -1 }}>
+                <Container maxWidth="lg"
+                    style={{ height: "auto" }}
+                    sx={{ p: 2, bgcolor: '#F3F3F3', mt: -1 }}>
                     <Snackbar
                         open={success}
                         autoHideDuration={6000}
@@ -291,6 +282,24 @@ export function UpdatePayment() {
                                     บันทึกรายจ่าย
                                 </Typography>
                             </Box>
+                            <Grid sx={{ marginLeft: 37, mt: 3 }}>
+                                <Box
+                                    component="form"
+                                    sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -3, paddingLeft: 1, paddingRight: 2 }}>
+                                    <TextField sx={{ width: "200px" }}
+                                        type="string"
+                                        size="small"
+                                        id="Admin_ID"
+                                        disabled
+                                        value={payment.Admin_ID}
+                                        inputProps={{
+                                            name: "Admin_ID",
+                                        }}
+                                        onChange={handleInputChange}
+                                    >
+                                    </TextField>
+                                </Box>
+                            </Grid>
                         </Box>
                     </Paper>
 
@@ -301,7 +310,7 @@ export function UpdatePayment() {
                             <Grid sx={{ mt: 2 }}>
                                 <Typography
                                     sx={{ fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>
-                                    รหัสนักศึกษาที่แก้ไขรายจ่าย
+                                    รหัสนักศึกษา
                                 </Typography>
 
                                 <Box sx={{ mt: -0.5 }}>
@@ -309,14 +318,12 @@ export function UpdatePayment() {
                                         disabled
                                         id="Student_ID"
                                         size="small"
-                                        value={payment.Student_ID}
                                         variant="outlined"
+                                        value={payment.Student_ID}
                                         onChange={handleInputChange}
                                     >
                                     </TextField>
                                 </Box>
-                            </Grid>
-                            <Grid sx={{ marginTop: '60px', marginLeft: 3, }}>
                             </Grid>
                         </Grid>
 
@@ -388,6 +395,44 @@ export function UpdatePayment() {
                                     </TableFooter>
                                 </Table>
                             </TableContainer>
+                            <Box sx={{ width: 35 }}></Box>
+                            <Grid sx={{ marginRight: -100 }}>
+                                <Paper sx={{
+                                    mt: 0,
+                                    padding: 0.5,
+                                    height: 210,
+                                    backgroundColor: '#44484D',
+                                }}>
+                                    <Box
+                                        sx={{
+
+                                            width: 370,
+                                            height: 210,
+                                            backgroundColor: '#ffb74d',
+                                        }}><Typography sx={{ paddingLeft: 14, fontFamily: "Noto Sans Thai", fontSize: 18, fontWeight: 'bold' }}>
+                                            วิธีแก้ไขรายจ่าย
+                                        </Typography>
+                                        <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                            1:ตรวจเชคหน่วยกิตปัจจุบันที่นักศึกษาลงทะเบียน
+                                        </Typography>
+                                        <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                            2:บันทึกหน่วยกิจตามที่นักศึกษาลงทะเบียน
+                                        </Typography>
+                                        <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                            3:บันทึกจำนวนเงินที่นักศึกษาชำระ
+                                        </Typography>
+                                        <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                            4:เลือกวิธีที่นักศึกษาใช้ชำระ
+                                        </Typography>
+                                        <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                            5:ในกรณีที่นักศึกษาชำระเงินด้วยการโอนชำระ ให้บันทึกเลขที่ใบเสร็จด้วย
+                                        </Typography>
+                                        <Typography sx={{ paddingLeft: 2, fontFamily: "Noto Sans Thai", fontSize: 16, }}>
+                                            6: ระบุวัันที่-เวลา ที่นักศึกษาทำการชำระเงิน
+                                        </Typography>
+                                    </Box>
+                                </Paper>
+                            </Grid>
                         </Grid>
                     </Paper>
                     <Paper sx={{ mt: 2 }}>
@@ -428,38 +473,6 @@ export function UpdatePayment() {
                                 </TextField>
                             </Grid>
                         </Grid>
-                        <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
-                            <Grid >
-                                <p style={{ paddingLeft: 17, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>แอดมินผู้ทำรายการ</p>
-                                <Box
-                                    component="form"
-                                    sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' }, marginTop: -3, paddingLeft: 1, paddingRight: 2 }}>
-                                    <TextField sx={{ width: "200px" }}
-                                        type="string"
-                                        size="small"
-                                        id="Admin_ID"
-                                        disabled
-                                        value={payment.Admin_ID}
-                                        inputProps={{
-                                            name: "Admin_ID",
-                                        }}
-                                        onChange={handleInputChange}
-                                    >
-                                    </TextField>
-                                </Box>
-                            </Grid>
-                            <Grid sx={{ paddingLeft: 1 }}>
-                                <p style={{ paddingLeft: 1, fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>รหัสนักศึกษา</p>
-                                <TextField sx={{ width: "250px", pl: 2, paddingLeft: 0, marginTop: -2 }}
-                                    size="small"
-                                    disabled
-                                    id="Student_ID"
-                                    value={payment.Student_ID}
-                                    onChange={handleInputChange}
-                                >
-                                </TextField>
-                            </Grid>
-                        </Grid>
 
                         <Grid container sx={{ marginTop: '5px', marginLeft: 5, }}>
                             <Grid >
@@ -496,7 +509,6 @@ export function UpdatePayment() {
                                     component="form"
                                     sx={{ '& .MuiTextField-root': { m: 1, width: '29ch' }, marginTop: -3, paddingLeft: 1, }}>
                                     <TextField sx={{ width: "200px" }}
-
                                         size="small"
                                         id="Receipt_number"
                                         value={payment.Receipt_number}
@@ -535,7 +547,7 @@ export function UpdatePayment() {
                                     component={RouterLink}
                                     to="/payment"
                                     variant="contained"
-                                    color="primary"
+                                    color="warning"
                                 >
                                     กลับ
                                 </Button>
@@ -544,7 +556,7 @@ export function UpdatePayment() {
                                 <Box sx={{ paddingRight: 5 }}>
                                     <Button
                                         variant="contained"
-                                        color="primary"
+                                        color="success"
                                         onClick={updatePayment}
                                     >
                                         บันทึกรายจ่าย

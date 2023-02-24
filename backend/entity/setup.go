@@ -2014,28 +2014,6 @@ func SetupDatabase() {
 		}
 		db.Create(&Request3)
 
-		enroll1 := Enroll{
-			Enroll_ID:         "E001",
-			Student:           student1,
-			Subject:           software_engineering_sec1,
-			Class_Schedule:    se_sec1_class,
-			Exam_Schedule:     se_test,
-			Enroll_Time_Stamp: time.Now(),
-			Section:           1,
-		}
-
-		enroll2 := Enroll{
-			Enroll_ID:         "E002",
-			Student:           student2,
-			Subject:           operating_system_sec1,
-			Class_Schedule:    os_sec1_class,
-			Exam_Schedule:     os_final,
-			Enroll_Time_Stamp: time.Now(),
-			Section:           1,
-		}
-		db.Create(&enroll1)
-		db.Create(&enroll2)
-
 		///------------------------Approval_Type------------------------
 		Approval_Type1 := Approval_Type{
 			Approval_Type_ID:   "Y01",
@@ -2091,24 +2069,6 @@ func SetupDatabase() {
 		db.Create(&HistoryType3)
 
 		///-----------------------Adding_reducing------------------------
-		Adding_reducing1 := Adding_reducing{
-			Change_ID:   1,
-			Date:        time.Now(),
-			HistoryType: HistoryType1,
-			Enroll:      enroll1,
-			Student:     student1,
-		}
-		db.Create(&Adding_reducing1)
-
-		Adding_reducing2 := Adding_reducing{
-			Change_ID:   2,
-			Date:        time.Now(),
-			HistoryType: HistoryType2,
-			Enroll:      enroll2,
-			Student:     student2,
-		}
-		db.Create(&Adding_reducing2)
-
 		//grade
 		Grade1 := Grade{
 			Grade_ID:    "A",
@@ -2198,24 +2158,6 @@ func SetupDatabase() {
 
 		//adding point
 
-		Adding_point1 := Adding_point{
-			Adding_point_ID: 1,
-			Date:            time.Now(),
-			Professor:       professor1,
-			Enroll:          enroll1,
-			Grade:           Grade1,
-		}
-		db.Create(&Adding_point1)
-
-		Adding_point2 := Adding_point{
-			Adding_point_ID: 2,
-			Date:            time.Now(),
-			Professor:       professor2,
-			Enroll:          enroll2,
-			Grade:           Grade2,
-		}
-		db.Create(&Adding_point2)
-
 		payment_type1 := Payment_Type{
 			Payment_Type_ID:   "P01",
 			Payment_Type_Name: "เงินสด",
@@ -2227,32 +2169,6 @@ func SetupDatabase() {
 			Payment_Type_Name: "โอนชำระ",
 		}
 		db.Create(&payment_type2)
-
-		payment1 := Payment{
-			Payment_ID:      001,
-			Student:         student2,
-			Payment_Type_ID: &payment_type1.Payment_Type_ID,
-			Receipt_number:  "asdf816188",
-			Admin_ID:        &admin1.Admin_ID,
-			Date_Time:       time.Now(),
-			Unit:            20,
-			Payable:         enroll1.Subject.Unit * 800,
-			Amounts:         25000,
-		}
-		db.Create(&payment1)
-
-		payment2 := Payment{
-			Payment_ID:      002,
-			Student:         student1,
-			Payment_Type_ID: &payment_type2.Payment_Type_ID,
-			Admin_ID:        &admin2.Admin_ID,
-			Receipt_number:  "assdf81h6188",
-			Date_Time:       time.Now(),
-			Unit:            12,
-			Payable:         enroll2.Subject.Unit * 800,
-			Amounts:         10000,
-		}
-		db.Create(&payment2)
 
 	} else {
 		database, _ := gorm.Open(sqlite.Open(db_path), &gorm.Config{})

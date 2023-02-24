@@ -46,7 +46,7 @@ export function ListPayment() {
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
-            backgroundColor: "#5B98B9",
+            backgroundColor: "#44484D",
             color: theme.palette.common.white,
             fontFamily: "Noto Sans Thai",
             fontSize: 17,
@@ -55,7 +55,7 @@ export function ListPayment() {
 
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
         "&:nth-of-type(odd)": {
-            backgroundColor: "white",
+            backgroundColor: "#e0e0e0",
         },
         // hide last border
         "&:last-child td, &:last-child th": {
@@ -104,13 +104,10 @@ export function ListPayment() {
                 "Content-Type": "application/json"
             },
         };
-
         fetch(apiUrl, requestOptions)
             .then((response) => response.json())
-
             .then((res) => {
                 console.log(res.data);
-
                 if (res.data) {
                     setPayments(res.data);
                 }
@@ -179,9 +176,9 @@ export function ListPayment() {
                     width: "auto",
                     height: "auto",
                     p: 1,
-                    bgcolor: '#93BFCF'
+                    bgcolor: '#F3F3F3'
                 }}>
-                <Container maxWidth="xl" style={{ height: "auto" }} sx={{ p: 2, bgcolor: '#BEF0CB', mt: 6 }}>
+                <Container maxWidth="xl" style={{ height: "auto" }} sx={{ p: 2, bgcolor: '#F3F3F3', mt: 6 }}>
                     <Paper sx={{
                         height: 50,
                         bgcolor: '#FFFAF0',
@@ -192,12 +189,12 @@ export function ListPayment() {
                             sx={{
                                 marginTop: 2,
                             }}
-                        ><CreditScoreIcon sx={{ fontSize: 40, mt: 0.6, paddingRight: 1, paddingLeft: 1, color: "#388e3c" }} />
+                        ><CreditScoreIcon sx={{ fontSize: 40, mt: 0.6, paddingRight: 1, paddingLeft: 1, color: "#e65100" }} />
                             <Box flexGrow={1}>
                                 <Typography
                                     sx={{ fontFamily: "Noto Sans Thai", fontSize: 25, fontWeight: 'bold', mt: 1 }}
                                     variant="h5"
-                                    color="primary"
+                                    color="#44484D"
                                     gutterBottom
                                 >
                                     ประวัติรายจ่าย
@@ -300,7 +297,7 @@ export function ListPayment() {
                                                 <TableCell align="left">{row.Payment_ID}</TableCell>
                                                 <TableCell align="left">{row.Student_ID}</TableCell>
                                                 <TableCell align="left">{row.Unit}</TableCell>
-                                                <TableCell align="left">{row.Payment_Type_ID}</TableCell>
+                                                <TableCell align="left">{row.Payment_Type_Name}</TableCell>
                                                 <TableCell align="left">{row.Receipt_number}</TableCell>
                                                 <TableCell align="left">{row.Payable}</TableCell>
                                                 <TableCell align="left">{row.Amounts}</TableCell>

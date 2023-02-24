@@ -20,12 +20,13 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import SendIcon from '@mui/icons-material/Send';
 
 import FolderIcon from '@mui/icons-material/Folder';
-import { Divider, Grid, Paper, Stack, TableCell, TableRow, styled, tableCellClasses } from "@mui/material";
+import { Divider, Grid, Paper, Stack, TableCell, TableRow, Toolbar, styled, tableCellClasses } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Users from "./Course_List";
 
 import CreateIcon from '@mui/icons-material/Create';
 import Swal from "sweetalert2";
+import Home_Navbar from "../navbars/Home_navbar";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#44484D",
@@ -110,7 +111,9 @@ function CourseInfo() {
                             icon: 'success',
                             title: 'ลบเรียบร้อย',
                             text: 'Success',
-                        })
+                        }
+                        )
+                        window.location.href = "/course";
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -137,6 +140,8 @@ function CourseInfo() {
                 width: "auto",
                 height: "auto",
             }}>
+            <Home_Navbar></Home_Navbar>
+            <Toolbar></Toolbar>
 
             {/* Header components */}
             <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 ,fontFamily: "Noto Sans Thai", }}>

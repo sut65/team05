@@ -23,7 +23,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import SendIcon from '@mui/icons-material/Send';
 
 import FolderIcon from '@mui/icons-material/Folder';
-import { Divider, Grid, Paper, Stack, Table, TableBody, TableCell, TableFooter, TableHead, TableRow, TextField, styled, tableCellClasses } from "@mui/material";
+import { Divider, Grid, Paper, Stack, Table, TableBody, TableCell, TableFooter, TableHead, TableRow, TextField, Toolbar, styled, tableCellClasses } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Users from "./Student_List";
 import TableContainer from "@mui/material/TableContainer";
@@ -31,6 +31,7 @@ import TableContainer from "@mui/material/TableContainer";
 
 import CreateIcon from '@mui/icons-material/Create';
 import Swal from "sweetalert2";
+import Home_Navbar from "../navbars/Home_navbar";
 
 function StudentInfo() {
     const [students, setStudents] = React.useState<StudentsInterface>();
@@ -95,6 +96,7 @@ function StudentInfo() {
                                     title: 'ลบเรียบร้อย',
                                     text: 'Success',
                                 })
+                                window.location.href = "/student";
                             } else {
                                 Swal.fire({
                                     icon: 'error',
@@ -121,6 +123,8 @@ function StudentInfo() {
                 width: "auto",
                 height: "auto",
             }}>
+                <Home_Navbar></Home_Navbar>
+                <Toolbar></Toolbar>
 
             {/* Header components */}
             <Paper elevation={3} sx={{ bgcolor: "white", padding: 2, marginBottom: 2 }}>

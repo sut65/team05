@@ -6,8 +6,6 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { EnrollInterface } from "../../models/I_Enroll";
 import { Subject } from "../../models/I_Subject";
-import { Course } from "../../models/I_Course";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CssBaseline, FormControl, Grid, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, TableFooter, TablePagination } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -19,7 +17,6 @@ import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import { Payment } from "../../models/I_Payment";
 import { Payment_Type } from "../../models/I_Payment";
-import { StudentsInterface } from "../../models/I_Student";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs, { Dayjs } from "dayjs";
@@ -122,15 +119,17 @@ export function CreatePayment() {
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
-            backgroundColor: "#5B98B9",
+            backgroundColor: "#44484D",
             color: theme.palette.common.white,
             fontSize: 17,
+            fontFamily: "Noto Sans Thai",
         },
     }));
 
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
         "&:nth-of-type(odd)": {
-            backgroundColor: "white",
+            backgroundColor: "e0e0e0",
+            fontFamily: "Noto Sans Thai",
         },
         // hide last border
         "&:last-child td, &:last-child th": {
@@ -231,7 +230,7 @@ export function CreatePayment() {
                 }
             });
     };
-   
+
     const getPrevPayment = async () => {
         fetch(`${apiUrl}/previousenpayment`, requestOptionsGet)
             .then((response) => response.json())
@@ -285,7 +284,7 @@ export function CreatePayment() {
         };
 
         Swal.fire({
-            title: 'คุณต้องการที่จะบันทึกรายจ่ายหรือไม่?',
+            title: 'คุณต้องการที่จะบันทึกรายจ่าย \nนักศึกษารหัส '+data.Student_ID+" หรือไม่",
             icon: 'warning',
             showCancelButton: false,
             showDenyButton: true,
@@ -313,31 +312,22 @@ export function CreatePayment() {
                     });
             }
         })
-        
-        // console.log(data)
-        // fetch(apiUrl, requestOptions)
-        //     .then((response) => response.json())
-        //     .then((res) => {
-        //         if (res.data) {
-        //             setSuccess(true);
-        //         } else {
-        //             setAlertMessage(res.error);
-        //             setError(true);
-        //         }
-        //     });
     }
 
     return (
         <div>
+            <Home_Navbar></Home_Navbar>
             <Container maxWidth={false}
                 sx={{
-                    mt: 0,
+                    mt: 9,
                     width: "auto",
                     height: "auto",
                     p: 1,
-                    bgcolor: '#93BFCF'
+                    bgcolor: '#F3F3F3'
                 }}>
-                <Container maxWidth="lg" style={{ height: "auto" }} sx={{ p: 2, bgcolor: '#BEF0CB', mt: -1 }}>
+                <Container maxWidth="lg"
+                    style={{ height: "auto" }}
+                    sx={{ p: 2, bgcolor: '#F3F3F3', mt: -1 }}>
                     <Snackbar
                         open={success}
                         autoHideDuration={6000}
@@ -432,22 +422,12 @@ export function CreatePayment() {
                                     ค้นหารหัสนักศึกษา
                                 </Button>
                             </Grid>
-                            {/* <Grid sx={{paddingLeft:1}}>
-                                <p style={{ paddingLeft: 1,fontFamily: "LilyUPC", fontSize: 25, fontWeight: 'bold', }}>รหัสนักศึกษา</p>
-                                <TextField sx={{ width: "250px", pl: 2, paddingLeft: 0 ,marginTop: -2}}
-                                    size="small"
-                                    id="Student_ID"
-                                    value={payment.Student_ID}
-                                    onChange={handleInputChange}
-                                >
-                                </TextField>
-                            </Grid> */}
                         </Grid>
 
-                        <Grid sx={{ marginTop: '20px', display: 'flex', paddingLeft: 6, marginLeft: 1, width: 700 }}>
-                            <TableContainer component={Paper}>
-                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                    <TableHead>
+                        <Grid sx={{ marginTop: '20px', display: 'flex', paddingLeft: 7, width: 700 }}>
+                            <TableContainer  component={Paper}>
+                                <Table aria-label="simple table">
+                                    <TableHead >
                                         <TableRow>
                                             <StyledTableCell align="left">รหัสวิชา</StyledTableCell>
                                             <StyledTableCell align="left">ชื่อวิชา</StyledTableCell>
@@ -456,7 +436,6 @@ export function CreatePayment() {
                                             <StyledTableCell align="left">กลุ่ม</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
-
                                     <TableBody>
                                         {(rowsPerPage > 0
                                             ? enrolls.slice(
@@ -465,8 +444,7 @@ export function CreatePayment() {
                                             : enrolls
                                         ).map((row) => (
                                             <StyledTableRow
-                                                key={row.Enroll_ID
-                                                }
+                                                key={row.Enroll_ID}
                                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                             >
                                                 <TableCell align="left">{row.Subject_ID}</TableCell>
@@ -689,9 +667,4 @@ export function CreatePayment() {
             </Container >
         </div>
     );
-
 } export default CreatePayment;
-
-function setAlertMessage(arg0: string) {
-    throw new Error("Function not implemented.");
-}

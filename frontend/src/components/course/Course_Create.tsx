@@ -30,7 +30,7 @@ import { MajorsInterface } from "../../models/I_Major";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { SelectChangeEvent } from "@mui/material";
+import { SelectChangeEvent, Toolbar } from "@mui/material";
 import { FormHelperText, MenuItem, Select, } from "@mui/material";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -41,6 +41,7 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import Swal from "sweetalert2";
 import NativeSelect from '@mui/material/NativeSelect';
+import Home_Navbar from "../navbars/Home_navbar";
 
 
 
@@ -316,6 +317,8 @@ function CourseCreate() {
               gutterBottom
 
             >
+              <Home_Navbar></Home_Navbar>
+                                    <Toolbar></Toolbar>
               <Grid item xs={10} color="#115686"
                 sx={{
                   fontFamily: "Noto Sans Thai",

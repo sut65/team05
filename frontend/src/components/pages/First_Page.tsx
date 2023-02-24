@@ -172,7 +172,7 @@ function First_Page() {
                                     <Typography variant="h6" sx={{fontFamily:"Noto Sans Thai"}}> Sponsor  </Typography>
                                     <Box sx={{padding:0.5}}>
                                         <Typography sx={{fontFamily:"Noto Sans Thai"}}> อาจารย์ </Typography>
-                                        <Typography sx={{fontFamily:"Noto Sans Thai"}}> พรี่ TA </Typography>
+                                        <Typography sx={{fontFamily:"Noto Sans Thai"}}> พี่ TA </Typography>
                                         <Typography sx={{fontFamily:"Noto Sans Thai"}}> Stackoverflow  </Typography>
                                         <Typography sx={{fontFamily:"Noto Sans Thai"}}> ChatGPT  </Typography>
                                         <Typography sx={{fontFamily:"Noto Sans Thai"}}> Material UI  </Typography>

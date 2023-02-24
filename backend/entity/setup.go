@@ -2117,32 +2117,6 @@ func SetupDatabase() {
 		}
 		db.Create(&payment_type2)
 
-		payment1 := Payment{
-			Payment_ID:      001,
-			Student:         student2,
-			Payment_Type_ID: &payment_type1.Payment_Type_ID,
-			Receipt_number:  "asdf816188",
-			Admin_ID:        &admin1.Admin_ID,
-			Date_Time:       time.Now(),
-			Unit:            20,
-			Payable:         1600,
-			Amounts:         25000,
-		}
-		db.Create(&payment1)
-
-		payment2 := Payment{
-			Payment_ID:      002,
-			Student:         student1,
-			Payment_Type_ID: &payment_type2.Payment_Type_ID,
-			Admin_ID:        &admin2.Admin_ID,
-			Receipt_number:  "assdf81h6188",
-			Date_Time:       time.Now(),
-			Unit:            12,
-			Payable:         9600,
-			Amounts:         10000,
-		}
-		db.Create(&payment2)
-
 	} else {
 		database, _ := gorm.Open(sqlite.Open(db_path), &gorm.Config{})
 		// Migrate the schema

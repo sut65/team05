@@ -96,6 +96,7 @@ function StudentInfo() {
                                     title: 'ลบเรียบร้อย',
                                     text: 'Success',
                                 })
+                                window.location.href = "/student";
                             } else {
                                 Swal.fire({
                                     icon: 'error',

@@ -111,7 +111,9 @@ function CourseInfo() {
                             icon: 'success',
                             title: 'ลบเรียบร้อย',
                             text: 'Success',
-                        })
+                        }
+                        )
+                        window.location.href = "/course";
                     } else {
                         Swal.fire({
                             icon: 'error',

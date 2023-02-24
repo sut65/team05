@@ -152,7 +152,9 @@ function Request() {
                 text: res.error,
               });
             }
+            setTimeout(function () {
               window.location.href = "/request";
+            }, 2500);    
           });
       }
     });

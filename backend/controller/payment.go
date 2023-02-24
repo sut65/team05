@@ -85,7 +85,7 @@ func ListPayment(c *gin.Context) {
 
 	//SELECT e.*, c.* ,cs.* FROM `enrolls` e JOIN `subjects` c  JOIN `class_schedules` cs ON e.subject_id = c.subject_id  AND  e.section = c.section AND e.subject_id = cs.subject_id
 	var payment []extendedPayment
-	query := entity.DB().Raw("SELECT * FROM payments").Scan(&payment)
+	query := entity.DB().Raw("SELECT p.*, pt.payment_type_name FROM payments p JOIN payment_types pt ON p.payment_type_id = pt.payment_type_id GROUP by payment_id").Scan(&payment)
 	if err := query.Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

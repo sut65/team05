@@ -126,6 +126,7 @@ function ListEnroll() {
             
             if (res.data) {
               Swal.fire({
+                showConfirmButton: false,
                 icon: 'success',
                 title: 'ลบรายการเรียบร้อย !',
                 text: 'Success',
@@ -133,12 +134,14 @@ function ListEnroll() {
               
             } else {
               Swal.fire({
+                showConfirmButton: false,
                 icon: 'error',
                 title: 'เกิดข้อมูลผิดพลาด !',
                 text: res.error,
               })
-            }
-            window.location.href = "/enroll";
+            }setTimeout(function () {
+              window.location.href = "/enroll";
+            }, 1100); 
           });
       }
     })

@@ -203,6 +203,7 @@ func UpdatePayment(c *gin.Context) {
 		Date_Time:       update_datetime.Local(),
 		Unit:            update_unit,
 		Payable:         updare_Payable,
+		Payment_Type: payment_Type,
 		Amounts:         update_amount,
 		//Student:        student,
 	}

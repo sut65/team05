@@ -30,6 +30,7 @@ import TableContainer from "@mui/material/TableContainer";
 
 
 import CreateIcon from '@mui/icons-material/Create';
+import Swal from "sweetalert2";
 
 function StudentInfo() {
     const [students, setStudents] = React.useState<StudentsInterface>();
@@ -75,17 +76,36 @@ function StudentInfo() {
                 "Content-Type": "application/json",
               },
         };
-        fetch(`${apiUrl}/students/${params.student_id}`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log("Data remove")
-                    window.location.href = "/student"
-                }
-                else {
-                    console.log("Something was wrong!!")
-                }
-            });
+                Swal.fire({
+                    title: 'คุณต้องการที่จะลบหรือไม่?',
+                    icon: 'warning',
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: 'ลบ',
+                    denyButtonText: `ไม่ลบ`,
+                  }).then((data) => {
+                    if (data.isConfirmed) {
+                        fetch(`${apiUrl}/students/${params.student_id}`, requestOptions)
+                        .then((response) => response.json())
+                        .then((res) => {
+                            console.log(res.data)
+                            if (res.data) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'ลบเรียบร้อย',
+                                    text: 'Success',
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'ลบไม่สำเร็จ !',
+                                    text: res.error,
+                                })
+                            }
+                        });
+                    } 
+                })
+  
     }
 
     useEffect(() => {

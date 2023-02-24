@@ -21,6 +21,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import NativeSelect from '@mui/material/NativeSelect';
+import Swal from "sweetalert2";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -174,19 +175,36 @@ function Class_Schedule_Update() {
             },
             body: JSON.stringify(data)
         };
-        console.log(JSON.stringify(data));
-
-        fetch(`${apiUrl}/courses`, requestOptionsPatch)
-            .then((response) => response.json())
-            .then((res) => {
+        Swal.fire({
+          title: 'คุณต้องการที่จะแก้ไขหรือไม่?',
+          icon: 'warning',
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: 'แก้ไข',
+          denyButtonText: `ไม่แก้ไข`,
+        }).then((data) => {
+          const apiUrl = "http://localhost:8080/courses";
+          if (data.isConfirmed) {
+            fetch(apiUrl, requestOptionsPatch)
+              .then((response) => response.json())
+              .then((res) => {
                 console.log(res)
                 if (res.data) {
-                  setSuccess(true);
-              } else {
-                  setAlertMessage(res.error);
-                  setError(true);
-              }
-            });
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'แก้ไขเรียบร้อย !',
+                    text: 'Success',
+                  })
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อมูลผิดพลาด !',
+                    text: res.error,
+                  })
+                }
+              });
+          }
+        })
 
     }
 

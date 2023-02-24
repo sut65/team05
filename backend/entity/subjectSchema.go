@@ -32,7 +32,7 @@ type Subject_Category struct {
 
 type Subject struct {
 	ID         uint   `gorm:"primaryKey"`
-	Subject_ID string `gorm:"primaryKey" valid:"subject_id_format~Wrong Subject ID Format"`
+	Subject_ID string `gorm:"primaryKey" valid:"subject_id_format~Wrong Subject ID Format, required~Subject ID cannot be blank"`
 
 	Professor_ID *string   `valid:"-"`
 	Professor    Professor `gorm:"references:Professor_ID" valid:"-"`
@@ -74,7 +74,7 @@ func SetSubjectValidation() {
 		if len(str) == 6 {
 			return true
 		} else if len(str) == 9 {
-			match, _ := regexp.MatchString("^[a-zA-Z]{3}.*$", str)
+			match, _ := regexp.MatchString("^[a-zA-Z]{3}[0-9].*$", str)
 			return match
 		}
 		return false

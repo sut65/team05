@@ -88,7 +88,7 @@ function SubjectInfo() {
                         <AutoStoriesSharpIcon fontSize="large" />
                     </Box>
                     <Box sx={{ padding: 1, border: 0 }}>
-                        <Typography variant="h4" sx={{ fontFamily: "Verdana", fontWeight: "bold", paddingBottom: 1.5 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
+                        <Typography variant="h4" sx={{ fontFamily: "Noto Sans Thai", fontWeight: "bold", paddingBottom: 1.5 }}> ระบบจัดการข้อมูลรายวิชา </Typography>
 
                     </Box>
                 </Stack>

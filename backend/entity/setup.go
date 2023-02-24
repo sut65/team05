@@ -1965,8 +1965,8 @@ func SetupDatabase() {
 			Enroll_ID:         "E001",
 			Student:           student1,
 			Subject:           software_engineering_sec1,
-			Class_Schedule:    system_analysis_sec1_class,
-			Exam_Schedule:     system_analysis_midterm,
+			Class_Schedule:    se_sec1_class,
+			Exam_Schedule:     se_test,
 			Enroll_Time_Stamp: time.Now(),
 			Section:           1,
 		}

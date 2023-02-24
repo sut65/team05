@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/B6025212/team05/entity"
 	. "github.com/B6025212/team05/service"
@@ -57,6 +58,7 @@ func CreateExamSchedule(c *gin.Context) {
 		Exam_Date:        exam_schedule.Exam_Date,
 		Exam_Start_Time:  exam_schedule.Exam_Start_Time,
 		Exam_End_Time:    exam_schedule.Exam_End_Time,
+		Latest_Updated:   time.Now(),
 		Admin:            admin,
 	}
 	if _, err := govalidator.ValidateStruct(new_exam_schedule); err != nil {
@@ -113,6 +115,7 @@ func UpdateExamSchedule(c *gin.Context) {
 		Room:             room,
 		Exam_Type:        updated_exam_type,
 		Exam_Date:        updated_exam_date,
+		Latest_Updated:   time.Now(),
 		Exam_Start_Time:  updated_exam_start_time,
 		Exam_End_Time:    updated_exam_end_time,
 	}

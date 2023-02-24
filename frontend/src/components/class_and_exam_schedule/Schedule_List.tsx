@@ -330,7 +330,7 @@ export function Exam_Schedules_List() {
                             component={Link}
                             to="/exam_schedule/exam_schedule_create"
                             variant="contained"
-                            sx={{ borderRadius: 0, margin: 1.25, marginTop: 1.5 }}
+                            sx={{ borderRadius: 0, margin: 1.25, marginTop: 1.5, fontFamily:'Noto Sans Thai' }}
                         > Add </Button>
                     </Box>
                 </Box>

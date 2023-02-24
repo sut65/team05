@@ -476,10 +476,10 @@ func UpdateApproval(c *gin.Context) {
 	
 	if Old_Approval_Type.Approval_Type_ID == "Y01"{
 		if approval_type.Approval_Type_ID == "N01" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "ห้ามแก้เป็นไม่อนุมัติจร้า"})
+			c.JSON(http.StatusBadRequest, gin.H{"error": "If you have already selected the approval result as Approved, it cannot be edited"})
 			return 
 		} else if approval_type.Approval_Type_ID == "Y01" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "ห้ามอนุมัติซ้ำจร้า"})
+			c.JSON(http.StatusBadRequest, gin.H{"error": "If you have already selected the approval result as Approved, it cannot be edited"})
 			return 
 		}
 	}
@@ -745,10 +745,10 @@ func UpdateApprovalAdding_reducingUpdateEnroll(c *gin.Context) {
 	fmt.Println(Old_Approval_Type.Approval_Type_ID,"old type")
 	if Old_Approval_Type.Approval_Type_ID == "Y01"{
 		if approval_type.Approval_Type_ID == "N01" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "ห้ามแก้เป็นไม่อนุมัติจร้า"})
+			c.JSON(http.StatusBadRequest, gin.H{"error": "If you have already selected the approval result as Approved, it cannot be edited"})
 			return 
 		} else if approval_type.Approval_Type_ID == "Y01" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "ห้ามอนุมัติซ้ำจร้า"})
+			c.JSON(http.StatusBadRequest, gin.H{"error": "If you have already selected the approval result as Approved, it cannot be edited"})
 			return 
 		}
 	}

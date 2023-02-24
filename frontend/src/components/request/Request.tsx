@@ -139,20 +139,20 @@ function Request() {
 
             if (res.data) {
               Swal.fire({
+                showConfirmButton: false,
                 icon: "success",
                 title: "ลบรายการเรียบร้อย !",
                 text: "Success",
               });
             } else {
               Swal.fire({
+                showConfirmButton: false,
                 icon: "error",
                 title: "เกิดข้อมูลผิดพลาด !",
                 text: res.error,
               });
             }
-            setTimeout(function () {
-              window.location.href = "/request";
-            }, 2500);
+              //window.location.href = "/request";
           });
       }
     });

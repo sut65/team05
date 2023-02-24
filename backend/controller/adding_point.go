@@ -223,7 +223,7 @@ func GetSubjectByProfessorandStudenByEnroll(c *gin.Context) {
 	professor_id := c.Param("professor_id")
 	subject_id := c.Param("subject_id")
 	
-	if err := entity.DB().Raw("SELECT e.*,s.* FROM enrolls e JOIN subjects s where s.professor_id = ? AND e.subject_id = ?  AND e.subject_id = s.subject_id", professor_id,subject_id).Scan(&subject).Error; err != nil {
+	if err := entity.DB().Raw("SELECT e.*,s.* FROM enrolls e JOIN subjects s where s.professor_id = ? AND e.subject_id = ?  AND e.subject_id = s.subject_id GROUP BY e.subject_id = ?", professor_id,subject_id).Scan(&subject).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

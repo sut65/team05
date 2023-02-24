@@ -9,17 +9,71 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+func TestStudentPass(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	entity.SetStudentIDValidation()
+	entity.SetStudentNameValidation()
+	entity.SetStudentPasswordValidation()
+	entity.SetStudentDatetimeValidation()
+
+	admin1 := entity.Admin{
+		Admin_ID: "AD5402245",
+	}
+	course1 := entity.Course{
+		Course_ID: "CPE2564",
+	}
+	dormitory1 := entity.Dormitory{
+		Dormitory_ID: "DT05",
+	}
+	student := entity.Student{
+		Student_ID:       "B6310851",
+		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
+		Student_Password: "abcd4321",
+		Student_Age:      21,
+		Datetime:         time.Now(),
+		Admin_ID:         &admin1.Admin_ID,
+		Course_ID:        &course1.Course_ID,
+		Dormitory_ID:     &dormitory1.Dormitory_ID,
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(student)
+
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).To(BeTrue())
+
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).To(BeNil())
+
+	// err.Error ต้องมี error message แสดงออกมา
+}
 func TestStudentIDNotBlank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	entity.SetStudentIDValidation()
 	entity.SetStudentNameValidation()
 	entity.SetStudentPasswordValidation()
+	entity.SetStudentDatetimeValidation()
 
+	admin1 := entity.Admin{
+		Admin_ID: "AD5402245",
+	}
+	course1 := entity.Course{
+		Course_ID: "CPE2564",
+	}
+	dormitory1 := entity.Dormitory{
+		Dormitory_ID: "DT05",
+	}
 	student := entity.Student{
 		Student_ID:       "",
-		Student_Name:     "สมพงษ์ วิ่งวุฒิ", // ถูก
-		Student_Password: "abcd4321",        //ถูก
+		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
+		Student_Password: "abcd4321",
+		Student_Age:      21,
+		Datetime:         time.Now(),
+		Admin_ID:         &admin1.Admin_ID,
+		Course_ID:        &course1.Course_ID,
+		Dormitory_ID:     &dormitory1.Dormitory_ID,
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -40,11 +94,26 @@ func TestStudentIDCheckCharacter(t *testing.T) {
 	entity.SetStudentIDValidation()
 	entity.SetStudentNameValidation()
 	entity.SetStudentPasswordValidation()
+	entity.SetStudentDatetimeValidation()
 
+	admin1 := entity.Admin{
+		Admin_ID: "AD5402245",
+	}
+	course1 := entity.Course{
+		Course_ID: "CPE2564",
+	}
+	dormitory1 := entity.Dormitory{
+		Dormitory_ID: "DT05",
+	}
 	student := entity.Student{
-		Student_ID:       "B62000015",       //ผิด
-		Student_Name:     "สมพงษ์ วิ่งวุฒิ", // ถูก
-		Student_Password: "abcd4321",        //ถูก
+		Student_ID:       "B63108511",
+		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
+		Student_Password: "abcd4321",
+		Student_Age:      21,
+		Datetime:         time.Now(),
+		Admin_ID:         &admin1.Admin_ID,
+		Course_ID:        &course1.Course_ID,
+		Dormitory_ID:     &dormitory1.Dormitory_ID,
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -66,11 +135,26 @@ func TestStudentNameNotBlank(t *testing.T) {
 	entity.SetStudentIDValidation()
 	entity.SetStudentNameValidation()
 	entity.SetStudentPasswordValidation()
+	entity.SetStudentDatetimeValidation()
 
+	admin1 := entity.Admin{
+		Admin_ID: "AD5402245",
+	}
+	course1 := entity.Course{
+		Course_ID: "CPE2564",
+	}
+	dormitory1 := entity.Dormitory{
+		Dormitory_ID: "DT05",
+	}
 	student := entity.Student{
-		Student_ID:       "B6200001", //ถูก
-		Student_Name:     "",         // ผิด
-		Student_Password: "abcd4321", //ถูก
+		Student_ID:       "B6310851",
+		Student_Name:     "",
+		Student_Password: "abcd4321",
+		Student_Age:      21,
+		Datetime:         time.Now(),
+		Admin_ID:         &admin1.Admin_ID,
+		Course_ID:        &course1.Course_ID,
+		Dormitory_ID:     &dormitory1.Dormitory_ID,
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -92,11 +176,26 @@ func TestStudentNameCheckEnglishLanguage(t *testing.T) {
 	entity.SetStudentIDValidation()
 	entity.SetStudentNameValidation()
 	entity.SetStudentPasswordValidation()
+	entity.SetStudentDatetimeValidation()
 
+	admin1 := entity.Admin{
+		Admin_ID: "AD5402245",
+	}
+	course1 := entity.Course{
+		Course_ID: "CPE2564",
+	}
+	dormitory1 := entity.Dormitory{
+		Dormitory_ID: "DT05",
+	}
 	student := entity.Student{
-		Student_ID:       "B6200001", //ถูก
-		Student_Name:     "test",     // ผิด
-		Student_Password: "abcd4321", //ถูก
+		Student_ID:       "B6310851",
+		Student_Name:     "test",
+		Student_Password: "abcd4321",
+		Student_Age:      21,
+		Datetime:         time.Now(),
+		Admin_ID:         &admin1.Admin_ID,
+		Course_ID:        &course1.Course_ID,
+		Dormitory_ID:     &dormitory1.Dormitory_ID,
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -112,16 +211,32 @@ func TestStudentNameCheckEnglishLanguage(t *testing.T) {
 	g.Expect(err.Error()).To(Equal("Student Name cannot be English Language"))
 }
 
-func TestStudentNameMaxString(t *testing.T) {
+func TestStudentNameMinString(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	entity.SetStudentIDValidation()
+	entity.SetStudentNameValidation()
 	entity.SetStudentPasswordValidation()
+	entity.SetStudentDatetimeValidation()
 
+	admin1 := entity.Admin{
+		Admin_ID: "AD5402245",
+	}
+	course1 := entity.Course{
+		Course_ID: "CPE2564",
+	}
+	dormitory1 := entity.Dormitory{
+		Dormitory_ID: "DT05",
+	}
 	student := entity.Student{
-		Student_ID:       "B6200001", //ถูก
-		Student_Name:     "ทดสอบ",    // ผิด
-		Student_Password: "abcd4321", //ถูก
+		Student_ID:       "B6310851",
+		Student_Name:     "เทส",
+		Student_Password: "abcd4321",
+		Student_Age:      21,
+		Datetime:         time.Now(),
+		Admin_ID:         &admin1.Admin_ID,
+		Course_ID:        &course1.Course_ID,
+		Dormitory_ID:     &dormitory1.Dormitory_ID,
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -143,11 +258,26 @@ func TestStudentPasswordNotBlank(t *testing.T) {
 	entity.SetStudentIDValidation()
 	entity.SetStudentNameValidation()
 	entity.SetStudentPasswordValidation()
+	entity.SetStudentDatetimeValidation()
 
+	admin1 := entity.Admin{
+		Admin_ID: "AD5402245",
+	}
+	course1 := entity.Course{
+		Course_ID: "CPE2564",
+	}
+	dormitory1 := entity.Dormitory{
+		Dormitory_ID: "DT05",
+	}
 	student := entity.Student{
-		Student_ID:       "B6200001",        //ถูก
-		Student_Name:     "สมพงษ์ วิ่งวุฒิ", // ถูก
-		Student_Password: "",                //ผิด
+		Student_ID:       "B6310851",
+		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
+		Student_Password: "",
+		Student_Age:      21,
+		Datetime:         time.Now(),
+		Admin_ID:         &admin1.Admin_ID,
+		Course_ID:        &course1.Course_ID,
+		Dormitory_ID:     &dormitory1.Dormitory_ID,
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -169,11 +299,26 @@ func TestStudentPasswordCheckThaiLanguage(t *testing.T) {
 	entity.SetStudentIDValidation()
 	entity.SetStudentNameValidation()
 	entity.SetStudentPasswordValidation()
+	entity.SetStudentDatetimeValidation()
 
+	admin1 := entity.Admin{
+		Admin_ID: "AD5402245",
+	}
+	course1 := entity.Course{
+		Course_ID: "CPE2564",
+	}
+	dormitory1 := entity.Dormitory{
+		Dormitory_ID: "DT05",
+	}
 	student := entity.Student{
-		Student_ID:       "B6200001",        //ถูก
-		Student_Name:     "สมพงษ์ วิ่งวุฒิ", // ถูก
-		Student_Password: "ไทย",             //ผิด
+		Student_ID:       "B6310851",
+		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
+		Student_Password: "พิมพ์ไทยนะ",
+		Student_Age:      21,
+		Datetime:         time.Now(),
+		Admin_ID:         &admin1.Admin_ID,
+		Course_ID:        &course1.Course_ID,
+		Dormitory_ID:     &dormitory1.Dormitory_ID,
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -195,11 +340,26 @@ func TestStudentPasswordMinString(t *testing.T) {
 	entity.SetStudentIDValidation()
 	entity.SetStudentNameValidation()
 	entity.SetStudentPasswordValidation()
+	entity.SetStudentDatetimeValidation()
 
+	admin1 := entity.Admin{
+		Admin_ID: "AD5402245",
+	}
+	course1 := entity.Course{
+		Course_ID: "CPE2564",
+	}
+	dormitory1 := entity.Dormitory{
+		Dormitory_ID: "DT05",
+	}
 	student := entity.Student{
-		Student_ID:       "B6200001",        //ถูก
-		Student_Name:     "สมพงษ์ วิ่งวุฒิ", // ถูก
-		Student_Password: "111",             //ผิด
+		Student_ID:       "B6310851",
+		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
+		Student_Password: "abc123",
+		Student_Age:      21,
+		Datetime:         time.Now(),
+		Admin_ID:         &admin1.Admin_ID,
+		Course_ID:        &course1.Course_ID,
+		Dormitory_ID:     &dormitory1.Dormitory_ID,
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -222,11 +382,25 @@ func TestDateTimeNotFuture(t *testing.T) {
 	entity.SetStudentPasswordValidation()
 	entity.SetStudentDatetimeValidation()
 
+	admin1 := entity.Admin{
+		Admin_ID: "AD5402245",
+	}
+	course1 := entity.Course{
+		Course_ID: "CPE2564",
+	}
+	dormitory1 := entity.Dormitory{
+		Dormitory_ID: "DT05",
+	}
+
 	student := entity.Student{
-		Student_ID:       "B6200001",                         //ถูก
-		Student_Name:     "สมพงษ์ วิ่งวุฒิ",                  // ถูก
-		Student_Password: "abcd1234",                         //ถูก
-		Datetime:         time.Now().Add(time.Second * 1000), // ผิด
+		Student_ID:       "B6200001",
+		Student_Name:     "สมพงษ์ วิ่งวุฒิ",
+		Student_Password: "abcd1234",
+		Student_Age:      21,
+		Datetime:         time.Now().Add(time.Second * 1000),
+		Admin_ID:         &admin1.Admin_ID,
+		Course_ID:        &course1.Course_ID,
+		Dormitory_ID:     &dormitory1.Dormitory_ID,
 	}
 
 	// ตรวจสอบด้วย govalidator

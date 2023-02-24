@@ -353,6 +353,9 @@ const getSubjectByCourseID = async (course_id: any) => {
                           icon: 'success',
                           title: 'คุณได้เพิ่มรายวิชา'+enroll.Subject_ID+"นี้แล้ว",
                           text: 'Success',
+                      }).then(()=>{
+                        window.location.href = "/adding_reducing/create";
+
                       })
                   } else {
                       Swal.fire({

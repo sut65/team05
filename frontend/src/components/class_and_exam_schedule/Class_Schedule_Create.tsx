@@ -373,7 +373,7 @@ function Class_Schedule_Create() {
 
                     <Grid container sx={{}}>
                         <Box sx={{ border: 0, width: 1, padding: 1 }}>
-                            <Typography sx={{ fontFamily: 'Mitr-Regular' }}> ห้องเรียน </Typography>
+                            <Typography sx={{ fontFamily: 'Noto Sans Thai' }}> ห้องเรียน </Typography>
                             <FormControl fullWidth>
                                 <Select
                                     id="Room_ID"
